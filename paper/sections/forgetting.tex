@@ -1,0 +1,352 @@
+\section{Halting destroys every encoding}\label{sec:forgetting}
+
+A classical controller can forget its initial state while a coupled
+quantum system retains information elsewhere. We prove the required
+quantum statement through initial dependence supports. Their small
+probability produces an extension of the entire channel into two
+outputs. Iteration and a Bell-sharing bound then control every encoder
+and decoder. The bound of Lemma~\ref{f:bell} equals Werner's optimal
+entanglement fidelity for universal \(1\to k\) qubit cloning
+\cite{Werner1998,KeylWerner1999}; we include a short proof.
+
+\subsection{Exact conditional channels and initial supports}
+
+Fix a rate \(\eps\) and abbreviate \(\Lambda_L=\Lambda_{L,\eps}\).
+Let this be one full round on the complete physical
+register. Dephase the retained classical words at the beginning of
+the step. Write \(a\) for their measured initial word and \(\omega\)
+for one complete joint history of autonomous metadata and exogenous
+innovations, including compiler marks. The argument below also applies
+to the four-dimensional appendix: put \(d_{\rm lat}=3\), \(n_{\rm sel}=1\)
+for Theorem~\ref{thm:detailed}, and \(d_{\rm lat}=4\), \(n_{\rm sel}=4\)
+for its folded part. The latter history includes all selectors and the
+profile together. Syndrome measurements and their outcomes stay
+inside the quantum CPTP circuit. Conditional on \((a,\omega)\),
+the controller trajectory is fixed, and the data evolution is a
+CPTP map \(T_{a,\omega}\). All auxiliary hardware is reset before
+reading and discarded or reset after the final gatekeeper block.
+
+Draw a conservative dependence graph for this conditional circuit.
+A preparation has no incoming quantum edge. An ordinary local CPTP
+map has edges from every input factor to every output factor. A clean
+bottom-triggered gatekeeper, including its discarded swap register,
+has no incoming edge to its retained outputs. Each physical replacement
+also removes the incoming edges of the factors it replaces. Include temporary quantum work
+until its actual discard. Let \(A_s(a,\omega)\) be the set of initial
+physical sites supporting any retained quantum factor that has a path to any retained output after \(s\)
+rounds.
+
+\begin{lemma}[Initial-support factorization]\label{f:factorization}
+For every \((a,\omega)\), there is a CPTP map \(G_{a,\omega}\) such
+that
+\begin{equation}\label{f:factor}
+ T_{a,\omega}
+ =G_{a,\omega}\circ
+   \operatorname{Tr}_{A_s(a,\omega)^c}.
+\end{equation}
+This identity holds on the complete initial quantum algebra and after
+tensoring with an arbitrary reference. The fixed conditional final
+classical word and all retained hardware outputs are included.
+\end{lemma}
+\begin{proof}
+Propagate an arbitrary output observable backward in the Heisenberg
+picture. A CPTP gate's adjoint is unital, so gates outside the
+observable's backward support contribute identities. At a
+preparation or complete erasure, backward dependence terminates.
+By the graph definition the resulting observable is supported on
+\(A_s(a,\omega)\). This is true for every output observable, proving
+that the conditional channel depends only on the reduced input on
+that initial set. Fix a reference density matrix on its complement
+and define \(G_{a,\omega}\) by inserting that reference matrix before
+\(T_{a,\omega}\). It is CPTP and gives \eqref{f:factor}.
+
+The statement uses the complete cut in every round. In the
+concrete schedule all spatial quantum work precedes the final
+controlled-swap and discard block. What follows consists of controller
+storage, preparation, reset, and noise, so no old quantum state can
+be returned from temporary hardware to retained data. Conditional
+syndrome processing remains part of a CPTP map throughout this
+argument.
+\end{proof}
+
+\begin{proposition}[Halting ancestor tail]\label{f:ancestor}
+If the computation indexed by \(n\) halts, there are finite positive
+constants \(B_n,\kappa_n\) and an integer \(d_n\), uniform over
+\(\eps\in I_n\), such that for every measured initial word \(a\)
+and initial site \(v\),
+\begin{equation}\label{f:ancestor-tail}
+ \Pr\{v\in A_s(a,\omega)\}
+ \le B_n(1+s)^{d_n}e^{-\kappa_ns}
+\end{equation}
+on every sufficiently large torus whose depth-\(s\) determining cones
+unwrap injectively. The event is determined by innovations in a
+spatial cone of radius \(O(s)\) during these \(s\) steps.
+\end{proposition}
+\begin{proof}
+A surviving path crosses a retained gatekeeper in every round.
+A bottom gatekeeper that is clean cuts it, so at each crossing either
+the ordinary checked proposal is live or there is a direct named
+local fault. Proposition~\ref{c:late-live} bounds, simultaneously over all
+initial controller words, the possibility that a sufficiently late
+live proposal is outside the raw marked field. Only polynomially
+many roots of the selector collection occur in a specified depth-\(s\)
+quantum cone. Union over these candidates preserves its exponential
+bound.
+
+On the complementary event, each crossing of the actual path is
+covered by a rare ordinary proposal of its current sheet or a direct
+local fault. The path may change sheet at every round. Within
+one selector use the south comparison of Lemma~\ref{c:rare}; its
+rare birth needs \(256\) fresh positions and its seed groups have
+the eight-class bound. Pack complete per-sheet contours along the
+actual physical path, reserving each seed test's entire deterministic
+two-time support and restarting below its minimum time minus two.
+
+For the above \(n_{\rm sel}\), \(g\) prescribed typed rare groups, and \(k_{\rm dir}\) distinct
+direct physical source names, H\"older across the sheets followed by
+Cauchy--Schwarz between rare and direct events gives
+\[
+ (N_{\rm seed}p^{256})^{g/(16n_{\rm sel})}p^{k_{\rm dir}/2}.
+\]
+The rare power is \(256/(16n_{\rm sel})\ge4\), and the direct power is \(1/2\).
+Their positive exponents beat the finite entropy of the graph
+containing every allowed physical quantum template, as in
+Proposition~\ref{c:path-tail}. Union over polynomially many
+reachable endpoints and the preceding marginal exceptions proves
+\eqref{f:ancestor-tail}, uniformly in the combined measured word.
+For the torus statement first use the literal finite determining
+cone of the event. When that cone is injective, its innovations have
+the same joint law as the corresponding finite region of an
+independent lattice field. Extend outside this cone with independent
+innovations to apply the preceding infinite-lattice bound. A separate
+extension may be used for each individual upper bound. Dependence
+between different torus block events will instead be read directly
+from their actual determining cones.
+\end{proof}
+
+The constants in Proposition~\ref{f:ancestor} may use a finite
+halting motif. Their existence does not supply a total algorithm
+that produces a destruction time from every input \(n\).
+
+\subsection{An elementary finite-dependence lemma}
+
+We give the precise domination argument used to turn the ancestor
+tail into a channel extension. Independence from nonneighbors means
+independence from their entire vector.
+
+\begin{lemma}[Product domination]\label{f:domination}
+Let \((X_j)_{j\in J}\) be \(\{0,1\}\)-valued variables on a finite
+dependency graph of maximum degree \(\Delta\). Suppose \(X_j\) is
+independent of the vector of all its nonneighbors. Let
+\(0<q\le1/2\), put \(r=q/2\), and suppose
+\[
+ \Pr(X_j=1)\le p\le r^{\Delta+1}
+ \quad\hbox{for every }j.
+\]
+Then their joint law is stochastically dominated by independent
+Bernoulli\((q)\) variables.
+\end{lemma}
+\begin{proof}
+Add independent variables \(Z_j\) of Bernoulli parameter \(r\),
+independent of \(X\), and let \(\tilde X_j=X_j\lor Z_j\). We first prove,
+for every \(j\) and every positive-probability pattern \(w\) on a
+set \(K\) excluding \(j\), that
+\begin{equation}\label{f:conditional}
+ \Pr(X_j=1\mid \tilde X_K=w)\le r.
+\end{equation}
+Induct on \(|K|\). The empty case follows from \(p\le r\). Split
+\(K=F\sqcup H\) into nonneighbors and neighbors of \(j\), with
+\(|H|\le\Delta\). Vector independence gives
+\[
+ \Pr(X_j=1,\tilde X_K=w)
+ \le p\Pr(\tilde X_F=w_F).
+\]
+Expose the assignments on \(H\) in any order, after those on \(F\).
+A prescribed one has conditional probability at least \(r\), since
+its own independent \(Z\)-coin forces it. A prescribed zero has
+conditional probability at least \((1-r)^2\): the induction
+hypothesis bounds the probability of its \(X\)-variable being one
+by \(r\), since the conditioning set at that stage has size less
+than \(|K|\), and its own \(Z\)-coin is still independent. Since
+\(r\le1/4\), we have \((1-r)^2\ge r\). Hence
+\[
+ \Pr(\tilde X_K=w)\ge r^{|H|}\Pr(\tilde X_F=w_F).
+\]
+Dividing gives a ratio at most
+\(p r^{-\Delta}\le r\), completing the induction.
+
+The own \(Z_j\)-coin is independent of \((X_j,\tilde X_K)\), so
+\[
+ \Pr(\tilde X_j=1\mid \tilde X_K)
+ \le r+(1-r)r\le q.
+\]
+Generate the finite vector \(\tilde X\) sequentially from independent
+uniform variables, using its conditional probabilities. With the
+same uniforms, the tests against \(q\) generate an independent
+Bernoulli\((q)\) vector \(Y\) satisfying \(\tilde X\le Y\). Finally sample
+\(X\) conditionally on \(\tilde X\) in its original joint law. Then
+\(X\le \tilde X\le Y\) and its marginal law is correct. This is the
+claimed finite monotone coupling.
+\end{proof}
+
+\subsection{Two outputs with the same full-channel marginal}
+
+\begin{proposition}[Two-output extension]\label{f:extension}
+For a halting input \(n\), there are finite integers \(s_n,A_n'\),
+uniform throughout \(I_n\), such that on every torus
+\(L>A_n's_n\) the complete channel \(\Lambda_L^{s_n}\) has a CPTP
+extension to two copies of its whole output algebra with both
+marginals equal to \(\Lambda_L^{s_n}\).
+\end{proposition}
+\begin{proof}
+Partition the initial torus into coordinate blocks whose sides lie
+between \(s\) and \(2s\), which is possible because \(L\) exceeds a
+fixed multiple of \(s\). Let \(X_I(a,\omega)\) indicate that block
+\(I\) contains an initial quantum factor in \(A_s(a,\omega)\).
+Proposition~\ref{f:ancestor} and a union over its \(O(s^{d_{\rm lat}})\) sites
+give
+\[
+ \Pr(X_I=1\mid a)\le
+ p_s= B_n(1+s)^{d_n'}e^{-\kappa_ns}\longrightarrow0.
+\]
+Each indicator is the mask of all quantum factors at the initial physical sites.
+The joint innovations determining a block lie in an enlarged block of
+radius \(O(s)\). Thus these indicators have a dependency graph of
+some degree \(\Delta\) independent of \(s,L,a\). Conditional on
+\(a\), nonadjacent determining regions use disjoint underlying
+innovations, giving the vector independence in
+Lemma~\ref{f:domination}.
+
+Choose \(s=s_n\) large enough that
+\(p_s\le(1/4)^{\Delta+1}\), uniformly in the rate window. For a
+fixed \(a\), its mask law \(\mathbb P_a\) is dominated by the independent
+fair-mask law \(\pi\). Choose a finite monotone coupling and write
+\(K_a(X\mid Y)\) for the conditional law of its lower mask given
+its upper one. Sample a fair mask \(Y\); both \(Y\) and its
+complement \(1-Y\) have law \(\pi\). Sample
+\[
+ X^{(1)}\sim K_a(\,\cdot\mid Y),\qquad
+ X^{(2)}\sim K_a(\,\cdot\mid1-Y).
+\]
+Their supports are disjoint and each has the exact original mask
+law \(\mathbb P_a\). Given these masks, sample two complete joint
+innovation histories of every autonomous field and all shared marks with the original conditional law given the
+corresponding mask. Each history retains all physical correlations and its exact original marginal
+law. Their actual initial ancestor sets are disjoint, because each
+lies within its own lower mask.
+
+Route every quantum factor at those disjoint initial physical sites to the two maps
+\(G_{a,\omega_1}\) and \(G_{a,\omega_2}\) from
+Lemma~\ref{f:factorization}, and trace unused factors. Applying the
+product of these maps is CPTP even on a globally entangled input.
+For either output separately, averaging its exact conditional
+history law and using \eqref{f:factor} recovers the original
+\(s_n\)-step channel in branch \(a\).
+
+To obtain a channel on the full initial algebra, first measure the
+initial classical register, broadcast its classical outcome \(a\)
+to both simulations, and perform the conditional construction above.
+This is precisely the dephasing already present in the physical
+channel. It therefore preserves its action also when the encoded
+input entangles the classical register, data, and reference.
+All final controller words and reset hardware outputs belong to
+these simulations. This proves the full-algebra extension.
+\end{proof}
+
+The extension is a mathematical information bound. Its construction
+may use global conditional sampling; the physical processor itself
+is unchanged.
+
+\begin{lemma}[Iteration on the entire algebra]\label{f:iteration}
+If a channel \(T\) has a two-output extension with equal marginals,
+then \(T^j\) has a \(2^j\)-output extension with equal marginals
+for every positive integer \(j\).
+\end{lemma}
+\begin{proof}
+Apply the extension separately to every output of the previous
+extension. Partial trace over the other outputs commutes with these
+trace-preserving maps, so each new marginal is \(T\) composed with
+the previous marginal. By induction the depth-\(j\) construction
+has \(2^j\) outputs and marginal \(T^j\). Correlations between
+previous outputs cause no difficulty for tensor products of CPTP
+maps.
+\end{proof}
+
+For \(T=\Lambda_L^{s_n}\), this gives \(2^j\) outputs at physical
+time \(js_n\). Once the extension exists on a fixed torus, its
+iteration uses the full finite algebra; the size requirement remains
+\(L>A_n's_n\).
+
+\subsection{Bell sharing and the volume-uniform time}
+
+\begin{lemma}[Bell-sharing bound]\label{f:bell}
+Suppose a channel has a \(k\)-output extension with equal marginals.
+For every qubit encoder and common qubit decoder, its entanglement
+fidelity is at most
+\[
+ \frac12+\frac{1}{2k}.
+\]
+\end{lemma}
+\begin{proof}
+Apply the encoder to the extension's input and the decoder to each
+output. Let \(R\) be the reference qubit and \(B_1,\ldots,B_k\)
+the decoded qubits. Write \(P_j\) for the normalized Bell projector
+on \(RB_j\), tensored with the identity on the other outputs.
+Let \(V_j\) insert this Bell state into \(RB_j\); then
+\(P_j=V_jV_j^*\). The nonzero spectrum of \(S=\sum_jP_j\) equals
+that of its block Gram operator \(G=(V_i^*V_j)_{i,j}\).
+The diagonal blocks are identity. Contracting two normalized Bell
+tensors shows that for \(i\ne j\), \(V_i^*V_j\) is one half of a
+unitary relabeling of the missing-output tensor factors, so its norm
+is \(1/2\). For a block vector \(z\),
+\begin{align*}
+ \langle z,Gz\rangle
+ &\le\sum_j\|z_j\|^2+
+       \frac12\sum_{i\ne j}\|z_i\|\,\|z_j\|\\
+ &\le\frac{k+1}{2}\sum_j\|z_j\|^2.
+\end{align*}
+Thus \(\|S\|\le(k+1)/2\). The equal decoded marginals have the
+same entanglement fidelity \(F\), whence
+\(kF=\operatorname{Tr}(\rho S)\le(k+1)/2\).
+\end{proof}
+
+\begin{theorem}[Uniform quantum forgetting on a halting window]
+\label{f:forgetting}
+If the computation indexed by \(n\) halts, then for every \(\eta>0\)
+there is a finite \(C_{n,\eta}\), uniform over all torus sides \(L\)
+and all \(\eps\in I_n\), such that every qubit encoder and decoder
+through \(\Lambda_L^t\) has entanglement fidelity at most
+\(1/2+\eta\) for every integer \(t\ge C_{n,\eta}\).
+\end{theorem}
+\begin{proof}
+It suffices to consider \(0<\eta<1/2\). Choose \(j\) with
+\(2^{-j-1}\le\eta\). Proposition~\ref{f:extension} and
+Lemmas~\ref{f:iteration}--\ref{f:bell} give the bound at time
+\(js_n\) on every \(L>A_n's_n\), uniformly in the rate window.
+
+There are finitely many remaining tori. Let \(N_n\) bound their
+physical site counts and let \(N\) be the fixed number
+of physical qubits per site. At a fixed final elementary noise layer,
+simultaneous replacement of every factor has probability at least
+\[
+ p_n=(\inf I_n)^{R_n}>0,\qquad
+ R_n=\begin{cases}N_n,&\mathrm W,\\
+ N N_n,&\mathrm Q.\end{cases}
+\]
+It replaces every physical factor, including controller and work,
+and disconnects the output from the reference. Conditional on at
+least one such event, the decoded entanglement fidelity is exactly \(1/4\):
+the reference marginal is maximally mixed, and the output is
+independent of it. The complementary histories have entanglement fidelity at
+most one. Independence of the flags across rounds gives
+\[
+ F_L(t)\le\frac14+\frac34(1-p_n)^t.
+\]
+Choose \(t_n\) where this is at most \(1/2+\eta\), and let
+\(C_{n,\eta}=\max\{js_n,t_n\}\).
+
+An upper bound valid for every decoder persists under later
+evolution: compose any proposed later decoder with that additional
+evolution to obtain a decoder at the earlier time. Thus the bound
+holds at every time in the statement.
+\end{proof}

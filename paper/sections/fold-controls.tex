@@ -1,0 +1,78 @@
+\section{Classical control for the folded code}\label{sec:fold-controls}
+This appendix supplies the hard-controlled part of the coexistence medium
+in Proposition~\ref{p:coexistence}. It uses the selector of
+Section~\ref{sec:controller} in four orientations, sharing physical noise.
+
+\subsection{Four orientations and a protected classical profile}
+The physical coordinates are \(r=(r_1,r_2,r_3,r_4)\in\Z^4\).
+For sheet \(\sigma=(\sigma_2,\sigma_4)\in\{0,1\}^2\), let
+\(s_j=(-1)^{\sigma_j}\). Its reference coordinates have signed linear
+parts \(q_1=r_1,q_3=r_3,q_2=s_2r_2+c_2,q_4=s_4r_4+c_4\), and set
+\begin{equation}\label{eq:c-orientations}
+ i_\sigma=q_4-q_2,\qquad P_{1,\sigma}=q_1,\qquad
+ P_{2,\sigma}=q_2,\qquad Q_\sigma=q_3-q_1.
+\end{equation}
+The constants \(c_2,c_4\) name encoder references only. The update
+stencils use the four fixed signed linear parts. The inverse is integer:
+\(r_1=P_1,r_2=s_2(P_2-c_2),r_3=Q+P_1,
+ r_4=s_4(i+P_2-c_4)\). Thus each map is a torus automorphism at every
+\(L\). Each selector reads only its own chart and ignores the profile,
+quantum data and other selectors. Four different initial phases and
+finite hidden lifts are allowed.
+
+The fold profile is a pair of finite labels describing the two folded
+axes. Its intended value is constant along \(r_1,r_3\). Protect it by
+quorum 512 in the three 256-site boxes
+\[
+ [0,15]^2,\qquad320e_1+[0,15]^2,\qquad320e_3+[0,15]^2
+\]
+in those axes. A clean provisional output differing from the intended
+label needs at least 257 wrong providers: either a wrong winner has 512
+votes, or at most 511 providers retain the intended label. Such providers
+occupy two boxes. Profile ports use the same one-way transport convention
+as the selectors. The provisional profile programs the quantum unitaries;
+a later restored retained profile does not excuse an earlier wrong use.
+Profile and program masks never read quantum data or feed a received
+selector word into a subsequent selector update.
+
+Every retained quantum factor of sheet \(\sigma\), including factors
+outside the intended folded code, is final-gated by its own selector.
+The profile cannot turn that gate off. Persistent profile aliases and
+program fields are dephased, and other hardware resets before use and
+output. These conditions are needed for arbitrary-input forgetting.
+
+\begin{proposition}[Shared-noise oriented source law]\label{c:oriented-source}
+The four selectors share one physical exogenous field \(H\). Their
+marginal source laws are those of Proposition~\ref{c:source-law}.
+For \(g\) distinct sheet-typed labels
+\[
+ \lambda_\sigma=(\sigma,i_\sigma-t,
+       P_{1,\sigma}+58t,P_{2,\sigma}+58t,Q_\sigma,\lfloor t/W\rfloor),
+\]
+the joint exception probability is at most
+\(\gamma^g\), where \(\gamma=\gamma_0^{1/4}\).
+Profile and quantum raw events use their sheet's same label and require
+no new statistical event family.
+\end{proposition}
+\begin{proof}
+Each fixed orientation is injective, so the original iid innovation law
+and private lane ownership hold within that marginal. Different
+orientations can reuse the same physical coins. If \(g_\sigma\) labels
+belong to sheet \(\sigma\), Hölder applied to the four marginal
+intersections gives
+\[
+ \Pr\Bigl(\bigcap_\sigma A_\sigma\Bigr)
+ \le\prod_\sigma\Pr(A_\sigma)^{1/4}
+ \le\gamma_0^{\sum_\sigma g_\sigma/4}.
+\]
+A profile or quantum raw exception is already included in the \(H\)
+source for that sheet and bin. Geometric roles annotate a label without
+splitting it into separately charged sources. At a closing fold use one
+deck translation per sheet and axis for the whole certificate and all
+its classical ancestors; within that sheet the same affine physical
+inverse continues outside the active region. Distinct typed labels at
+distant images of one physical coin are handled by the Hölder loss,
+not by an independence assumption. Table~\ref{q:links} verifies the common characteristic geometry, including
+compressed helper gather/consult links and predictor-entry amortization.
+\end{proof}
+

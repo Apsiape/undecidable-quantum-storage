@@ -1,0 +1,84 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,textwidth=15.5cm,textheight=23.5cm,centering]{geometry}
+\usepackage{mathtools,amssymb,amsthm}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{array,booktabs}
+\usepackage[unicode,colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\hypersetup{pdftitle={Undecidable quantum storage with seven elementary gates},pdfauthor={Seth Douglas and Nidhal Mghirbi},pdfsubject={Quantum storage and undecidability}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{maintheorem}{Theorem}
+\renewcommand{\themaintheorem}{\Alph{maintheorem}}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\dist}{dist}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\N}{\mathbb N}
+\newcommand{\R}{\mathbb R}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\cD}{\mathcal D}
+\newcommand{\one}{\mathbf 1}
+\setlist[enumerate]{label=\textup{(\roman*)},leftmargin=2em,itemsep=3pt,topsep=4pt}
+\setlist[itemize]{leftmargin=1.7em,itemsep=2pt,topsep=4pt}
+\allowdisplaybreaks[2]
+\raggedbottom
+\title[Quantum storage with seven gates]{Undecidable quantum storage with seven elementary gates}
+\author{Seth Douglas}
+\author{Nidhal Mghirbi}
+\address{finite.works}
+\urladdr{https://finite.works}
+\date{Version 1.0.0, November 2026}
+\keywords{Quantum memory, local decoding, undecidability, depolarizing noise, cellular automata}
+\begin{document}
+\begin{abstract}
+Can the noise rate of one fixed local circuit encode an undecidable quantum-storage problem? Yes: we construct a three-dimensional medium, using only X, H, CNOT, Toffoli, reset, dephasing and identity, whose storage behaviour on explicit rate windows is as hard to decide as the halting problem. A separate construction handles each of whole-site and independent single-qubit depolarization after every layer. Computable disjoint rational rate windows select universal-machine inputs. For each nonhalting input, one computable encoder stores a reference-entangled qubit for a fixed positive multiple of the side length, at every size above a computable input-dependent threshold. On halting windows, every encoding fails after a time uniform in size and rate. A linear whole-channel upper bound makes the nonhalting storage scale sharp; certification of the explicit circuits is \(\Pi^0_1\)-complete, with exact rational finite tests. The proof combines a noisy classical hierarchical calendar with concatenated binary quantum codes and a two-copy channel extension. A separate four-dimensional medium, under single-qubit depolarization only, has both an uncomputable storage diagram and a designed, decidable window of exponential storage. Interactions are finite-range rather than nearest-neighbour, constants are astronomical, and every finite sample eventually forgets.
+\end{abstract}
+\maketitle
+\noindent\small AI-assisted mathematics; the authors have not independently verified
+these arguments. See the \hyperref[s:ai]{disclosure below}.\normalsize
+\input{sections/introduction}
+\input{sections/model}
+\input{sections/controller}
+\input{sections/compilation}
+\input{sections/quantum}
+\input{sections/forgetting}
+\input{sections/ceiling}
+\input{sections/certification}
+\input{sections/discussion}
+\section*{How this work was done}\label{s:ai}
+The authors directed the work and have not independently verified the
+mathematical arguments. GPT-6.1 Sol agents in Codesk sessions found the
+constructions and proofs, checked them in session, and drafted the text.
+Claude Opus 5.5 checked the results as a different model family, ran a
+literature check and reviewed the text; each check re-derived the steps
+new at that stage and took earlier-checked steps as given. For the
+three-dimensional theorem there were two such checks; the second derived
+the fault-tolerance contract of Lemma~\ref{d:gadgets} independently.
+Neither read the 2008 journal version of Aharonov and Ben-Or
+\cite{ABO2008}, so that lemma is proved here rather than cited.
+These are written proofs and model checks; there was no machine
+verification.
+
+\appendix
+\input{sections/fold-controls}
+\input{sections/folded}
+\input{sections/coexistence}
+\input{references}
+\end{document}
+
+
+

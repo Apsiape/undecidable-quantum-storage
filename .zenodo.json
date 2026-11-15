@@ -1,0 +1,30 @@
+{
+  "title": "Undecidable quantum storage with seven elementary gates",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "version": "1.0.0",
+  "publication_date": "2026-11-15",
+  "creators": [
+    {
+      "name": "Douglas, Seth",
+      "orcid": "0009-0007-4708-3252"
+    },
+    {
+      "name": "Mghirbi, Nidhal",
+      "orcid": "0009-0005-6534-1118"
+    }
+  ],
+  "description": "Can the noise rate of one fixed local circuit encode an undecidable quantum-storage problem? Yes: we construct a three-dimensional medium, using only X, H, CNOT, Toffoli, reset, dephasing and identity, whose storage behaviour on explicit rate windows is as hard to decide as the halting problem. A separate construction handles each of whole-site and independent single-qubit depolarization after every layer. Computable disjoint rational rate windows select universal-machine inputs. For each nonhalting input, one computable encoder stores a reference-entangled qubit for a fixed positive multiple of the side length, at every size above a computable input-dependent threshold. On halting windows, every encoding fails after a time uniform in size and rate. A linear whole-channel upper bound makes the nonhalting storage scale sharp; certification of the explicit circuits is Π⁰₁-complete, with exact rational finite tests. The proof combines a noisy classical hierarchical calendar with concatenated binary quantum codes and a two-copy channel extension. A separate four-dimensional medium, under single-qubit depolarization only, has both an uncomputable storage diagram and a designed, decidable window of exponential storage. Interactions are finite-range rather than nearest-neighbour, constants are astronomical, and every finite sample eventually forgets.",
+  "keywords": [
+    "quantum memory",
+    "local decoding",
+    "undecidability",
+    "depolarizing noise",
+    "cellular automata",
+    "fault tolerance"
+  ],
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "language": "eng",
+  "notes": "Preprint. It has not been peer reviewed. The authors have not independently verified the mathematical arguments; the paper's section 'How this work was done' describes the model-based construction and the cross-family checks. Written proofs and model checks; no machine verification. Text: CC BY 4.0. Script: MIT or Apache 2.0."
+}

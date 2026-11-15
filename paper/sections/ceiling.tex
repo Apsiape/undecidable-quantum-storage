@@ -1,0 +1,275 @@
+\section{A linear ceiling from finite-torus chart mortality}\label{sec:ceiling}
+
+The lower bound preserves a qubit for a small fixed multiple of
+\(L\). We now prove that this scale is optimal for the chosen medium.
+The upper bound concerns its entire channel and therefore applies to
+alternative encoders as well as the explicit concatenated-code encoding.
+
+\subsection{A finite diagonal-strip obstruction}
+The classical chart has a locally recognizable dyadic scaffold as an
+edge-matching factor. We need a quantitative finite consequence of that
+factor, rather than the assertion that a complete tiling is aperiodic.
+The finite alphabet tables in \cite[Appendix~A, Lemmas~A.1--A.3]{DMPhase2026} have the following local
+properties. The quarter encoding declares a parent from a 276-letter
+alphabet. Its internal edges force the four declared parent letters to
+agree, while external edges impose matching of neighbouring parents.
+Dropping the two ruler bits gives the 104-letter base scaffold
+\(\mathcal O\). Its thin types fix one parity coset. A \(2\times2\)
+block together with its four prescribed south/west extension cells has
+one admissible \(\mathcal O\)-parent; fine seam matching gives parent
+seam matching. These are finite local statements of the parent and
+substitution-soundness lemmas, and are the only scaffold facts needed
+in this section.
+
+\begin{lemma}[Periodic diagonal strips]\label{u:strip}
+Let \(L\ge1\), \(k_L=v_2(L)+1\), and \(R_{k_L}=16\cdot2^{k_L}\).
+There is no locally legal quarter-scaffold pattern on a diagonal strip
+\[
+ \{(x,y)\in\Z^2:a\le x+y\le b\}
+\]
+of width \(b-a\ge4R_{k_L}+4\) that is periodic by \((L,-L)\).
+Moreover \(R_{k_L}\le32L\).
+\end{lemma}
+\begin{proof}
+The quadrant labels of adjacent quarters increment by the corresponding
+coordinate unit vector modulo two. On a connected strip this fixes one
+common quadrant coset. Group its complete \(2\times2\) blocks. Their
+common declared parents form a legal pattern on an eroded strip. Now
+drop both ruler bits; every remaining letter and edge belongs to
+\(\mathcal O\). Subsequent parent steps use this base alphabet alone.
+
+For a base parent, the required block and extension cells have relative
+coordinate sums in \([-1,2]\). If its origin is \(\delta+2v\), retain
+origins satisfying
+\[
+ a+1\le\delta_1+\delta_2+2(v_1+v_2)\le b-2.
+\]
+Rounding endpoints and retaining an additional seam margin gives the
+conservative width recurrence
+\begin{equation}\label{eq:u-width}
+ w_{j+1}\ge(w_j-8)/2.
+\end{equation}
+The parent is admissible by the finite parent lemma, and adjacent
+parents match by local soundness. These conclusions need only the
+listed cells.
+
+A period \((L,-L)\) must preserve the quarter or thin-type parity
+pattern. Thus \(L\) is even. Grouping at the fixed coset then commutes
+with this translation and gives period \((L/2,-L/2)\) on the parent
+strip. Repeat. Starting with \(w_0\ge64\cdot2^{k_L}\),
+\eqref{eq:u-width} gives
+\[
+ w_j\ge w_0/2^j-8(1-2^{-j})\ge56\qquad(0\le j\le k_L).
+\]
+Every required connected strip survives. After at most \(k_L\) parity
+recognitions the induced period has odd coordinates, which cannot
+preserve the parity pattern. This is the contradiction. Finally,
+\(2^{k_L}\le2L\), so \(R_{k_L}\le32L\).
+\end{proof}
+
+\subsection{Counting physical coins after a periodic lift}
+Through a fixed linear horizon, a periodic lift repeats each physical
+noise coin only a bounded number of times. This permits the contour
+estimates to be used after wrapping.
+
+\begin{lemma}[Wrapped certificate bound]\label{u:wrapped}
+Fix a finite controller stencil, a finite data dependency stencil, and a
+horizon coefficient \(C_{\rm hor}\). On the side-\(L\) torus, lift the
+finite-start fields \(M^0_\sigma\) and the physical exogenous \(H\) field exactly
+periodically in space. An all-marked typed path uses \(M^0_\sigma\)
+at a vertex of type \(\sigma\). There are computable integers
+\(K_{\rm den},K_{\rm path},Q_{\rm den},Q_{\rm path}\), independent of
+\(L\), such that the cap
+\begin{equation}\label{eq:u-cap}
+ p\le p_*:=\bigl(4\max(K_{\rm den},K_{\rm path})\bigr)^{-
+                         \max(Q_{\rm den},Q_{\rm path})}
+\end{equation}
+implies, through \(C_{\rm hor}L\), the root bounds
+\begin{align}\label{eq:u-root-bounds}
+ \Pr(D_N)&\le\frac43\,4^{-\lceil\delta N/68\rceil},\\
+ \Pr(\text{an all-}M^0\text{ backward data path of length }N)
+   &\le\frac43\,4^{-\lceil N/68\rceil}.\notag
+\end{align}
+Fixed endpoint and type factors can be included by increasing the
+integers in \eqref{eq:u-cap}.
+\end{lemma}
+\begin{proof}
+Induction from the empty finite past shows that the lifted marked
+recurrence equals the lift of the torus recurrence exactly. This is a
+deterministic identity, valid for the spatially periodic flag field.
+In the lift, complete old/new contours and the restart-minus-two rule
+from Lemma~\ref{c:coherence} give connected certificates with
+\[
+ F\ge\lceil\delta N/68\rceil\quad\hbox{or}\quad
+ F\ge\lceil N/68\rceil,
+\]
+respectively. Here \(F\) counts distinct sheet-typed lifted physical-time names.
+In the folded appendix a path may switch its sheet at each round; attach each contour in
+that vertex's own selector orientation and connect by the actual
+physical data edges. The union graph has fixed finite degree.
+The certificates have at most \(A_{\rm den}F\) or
+\(A_{\rm path}F\) edges for fixed computable constants. For example,
+the all-marked path can use the safe edge budget \(256F\).
+The density certificate also contains the selected path, whose length
+is at most \(68F/\delta\). Whole contours, including all their source
+stars, are retained, so no physical source can be forgotten at a
+restart.
+
+If controller and data ranges are \(r_M,r_D\), every anchor through
+\(T\le C_{\rm hor}L\) lies within a box of radius
+\[
+ r_DT+r_M(T+1)+r_s\le a_{\rm hor}L
+\]
+for one computable constant \(a_{\rm hor}\); \(r_s\) covers the fixed
+source halo. At one actual time, a physical torus site has at most
+\begin{equation}\label{eq:u-multiplicity}
+ Q_{\rm wrap}=(2\lceil a_{\rm hor}\rceil+3)^4
+\end{equation}
+lifts in that box. Consequently \(F\) distinct lifted names represent
+at least \(\lceil F/(n_{\rm sel} Q_{\rm wrap})\rceil\) independent physical coins,
+where \(n_{\rm sel}=1\) for Theorem~\ref{thm:detailed} and
+\(n_{\rm sel}=4\) for the folded appendix. The fourth power overestimates the lift count in three dimensions. One physical coin can
+occur with each type and each spatial lift. A specified certificate
+therefore costs at most \(p^{F/(n_{\rm sel} Q_{\rm wrap})}\).
+
+For completeness, in a graph of degree \(\Delta\) a rooted connected
+\(j\)-edge graph has a doubled-edge traversal of length at most \(2j\).
+Choosing that traversal, its terminal subset and finitely many roles
+costs at most an exponential in \(j\). Summing \(j\le AF\) is still
+at most \(K^F\), for a computable integer \(K\). Thus the relevant
+probability is at most
+\[
+ \sum_{F\ge F_0}\bigl(Kp^{1/(n_{\rm sel} Q_{\rm wrap})}\bigr)^F.
+\]
+Choose \(Q_{\rm den},Q_{\rm path}\) in \eqref{eq:u-cap} to include
+the factor \(n_{\rm sel}\). Under that cap the base is at most \(1/4\), giving
+\eqref{eq:u-root-bounds}. The argument uses a fixed linear horizon, so its
+multiplicity is independent of \(L\).
+\end{proof}
+
+\subsection{From one live root to an impossible strip}
+Take \(C_{\rm hor}=203\) and impose the cap from
+Lemma~\ref{u:wrapped}. Exclude \(D_s\) for every physical root and
+age at least \(2L+1\) in that horizon, using a comparison path length
+\(2L+1\). Call the complement of this union \(G_{\rm den}\).
+Use one selector for Theorem~\ref{thm:detailed}; use all four for the folded appendix. The event depends only on the
+exogenous \(H\) field, not on an initial chart.
+
+\begin{proposition}[Causal-chart mortality]\label{u:mortality}
+On \(G_{\rm den}\), every actual live selector trigger at age
+\(t\ge200L\), within the specified horizon, belongs to its own \(M^0_\sigma\).
+This holds simultaneously for every initial controller word and every
+copied selector.
+\end{proposition}
+\begin{proof}
+Periodic provider \(\ell^1\) distance on its two-torus is at most
+\(2\lfloor L/2\rfloor\le L\). The unit-shift pairing proof of
+Lemma~\ref{c:coherence} works with a shortest periodic representative:
+a good step decreases that distance, and an exceptional step increases
+it by at most 350. Hence age \(2L+1\) suffices to compare all
+unmarked live providers at equal physical \(i,t\).
+
+Suppose an unmarked live first or second reading exists at
+\((i_0,P_0,Q,t)\), with \(t\ge200L\). Select a clean successful
+provider. It supplies both unmarked live actual first-coordinate west
+and south inputs at time \(t-1\). Repeat down both logical branches.
+At depth \(r\), there are witnesses at every
+\(i_0-k\), \(0\le k\le r\), at one common time \(t-r\).
+For \(r\ge L\) they cover every residue modulo \(L\).
+
+Take every integer \(r\in[L,L+4R_{k_L}+4]\), where \(k_L=v_2(L)+1\).
+All resulting witnesses have age at least
+\[
+ 200L-L-128L-4=71L-4\ge2L+1.
+\]
+Choose one at each logical position and time. Coherence makes its
+letter independent of the provider choice. One clean child check
+compares its actual parent letters with these selected reference
+letters, supplying both west and south chart edges. Therefore their
+scaffold projections form a locally legal strip of width
+\(4R_{k_L}+4\) in \((x,y)=(i,s-i)\).
+
+It is periodic by \((L,-L)\): increasing \(i\) by \(L\) at fixed
+actual time \(s\) denotes the same physical torus coordinate, and
+coherence removes provider-choice ambiguity. Lemma~\ref{u:strip}
+forbids that strip. Thus no such unmarked live reading exists.
+For an actual trigger, a local fault directly marks the vertex; in a
+clean computation live retained first data equals its live ordinary
+proposal. Hence the same conclusion holds for triggers.
+\end{proof}
+
+\subsection{The entire channel becomes approximately entanglement breaking}
+The final erasure block is a complete dependence cut. Conditional on
+the measured initial classical word and exogenous innovations, any
+surviving initial quantum dependence must cross a live gatekeeper or
+its named hardware exception in every round. In the concrete
+schedule all information-moving quantum work precedes that block.
+Its discarded work is not retrieved later.
+
+\begin{theorem}[Linear upper bound for the fixed medium]\label{u:eb}
+There are computable constants \(A,a>0\), \(b\in\N\), \(C_0\ge2\)
+and \(L_1\), all independent of \(n\), such that for every \(n\), every
+\(\eps\in I_n\) and every \(L\ge L_1\),
+\begin{equation}\label{eq:u-eb}
+ \Lambda_L^{201L+C_0}=(1-r_L)\Phi^{\rm EB}_L+r_L\mathcal B_L,
+ \qquad r_L\le q_L\le A L^b e^{-aL},
+\end{equation}
+where \(\Phi^{\rm EB}_L\) is entanglement breaking and
+\(\mathcal B_L\) is a channel. In particular,
+\(\|\Lambda_L^{201L+C_0}-\Phi^{\rm EB}_L\|_\diamond\le2q_L\). For every qubit
+encoder and decoder and every \(t\ge201L+C_0\),
+\begin{equation}\label{eq:u-fidelity}
+ F_L(t)\le\frac12+\frac{q_L}{2}.
+\end{equation}
+\end{theorem}
+\begin{proof}
+A union of the first estimate in \eqref{eq:u-root-bounds} over roots,
+selector types and times gives the conservative bound
+\[
+ q_{\rm den}\le n_{\rm sel} c_{\rm type}(203L+3)L^4\frac43
+                  4^{-\lceil\delta(2L+1)/68\rceil}.
+\]
+On \(G_{\rm den}\), Proposition~\ref{u:mortality} puts every
+permitted live crossing after \(200L\) in \(M^0\). A surviving
+initial quantum ancestor at \(201L+C_0\) would therefore give an
+all-marked data path of at least \(L\) rounds. The second root
+bound, unioned over final output positions and types, gives
+\[
+ q_{\rm path}\le n_{\rm sel} c_{\rm type}L^4\frac43
+                                      4^{-\lceil L/68\rceil}.
+\]
+Enlarge a fixed endpoint factor if the dependency convention requires
+it, and put \(q_L=\min(1,q_{\rm den}+q_{\rm path})\).
+Both terms are polynomial times exponential in \(L\).
+
+The complementary good event \(G\) is exogenous \(H\)-only and covers all
+initial words at once. In the qubit-noise implementation this field
+also uses probe endpoint marks; its input independence is the property
+needed here. On \(G\) no initial quantum factor reaches any
+retained output. Dephase the entire initial controller/profile/program word \(a\), as the
+physical circuit does. Conditional on \(a\) and innovations in \(G\),
+all remaining outputs are preparations. Averaging these preparations
+produces states \(\sigma_a\), and the good channel has the form
+\[
+ \Phi^{\rm EB}_L(\rho)=
+    \sum_a\operatorname{Tr}[(\Pi_a\otimes I)\rho]\,\sigma_a.
+\]
+It is measure-and-prepare on the entire physical input algebra,
+including initial controller/data entanglement. Because \(G\) is
+input-independent, the true channel decomposes as
+\[
+ \Lambda_L^{201L+C_0}=(1-r_L)\Phi^{\rm EB}_L+r_L\mathcal B_L,
+ \qquad r_L\le q_L,
+\]
+with \(\mathcal B_L\) CPTP. Two channels have diamond distance at
+most two, giving the stated diamond estimate. An entanglement-breaking
+channel has entanglement fidelity at most \(1/2\), while any channel has
+entanglement fidelity at most one. Arbitrary encoding and decoding therefore give
+\((1-r_L)/2+r_L\le1/2+q_L/2\). Classical reference correlations in
+\(a\) are allowed by this bound. Later evolution can be absorbed into
+the decoder; equivalently EB channels remain EB under postcomposition.
+This proves \eqref{eq:u-fidelity} at all later times.
+\end{proof}
+
+
+

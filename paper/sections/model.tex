@@ -1,0 +1,117 @@
+\section{The medium and the operational theorem}\label{s:model}
+\subsection{Local circuits and two noise models}
+Let \(\mathbb T_L^3=(\Z/L\Z)^3\). One physical site carries
+\(\mathcal H_x=(\mathbb C^2)^{\otimes N}\), where \(N\) is one fixed
+finite integer. It includes every data, controller, sensor, transport,
+and work qubit. A gate layer is a translated product of gates on
+disjoint internal tensor factors. Several such gates can meet the same
+physical product site on different factors. Every gate has at most
+three input qubits and uses one of a fixed finite set of displacement
+templates. In particular, the displacement set is independent of
+\(n,L,\eps\).
+
+In realization \(\mathrm W\), following each gate layer, independently at each physical site, apply
+\begin{equation}\label{eq:site-noise}
+ \mathcal D_{\eps,x}(\rho)
+ =(1-\eps)\rho+\eps\,\frac{I_x}{2^N}\otimes\Tr_x\rho.
+\end{equation}
+In realization \(\mathrm Q\), independently on every wire after every layer, apply
+\(\rho\mapsto(1-\eps)\rho+\eps I/2\). In both realizations the same
+physical rate follows preparation, dephasing, reset, and idle layers.
+\(\mathrm W\) and \(\mathrm Q\) are separately compiled fixed circuits; their dimensions,
+schedules and physical windows may differ. Gates in a layer are disjoint
+on qubits and may share physical sites. All spatial gates have fixed
+finite range, which need not be one lattice spacing. The gate list is
+\[
+ \{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\},
+\]
+where \(R_0(\rho)=|0\rangle\langle0|\Tr\rho\) and \(D_Z\) is complete
+computational-basis dephasing; a measurement is a \(D_Z\) whose outcome
+stays on a basis-valued wire. Repeating the fixed circuit defines
+a round channel \(\Lambda_{L,\eps}\). Round time and elementary-layer
+time differ by a single constant for this medium.
+
+\subsection{Storage fidelity}
+Let \(\beta=|\beta\rangle\langle\beta|\), with
+\(|\beta\rangle=(|00\rangle+|11\rangle)/\sqrt2\). The reference qubit
+is never acted upon. For CPTP encoding and decoding maps \(\cE,\cD\), put
+\begin{equation}\label{eq:fidelity}
+ F(\cE,\cD;L,t,\eps)=
+ \langle\beta|[\operatorname{id}\otimes
+ (\cD\Lambda_{L,\eps}^t\cE)](\beta)|\beta\rangle,
+ \qquad F^*_{L,\eps}(t)=\sup_{\cE,\cD}F(\cE,\cD;L,t,\eps).
+\end{equation}
+This is entanglement fidelity for the maximally mixed logical qubit.
+The supremum allows arbitrary encodings into the entire physical
+algebra, including work and controller registers, with no persistent
+outside quantum memory. Let
+\[
+ \tau_{L,\eps}=\sup\{t\in\N:F^*_{L,\eps}(t)\ge7/8\}.
+\]
+Optimal fidelity is nonincreasing: the intervening channel can always
+be included in a decoder at an earlier time. Our explicit decoder can
+depend on \(t\), as well as \(n,L\), and remains independent of the
+actual rate.
+
+\begin{theorem}\label{thm:detailed}
+For each of \(\mathrm W\) and \(\mathrm Q\) there are a computably specified,
+translation-invariant, time-periodic circuit as above, a computable sequence
+of disjoint nonempty rational open intervals
+\(I_n\subset(0,1)\), a rational \(c>0\), and computable thresholds
+\(L_0(n)\), with \(c\) independent of \(n\), and the following properties.
+\begin{enumerate}
+\item There are total computable maps \(\cE_{n,L}\) and
+\(\cD_{n,L,t}\), independent of \(\eps\) and of whether \(U(n)\)
+halts. If \(U(n)\uparrow\), then for every \(\eps\in I_n\),
+\(L\ge L_0(n)\), and every integer \(0\le t\le\lfloor cL\rfloor\),
+\(F(\cE_{n,L},\cD_{n,L,t};L,t,\eps)\ge15/16\).
+\item If \(U(n)\downarrow\), then for every \(\eta>0\) there is
+\(C_{n,\eta}<\infty\) such that
+\(F^*_{L,\eps}(t)\le1/2+\eta\) for every \(L\),
+\(\eps\in I_n\), and \(t\ge C_{n,\eta}\).
+\item There are computable constants \(A,a>0\), \(b\in\N\), \(C_0\ge2\)
+and \(L_1\), all independent of \(n\), such that for every \(n\), every
+\(\eps\in I_n\) and every \(L\ge L_1\), with \(s_L=201L+C_0\),
+\[
+ \Lambda_{L,\eps}^{s_L}=(1-r_L)\Phi^{\rm EB}_{L,\eps}+r_L\mathcal B_{L,\eps},
+ \qquad r_L\le q_L\le AL^be^{-aL},
+\]
+where \(\Phi^{\rm EB}_{L,\eps}\) is entanglement breaking and
+\(\mathcal B_{L,\eps}\) is a channel. In particular
+\(\|\Lambda_{L,\eps}^{s_L}-\Phi^{\rm EB}_{L,\eps}\|_\diamond\le2q_L\) and
+\(F^*_{L,\eps}(t)\le1/2+q_L/2\) for every \(t\ge s_L\).
+\item The predicate requiring the explicit fidelity to be at least
+\(7/8\) for every integer \(L\ge L_0(n)\), integer
+\(0\le t\le\lfloor cL\rfloor\), and rational \(\eps\in I_n\)
+holds exactly when \(U(n)\uparrow\) and is \(\Pi^0_1\)-complete.
+Every finite test is an exact rational comparison.
+\end{enumerate}
+\end{theorem}
+
+If \(U(n)\) never halts, these bounds give
+\(\lfloor cL\rfloor\le\tau_{L,\eps}<201L+C_0\) for every \(\eps\in I_n\)
+and every \(L\ge\max(L_0(n),L_1)\) with \(q_L<3/4\); thus
+\(\tau_{L,\eps}=\Theta(L)\), uniformly across the window. The word
+``sharp'' refers to this scale. On halting windows the lifetime is
+uniformly bounded in \(L\). These halting-side times are finite but not
+computable from \(n\): for each fixed rational \(0<\eta<3/8\), no total
+computable function of \(n\) can serve as \(C_{n,\eta}\) in part (ii)
+(Corollary~\ref{a:time}). Computable windows and their rational midpoints
+already suffice for the undecidability assertion. The theorem concerns
+cubic tori and the stated circuit model. The large fixed displacement
+catalogue gives finite-range interactions; nearest-neighbour geometry
+is not claimed. Nothing is classified outside the selected windows.
+
+For fixed \(L\) and \(\eps>0\), complete replacement of every physical
+factor at the last layer of a round has probability
+\(r_{L,\eps}=\eps^{L^3}\) in \(\mathrm W\) and
+\(r_{L,\eps}=\eps^{NL^3}\) in \(\mathrm Q\). If it has occurred, the output is
+independent of the input. Thus
+\begin{equation}\label{eq:finite-reset}
+ F^*_{L,\eps}(t)\le\frac14+\frac34(1-r_{L,\eps})^t.
+\end{equation}
+This also controls the finitely many small volumes omitted from
+asymptotic estimates.
+
+
+

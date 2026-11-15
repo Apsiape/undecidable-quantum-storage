@@ -1,0 +1,301 @@
+\section{A reserved exponential window in four dimensions}\label{sec:coexistence}
+
+The folded construction provides the hard-controlled part of the following
+separate medium. The additional window is designed and decidable.
+Its proof uses the same internal-factor layer convention as
+Section~\ref{s:model}.
+
+\begin{proposition}[Coexistence]\label{p:coexistence}
+There is one computably specified translation-invariant, finite-range,
+time-periodic circuit on \(\Z^4\), with a fixed site space of qubits
+and elementary inventory
+\(\{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}\), under independent
+single-qubit depolarization after every layer, with computable disjoint
+rational windows \(I_0,I_1,\ldots\), such that:
+\begin{enumerate}
+\item On \(I_0\), one total computable rate-independent encoder and
+intended-code decoders achieve entanglement fidelity at least \(15/16\)
+for every integer \(0\le t\le2^{\lfloor c_{\exp}L\rfloor}\), for all
+\(L\) above a computable threshold and one fixed rational \(c_{\exp}>0\).
+\item On \(I_{n+1}\), nonhalting of \(U(n)\) gives the linear storage
+conclusion of Proposition~\ref{q:linear}; halting gives the
+all-encoding, volume- and window-uniform destruction conclusion of
+Theorem~\ref{f:forgetting} for the entire medium.
+\item On every tail window \(I_j\), \(j\ge1\), the entire channel has
+the EB mixture and error bound of Theorem~\ref{u:eb} at \(201L+C_0\),
+with constants independent of \(j\). The labels \(j\) whose window
+stores a qubit for all large \(L\), and the labels passing the explicit
+linear-storage certification, both equal
+\(\{0\}\cup\{n+1:U(n)\uparrow\}\), a \(\Pi^0_1\)-complete set.
+\end{enumerate}
+The first window is reserved for a syntactically looping input.
+Whole-site noise is not covered by this proposition.
+\end{proposition}
+
+We first prove the finite-torus memory estimate used by its auxiliary
+part. Local toric-code memory and sweep decoding have precedents in
+Ahn \cite[Section~7.2 and Appendices~A--B]{Ahn2004}, Kubica--Preskill
+\cite{KubicaPreskill2019}, and the recent constructions of
+Drechsler--Oreg--Aharonov and Ponarovsky \cite{DOA2026,Ponarovsky2026}.
+The estimate below is proved for the reflected-sweep circuit and the
+fault support actually needed here.
+
+\begin{lemma}[Finite-torus exponential storage]\label{x:exponential}
+Consider the closed side-\(L\) four-dimensional plaquette toric code,
+with the reflected-sweep processor of Lemma~\ref{q:sweep} in both
+CSS sectors. An iid exogenous site/round source of sufficiently small
+computable rate \(p_{\rm aux}>0\) may cause arbitrary faults in a
+fixed finite influence catalogue. There are computable constants
+\(A,\epsilon_0>0\) such that the probability of any dangerous
+certificate through any finite time \(T\) is at most
+\begin{equation}\label{x:exp-bound}
+ A(T+A)L^4 2^{-\epsilon_0L}.
+\end{equation}
+On its complement one fixed component-filling decoder recovers the
+whole logical state and reference. Consequently this processor stores
+a qubit with fidelity at least \(15/16\) through
+\(2^{\lfloor c_{\exp}L\rfloor}\), for rational
+\(0<c_{\exp}<\epsilon_0/4\) and all sufficiently large computable sizes.
+\end{lemma}
+\begin{proof}
+There are six plaquette data qubits per site, with local extraction,
+syndrome and correction work. Extraction reads a common snapshot;
+correction decisions are stored before their gates execute. All
+incidence layers and private controls are fixed. Begin with zero
+syndrome and lift the finite-time dynamics periodically to \(\Z^4\).
+Use the five balanced potentials
+\[
+ F_j=-(r_j+58t),\quad 1\le j\le4,\qquad
+ F_5=\sum_j(r_j+58t).
+\]
+After 400 reflected sweeps, the backward negative-wall gains are at
+least 58 and the sum-wall gain is at least \(400-4\cdot58=168\).
+Fixed intermediate-stage spurs have bounded losses. Group all
+appearances of one lifted source under its single site/time name.
+Lemma~\ref{q:frontier} gives a connected witness with at most
+\(C_{\rm w}g\) edges for \(g\) distinct lifted source anchors.
+This is a deterministic statement about a periodic field.
+
+For a syndrome path of macroscopic span, enclose each root's complete
+witness and its source anchors in a ball of radius \(O(g)\). Select
+disjoint balls in decreasing radius. Fourfold enlargements cover the
+polygonal path, including edges between consecutive roots. Choose a
+simple connecting chain, join successive selected roots at the common
+time, and join both original path endpoints to the first and last
+selected roots. These links cost \(O(\sum g)\); a single large
+selected ball still includes both endpoint links. Original disjoint
+balls have disjoint lifted source sets. The combined graph has
+\begin{equation}\label{x:raw-span}
+ m\le C_{\rm raw}g,\qquad m\ge b_0L,
+\end{equation}
+where \(m\) is its edge count. All full space-time roles and canonical
+source anchors are retained. Let \(R_*\) bound an edge's spatial
+range.
+
+Take \(q=\lfloor\epsilon_0L\rfloor\), reducing rational
+\(\epsilon_0>0\) so that \(q\le m\) and \(R_*q<L/2\).
+Double a spanning tree of the graph, obtaining a walk of length at
+most \(2m\). Mark the first visit to each of its \(g\) source
+anchors, and partition the walk into pieces of at most \(q\) edges.
+There are at most \(2m/q+1\le3m/q\) pieces. One contains at least
+\(gq/(3m)\ge q/(3C_{\rm raw})\) distinct marks. Assign a boundary
+mark to one half-open piece, with the final endpoint in the last
+piece. Each mark is assigned once and belongs to its piece.
+
+This short connected walk has spatial diameter below \(L/2\).
+Two distinct canonical lifted anchors in it cannot represent the
+same physical site/time coin: a nonzero spatial deck translation
+has a coordinate of magnitude at least \(L\), and time is not
+quotiented. Thus its marks denote distinct actual iid sources.
+No independence is assigned to the full old lifted graph.
+
+If \(\Delta_*\) bounds the enlarged role graph's degree, including
+a stay-put option, count short walks and their source subsets.
+There are at most \(A_0(T+A_0)L^4\) physical starts and
+\(2^{q+1}(\Delta_*+1)^q\) annotated walks. Given a start and its
+edge sequence there is one lift. Discard annotations with repeated
+physical source names. Independence is now valid and gives
+\[
+ \Pr(\text{dangerous certificate by }T)
+ \le2A_0(T+A_0)L^4
+       [2(\Delta_*+1)p^{1/(3C_{\rm raw})}]^q.
+\]
+For example choose the rational
+\(p_{\rm aux}=[1/(8(\Delta_*+1))]^{3C_{\rm raw}}\).
+The bracket is at most \(1/4\). Increasing the prefactor for the
+floor in \(q\) gives \eqref{x:exp-bound}.
+
+It remains to connect certificates to logical failure. Serialize
+bounded local Pauli updates of each actual layer, keeping its captured
+syndrome decisions. Lemma~\ref{q:homology}, now with shortest side
+\(L\), says that corrected homology cannot change while all affected
+components have small contractible lifts. At the first barrier
+crossing a bounded update merges only a fixed number of small
+components. Choose the barrier fraction small enough that this first
+component still has an injective lift. Its extreme vertices supply
+the path used in \eqref{x:raw-span}. The predecessor history can be
+arbitrarily old, but is finite at that crossing time. Intermediate
+stages are included, so a closed error surface with zero endpoint
+syndrome cannot bypass this argument.
+
+Define the good event by absence of all such geometric certificates,
+before assigning Pauli values. The predecessor and first-crossing
+proof applies to every assignment in the fixed catalogue. The same
+filling decoder therefore corrects their whole union. For general
+local channels use Lemma~\ref{q:span}'s operator-valued expansion in
+the common unconditional instrument dilation. It preserves the full
+logical/reference state. Initialize one of the six logical pairs with
+the unknown qubit and fix the other five. The same encoder works
+throughout the horizon. Substituting
+\(T=2^{\lfloor c_{\exp}L\rfloor}\) in \eqref{x:exp-bound} gives
+failure at most \(1/16\) above a computable threshold.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{p:coexistence}]
+Rebuild the folded quantum construction of Appendices~\ref{sec:fold-controls}
+and~\ref{sec:folded} with the fixed positive-input wrapper
+\(V(1)=\text{an explicit infinite loop}\) and \(V(m+2)=U(m)\).
+At rank \(a=j+n_0+1\), the scan calculation in
+Section~\ref{sec:controller} calls \(V(j+1)\). Hence label zero
+is the loop and label \(n+1\) simulates \(U(n)\) exactly.
+Its decreasing nominal windows \(J_j\) have rational gap
+\[
+ \delta_{\rm gap}=\inf J_0-\sup J_1>0,\qquad
+ \vartheta=(\inf J_0+\sup J_1)/2.
+\]
+
+Add a separate closed four-dimensional toric-code quantum track
+with the processor of Lemma~\ref{x:exponential}. There are no quantum
+gates between its core and the folded core. All spatial quantum
+work precedes the final cuts. Every retained auxiliary quantum
+factor, including work and data-derived records, receives a local
+acceptance-controlled cut. Clean rejection replaces it; clean
+acceptance is identity. Disposable work resets before reuse.
+The fixed influence catalogue and predecessor count \(\kappa\)
+are chosen before detector depth or probe counts.
+
+At each site and round use \(R+1\) disjoint banks of \(M\) reset
+qubit probes, exposed to \(K_{\rm samp}\) sampling layers. Their
+endpoint ORs \(E,D_1,\ldots,D_R\) are independent Bernoulli variables
+with the refresh rate \eqref{eq:q-refresh}, independently across
+site/rounds. Bank zero supplies the common semantic refresh.
+The other banks define an exogenous detector
+\[
+ G=\one\{\textstyle\sum_{r=1}^R D_r\ge
+                    \lfloor R\vartheta\rfloor+1\}.
+\]
+Choose \(R\) so that \(e^{-R\delta_{\rm gap}^2/2}\le\delta_D\).
+The centered Bernoulli moment bound
+\(\mathbb E e^{\lambda(X-\mathbb EX)}\le e^{\lambda^2/8}\),
+multiplied over the banks and optimized, gives
+\[
+ \sup_{J_0}\Pr(G=0)\le\delta_D,\qquad
+ \sup_{j\ge1,\,J_j}\Pr(G=1)\le\delta_D.
+\]
+The integer threshold implements the strict comparison with
+\(\vartheta\) exactly.
+
+Let \(A\) contain all nonprobe sampling flags and all nonsampling
+flags on every wire. It is independent of the complete endpoint
+vector. The actual detector \(G_{\rm act}\) equals \(G\) on
+\(A=0\); on \(A=1\) its output may be arbitrary. Compute banks
+serially with two OR bits and a binary test counter. Let \(S_{\rm np}\)
+count all nonprobe semantic, mixed-helper, counter and work wires;
+it depends on \(R\), but not on \(M\). After choosing \(M\),
+count the actual nonsampling depth \(J\), including both cuts, every
+idle probe and every reset. Then
+\[
+ \nu\le[S_{\rm np}K_{\rm samp}+((R+1)M+S_{\rm np})J]\eps,
+ \qquad
+ \frac\nu\mu\le\frac{8S_{\rm np}}M+
+       8\left(R+1+\frac{S_{\rm np}}M\right)\frac J{K_{\rm samp}}.
+\]
+Choose \(M\ge\max(S_{\rm np},32S_{\rm np}/\delta_A)\), then
+\(K_{\rm samp}\ge64(R+2)J/\delta_A\). The ratio is at most
+\(3\delta_A/8\). At \(\eps=1/(2MK_{\rm samp})\),
+\(\mu\ge1/16\), so all nominal windows below \(1/100\) have
+preimages in the proven regime. Independent sampling banks rely
+here on independent qubit noise.
+
+Choose the constants in this order. Fix both quantum catalogues,
+\(p_{\rm aux}\) and \(\kappa\); choose the folded selector's
+\(C,B\) and all its positive, negative and wrapped caps. Put
+\[
+ \mu_{\rm cap}\le\min\{\text{folded cap},p_{\rm aux}/16,
+                  1/[64(\kappa+1)],1/100\}.
+\]
+Choose \(n_0\) to place all nominal windows below that cap, fixing
+the rational gap. Choose
+\(\delta_D\le\min(p_{\rm aux}/16,1/[64(\kappa+1)],1/64)\)
+and \(\delta_A\le1\) below the folded overlay margin. Choose \(R\),
+then build the finite palette and all nonprobe hardware, counting
+\(S_{\rm np}\). Next choose \(M\), form and count the actual
+\(J\), and choose \(K_{\rm samp}\). Detector work is on site and changes depth without changing
+the earlier influence catalogue. Finally enumerate rational inner
+physical windows in \(\mu^{-1}(J_j)\), exactly as in
+Section~\ref{s:parameters}. Choose the coefficient \(c\) of
+Proposition~\ref{q:linear} and its finite
+chart thresholds after this entire medium is fixed.
+
+The main refresh swaps every semantic factor with its own mixed
+helper and disposes of old contents. Thus the folded part has the
+same \(A,E,H=A\lor E\) source interface after recompilation, with
+\(p\le2\mu\). It retains Proposition~\ref{q:linear}, including on
+the reserved loop. On \(J_0\), the auxiliary exogenous source is
+\[
+ Z=A\lor E\lor(1-G),\qquad
+ \Pr(Z=1)\le\nu+\mu+\delta_D
+                  \le2\mu_{\rm cap}+\delta_D< p_{\rm aux}.
+\]
+It is iid over physical site/rounds and independent of the quantum
+input. On \(Z=0\) the auxiliary processor and accepting cut are
+correct; all departures have the preselected bounded influence.
+Lemma~\ref{x:exponential} proves part (i). Initialize the folded
+part in any fixed allowed state and decode only the auxiliary part.
+
+On every tail window use instead
+\[
+ B_{\rm open}=A\lor G,\qquad
+ \beta_{\rm open}\le\nu+\delta_D,
+ \qquad\kappa\beta_{\rm open}<1/4.
+\]
+A zero of this iid field guarantees a clean rejecting cut of all
+auxiliary quantum factors. A surviving path of \(s\) rounds crosses
+\(s\) distinct site/time sources. Its probability, summed over the
+at most \(\kappa^s\) paths, is at most \(4^{-s}\). Polynomial
+unions give a small initial-site ancestor tail.
+
+For a halting label combine this with the folded part's ancestor
+tail, using one physical initial-site mask that retains a site whenever
+either quantum part has an ancestor there. The two masks may be
+correlated through \(A\). Under one complete joint history law,
+the union mask has a small marginal and radius-\(O(s)\) determining
+cones. Apply Lemma~\ref{f:domination} to this union, couple its two
+disjoint copies, and sample two complete joint histories conditional
+on those masks, as in Proposition~\ref{f:extension}. Route all
+quantum factors at a retained initial site together. This gives an
+extension of the entire medium even for initial entanglement across
+its two parts, hardware and reference. Iteration and Bell sharing
+prove part (ii); finitely many smaller tori use simultaneous full
+replacement with probability at least \((\inf I_j)^{NL^4}>0\).
+
+On any tail window, the folded exceptional probability at
+\(201L+C_0\) is polynomial times exponential. The auxiliary
+\(L\)-round open-path exception, unioned over outputs, is at most
+\(C'L^4 4^{-L}\). Their union has the same exponential form.
+On its complement all initial quantum dependence is gone and initial
+autonomous metadata was measured. The entire good channel is therefore
+measure-and-prepare. Its exogenous mixture proves part (iii)'s EB
+bound and the sharp linear tail scale. This bound is not asserted
+on the reserved window.
+
+Finally choose the folded part's explicit linear-time encoder on
+every label and ignore the auxiliary output in its decoder. It succeeds
+on the loop and nonhalting tail; the whole-medium halting bound gives
+a strict finite counterexample on every halting tail label. The exact
+rational evaluation and continuity argument of
+Section~\ref{a:certification} applies to these seven-gate circuits.
+Thus the certification and memory labels are precisely the stated
+\(\Pi^0_1\)-complete set. Outside the selected windows the detector
+and memory diagram are unclassified.
+\end{proof}

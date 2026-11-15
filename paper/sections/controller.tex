@@ -1,0 +1,471 @@
+\section{A classical computation that controls erasure}\label{sec:controller}
+
+The classical part of the medium determines when local quantum data may
+remain. Its input is the noise distribution itself. We specify the classical
+facts that are imported from the authors' preprints, then prove the interfaces
+needed for quantum storage. In particular, a classical loss of memory will
+be converted into a statement about actual quantum dependence, rather than
+used as a substitute for it.
+
+\subsection{The selector and its computational chart}
+For the three-dimensional construction use coordinates
+\(z=(i,P_1,P_2)=(i,\sigma,z_3)\in\Z^3\).
+There is one selector, denoted \(C_{\rm sel}\). In the separate
+four-dimensional construction of Appendix~\ref{sec:fold-controls},
+a copied coordinate \(Q\) and four signed orientations are added.
+Formulas involving \(Q\) below omit that coordinate in three dimensions.
+Its chart coordinates at round \(t\) are
+\[
+ (x,y)=(i,t-i).
+\]
+Thus the west and south chart neighbours are actual previous-time sites
+\((i-1,t-1)\) and \((i,t-1)\), respectively. Set
+\begin{equation}\label{eq:c-boxes}
+ S_0=[0,15]^2,\qquad S_1=160e_1+S_0,\qquad
+ S_2=160e_2+S_0,\qquad K=256,\quad h=512.
+\end{equation}
+Intervals of integers are understood in these formulas. A chart alphabet
+\(\mathcal A\), with an added symbol \(\bot\), has a partial completion
+map \(g\) from west and south letters. A chart letter is live when it differs from \(\bot\). The map is functional: there is at
+most one completion. It is bottom-spreading, so a live completion requires
+two live inputs. The ordinary proposal at \((i,P,t)\) is the unique letter
+proposed by at least \(h\) of the \(3K\) providers in
+\(S_0\cup S_1\cup S_2\); if there is none, it is \(\bot\).
+A provider uses both logical inputs at its own transverse displacement.
+Two different letters cannot both receive \(h\) votes.
+
+The retained first chart coordinate is an erasure of this ordinary proposal;
+a second coordinate records the ordinary proposal. Additional helper
+coordinates test the scale of the noise and may replace the first coordinate
+by \(\bot\). These tests compare short rides along chart rows with recent
+rides, meaning helper-copying intervals, of length
+\begin{equation}\label{eq:c-scales}
+ \ell_r=2\cdot4^r-1,\qquad W=\lfloor C/\mu\rfloor.
+\end{equation}
+Here \(\mu\) is the aggregate refresh rate and \(C\) is a fixed rational
+constant selected later. The physical rule does not read either number.
+The value \(W\) is used only to analyze its experiments. A fixed bank of
+\(B\) helper lanes supplies the votes. Each binary-coded helper has one
+low code, one unknown code and 126 high codes. The chart history has fixed
+depth \(T=1024\), with its local history consistency tests included in the
+ordinary completion map.
+
+The following classical input is used: the chart and machine construction
+of \cite[Proposition~4.3, Lemmas~4.1--4.2 and~11.2--11.3]{DMNoise2026}, its
+finite-history boundary-path estimate
+\cite[Lemma~11.6]{DMNoise2026}, its intrinsic experiment and source bounds
+\cite[Lemmas~6.1--6.3 and~10.4]{DMNoise2026}, and the scaffold parent and
+soundness lemmas \cite[Lemmas~A.3 and~A.2]{DMPhase2026}. The provider
+method originates in \cite[Theorem~2.1]{DMFixed2026}. A computation board
+is a finite grid carrying successive configurations of the fixed machine;
+legality means its local transition and boundary constraints hold. Its
+row flag is a binary chart label. A critical gate is the helper test at
+the bottom end of a row at one of the two depths specified below.
+
+\begin{proposition}[Classical chart interface]\label{c:selector-import}
+There is an effective finite chart alphabet and a fixed finite helper rule
+with the following properties. For a universal machine \(U\), choose
+\(a=n+n_0+1\) and the nominal window
+\begin{equation}\label{eq:c-window}
+ J_n=\left(\frac{2C}{\ell_a},\frac{21C}{10\ell_a}\right).
+\end{equation}
+Throughout this window, \(\ell_{a-1}<W\), \(2W\le\ell_a\), and
+\(W\le4^a-1\). If \(U(n)\) does not halt, the chart has a canonical
+projected geometry with cutoff \(a\) with a legal finite-state cover and legal
+finite computation boards. If \(U(n)\) halts, every full chart has a wrong
+critical gate of one of two types: a short depth-\((a-1)\) gate with flag
+zero, or a long depth-\(a\) gate with flag one.
+
+The canonical projected geometry is computable on signed coordinates.
+Its helper copy characteristic preserves the base chart row of each lane.
+For a fixed candidate critical gate and a deterministic finite footprint,
+the intrinsic experiment estimates (the bounds \(u_B,z_B,w_B\) of
+\eqref{eq:c-eta}) and the finite-history boundary-path estimates
+(\cite[Lemma~11.6]{DMNoise2026}) hold with constants uniform on \(J_n\). On halting, the finite
+motif radius needed for these estimates is found by a terminating search
+through finite locally compatible patches.
+\end{proposition}
+
+Here the finite motif search rejects a patch when it contains either of
+the two wrong-gate rides. If arbitrarily large survivors remained,
+compactness would give a full chart with neither ride, contrary to the
+machine construction. This explains both termination on halting and why
+the search is not a halting decision procedure. The effective chart cover
+uses the NE consequence of the strongly deterministic substitution-cover
+theorem of Le Gloannec and Ollinger \cite{LGO2012}: the limit set of a \(2\times2\) substitution has
+an effective finite cover whose full west and south neighbours determine
+at most one tile. The limit set here consists of full-plane colourings
+admitting arbitrarily deep compatible desubstitutions. The canonical
+projected geometry belongs to it. One can see this by using its finite
+output automaton as a state substitution, translating state quadrants
+far into the positive quadrant, and taking compatible limits at every
+substitution depth. The finite collar and cutoff constraints only reject
+cover completions, so they preserve functionality.
+
+The positive-input convention fixes the window labels exactly.
+Let \(V(m)=U(m-1)\), \(m\ge1\). If the scan's first zero is
+\(j_*\), it accepts \(j_*+2=2^e\), writes \(e\) tokens and
+consumes \(n_0+1\) of them before calling \(V\) on
+\(m=e-n_0-1\). At cutoff rank \(a\),
+\(j_*=2^{a+1}-2\), so \(m=a-n_0=n+1\) and the simulated
+computation is exactly \(U(n)\). The finite scan machine is built
+after \(n_0\) is fixed.
+
+\subsection{Total finite initialization}\label{subsec:c-initialization}
+A global hidden-cover choice need not be computable. Only a finite legal
+choice is required by the encoder.
+
+\begin{lemma}\label{c:initialization}
+From \((n,L)\) and a declared finite time horizon one can compute an initial
+controller word, without the noise rate or a halting answer. On a
+nonhalting input it agrees with a correct-cutoff reference on the entire
+required initial, history, helper and future cone. Its helper initialization
+satisfies the same short upper and recent-long lower experiment bounds as
+the classical interface.
+\end{lemma}
+\begin{proof}
+Compute the canonical projection, cutoff, and finite payload on a
+square containing the
+whole cone, every initial history slot, and all fixed lane and collar
+offsets. Exhaust the finite list of cover-letter assignments on that
+square, imposing the computed projection and every local constraint.
+Return the first successful assignment, with a fixed fallback if the list
+is empty. The algorithm always terminates. On nonhalting, a global cover
+of the projected reference supplies a successful finite assignment.
+Functionality forces its future on the smaller cone. Assignments for
+different sizes need not be restrictions of a common hidden cover.
+
+Initialize helpers deterministically: use low on reference flag-one rows
+and high on flag-zero rows. Each helper field must use its own base row.
+The copy characteristic preserves that row, even when the physical field
+index changes its offset. On a short ride, a low initial value can only
+remove a contribution until a genuine future mark is seen; hence its
+upper bound is preserved. On a long ride, a high initial value dominates
+the recent-\(W\) comparison until \(W\) genuine future atoms have become
+available. Thereafter the latest genuine mark gives the usual comparison.
+This argument also covers an experiment crossing time zero.
+\end{proof}
+
+\subsection{Named sources under layer noise}
+The compilation described in Section~\ref{sec:compilation} has a useful
+classical consequence. Let \(A_{z,t}\) record any internal fault at site
+\(z\) in round \(t\), and let \(E_{z,t}\) be its independent aggregate
+refresh. Put
+\[
+ H_{z,t}=A_{z,t}\lor E_{z,t},\qquad p=\Pr(H_{z,t}=1)\le2\mu.
+\]
+The family \(H\) is independent on physical site/round names. One
+name can corrupt arbitrary outgoing copies of that site's old word and
+its own new output. Copies from the same word may disagree. Seed both
+formal occurrences \((z,t-1)\) and \((z,t)\) from the single name
+\((z,t)\). Let \(M^0\) be the least finite-start marked field obtained by
+adding these seeds and marking a nonfresh vertex whenever marked ordinary
+parents occur in two distinct provider boxes. Nonexistent pre-zero sources
+are omitted.
+
+To formulate the positive source estimate, use base characteristics and
+bins of length \(W\). A source label is
+\(\lambda=(i-t,P+58t(1,1),Q,\lfloor t/W\rfloor)\).
+Geometric roles annotate the witness and do not split one source label.
+Source labels do not count independent microscopic faults: an intrinsic test
+can involve many physical atoms. All occurrences with the same label
+are kept together.
+
+\begin{proposition}[Joint source law]\label{c:source-law}
+There are fixed finite support lists and computable overlap divisors
+\(D_{\rm bin},D_{\rm hist}\), independent of \(W,n\), such that the
+following holds. Let \(O_\lambda\) mean an internal fault in the complete
+hardware support of an experiment in label \(\lambda\), and suppose
+\(\Pr(O_\lambda)\le\alpha\). For any \(g\) distinct source labels,
+\begin{equation}\label{eq:c-gamma}
+ \Pr(\hbox{all labels have a raw or intrinsic exception})
+ \le\gamma_0^g,\qquad
+ \gamma_0\le\sqrt{2C}+\eta_B^{1/6}
+                  +\alpha^{1/(2D_{\rm bin})},
+\end{equation}
+where
+\begin{align}\label{eq:c-eta}
+ u_B&=2^{-\lfloor3BC/100\rfloor},&
+ z_B&=2^{-\lfloor BC/3\rfloor},&
+ w_B&=2^{-\lfloor BC^2/50\rfloor},\notag\\
+ \eta_B&=\frac{3u_B}{1-4z_B}+2w_B,
+ &4z_B&<1.
+\end{align}
+For \(m\) distinct historical fixed-gate tests the augmented intrinsic
+intersection has probability at most \(\theta^m\), where
+\begin{equation}\label{eq:c-theta}
+ \theta=\eta_B+\alpha^{1/D_{\rm hist}}.
+\end{equation}
+A larger common divisor can be used for boundary tests.
+
+Every erroneous initialized controller reading has a finite acyclic
+backward derivation through ordinary two-box supports, helper corridors,
+or these source labels. In characteristic coordinates helper corridors
+preserve all five potentials used by the quantum proof. Collapsing them
+leaves a finite set of roles and bounded bin shifts.
+\end{proposition}
+\begin{proof}
+The binary helper coding changes the upper fresh-mark prefactor to
+\(127/128\) and the lower to \(126/128\ge .98\). On a short depth
+\(a-1-r\) ride the mean is less than \(.53C4^{-r}\); the voting
+threshold is at least \(.75C\). On a recent long ride the mean exceeds
+\(.9C\), while the threshold is at most \(.8C\). The exponential
+moment bounds for these two Bernoulli comparisons give \(u_B,z_B,w_B\);
+summing short depths gives the geometric denominator in
+\eqref{eq:c-eta}. These are the intrinsic estimates in the classical
+interface, with conservative binary-coding prefactors.
+
+Raw \(H\) bins have disjoint physical atoms and probability at most
+\(pW\le2C\). Baseline intrinsic tests use only \(E\) and fresh baseline mixed-helper
+marks. On \(A=0\) these are the actual marks; dirty outputs on \(A=1\)
+are Byzantine and charged to the overlay. Only
+\(E\cap\{A=0\}\) is used to infer an actual uniform product. Distinct characteristics own disjoint lane characteristics, and
+every third bin has disjoint intrinsic support; hence \(g\) specified
+baseline tests cost at most \(\eta_B^{g/3}\).
+
+An internal exception includes the full support of every short ride and
+recent experiment in the bin. Its atoms lie on a fixed characteristic
+translate list and in a fixed number of adjacent bins, so there are at
+most \(h_0W\) atoms. Its probability is at most \(h_0W\nu\), where
+\(\nu=\Pr(A=1)\). Supports can overlap only at differences from a fixed
+finite list. A proper colouring of that overlap graph, with at least
+one more colour than its degree, yields
+\(\Pr(\bigcap O_\lambda)\le\alpha^{g/D_{\rm bin}}\).
+The \(E\) and \(A\) families are independent. Combine their intrinsic
+bounds, then use Cauchy--Schwarz against the raw family, which overlaps
+both. Expanding the possible source types gives exactly
+\eqref{eq:c-gamma}. Different \(Q\) copies within one selector have disjoint physical
+innovations; their copy names remain part of the label.
+
+For historical tests, write an atom of a ride starting at chart endpoint
+\(g=(g_x,g_y)\), time \(b\), and provider \(P_b\) as
+\[
+ x=g_x-\ell+\delta_x,\quad y=g_y+j+\delta_y,
+ \quad P=P_b+58\ell(1,1)+\delta_P,
+ \quad s=b-\ell+\delta_t.
+\]
+The offset \(\delta\) ranges over a fixed support list. Equality of a
+physical atom between two tests implies
+\[
+ b-b'=(\delta_x-\delta_t)-(\delta'_x-\delta'_t).
+\]
+Thus the difference of their start times lies in a fixed finite list,
+independently of \(W\) and of the provider path. Colouring gives
+\(D_{\rm hist}\), and independence of the baseline and internal
+families gives \eqref{eq:c-theta}. This remains a fixed-support statement
+when a later union bound chooses paths after seeing the noise.
+
+Finally, a wrong clean ordinary output has more than \(K\) failing
+providers, so wrong inputs occupy two boxes. A helper error either has
+an intrinsic exception or follows its unique copy characteristic to a
+wrong driver. That corridor preserves its characteristic potentials;
+a driver step then makes positive progress. Expanding the fixed-depth
+query and ordinary rule strictly decreases the formal history order,
+ending at a named source or the ideal initial reference. This proves
+finiteness and acyclicity. The projected role list is independent of the
+lane length because its fixed offsets cancel along a complete corridor.
+\end{proof}
+
+\subsection{All-start halting estimates}
+We next remove the intended initialization. First work in one selector
+marginal; the resulting events dominate all initial words at once.
+
+\begin{lemma}[Finite-age coherence]\label{c:coherence}
+Let \(\mathsf H(z,t)\) mean that an ordinary parent of \((z,t)\)
+belongs to \(M^0\), and let \(D_s(z,t)\) be the event that a backward
+ordinary path of length \(s\) has at least \(\delta s\) such positions,
+where \(\delta=1/1404\). Outside the corresponding two \(D_s\) events,
+two unmarked live readings at the same logical position and time,
+provider distance \(d\), and age at least \(s\ge\max(1,2d)\) agree. A clean
+child check and this equality certify local west/south compatibility.
+At a sufficiently small computable source rate,
+\(\Pr(D_s(z,t))\le A\exp(-as)\) in an unwrapped finite cone.
+\end{lemma}
+\begin{proof}
+At an unmarked root at most one provider box contains marked ordinary
+inputs. Therefore at least \(h-K=256\) successful providers read actual
+unmarked words. When neither comparison root has \(\mathsf H\), pair
+providers by a unit shift reducing their signed \(\ell^1\) distance.
+There are \(3\cdot16\cdot15=720\) pairs. At most
+\(2(3K-h)=512\) fail one of the two checks, leaving a reducing pair.
+Functionality selects a common conflicting west or south input. At an
+exceptional step choose any clean successful provider at each root;
+functionality still selects a conflicting logical input, and provider
+distance increases by at most 350. After one step both readings are
+actual first-coordinate words. Distance-zero conflict is then impossible,
+including at time zero. With fewer than \(2\delta s\) exceptional
+steps the final distance is strictly less than
+\[
+ d-s+351(2\delta s)=d-s/2,
+\]
+a contradiction. For compatibility use one clean child provider, and
+compare its two actual old inputs with the chosen reference inputs.
+
+For the probability bound, use poles
+\(3(\chi_1+\chi_2),-3\chi_1,-3\chi_2\), where
+\(\chi=P+58t(1,1)\). Good gains are 129, the largest loss is 351,
+and a grouped old/new name has total oscillation 696. The balanced
+terminal-arm count of Lemma~\ref{q:frontier} gives fewer than \(17f\) positive edges for \(f\)
+distinct names; the conservative budget \(64f\) also covers the group
+stars. Attach complete contours at the marked parents along the selected
+path. Retain each complete contour and restart at least two times before
+its earliest physical name. Disjoint source slabs then cover at most
+\(68F\) path positions with \(F\) distinct names. Thus
+\(F\ge\lceil\delta s/68\rceil\), and the path and contours form a
+connected graph of \(O(F/\delta)\) edges. A fixed finite-degree graph has
+at most \(K_\delta^F\) such rooted annotated graphs. Summing their
+probabilities \(p^F\) proves the estimate at a small enough fixed rate.
+\end{proof}
+
+\begin{proposition}[Late unmarked liveness]\label{c:late-live}
+If \(U(n)\) halts, there are finite \(A_n,a_n>0\), uniform for
+\(\mu\in J_n\), such that
+\begin{equation}\label{eq:c-late}
+ \Pr\{\text{some initial word gives an unmarked live reading at }(z,t)\}
+ \le A_n(1+t)^b e^{-a_nt}.
+\end{equation}
+The same conclusion applies to ordinary-proposal readings. Here the
+exponent \(b\) is fixed by the finite cone geometry.
+\end{proposition}
+\begin{proof}
+Use Lemma~\ref{c:coherence} at the deterministic roots of a late box.
+The finite-history construction in the classical interface chooses that
+box so its minimum age dominates twice its provider diameter. Its
+exception has a polynomial-times-exponential bound. On the complement,
+a live unmarked target determines a coherent same-history reference
+patch. The halting motif supplies a wrong critical gate \(\Gamma\) at
+time \(b_\Gamma\), with
+\(t-b_\Gamma\ge c_0t-O_n(1)\). Candidate gate positions, types, finite
+phase residues and footprints range over a deterministic polynomial
+list. The reference labels of a selected history are not included in
+that list.
+
+For each candidate define a boundary field \(M_\Gamma\) using the
+existence of any complete typed flagged raw or deep certificate, together
+with its fixed intrinsic tests. These definitions use only noise and the
+candidate geometry. Minimize flag count and then a finite lexicographic
+code to select certificates. The ordinary entropy count already includes
+all these types. The envelope can overinclude actual errors, which only
+strengthens domination of the target.
+
+Reserve all boundary raw physical names through \(b_\Gamma+1\). The
+formal slab is \(\{b_\Gamma,b_\Gamma+1\}\), and includes new seeds at
+both first northeast positions \(i_\Gamma\) and \(i_\Gamma+1\).
+Future raw names start at \(b_\Gamma+2\). Use west when
+\(x>i_\Gamma\), and south on \(x=i_\Gamma\); this stays in the
+northeast cone. Full supports, rather than their realized flagged subsets,
+determine all restart cuts. These conventions separate boundary and
+future raw names exactly.
+
+The finite-history boundary-path estimate of the classical interface
+extends to these grouped sources as follows. A genuine wrong live deep
+query traverses all \(T=1024\) levels, so its \(64f\) budget requires
+at least sixteen distinct names. A faulty current lookup is a direct
+local exception instead. Pack complete raw/deep witnesses in disjoint
+physical source slabs. Historical intrinsic tests obey
+\eqref{eq:c-theta}; Hölder gives raw weight \((2\mu)^{3f/4}\) and
+intrinsic weight \(\theta^{m/4}\). The lag, gap and endpoint choices
+cost at most \(W^{6f/16}\). Since \(W\le C/\mu\), the resulting raw
+power is \(\mu^{3/8}\). Fixed support and old/new stars change only
+finite graph constants. Consequently the strengthened boundary field
+satisfies
+\[
+ \Pr\{\text{a backward }N\text{-path above the slab has at least}
+              \ N/2\text{ vertices in }M_\Gamma\}
+ \le A_\partial e^{-a_\partial N}.
+\]
+Choosing \(B\) makes the intrinsic base small, padding makes its
+internal overlay small, and the nominal rate cap makes the remaining
+raw base small. These choices are uniform on each selected window.
+
+Boundary domination places the target in \(M_\Gamma\). Put
+\(U_\Gamma=M_\Gamma\setminus M^0\) above the slab. A vertex of
+\(U_\Gamma\) cannot be a fresh future raw birth, since that name also
+seeds \(M^0\). At any other birth it has routed marked parents in two
+boxes. If both parents belonged to \(M^0\), its closure would mark the
+child. Hence at least one parent belongs to \(U_\Gamma\). Following
+such a parent strictly decreases time until it reaches the slab. The
+result is an actual Boolean path of length at least
+\(t-b_\Gamma-1\), entirely in \(M_\Gamma\) above the slab. Apply the
+boundary-path estimate, union over the candidate list, and add the
+coherence exception. This proves \eqref{eq:c-late} simultaneously over
+initial words.
+\end{proof}
+
+\begin{lemma}[Rare live proposals]\label{c:rare}
+Fix \((i,Q)\) and choose south in the scalar live-ancestry comparison.
+With \(\Theta_h\) denoting the provider threshold,
+\[
+ B_t=H_t\lor H_{t+1},\qquad
+ \mathcal W_t=B_t\lor\Theta_h(\mathcal W_{t-1}),\qquad N_t=\Theta_h(\mathcal W_t).
+\]
+A late live ordinary proposal belongs to \(N_{t-1}\), apart from a
+direct destination \(H\) exception. Every new \(N\)-birth either has
+old support in two boxes or uses at least 256 distinct fresh provider
+positions. If
+\(N_{\rm seed}=\binom{2(352)^2}{256}\), then \(g\) specified seed
+groups have joint probability at most
+\begin{equation}\label{eq:c-rare}
+ (N_{\rm seed}p^{256})^{g/8}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+A live completion needs both inputs; selecting south keeps \(i,Q\)
+fixed. An old or new corruption is covered by \(B_t\). Otherwise all
+\(h\) successful providers continue with actual live centers. After
+excluding long raw continuations, this finite recursion is the minimal
+field \(\mathcal W\). If fewer than \(h-K=256\) providers are fresh, more than
+\(K\) old providers remain and occupy two boxes. A fresh alternative
+requires 256 distinct spatial positions, hence 256 distinct physical
+names even though either of two times can supply each position. Enlarged
+provider cubes give the binomial factor. Four spatial cube parities and
+two temporal parities have disjoint full supports; one class contains at
+least one eighth of any specified collection. This proves
+\eqref{eq:c-rare}.
+\end{proof}
+
+\begin{proposition}[Classical control of arbitrary data paths]\label{c:path-tail}
+For each fixed finite catalogue of quantum dependency templates, the
+rate cap can be chosen so that, on a halting window, the probability of
+an \(s\)-step permitted data path through a specified physical initial
+site is at most \(A'_n(1+s)^{b'}e^{-a'_ns}\). For the folded appendix, a path may switch among its four sheets
+arbitrarily. It must cross at each step either its assigned live
+selector or a named local gatekeeper exception. The bound is
+simultaneous over all initial combined classical words and holds in
+finite cones that unwrap injectively on the physical torus.
+\end{proposition}
+\begin{proof}
+Union Proposition~\ref{c:late-live} and the marginal raw-path tails
+over the selector collection and the polynomially many roots in the late actual
+physical data cone. This union uses no independence between selectors.
+On the complement every relevant live proposal has finite rare-field
+ancestry as in Lemma~\ref{c:rare}. Attach complete rare contours in
+their own orientations and direct exceptions to the actual physical
+path. Keep entire deterministic doubled-time cube supports and restart
+below their earliest full physical time minus two. The union of the
+finite controller collection and all possible programmed quantum edges is
+a finite-degree graph, irrespective of the initial profile.
+
+Let \(g\) count distinct typed rare groups and \(k_{\rm dir}\) distinct direct
+physical names. With \(n_{\rm sel}=1\) in three dimensions and
+\(n_{\rm sel}=4\) in the folded appendix, marginal bound \eqref{eq:c-rare} and
+Hölder across selector families give seed intersection weight at most
+\((N_{\rm seed}p^{256})^{g/(8n_{\rm sel})}\). Direct tests have weight
+\(p^{k_{\rm dir}}\); they can overlap seed supports. Cauchy--Schwarz between
+these two intersections therefore gives the safe combined bound
+\begin{equation}\label{eq:c-mixed}
+ (N_{\rm seed}p^{256})^{g/(16n_{\rm sel})}p^{k_{\rm dir}/2}.
+\end{equation}
+The rare power is \(256/(16n_{\rm sel})\ge4>0\). Temporal coverage and connected
+edge budgets are fixed maxima over the four orientations. A length-\(s\)
+path requires \(g+k_{\rm dir}\ge s/B_{\rm rare}\), while its annotated graph
+count is at most \(K_{\rm rare}^{g+k_{\rm dir}}\). Choose the architecture's
+cap so both entropy-weighted bases in \eqref{eq:c-mixed} are at most
+\(1/64\). The resulting geometric sum decays exponentially. Polynomial
+unions over accessible final roots and the earlier finite-cone
+exceptions preserve that decay. Every history here is the full joint
+physical history.
+\end{proof}
+
+
+

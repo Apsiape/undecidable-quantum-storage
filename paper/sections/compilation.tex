@@ -1,0 +1,330 @@
+\section{Elementary implementation and a finite parameter choice}\label{s:compile}\label{sec:compilation}
+The controller has a finite alphabet but an enormous local rule. We
+first show that its size affects only on-site depth, and then choose
+padding to make that depth compatible with the source estimates.
+
+\subsection{Binary alphabets and a streamed Boolean circuit}
+Encode a chart word in \(r=\lceil\log_2|\mathcal A|\rceil\) bits.
+Unused codes mean the bottom symbol. Dephase every retained controller
+word before using it, decode it, and write canonical output codes. This
+makes bottom aliases harmless even for an arbitrary initial state.
+For helper fields use seven bits: one low code, one unknown code and
+126 high codes. Uniform whole-site replacement supplies uniform bits
+in these registers. It leaves the needed upper and lower helper laws
+\begin{equation}\label{eq:helper-law}
+ u_d=\frac{127}{128}\bigl[1-(1-\mu)^{\ell_d}\bigr],\qquad
+ l_W=\frac{126}{128}\bigl[1-(1-\mu)^W\bigr].
+\end{equation}
+Here \(\mu\) is the aggregate semantic refresh rate. The short experiment uses
+only \(u_d\le\mu\ell_d\); the long experiment uses
+\(126/128\ge .98\), so \(l_W>.9C\) in the parameter range below.
+
+For a classical function \(f:\{0,1\}^m\to\{0,1\}^r\), start with the new output word and scratch zeroed, then enumerate
+inputs \(w\). Negate wires corresponding to negative literals of \(w\),
+compute their conjunction in zeroed scratch wires by Toffoli gates,
+copy the resulting indicator into each output bit with \(f(w)_j=1\),
+and uncompute. The cases \(m=0,1\) use constants and CNOT. A safe bound is
+\[
+ G_f\le2^m(8m+2r+20)+10(m+r+1).
+\]
+There are \(2^m\) rows and \(r2^m\) truth-table bits; neither need be
+stored simultaneously. Computing \(f(w)\) from the finite semantic rule
+and writing the corresponding gates is a terminating finite algorithm.
+It uses no answer to a halting question. All its gates are on site.
+The same construction computes finite matching rules for the quantum
+processor. Scratch and transport registers reset before first use and
+before the end of each round.
+
+\subsection{Classical transport and the source name}
+For each displacement and bit allocate a distinct sender and a distinct
+zeroed receiver. Fan out the old dephased word locally using CNOTs.
+In one tensor-disjoint layer send each sender exactly once into its
+receiver by CNOT. No received word is subsequently forwarded to another
+site. The receiver then participates only in local computation.
+
+A flag before transport at a sender corrupts copies of that site's
+old word. A faulty zero receiver affects only that destination's new
+computation. A flag after transport likewise affects only the new
+computation at its site. Consequently all microscopic flags at one
+site in one round have one spatial source name, with old and new
+appearances at the two adjacent formal times. Reusing the same received
+word for all roles reading that old site is essential. A spatial SWAP
+implemented by three noisy CNOTs would allow a middle fault to be
+forwarded; the one-way transport supplies the attribution used here.
+
+All information-moving quantum gates occur before the long on-site
+Boolean calculation. The fixed native candidate-port
+hardware has a bounded propagation cone. A flag during that hardware
+is an arbitrary channel on a bounded semantic support. During the later
+Boolean calculation quantum data is idle until the final erasure.
+The spatial quantum-fault cone therefore does not grow with Boolean
+depth or helper-lane length. Remote controller errors are charged by
+the controller's derivation, rather than by a new quantum fault at
+every induced erasure.
+
+\subsection{Unconditional native operations on private ports}\label{d:dispatch}
+For every native gate type in \eqref{d:native} and every translated
+operand tuple, allocate private type and position ports. Reset them,
+route matching semantic operands into their ports by metadata-controlled
+local swaps, apply the native gate unconditionally to every translated
+role tuple, reverse the routes, and reset the ports. On the clean
+circuit, either all operands of a matching active tuple are routed or
+none are. Swap conjugation implements the native channel on data and
+reference; an inactive gate acts only on disposable ports.
+A fault inside an inactive route can affect its data cell and is counted
+as a local dirty location.
+
+Position role \(j\) at site \(u\) belongs only to tuple base
+\(u-\delta_j\). Therefore all translated gates are tensor-disjoint,
+even on small tori where sites coincide. Serialize types, incompatible
+routes and elementary decompositions. Malformed masks still define a
+valid circuit on the same finite neighborhood. One semantic qubit per
+chain cell suffices; code-sized work is distributed over additional
+cells rather than added to this fixed role catalogue.
+
+The controlled route is the Fredkin word
+\(\mathrm{CNOT}(b;a),\mathrm{Toffoli}(c,a;b),\mathrm{CNOT}(b;a)\).
+For \(c=0\) the CNOTs cancel; for \(c=1\) it swaps the two factors.
+Also \(\mathrm{SWAP}=\mathrm{CNOT}_{ab}\mathrm{CNOT}_{ba}
+\mathrm{CNOT}_{ab}\), \(\mathrm{CZ}=H_b\mathrm{CNOT}_{ab}H_b\),
+\(Z=HXH\), and discard is \(R_0\) on its retained slot.
+Consequently every physical instruction belongs exactly to the seven
+gate inventory in Section~\ref{s:model}. Every sublayer in these words
+receives noise. The real closed native subsystem of
+Section~\ref{sec:quantum} supplies every intended opcode.
+
+Let \(\mathcal M\) denote all autonomous classical fields. Initially dephase
+\(\mathcal M\); its own gates are Boolean basis permutations, resets and
+dephasings. In an interaction with quantum data, \(\mathcal M\) is only a
+control and never a target, at every elementary sublayer. Depolarization
+preserves block diagonality in \(\mathcal M\). Induction shows that its noisy
+history law is independent of the quantum input even for malformed
+initial words and intermediate faults. Quantum-derived records stay
+in the quantum track. Old calendar symbols control the current port;
+old independent copies compute the next classical symbols.
+
+\subsection{A terminal erasure that cuts dependence}
+For each data qubit \(a\), prepare a helper \(b\) by \(R_0,H,D_Z\),
+forgetting the measurement outcome. Conditional on every intervening
+flag history the result is exactly \(I/2\). With no flag this follows
+from the three gates; after a flag the remaining operations are unital
+on an already maximally mixed local quantum register.
+Let \(c\) be the classical erase bit. The sequence
+\[
+ \mathrm{CNOT}(b\to a),\quad
+ \mathrm{Toffoli}(c,a\to b),\quad
+ \mathrm{CNOT}(b\to a)
+\]
+is identity on \(a,b\) when \(c=0\), and swaps them when \(c=1\).
+Apply it to every retained quantum factor, including native syndrome,
+ancilla and work factors, and then reset the helpers.
+A clean block with \(c=1\) replaces the data by \(I/2\) and discards
+its entire previous reference correlation. In \(\mathrm W\), a site flag within the
+block replaces all local quantum factors; the remaining controlled
+unitaries preserve their maximally mixed state. The clean replacement identity is a complete channel identity,
+including on inputs entangled with a reference.
+
+For arbitrary-input forgetting we use the direct dependence statement:
+in every round, every path from retained input quantum factors to
+retained output quantum factors crosses that round's final gatekeeper
+block. A clean bottom trigger cuts the path, including paths through
+temporary hardware. Only preparation, storage, noise and final
+work discard/reset follow the block. This statement is stronger than
+resetting helpers at endpoints: a swap into a helper followed by a
+swap back after erasure would violate it. The actual schedule satisfies
+the per-round condition.
+
+\subsection{Whole-site realization \texorpdfstring{\(\mathrm W\)}{W}}
+Let \(J\) be the number of internal layers, including their following
+noise. Add \(P_{\rm pad}\) identity/noise layers at the end of each round. At
+site \(z\) and round \(t\), let \(A_{z,t}\) mean at least one internal
+replacement and \(E_{z,t}\) at least one padding replacement. Then
+\begin{equation}\label{eq:macro-rates}
+ \nu=1-(1-\eps)^J,\qquad \mu=1-(1-\eps)^{P_{\rm pad}},\qquad
+ H=A\lor E,
+ \qquad p=1-(1-\nu)(1-\mu)\le2\mu
+\end{equation}
+if \(P_{\rm pad}\ge J\). These are independent families across physical
+site/round names; \(A\) and \(E\) are independent. Padding can be
+represented by one replacement mark, the last one, when \(E=1\).
+Constituent marks are independent uniform variables conditional on that
+one site flag. Raw source tests may use \(H\); baseline helper tests use
+only padding flags and marks.
+
+For \(\mu\le1/2\),
+\[
+ \nu\le J\eps\le2J\mu/P_{\rm pad}.
+\]
+A source bin using at most \(h_0W\) site/round source names, with \(W\le C/\mu\),
+is spoiled by internal flags with probability at most
+\begin{equation}\label{eq:overlay}
+ \alpha\le 2h_0JC/P_{\rm pad}.
+\end{equation}
+The overlap graph has fixed finite colour divisors \(D_{\rm bin}\)
+and \(D_{\rm hist}\), chosen at least one above its maximum degree.
+They depend on the spatial supports within one round, not on \(J,W,n\).
+Independence of \(A\) and padding experiments, colouring, and
+Cauchy--Schwarz give the augmented estimates
+\begin{equation}\label{eq:gamma}
+ \gamma_0\le\sqrt{2C}+\eta_B^{1/6}
+       +\alpha^{1/(2D_{\rm bin})},\qquad
+ \theta=\eta_B+\alpha^{1/D_{\rm hist}}.
+\end{equation}
+Distinct labels within one selector obey the joint bound \(\gamma_0^g\), as used in
+the quantum section; \(\theta\) is the historical error weight. Labels,
+rather than controller-induced erasures, carry this bound.
+
+\subsection{Independent-qubit realization \texorpdfstring{\(\mathrm Q\)}{Q}}\label{s:probe}
+The \(\mathrm Q\) realization supplies the same round interface by a separate
+physical circuit. It adds a local sampling experiment and controlled
+refresh of every semantic register, including all quantum, calendar,
+selector and helper fields (and the profile in the folded appendix). Denote by \(N_{\rm np}\) the number of
+non-probe wires per site: the core, one mixed helper per semantic wire,
+two OR scratch bits and all fixed work. This count is independent of
+the number \(M\) of probes.
+
+To see this, compute OR serially. Given a basis-valued accumulator
+\(a\), probe \(p\), and target \(b=0\), apply CNOT \(a\to b\),
+CNOT \(p\to b\), and Toffoli \((a,p;b)\). Then
+\(b=a\mathbin{\mathrm{XOR}}p\mathbin{\mathrm{XOR}}ap=a\lor p\).
+Reset \(a\), copy \(b\to a\), and reset \(b\). Repeating this
+six-gate pattern uses two scratch wires.
+
+After the core and its terminal quantum cut, reset all \(M\) probes to
+zero. Including the noise following that reset as the first layer,
+let them undergo \(K_{\rm samp}\) sampling noise layers, with identities in the
+remaining layers. Every non-probe wire idles and is noisy as well.
+At the endpoint, each probe has independent probability
+\(q_{\rm end}=[1-(1-\eps)^{K_{\rm samp}}]/2\) of value one. All its sampling states are
+diagonal. Define the exogenous event \(E\) as the OR of these endpoint
+values, before any subsequent noisy OR computation. Its exact rate is
+\begin{equation}\label{eq:q-refresh}
+ \mu(\eps)=1-\left[\frac{1+(1-\eps)^{K_{\rm samp}}}{2}\right]^M.
+\end{equation}
+It is independent of the semantic input and reference because of the
+initial probe reset.
+
+Compute OR, prepare private mixed helpers by \(R_0,H,D_Z\), and use
+the controlled-swap gadget to refresh every semantic factor when the
+computed control is one. Reset all swapped-out contents, probes and
+scratch before declaring the round's outputs. No discarded quantum
+state is recovered afterward. Let \(J\) count all non-sampling layers,
+including the core and this finite OR/refresh/discard circuit. It is
+fixed after \(M\), before \(K_{\rm samp}\).
+
+Define \(A\) as the union of all flags on non-probe wires during
+sampling and all flags on every wire in the non-sampling layers.
+The primitive coins defining \(A\) are disjoint from all probe
+sampling flags and endpoint marks defining \(E\). Hence \(A,E\) are
+exactly independent iid site/round fields, with
+\begin{equation}\label{eq:q-overlay}
+ \nu\le[N_{\rm np}K_{\rm samp}+(M+N_{\rm np})J]\eps.
+\end{equation}
+Post-sampling probe faults, including an incorrect OR, belong to
+\(A\). On \(E\land\neg A\) the semantic output is exactly the
+independent product of \(I/2\) on every factor; on
+\(\neg E\land\neg A\) it equals the clean core output. We use only
+this clean refresh implication in \(\mathrm Q\). Actual output on \(A\) may be
+arbitrary; in particular, \(E\) alone does not imply uniform output.
+Counterfactual baseline mixed-helper marks can be taken independent and
+uniform on dirty rounds, agreeing with the actual refresh on clean
+rounds. These marks support the original helper experiments, while
+\(A\) enlarges every dirty experiment to an intrinsic exception.
+
+For \(MK_{\rm samp}\eps\le1/2\), elementary union and product bounds give
+\[
+ \frac{K_{\rm samp}\eps}{2}\le1-(1-\eps)^{K_{\rm samp}}\le K_{\rm samp}\eps,
+ \qquad
+ \frac{MK_{\rm samp}\eps}{8}\le\mu(\eps)\le\frac{MK_{\rm samp}\eps}{2}.
+\]
+Consequently
+\begin{equation}\label{eq:q-ratio}
+ \frac\nu\mu\le
+ \frac{8N_{\rm np}}M+
+ 8\left(1+\frac{N_{\rm np}}M\right)\frac{J}{K_{\rm samp}}.
+\end{equation}
+Given an overlay target \(0<\delta_{\rm ov}\le1\), choose
+\(M\ge\max(N_{\rm np},32N_{\rm np}/\delta_{\rm ov})\), compile the
+finite non-sampling circuit and its \(J\), and then choose
+\(K_{\rm samp}\ge128J/\delta_{\rm ov}\). The ratio is at most
+\(3\delta_{\rm ov}/8\). At \(\eps_0=1/(2MK_{\rm samp})\), the refresh rate is at
+least \(1/16\), and it is strictly increasing from zero. Thus every
+nominal interval below \(1/100\) has a physical preimage strictly
+below \(\eps_0\). All rate comparisons in the infinite list stay in
+the proven range of~\eqref{eq:q-ratio}.
+
+An intrinsic test sees only \(O(W)\) site/round source names in fixed characteristic
+translates. Since \(W\mu\le C\), its overlay probability is at most
+\(c_{\rm ov}C\delta_{\rm ov}\), with a fixed support count
+\(c_{\rm ov}\). The overlap colours and old/new attribution are
+unchanged: sampling and refresh add only on-site depth. This replaces
+\eqref{eq:overlay} in~\eqref{eq:gamma}. Also
+\(p=\Pr(A\lor E)\le(1+\delta_{\rm ov})\mu\le2\mu\).
+The \(\mathrm Q\) site has \(M+N_{\rm np}\) wires, all noisy after every layer.
+Arbitrary initial probe, helper and scratch states are reset before
+use. Every outside data slot retains its own selector gatekeeper.
+Thus neither the new hardware nor the refresh can bypass the original
+per-round complete cut.
+\subsection{A terminating choice of all constants}\label{s:parameters}
+The choices specify a fixed medium by terminating algorithms. First
+fix the real semantic gate inventory, roles, autonomy and complete-cut
+templates. The semantic width, halo and participation bounds determine
+\(a_{\rm sep}\) and \(b_{\rm FT}\) in \eqref{d:budgets}.
+Choose \(e=8\), \(r_{\rm FT}=8b_{\rm FT}\), the least code parameter
+in \eqref{d:capacity}, the hardened finite quantum table, and then
+\(P_{\rm cal},T_{\rm cal}\) and its classical interpreter.
+This fixes the full witness geometry and entropy used by the positive
+threshold. Physical conversion multiplicity has already been paid
+in \(b_{\rm FT}\).
+
+Choose rational \(0<C<.01\) small enough for the strict source
+inequalities. Search powers \(B=4^k\), with \(B\ge20/C\), until
+\(4z_B<1\) and every intrinsic source base is below its required
+bound. The quantities in \eqref{eq:c-eta} decay exponentially in
+\(B\), while their support and entropy prefactors grow polynomially.
+This search terminates. With \(s_B=\lceil3CB/4\rceil\), it also gives
+\(s_B/B\le.8C\), below the long-helper mean.
+
+After \(B\), choose support colours, overlay margins and a positive
+macro-rate cap. Decrease it to meet the source-certificate recursion
+of Lemma~\ref{d:recursion}, the historical/boundary and rare-path
+bounds of Section~\ref{sec:controller}, and the wrapped cap of
+Lemma~\ref{u:wrapped}. Deep queries require at least sixteen raw names:
+their lag entropy \(W^{6f/16}\) is beaten by raw weight
+\((2\mu)^{3f/4}\), leaving the positive power \(\mu^{3f/8}\).
+Together with \(W\mu\le C\), this makes the smallness searches
+terminate. The cap is chosen for this fixed processor catalogue.
+
+Choose \(\mu_*\le\min(C/100,1/100,p_*/2)\) inside all these margins
+and then \(n_0\ge k+2\) with
+\(21C/[10\ell_{n_0+1}]<\mu_*\). Build the fixed scan machine,
+its chart alphabet and binary implementation only now. Full source
+geometry and cap bounds do not depend on the number of palette codes.
+In \(\mathrm W\), count every actual internal layer \(J\) and choose
+independent padding \(P_{\rm pad}\) large enough for
+\eqref{eq:overlay}. In \(\mathrm Q\), choose the overlay target,
+count all nonprobe wires, choose \(M\), count the actual nonsampling
+\(J\), and then choose \(K_{\rm samp}\) as above. Every port, idle,
+reset and decomposition layer is included. Long on-site depth changes
+these counts without adding a spatial quantum stencil.
+
+For \(n\ge0\), define
+\begin{equation}\label{eq:windows}
+ J_n=\left(\frac{2C}{\ell_{n+n_0+1}},
+            \frac{21C}{10\ell_{n+n_0+1}}\right).
+\end{equation}
+Use the separately chosen strictly increasing rational refresh polynomial
+\(\mu_{\mathrm W}\) or \(\mu_{\mathrm Q}\). Enumerate rational pairs
+\(0<a_n<b_n\) in the overlay-valid regime until
+\[
+ \inf J_n<\mu(a_n)<\mu(b_n)<\sup J_n,
+ \qquad I_n=(a_n,b_n).
+\]
+Exact rational polynomial comparisons suffice, and density guarantees
+termination. These are rational inner intervals; their closures lie
+strictly inside the full preimages, whose endpoints can be algebraic.
+They are nonempty, disjoint and tend to zero. The offset calculation
+following Proposition~\ref{c:selector-import} identifies their exact
+machine input. Choose the rational storage coefficient \(c\) after
+the final speed and source footprint, and the total threshold \(L_0(n)\)
+after all finite label margins, as in Proposition~\ref{d:storage}.

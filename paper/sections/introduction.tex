@@ -1,0 +1,189 @@
+\section{Introduction}\label{s:intro}
+A quantum memory is useful for a time that grows with its size. Does a
+local noisy rule admit such storage, and can that question be decided
+from its noise rate? For each of two noise models, we give one rule for which the answer, on explicitly
+specified rate windows, is as hard as the nonhalting problem. The
+observable is operational: fidelity with a reference half of a Bell
+pair. In the positive case a specified encoder works; in the negative
+case every encoder into the entire medium fails.
+
+Fix a universal machine \(U\), and write \(U(n)\uparrow\) or
+\(U(n)\downarrow\) for nonhalting or halting on input \(n\). The precise
+model and fidelity convention are in Section~\ref{s:model}. Here time
+counts repetitions of one fixed finite circuit, called a round.
+
+The answer already holds with seven elementary gate types.
+\begin{maintheorem}\label{thm:main}
+For each of whole-site and independent single-qubit depolarization after
+every layer, there is a separately constructed, computably specified,
+translation-invariant, time-periodic finite-range circuit
+on \(\Z^3\), with gate inventory
+\[
+ \{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}
+\]
+and computable disjoint rational windows \(I_n\): nonhalting gives optimal storage time
+\(\Theta(L)\); halting gives a time bound uniform in \(L\) and the window;
+certification of its explicit linear-time storage circuits is
+\(\Pi^0_1\)-complete.
+\end{maintheorem}
+
+Storage time is the last time at which some encoder and decoder reach
+entanglement fidelity \(7/8\). If \(U(n)\) never halts, then for every
+side \(L\ge L_0(n)\), with \(L_0\) computable, the explicit construction
+keeps fidelity at least \(15/16\) through time \(\lfloor cL\rfloor\).
+The rational \(c>0\) does not depend on \(n\), and neither does the
+time \(201L+C_0\) of the matching upper bound. On the halting side, the optimal fidelity
+is at most \(1/2+\eta\) after a time uniform in both volume and the
+chosen window, for every \(\eta>0\). The detailed theorem,
+Theorem~\ref{thm:detailed}, also gives a whole-channel upper bound.
+
+Finite systems forget in both cases. Independent full-support noise has
+a positive chance of replacing every site in one layer; this eventually
+removes the input. The distinction is the size dependence of useful
+storage time. On a nonhalting window, linear storage is optimal even
+though the constants in the two bounds differ enormously. The theorem
+is an existence result: its local dimension, interaction range, and
+noise scales are astronomical. Each site carries a fixed number of
+qubits, and one layer may apply many gates of at most three qubits at
+the same site, on disjoint qubits; the noise then acts once per site
+(\(\mathrm W\)) or once per qubit (\(\mathrm Q\)) after every layer.
+Encoding and final decoding are global,
+noiseless, computable operations; the repeated correction inside the
+medium is local.
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,font=\small]
+\draw[->] (0,0)--(5.8,0) node[right]{\(\eps\)};
+\foreach \x/\w/\lab in {0.45/0.18/n+2,1.6/0.28/n+1,2.9/0.45/n,4.6/0.7/1}{
+ \fill[blue!18] (\x,0.1) rectangle (\x+\w,0.7);
+ \draw[blue!60!black] (\x,0.1) rectangle (\x+\w,0.7);
+ \node[above] at (\x+\w/2,0.7) {\(I_{\lab}\)};}
+\node[align=center] at (2.8,-0.55){Computably named noise windows};
+\begin{scope}[shift={(7,0)}]
+ \draw[->] (0,0)--(4.8,0) node[right]{\(L\)};
+ \draw[->] (0,0)--(0,2.5) node[above]{storage time};
+ \draw[thick,blue!65!black] (0.35,0.3)--(3.9,2.2);
+ \node[above,sloped] at (2.5,1.6) {\(U(n)\uparrow:\ \Theta(L)\)};
+ \draw[thick,red!65!black] (0.35,0.65)--(4.1,0.65);
+ \node[above] at (2.9,0.65) {\(U(n)\downarrow:\ O_n(1)\)};
+\end{scope}
+\node[draw,rounded corners,align=center] (a) at (1.2,-1.7){noisy classical\\computation};
+\node[draw,rounded corners,align=center] (b) at (5.4,-1.7){concatenated quantum\\correction};
+\node[draw,rounded corners,align=center] (c) at (9.7,-1.7){final controlled\\erasure};
+\draw[->] (a)--(b); \draw[->] (b)--(c);
+\draw[->] (a.south) to[bend right=18] (c.south);
+\end{tikzpicture}
+\caption{One medium in each noise model, two storage scalings. Window locations, widths and
+constants are schematic. The computation controls a terminal erasure
+operation after local quantum correction. Its halting answer is encoded
+in the storage behaviour; the windows themselves are computable.}
+\label{fig:story}
+\end{figure}
+
+\noindent\textbf{How the medium works.}
+Each site runs a noisy classical computation beside a quantum chain.
+A second, transversely protected classical field supplies the calendar
+for concatenated quantum error correction; higher clocks and programs
+remain classical. The computation never reads the noise rate.
+Instead, local counters compare how often fresh noise marks appear along
+rows of lengths \(2\cdot4^r-1\). On the window \(I_n\) this selects the
+depth at which the computation simulates \(U\) on input \(n\). Every
+round ends with a controlled erasure of the quantum data at each site
+where the computation is not live. For each nonhalting \(n\) and all
+\(L\ge L_0(n)\), the computation stays live near the code long enough
+for local correction to preserve the stored qubit through
+\(\lfloor cL\rfloor\). If \(U(n)\) halts, every chart contains a wrong
+gate, and the resulting bounds on paths of quantum dependence destroy
+every encoding after a time uniform in system size. Even without halting, the computation needs an
+aperiodic chart, which no side-\(L\) torus can carry. By \(200L\) rounds,
+continued liveness requires exceptional noise events. Their path bounds
+cut the remaining quantum dependence by \(201L+C_0\), outside an event
+of exponentially small probability in \(L\). This gives the linear
+upper bound and makes the storage scale optimal.
+
+\subsection*{Context and credit}
+Undecidable properties of quantum many-body systems include the spectral
+gap \cite{CPGW2015} and ground-state phase diagrams. Bausch, Cubitt and
+Watson \cite[Theorem~2.1]{BCW2021} construct one continuously
+parameterized Hamiltonian with machine-input intervals: nonhalting
+gives a gapped product phase on a fixed interval, while halting gives
+a critical gapless phase on an interval whose width is specified
+existentially. Purcell, Li and Cubitt
+\cite{PLC2024} place a single phase boundary at an uncomputable point. Quantum-channel fidelity reachability was already shown
+undecidable by Wolf, Cubitt and P\'erez-Garc\'ia \cite{WCPG2011}.
+Table~\ref{tab:landscape} locates the operational question studied here.
+Our parameter is the rate of independent physical noise following a
+fixed circuit, and our negative branch quantifies over encodings into
+all its registers. Here the windows are computable on both branches.
+
+\begin{table}[t]
+\caption{Closely related results and the observable studied here.}
+\label{tab:landscape}
+\small\centering
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.29\textwidth}>{\raggedright\arraybackslash}p{0.29\textwidth}>{\raggedright\arraybackslash}p{0.34\textwidth}@{}}
+\toprule
+Work & Setting & Observable\\
+\midrule
+Cubitt--P\'erez-Garc\'ia--Wolf; Bausch--Cubitt--Watson; Purcell--Li--Cubitt
+ & Local Hamiltonians; interaction parameter & Gap and ground-state phase\\[3pt]
+Wolf--Cubitt--P\'erez-Garc\'ia & Finite channel collections & Fidelity reached by some channel word\\[3pt]
+D\"unnweber--Styliaris--Trivedi; Drechsler--Oreg--Aharonov; Balasubramanian--Davydova--Lake
+ & Autonomous noisy quantum memories & Positive storage guarantees\\[3pt]
+G\'acs--Reif; G\'acs; Aharonov--Ben-Or; Harrington
+ & Hierarchical reliable computation and quantum correction & Protected schedules and encoded gates\\[3pt]
+Douglas--Mghirbi & Noisy classical local rules & Ergodicity and computable noise-window selection\\[3pt]
+This paper & One fixed seven-gate circuit on \(\Z^3\) for each noise model; physical noise rate & Linear storage versus volume-uniform forgetting on effective windows\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Autonomous quantum memory under noisy local dynamics predates this
+construction, notably the fixed-rule two-dimensional quantum automata
+of D\"unnweber, Styliaris and Trivedi \cite{DST2026}, which already
+combine G\'acs-style hierarchical classical control with a
+measurement-free concatenated quantum code, and the local
+toric-code memories of Balasubramanian, Davydova and Lake
+\cite{BDL2026}. Our main construction also combines hierarchical reliable classical
+computation \cite{Gacs2001,GacsReif1988} with concatenated quantum fault
+tolerance \cite{ABO1999,ABO2008}. The additional conclusions here are an
+undecidable noise-window structure, destruction for every encoding, a
+sharp linear storage scale and exact certification.
+Harrington's hierarchical local decoder
+\cite{Harrington2004} is an early quantum-memory precedent. The separate
+four-dimensional construction uses the toric-code and sweep lineage of
+Dennis, Kitaev, Landahl and Preskill \cite{DKLP2002}, Ahn
+\cite{Ahn2004}, and Kubica and Preskill \cite{KubicaPreskill2019}. Particularly close comparisons are
+the classical-to-quantum memory correspondence of Drechsler, Oreg and
+Aharonov \cite{DOA2026} and the cubical sweep fault-tolerance theorem of
+Ponarovsky \cite{Ponarovsky2026}. We prove the source-dependent estimate
+needed for this medium rather than invoking a threshold for independent
+faults: the controller induces correlated erasures.
+
+The classical computational controller builds on our preprints on
+fixed-noise ergodicity, undecidable phase diagrams, and an uncomputable
+noise diagram \cite{DMFixed2026,DMPhase2026,DMNoise2026}. Those works
+supply the finite computational charts and classical probability
+estimates. The new operational bridge requires preservation of a
+reference-entangled qubit and destruction uniformly over every encoding.
+
+A separate four-dimensional construction also separates undecidability
+from exponential storage. Proposition~\ref{p:coexistence} gives one
+independent-qubit medium with the same seven gates, an uncomputable
+storage diagram, and a reserved, designed and decidable window storing
+a qubit for \(2^{\lfloor c_{\exp}L\rfloor}\). Its universal nonhalting
+windows still have linear storage. Exponential storage on an
+undecidable window remains open.
+
+\subsection*{Reading guide}
+Section~\ref{s:model} states the model and full quantifiers.
+Sections~\ref{sec:controller} and~\ref{sec:compilation} give the classical
+selector and exact physical implementation. Section~\ref{sec:quantum}
+proves three-dimensional storage, including the gadget support bound,
+source counting and decoding at every requested time.
+Sections~\ref{sec:forgetting} and~\ref{sec:ceiling} prove the two
+all-encoding bounds; Section~\ref{a:certification} proves certification.
+Computability readers can proceed from the theorem to that section.
+Quantum-information readers can take the explicitly stated classical
+chart interface as an input. The folded-code and exponential-coexistence
+proofs are in Appendices~\ref{sec:fold-controls}--\ref{sec:coexistence}.
