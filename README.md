@@ -1,6 +1,6 @@
 # Undecidable quantum storage with seven elementary gates
 
-Seth Douglas and Nidhal Mghirbi. Version 1.0.0, November 2026.
+Seth Douglas and Nidhal Mghirbi. Version 1.0.0, November 2026. DOI for all versions: [10.5281/zenodo.24254845](https://doi.org/10.5281/zenodo.24254845); version 1.0.0: [10.5281/zenodo.24254846](https://doi.org/10.5281/zenodo.24254846).
 
 **This is a preprint. It has not been peer reviewed. The authors have not independently verified the mathematical arguments; see "How it was checked" below.**
 
