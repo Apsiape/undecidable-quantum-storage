@@ -1,0 +1,167 @@
+\section{Exclusive folded dispatch}\label{app:f4-dispatch}
+As in Appendix~\ref{sec:folded}, the folded semantic chain has two
+qubits \(Q_{\sigma,0},Q_{\sigma,1}\) per physical site. Code coordinates, syndrome and Boolean quantum work use
+additional chain cells. A requested native layer is a matching, padded
+with one-qubit idles, of the real inventory \eqref{d:native}; its at
+most three distinct operands are within two virtual edges of its first
+operand. The line routing of Lemma~\ref{d:gadgets} supplies this form.
+
+\subsection{A fixed private-port circuit}
+This is the private-port circuit of Section~\ref{d:dispatch}, with
+templates for the two fold roles and exclusive port selection.
+For native type \(\tau\) of arity \(j\), enumerate templates
+\[
+ \theta=(\tau;(r_1,\delta_1),\ldots,(r_j,\delta_j)),\qquad
+ r_i\in\{0,1\},\quad\delta_1=0,\quad\delta_i\in\{-2,-1,0,1,2\},
+\]
+with distinct role-offset pairs. Control/target order is part of the
+type. An ordered tuple ID \((\theta,b)\) has operand \(i\) at
+\(b+\delta_i\). Every template-position has a private port at every
+site; at \(x\) it belongs only to tuple base \(x-\delta_i\).
+There are at most
+\[
+ 5\cdot2+3\cdot(4\cdot5)+8\cdot25=270
+ \quad\hbox{templates},\qquad 10+120+600=730
+ \quad\hbox{port roles}.
+\]
+The five unary types include reset, the three binary types are CNOT,
+CZ and SWAP, and the ternary type is Toffoli. Repeated operands are
+excluded. Tuple port sets are tensor-disjoint even on small tori,
+because their internal labels differ. Their physical diameter is at
+most four.
+
+At each semantic vertex \(v=(x,r)\), a total Boolean function of
+old dephased calendar requests and private neighbor copies chooses
+NONE or exactly one eligible port at \(x\) with assigned role \(r\).
+Resolve malformed metadata by a fixed priority. The two roles have
+disjoint eligible lists. Reset ports, compute and freeze these one-hot
+choices, scatter each semantic qubit to its selected port in fixed
+serial order, apply every native tuple unconditionally, gather in
+reverse order, and reset/discard ports and choice work at their declared
+ends. Ineligible swaps are identity. One such reset, choice, scatter, native,
+gather and reset sequence is a module.
+
+The elementary implementation uses exactly the seven gates:
+Fredkin is chronological CNOT\((b;a)\), Toffoli\((c,a;b)\),
+CNOT\((b;a)\); SWAP is three CNOTs, and CZ is
+\(H_{\rm target}\), CNOT, \(H_{\rm target}\). Boolean work uses private
+reset, compute, copy and uncompute. Metadata is always a control of
+quantum operations and never a quantum-derived target. Serialization
+and private internal labels give a valid physical circuit on every
+classical word. Each elementary layer, including all idle and
+reset-following factors, receives the prescribed noise.
+
+\begin{lemma}[Clean folded action]\label{f4:dispatch-clean}
+The circuit implements an intended matching exactly on arbitrary
+quantum data and a reference. A virtual cycle of length \(m=2\ell\),
+\(\ell\ge3\), folds at fixed physical range into \([0,\ell)\).
+\end{lemma}
+\begin{proof}
+In a clean matching, a tuple receives either all its intended semantic
+operands or none. A wholly unused tuple acts only on disposable ports.
+Scatter and gather therefore implement each intended channel exactly,
+including reset: the reset acts on the port holding the intended input,
+and its reset output is gathered before disposal. Dephasing, when
+required on work, is handled in the same way, without inverting it.
+The coordinate is \(a=\sigma\) on role zero and
+\(a=m-1-\sigma\) on role one. Successor means physical right motion
+on role zero, an onsite switch at the right endpoint, left motion on
+role one, and an onsite switch at the left endpoint. Radius-two virtual
+operands fit the catalogue. Fixed left/right/interior/outside flags,
+including both endpoint flags when needed, determine the one- and
+two-step neighbors locally. Virtual parity is \(\sigma\bmod2\) in
+role zero and \(1-\sigma\bmod2\) in role one. Outside factors have
+the declared reset/idle reference. Degenerate intervals use a total
+reset fallback. Nothing in the rule reads the interval length.
+\end{proof}
+
+\begin{lemma}[Closed support and joint localization]\label{f4:dispatch}
+Fix an intended matching. Let \(B_{\rm ch}\) be the clean-station
+vertices whose actual exclusive tuple differs from their intended
+tuple, \(D_{\rm st}\) the dirty physical stations, and \(E_{\rm tu}\)
+the dirty native tuple boxes. A station fault may act jointly on its
+two semantic qubits, all its ports and routing controls. Dirty boxes
+may share operator or environment coefficients. There is a closed
+union of intended locations, of cardinality at most
+\[
+ 2|B_{\rm ch}|+732|D_{\rm st}|+|E_{\rm tu}|,
+\]
+on which the error is an arbitrary joint operation; its complement
+executes the intended channel. Each marked location is within physical
+distance eight of a seed, and its virtual support is in two fixed
+role neighborhoods of that seed. At fixed-history operator scope
+all exterior coefficients are retained.
+\end{lemma}
+\begin{proof}
+Give each vertex its intended pointer \(i(v)\) and actual pointer
+\(a(v)\), interpreting NONE as a private idle ID. Mark both IDs for
+an erroneous clean vertex; at a dirty station mark every incident port
+tuple and its two intended/private-idle IDs; mark every dirty tuple.
+Call the set of marked IDs \(\mathcal T\). Let \(\mathcal R\) contain
+all erroneous or dirty vertices and every vertex whose intended or
+actual pointer is in \(\mathcal T\).
+
+At a correct clean vertex the two pointers coincide. Hence an intended
+tuple meeting \(\mathcal R\) has its ID in \(\mathcal T\), so all its
+intended operands lie in \(\mathcal R\). This proves intended closure.
+An actual tuple receiving retained input from \(\mathcal R\), or
+returning an output to it, also has marked ID: at a dirty station all
+incident IDs are marked; at an erroneous clean vertex its actual ID is
+marked; at a correct clean vertex in \(\mathcal R\) the identical
+pointers are marked. Every other retained participant has that same
+actual ID and is in \(\mathcal R\). Unselected clean ports are fresh
+disposable factors and never gather into an unmarked vertex. A dirty
+station touches only \(\mathcal R\) and ports of marked IDs. This is
+actual closure.
+
+Every unmarked intended tuple has correct clean pointers, clean ports
+and a clean native box. It receives exactly its intended operands,
+acts correctly, and returns them. No other selected tuple touches
+those operands. Thus the complementary channel is exactly the intended
+one even on inputs entangled with \(\mathcal R\) and a reference.
+All remaining operations are on the marked union and its work/bath.
+Private clean preparation, reset, dephasing and disposal environments
+are fresh and never retrieved. Tracing them leaves an arbitrary joint
+channel on that union when the fixed history is exogenous. More
+generally expand its Stinespring operators coefficientwise, retaining
+all exterior systems: tensor matrix bases on disjoint marked operand
+sets give precisely the full operator-span interface of
+Lemma~\ref{d:reduction}. Individual factors need not be CPTP.
+A reset at a marked location is replaced, never inverted.
+
+There are at most \(2|B_{\rm ch}|+(730+2)|D_{\rm st}|+|E_{\rm tu}|\)
+marked IDs. Each marked intended location has one of these IDs.
+An incident tuple anchor is within two of its port, and its other
+operands within four of that station. Enlarging for the adjacent
+intended location gives radius eight. In each fixed fold role physical
+displacement is bounded, while the two roles can be distant virtually.
+This proves the two-neighborhood assertion.
+\end{proof}
+
+A whole-site replacement dirties one station, including all local
+ports at once. A primitive decomposition error has bounded support
+in this fixed catalogue. Time-boundary uses are covered by finitely
+many adjacent modules. Iterating Lemma~\ref{f4:dispatch} keeps joint
+coefficients on the union of the named locations, exactly as required
+by Lemma~\ref{d:reduction}. Repeated metadata uses keep their original
+source names.
+
+\begin{lemma}[Unfinished modules]\label{f4:dispatch-partial}
+At an elementary time inside a module, retaining actual in-flight
+factors and appending its intended suffix gives the same localization
+with a station envelope of at most 732 locations per choice-error seed.
+\end{lemma}
+\begin{proof}
+Retain semantic qubits, ports, masks holding quantum data and all
+undeleted quantum work. Append the fixed intended scatter/native/
+gather suffix, with intended choices; do not consult received metadata.
+A station whose actual frozen choice differs is conservatively dirty,
+so all its incident IDs are marked. At the other stations actual prefix
+and intended suffix agree with the reference. The preceding pointer
+closure proof applies to their composition. Future reset/disposal is
+performed only at its declared instruction, so no in-flight input is
+lost. Replacing \(2|B_{\rm ch}|\) by \(732|B_{\rm ch}|\) covers the
+whole unfinished station. Use this larger envelope for all choice
+seeds when choosing incidence constants, so the estimate is uniform
+in the requested readout offset.
+\end{proof}

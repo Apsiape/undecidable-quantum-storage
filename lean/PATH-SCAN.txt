@@ -1,0 +1,6 @@
+PASS - 16 November 2026
+Scope: all 56 shipped text files, including this result and MANIFEST.md.
+Checks: absolute drive paths, local Unix roots, UNC paths and private
+workspace names. Public dependency URLs are excluded from path matching.
+Findings: 0. Build caches, compiled artifacts and proof-export archives: 0.
+Scanner and detailed audit receipt are retained with the assembly records.

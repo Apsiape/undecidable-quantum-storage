@@ -2,7 +2,9 @@
 The physical noise rate of a fixed seven-gate circuit can select between
 exponentially long quantum storage and destruction after a time
 independent of size. Theorem B proves this in six dimensions, with
-separate circuits for whole-site and per-qubit noise. Theorem A retains
+separate circuits for whole-site and per-qubit noise. Theorem D lowers
+the dimension of beyond-polynomial storage on the undecidable windows
+to four for whole-site noise, with a stretched-exponential lower bound. Theorem A retains
 the sharp three-dimensional linear scale and exact promised
 \(\Pi^0_1\) certification. Proposition~\ref{p:coexistence} retains a
 four-dimensional single-qubit medium with a designed decidable
@@ -45,8 +47,11 @@ relaxation and channel properties precedes this operational question
 \cite{CPGW2015,BCW1D2020,BCW2021,PLC2024,ShiraishiMatsumoto2021,WCPG2011,
 EMG2012,KGE2014,DeLasCuevas2016,BMZ2026}.
 
-The remaining questions include exponential storage on undecidable
-windows below dimension six, undecidable storage in two dimensions,
+The remaining questions include exponential, rather than
+stretched-exponential, storage on undecidable windows below dimension
+six; the single-qubit-noise version in four dimensions; beyond-linear
+storage in three dimensions; undecidable storage in two dimensions;
+and any lifetime upper bound for the four-dimensional medium. We also seek
 a matching \(\exp(O_n(L))\) lifetime upper bound for the exponential
 media, giving \(\exp(\Theta(L))\) lifetime on nonhalting windows.
 Proposition~\ref{v:certification} gives the coarse
@@ -71,4 +76,16 @@ checked against the text, without re-deriving, the encoder's success on
 nonhalting inputs, the numerical catalogue constants, the group-contour
 construction inside Lemma~\ref{v:bridge}, and the proofs of the
 published results imported from \cite{DMNoise2026,SST2026} and from
-Sections~3 and~6 and Appendices~B--C. There is no machine-verified proof.
+Sections~3 and~6 and Appendices~B--C. For Theorem~D the checks
+re-derived the exclusive dispatcher, the finite-torus raw cutoff, the
+two-role and central-strip source estimates, the separated-child
+recursion, the window arithmetic and the horizon. A further check
+re-derived the written Appendices~D--F, including the calendar reset
+table, and the order of constants from the text. The checks compared the
+imported gadget, initializer and all-start negative arguments with their
+texts without re-deriving them. Lean 4 with Mathlib verifies
+Lemma~\ref{f:bell} as printed and the conditional
+Theorem~\ref{lean:conditional}. The latter assumes storage and
+forgetting; the physical premises, Theorems A, B and D, all
+constructions, noise analysis and compilation remain outside the
+verification (Appendix~\ref{app:lean}).

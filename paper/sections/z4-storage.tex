@@ -1,0 +1,124 @@
+\subsection{Windows, initialization and the storage horizon}
+\begin{lemma}[Physical windows and a total encoder]\label{f4:encoder}
+There are windows \(I_n\) and a total computable encoder \(\cE_{n,L}\)
+as in Theorem~\ref{f4:detailed}. Above a computable size threshold, on
+nonhalting inputs the initialized reference has the periodic folded
+calendar and clean cap permission through \(2^{\lfloor L/4\rfloor}-1\)
+rounds.
+\end{lemma}
+\begin{proof}
+Put \(\ell_a=2\cdot4^a-1\), \(a=n+n_0+1\), and
+\[
+ \mathcal J_n=(2C_h/\ell_a,21C_h/(10\ell_a)).
+\]
+They are nonempty disjoint rational intervals below \(\mu_*/2\).
+The literal scan of \cite[Lemmas~4.1--4.2]{DMNoise2026}, as used in
+Section~\ref{v:parameters}, has first zero
+\(j_*=2^{a+1}-2\), makes \(a+1\) tokens and skips \(n_0+1\).
+It calls \(V(n+1)=U(n)\). Thus the windows select the stated universal
+input. Search rational \(0<a_n<b_n<\eps_*\) with
+\[
+ \inf \mathcal J_n<\mu(a_n)<\mu(b_n)<\sup \mathcal J_n.
+\]
+All comparisons are exact rational arithmetic. The increasing rational
+polynomial \(\mu(\eps)=1-(1-\eps)^{P_{\rm pad}}\) and density of
+rationals prove totality. Then \(I_n=(a_n,b_n)\) has all claimed
+properties and \(w_n=\lceil C_h/\mu(a_n)\rceil+2\) bounds \(W\)
+uniformly in the window. The windows lie at scale
+\(4^{-n}/P_{\rm pad}\).
+
+Choose the largest \(k\ge0\) with \(s_{\rm top}P^k\le L/2\).
+For small sizes use a fixed fallback. Initialize \(m=s_{\rm top}P^k\)
+virtual calendar cells by the finite \(k\)-level simulation tower over
+uniform top idle, with the full canonical scratch of
+Table~\ref{f4:fields}. Fold them into \([0,m/2)\), initialize boundary
+flags/parity and outside reference, and clone across \(x,y,z\).
+Lemma~\ref{f4:periodic} supplies the clean reference for all times.
+
+In \((x,y)\) place one square of side \(N_{\rm cap}=\lfloor L/4\rfloor\)
+with genuine vacuum exterior and fixed collar. Apply exactly the
+static finite search in Lemma~\ref{v:encoder}: enumerate the finite
+hidden alphabet on that square and collar; test every fully active
+base constraint, cap shape, canonical projected geometry, finite owners,
+routing tags and the cutoff at every active site, including truncated
+rulers; reject halt letters. Return the first accepted assignment or
+vacuum. That proof, using \cite[Lemma~11.2]{DMNoise2026} and its cutoff
+converse, proves both totality and nonhalting success without an
+infinite-extension test. It is unchanged by deleting copied coordinates.
+Set death and timer bits to zero with the least diagonal carry one,
+and clone the cap over \(\sigma,z\). Initialize each shifted helper
+by its own base: low for flag one, high for zero, unknown for inactive;
+availability is unavailable, also at storage sites outside the cap.
+
+At a deterministic interior \((x_0,y_0,z_0)\), encode the complex input
+qubit into one wire of the \(k\)-fold real CSS code on the folded
+cycle. Other code wires, ancillas and unused factors have their
+prescribed states. All compiler work has its declared defaults.
+The procedures depend only on \(n,L\). Failed searches and halting
+inputs still return total maps. All hull, gap, \(w_n\), helper and
+collar bounds enter a computable threshold. Lemma~\ref{v:cap} proves
+the stated clean permission horizon.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{f4:detailed}(i)]
+Apply Lemma~\ref{f4:recursion} with the actual geometry and sources
+of Lemmas~\ref{f4:geometry} and~\ref{f4:sources}. Put
+\(H_k=2^{\lfloor2^k/16\rfloor}\). Count every top box and rectangle
+cover through \(H_k+T^k+C\), including completion halos. For fixed
+computable constants and an integer \(d\), failure probability is at
+most
+\begin{equation}\label{f4:failure}
+\begin{split}
+ C(H_k+T^k+C)L^d2^{-2^k}
+ &+C(H_k+T^k+C)L^4e^{-\beta_{\rm cap} L/(w_n+1)}\\
+ &+C(H_k+T^k+C)L^4e^{-\beta_{\rm raw}L}.
+\end{split}
+\end{equation}
+Maximality of \(k\) gives
+\[
+ (L/(2s_{\rm top}P))^{\alpha_4}<2^k
+             \le(L/(2s_{\rm top}))^{\alpha_4},\qquad T^k=O(L^4).
+\]
+The first negative exponent in \eqref{f4:failure} dominates
+\(\log H_k\); the others dominate it once
+\(L^{1-\alpha_4}\ge4A_{\rm hor}(w_n+1)/\beta_{\rm cap}\), where
+\(H_k\le e^{A_{\rm hor}L^{\alpha_4}}\) with fixed computable
+\(A_{\rm hor}\). All constants admit effective strict rational
+bounds. The inequality \(\log L\le L^\delta/\delta\), for rational
+\(\delta>0\), bounds all fixed polynomial prefactors by fractions
+of these negative exponents for every sufficiently large \(L\).
+It supplies a terminating search for a sufficient threshold valid at
+\emph{every} larger size. Enlarge it for cutoff floors, source hulls,
+\eqref{f4:failure} at most \(1/16\), and
+\(H_k+T^k+C<2^{N_{\rm cap}}-1\). The same power comparison proves
+the latter inequality. Only \(w_n\) and canonical finite initialization
+margins depend on \(n\). This yields total computable \(L_4(n)\).
+Choose \(c_4\) as in Table~\ref{f4:order-b}, enlarging the threshold
+for floors and the fixed elementary depth per round. Every requested
+elementary time through \(e^{c_4L^{\alpha_4}}\) is covered.
+
+Let GOOD mean absence of both source exceptions and every geometric
+\(N_k\) in that extended collection. It is exogenous, independent of
+logical amplitudes. On GOOD, joint level reduction gives the identity
+at aligned boundaries. At an arbitrary elementary readout retain all
+actual in-flight semantic data, syndrome, ports, masks holding quantum
+data, quantum-derived work and undeleted helpers. Ignore received
+metadata. Append the fixed intended future quantum circuit to the
+next aligned \(T^k\) boundary, with no added noise, using intended
+selectors and controls. Complete every already-started permission cut,
+refresh, gather and cleanup on its actual factors before its scheduled
+reset/disposal. A helper holding the old target is retained until then.
+Only wholly future complete live cuts, whose reference action is
+identity, may be omitted. In particular the suffix of a live Fredkin
+cannot be omitted after its first CNOT. Introduce fresh external work
+only for new lifetimes.
+
+Lemma~\ref{f4:dispatch-partial} places discrepancies in the same
+budgeted primitive root family. Delete future bad roots and redo the
+deterministic reduction; the geometric predicates are monotone.
+The same fixed bottom-up Knill--Laflamme recovery restores the Bell
+state on GOOD, including arbitrary complex amplitudes and reference.
+It is a total decoder depending only on \(n,L,t\). Averaging CPTP
+histories gives fidelity at least \(\Pr(\mathrm{GOOD})\ge15/16\).
+The initialization was independent of both requested time and rate.
+\end{proof}

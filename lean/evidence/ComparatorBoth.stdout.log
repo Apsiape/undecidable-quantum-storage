@@ -1,0 +1,33 @@
+Resolving dependencies
+Building Challenge
+ℹ [1/1] Ran QuantumStorage/Challenge
+info: stdout:
+Challenge.lean:48:8: warning: declaration uses `sorry`
+Challenge.lean:122:8: warning: declaration uses `sorry`
+Build completed successfully (1 job).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, QuantumScope.bell_sharing_bound, CertificationScope.abstract_window_certification, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from Challenge
+Building Solution
+ℹ [1/1] Ran QuantumStorage/Solution
+info: stdout:
+'CertificationScope.abstract_window_certification' depends on axioms: [propext, Classical.choice, Quot.sound]
+QuantumStorage/BellTensor.lean:92:38: warning: This simp argument is unused:
+  Matrix.sum_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [partialTraceRight]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QuantumStorage/BellSharing.lean:11:32: warning: Variable name `hT` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hT
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+'CertificationScope.abstract_window_certification' depends on axioms: [propext, Classical.choice, Quot.sound]
+'QuantumScope.bell_sharing_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (1 job).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, QuantumScope.bell_sharing_bound, CertificationScope.abstract_window_certification, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from Solution
+Running Lean default kernel on solution
+Lean default kernel accepts the solution
+Your solution is okay!
+{"task":"ComparatorBoth","exit":0,"wall_seconds":110}

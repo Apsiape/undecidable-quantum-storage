@@ -7,11 +7,16 @@ store a reference-entangled qubit for an exponential number of rounds;
 halting windows destroy every encoding after a time independent of size.
 The two media occupy six dimensions and use seven elementary gates.
 The three-dimensional construction retains a sharp linear storage scale.
+A further whole-site medium gives stretched-exponential storage on the
+undecidable windows in four dimensions.
+Lean 4 with Mathlib verifies the Bell-sharing bound
+(Lemma~\ref{f:bell}) and conditional window certification
+(Theorem~\ref{lean:conditional}); Appendix~\ref{app:lean} gives the scope.
 
 Fix a universal machine \(U\), and write \(U(n)\uparrow\) or
 \(U(n)\downarrow\) for nonhalting or halting on input \(n\). The precise
-model and fidelity convention are in Section~\ref{s:model}. Here time
-counts repetitions of one fixed finite circuit, called a round.
+model and fidelity convention are in Section~\ref{s:model}. Unless specified as elementary-layer time, time counts repetitions of
+one fixed finite circuit, called a round.
 
 The original three-dimensional construction has a sharp lifetime scale.
 \begin{maintheorem}\label{thm:main}
@@ -50,6 +55,28 @@ coarse \(\exp(O_n(L^4))\) lifetime upper bound and exact
 \(\Pi^0_1\)-complete certification for these exponential media.
 The matching linear upper bound applies to Theorem A.
 
+Beyond-polynomial storage on the undecidable windows requires only four dimensions under whole-site noise.
+\setcounter{maintheorem}{3}
+\begin{maintheorem}\label{thm:four-dimensional}
+For whole-site depolarization after every elementary layer, a computably
+specified, translation-invariant, time-periodic finite-range circuit on
+\(\Z^4\) with the same seven gates has computable disjoint rational
+windows \(I_n\). For rationals \(c_4,\alpha_4>0\), independent of \(n\):
+if \(U(n)\uparrow\), one encoder keeps entanglement fidelity at least
+\(15/16\) at every rate in \(I_n\) and every elementary-layer time
+\(t\le\exp(c_4L^{\alpha_4})\), for all \(L\) above a computable threshold
+\(L_4(n)\); if \(U(n)\downarrow\), every encoding is destroyed after a
+time uniform in \(L\) and the window.
+\end{maintheorem}
+Here \(L\) is the torus side length. We call it Theorem D because
+Appendix C already contains Proposition C.1, a different four-dimensional
+result. Its encoder and decoders are total computable and independent
+of the rate and the halting answer.
+The detailed scope is Theorem~\ref{f4:detailed}. Its exponent is
+astronomically small, below \(2\cdot10^{-4}\); no lifetime upper bound
+is proved for this medium.
+
+
 
 For Theorem A, storage time is the last time at which some encoder and decoder reach
 entanglement fidelity \(7/8\). If \(U(n)\) never halts, then for every
@@ -65,7 +92,7 @@ Finite systems forget in both cases. Independent full-support noise has
 a positive chance of replacing every site in one layer; this eventually
 removes the input. The distinction is the size dependence of useful
 storage time. For Theorem A, linear storage is optimal even
-though the constants in the two bounds differ enormously. Both theorems are existence results: their local dimensions,
+though the constants in the two bounds differ enormously. All three theorems are existence results: their local dimensions,
 interaction ranges and noise scales are astronomical. Each site carries a fixed number of
 qubits, and one layer may apply many gates of at most three qubits at
 the same site, on disjoint qubits; the noise then acts once per site
@@ -119,6 +146,15 @@ contains a local violation or a wrong rate test, or lies in a square small
 enough that its counter expires; permission then dies, and with it every
 encoding.
 
+For Theorem D, the same static cap occupies two coordinates and is
+protected in two transverse directions. A separate protected classical calendar schedules
+a concatenated quantum code along a chain. Folding its cycle into a
+segment uses two semantic qubits per site and keeps the interaction range fixed.
+The code hierarchy reaches a fixed fraction of the system size. Short
+error explanations have consistent source names on the torus; longer
+ones have an exponentially small probability. This yields a
+stretched-exponential storage guarantee in four dimensions.
+
 For Theorem A, each site runs a noisy classical computation beside a quantum chain.
 A second, transversely protected classical field supplies the calendar
 for concatenated quantum error correction; higher clocks and programs
@@ -171,7 +207,8 @@ G\'acs--Reif; G\'acs; Aharonov--Ben-Or; Harrington
  & Hierarchical reliable computation and quantum correction & Protected schedules and encoded gates\\[3pt]
 Douglas--Mghirbi & Noisy classical local rules & Ergodicity and computable noise-window selection\\[3pt]
 This paper, Theorem A & Fixed seven-gate circuits on \(\Z^3\); physical noise rate & Sharp linear storage, bounded forgetting, exact certification\\[3pt]
-This paper, Theorem B & Separate seven-gate W/Q circuits on \(\Z^6\); physical noise rate & Exponential storage lower bound versus size-uniform forgetting on effective windows\\
+This paper, Theorem B & Separate seven-gate W/Q circuits on \(\Z^6\); physical noise rate & Exponential storage lower bound versus size-uniform forgetting on effective windows\\[3pt]
+This paper, Theorem D & Seven-gate W circuit on \(\Z^4\); physical noise rate & Stretched-exponential storage lower bound versus size-uniform forgetting on effective windows\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -190,7 +227,8 @@ combines hierarchical reliable classical computation
 undecidable noise-window structure with destruction for every encoding;
 for Theorem~A, a sharp linear storage scale and exact certification;
 for Theorem~B, exponential storage on the undecidable windows
-themselves.
+themselves; for Theorem~D, a stretched-exponential guarantee there in
+four dimensions under whole-site noise.
 Harrington's hierarchical local decoder
 \cite{Harrington2004} is an early quantum-memory precedent. The exponential constructions use the toric-code and sweep lineage of
 Dennis, Kitaev, Landahl and Preskill \cite{DKLP2002}, Ahn
@@ -207,9 +245,18 @@ fixed-noise ergodicity, undecidable phase diagrams, and an uncomputable
 noise diagram \cite{DMFixed2026,DMPhase2026,DMNoise2026}. Those works
 supply the finite computational charts and classical probability
 estimates. Version 1.0.0 of this paper \cite{DMQuantum2026} already proved the
-linear quantum bridge and a designed exponential window. The addition
-here places exponential storage on the undecidable windows, with
-destruction uniformly over every encoding on the halting branch.
+linear quantum bridge and a designed exponential window. Version 2.0.0 \cite{DMQuantumV200} already supplies the static cap,
+canonical initializer, correlated-source method and six-dimensional
+Theorem B, together with Section~\ref{sec:quantum}'s real code gadgets
+and Section~\ref{sec:forgetting}'s full-channel sharing argument.
+Theorem D combines those published ingredients, including the
+private-port dispatcher of Section~\ref{d:dispatch} and the fold of
+virtual cycles into physical sheets with sheet-typed fault labels from
+Appendices~\ref{sec:fold-controls}--\ref{sec:folded}, with whole-state
+periodic calendar resets, exclusive port selection and a torus source
+analysis that controls aliases of the same physical fault. Its new
+conclusion is beyond-polynomial storage on the undecidable windows in
+four dimensions for whole-site noise.
 
 Appendix~\ref{sec:coexistence} retains a separate four-dimensional
 construction. Proposition~\ref{p:coexistence} gives one independent-qubit
@@ -229,6 +276,16 @@ proof, a coarse lifetime upper bound and exponential-horizon
 certification are in Section~\ref{sec:exponential}; the discussion
 states the remaining dimensional and matching-lifetime questions.
 
+\paragraph{Changes in 2.1.0.}
+Theorem D lowers the dimension of beyond-polynomial storage on the
+undecidable windows from six to four for whole-site noise.
+Section~\ref{sec:four-dimensional} gives the construction and proof;
+Appendices~\ref{app:f4-calendar}--\ref{app:f4-sources} prove the added
+calendar, folded-dispatch and torus-source lemmas. Theorems A and B and
+Appendices A--C retain their previous mathematical statements.
+Appendix~\ref{app:lean} adds Lean verification of Lemma~\ref{f:bell}
+and the printed conditional abstraction of Theorem~\ref{a:complete}.
+
 \subsection*{Reading guide}
 Section~\ref{s:model} states the model and full quantifiers.
 Sections~\ref{sec:controller} and~\ref{sec:compilation} give the classical
@@ -245,3 +302,8 @@ alternative and final channel argument.
 Quantum-information readers can take the explicitly stated classical
 chart interface as an input. The folded-code and exponential-coexistence
 proofs are in Appendices~\ref{sec:fold-controls}--\ref{sec:coexistence}.
+
+Section~\ref{sec:four-dimensional} can be read after the code and
+normalizer lemmas of Section~\ref{sec:quantum} and the static cap of
+Section~\ref{sec:exponential}. Its dependency tables specify the
+constant order; its appendices contain the new source and fold proofs.

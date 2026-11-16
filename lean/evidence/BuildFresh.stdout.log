@@ -1,0 +1,39 @@
+⚠ [2747/2759] Built QuantumStorage.Definitions (11s)
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.Analysis.Matrix.PosDef` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.LinearAlgebra.Matrix.Trace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.Computability.Halting` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.Computability.Reduce` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.Analysis.Polynomial.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [2750/2759] Built QuantumStorage.BellFoundation (3.6s)
+✔ [2752/2760] Built QuantumStorage.CertificationComputability (1.4s)
+⚠ [2754/2760] Built QuantumStorage.BellMarginal (2.2s)
+warning: QuantumStorage/BellMarginal.lean: imports `Mathlib.Logic.Equiv.Prod` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2756/2760] Built QuantumStorage.CertificationElementary (1.8s)
+warning: QuantumStorage/CertificationElementary.lean: imports `Mathlib.Topology.Algebra.Polynomial` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2757/2760] Built QuantumStorage.BellTensor (1.9s)
+warning: QuantumStorage/BellTensor.lean:92:38: This simp argument is unused:
+  Matrix.sum_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [partialTraceRight]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ℹ [2758/2760] Built QuantumStorage.Certification (1.3s)
+info: QuantumStorage/Certification.lean:24:0: 'CertificationScope.abstract_window_certification' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [2759/2821] Built QuantumStorage.BellDecoder (2.3s)
+warning: QuantumStorage/BellDecoder.lean: imports `Mathlib.Data.Fin.Tuple.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2828/2833] Built QuantumStorage.BellOperator (2.2s)
+warning: QuantumStorage/BellOperator.lean: imports `Mathlib.LinearAlgebra.Matrix.Gershgorin` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/BellOperator.lean: imports `Mathlib.Analysis.Matrix.Order` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [2829/2833] Built QuantumStorage.BellInsertion (2.1s)
+✔ [2830/2833] Built QuantumStorage.BellExpectation (1.0s)
+⚠ [2831/2833] Built QuantumStorage.BellSharing (1.6s)
+warning: QuantumStorage/BellSharing.lean:11:32: Variable name `hT` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hT
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [2832/2833] Built QuantumStorage (1.3s)
+Build completed successfully (2833 jobs).
+{"task":"BuildFresh","exit":0,"wall_seconds":47}

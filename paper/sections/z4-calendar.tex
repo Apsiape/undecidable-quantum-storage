@@ -1,0 +1,188 @@
+\section{Periodic calendars and raw sources on a torus}\label{app:f4-calendar}
+The following extension of Section~\ref{d:calendar-section} supplies a
+reference at every time, including times longer than any one calendar
+period. Write \(P=2^{r_{\rm exp}}\), \(T=P^4\).
+
+\begin{lemma}[Whole-state periodic calendar]\label{f4:periodic}
+For each fixed even \(s_{\rm top}\) and \(k\ge1\), a total finite
+initialization on the cycle of length \(m=s_{\rm top}P^k\) implements the
+repeated \(k\)-fold encoded identity, with aligned quantum periods
+\(T^k\). Its complete classical state has temporal period dividing
+\(T^{k+1}\). The virtual tower before the fixed fold decoration has initial spatial period dividing \(P^k\).
+\end{lemma}
+\begin{proof}
+Use the local interpreter of Section~\ref{d:calendar-section}, with
+one additional requirement on its final phase: after committing the
+next information and completing quantum-port use, return every
+auxiliary field to its canonical age-zero value. The fields of one
+virtual calendar cell are specified in Table~\ref{f4:fields}. The
+word ``blank'' denotes the fixed zero encoding of the corresponding
+finite register; a head has the one declared start marker at address
+zero and the no-head marker elsewhere. These conventions apply also
+to deadline/default branches. The address and program are read-only.
+A simulation-mode cell advances age modulo \(T\); an idle-mode cell
+advances the same clock and blanks its irrelevant work.
+
+\begin{table}[!htp]
+\caption{Complete calendar state at age zero. Distributed fields have
+one indicated bit or symbol per cell of a \(P\)-block.}\label{f4:fields}
+\small\centering
+\begin{tabular}{@{}p{.29\textwidth}p{.65\textwidth}@{}}
+\toprule Field & Canonical value or retained information\\\midrule
+Address & Its fixed residue modulo \(P\); zero in every top idle cell.\\
+Age & Zero modulo \(T\).\\
+Mode & Prescribed simulation or top idle mode.\\
+Old information & The encoded virtual state string; blank padding.\\
+Next information & Blank, after its contents have been committed.\\
+Left, centre, right copy tapes & All blank.\\
+Program & One bit of the fixed description of the total local algorithm;
+blank padding; blank in every top idle cell.\\
+TM tape & Blank auxiliary tape; read-only input/program roles retained
+in their own fields.\\
+TM head and state & Start state at address zero, no head elsewhere.\\
+Broadcast gate field & Idle/default port labels.\\
+Phase and handshake scratch & Blank; phase is determined by age.\\
+Current native request & The scheduled age-zero instruction, here idle;
+computed from age, address and broadcast fields.\\
+Fold boundary and parity & Prescribed left/right/interior/outside flags
+and virtual parity, retained by the logical rule.\\
+Private old-word and selector copies & Blank at module boundaries;
+reset before each use and after disposal.\\\bottomrule
+\end{tabular}
+\end{table}
+
+The boundary/parity fields are fixed labels of the fold, and the
+private copies are compiler work. Neither belongs to the simulated
+virtual word; because both are constant or blank at every round boundary,
+the identity below extends to the full physical calendar. Inside a clean period, copy the three old strings, interpret one local
+transition, broadcast its old instruction, execute its encoded table,
+commit, and clean. Communication is \(O(P)\), computation is polynomial
+in \(\log(P,T)\), and the fixed routed table takes at most \(C_QP^2\)
+steps. Canonicalization has the same local tape traversal bounds.
+Thus a sufficiently large fixed power of two makes all phases fit in
+\(T=P^4\). Define the revised total algorithm before writing its finite
+description into the program field, as in Section~\ref{d:calendar-section}.
+
+Let \(E_S(y)\) encode a cyclic word \(y\) in age-zero simulation
+blocks with precisely these canonical fields, and let \(\mathcal C_S\)
+be the clean logical transducer. Literal interpretation and the resets
+give an identity on the \emph{entire} word,
+\[
+ \mathcal C_S^T E_S(y)=E_S(\mathcal C_S y).
+\]
+At the cyclic seam the same local neighbor communication applies as at
+any block seam. Induction gives
+\(\mathcal C_S^{T^k}E_S^k(y)=E_S^k(\mathcal C_Sy)\).
+The uniform idle top word has clock period \(T\), spatial period one,
+and identity instruction at every time. Its encoded word therefore
+returns after \(T^{k+1}\), with initial spatial period dividing \(P^k\).
+The exact port identity of Section~\ref{d:calendar-section} gives the
+repeated encoded quantum identity in aligned periods \(T^k\).
+The deterministic local evolution between returns defines all times.
+\end{proof}
+
+\begin{lemma}[Raw finite-torus cutoff]\label{f4:raw}
+Consider a fixed collection of whole-symbol quorum covers using the
+three \(16\)-by-\(16\) provider boxes of \eqref{eq:c-boxes}, with a
+fixed finite logical stencil in the other coordinates. Before the
+initial source slab the error reference is empty. Suppose one fresh
+wrong site-time name has at most \(K_0\) raw causes, and one actual
+Bernoulli \(p\) site-time flag causes at most \(c_0\) such names.
+Let \(R_{\rm phys}\) bound spatial infinity-steps of the complete
+contour and source-star catalogue. Put
+\(N_0=\lfloor(L-1)/R_{\rm phys}\rfloor\ge24\).
+For a horizon \(H\), an exceptional event has probability at most
+\[
+ C_{\rm raw}(H+C_{\rm raw})L^d
+ K_{\rm raw}^{N_0+1}p^{N_0/(72c_0)}.
+\]
+Outside it every wrong use has a connected certificate with \(g\)
+distinct actual raw names, at most \(C_{\rm w}g\) edges and at most
+\(K_{\rm w}^g\) anchored descriptions. All probabilities are under
+the original law.
+\end{lemma}
+\begin{proof}
+Write good as one minus the error indicator. Away from fresh sources,
+the good cover is the OR over pairs of boxes of the AND of all required
+logical inputs in that pair. This is an acyclic typed dependence graph.
+The contour theorem and zero-sum identity of
+\cite[Theorem~22 and Lemma~41]{SST2026} apply to each realized source
+set, including its periodically correlated spatial lift.
+In the transverse coordinates \(u=(u_1,u_2)\) put
+\(\chi=u+58t(1,1)\), with poles
+\(3(\chi_1+\chi_2),-3\chi_1,-3\chi_2\).
+For the first pole use the two shifted boxes, and for the other two
+use the unshifted box and the box shifted in the other direction.
+Their gains are at least \(132,129,129\); the worst arbitrary backward
+gain is \(-351\). Logical offsets do not enter these poles.
+Every dependence edge goes one round backward in time. Time telescoping
+gives the same edge count \(j\) for each charge. The root is a source
+\cite[Definition~16]{SST2026}; for \(n\) sinks there are \(n-1\)
+nonroot-source edges of each charge. Pole cancellation yields
+\[
+ 0\ge3[129(j-n+1)-351(n-1)],\qquad
+ E=3j\le(480/43)(n-1)<12(n-1)
+\]
+for \(n>1\); a single fresh root has zero edges.
+
+For \(E\ge N_0\), root an abstract spanning tree at the contour root,
+a source of weight zero. Give all \(n\) sinks weight one; their images
+are distinct by \cite[Definition~17(i)]{SST2026}. With at most
+\(E<12(n-1)\) edges, its redundancy is below twelve. The separator
+\cite[Definition~2.11 and Theorem~2.14]{Gacs2021} with
+\(k_0=\lfloor N_0/12\rfloor<n-1\) gives a subtree with at most
+\(12k_0\le N_0\) edges and more than \(k_0/3\ge N_0/72\) marked
+original sinks. The separator's root convention assigns any removed
+root mark to the other piece, so the selected marks remain original
+sinks. Its spatial coordinate diameter is at most
+\(R_{\rm phys}N_0\le L-1\). Two lifts of the same physical site-time
+name would differ by an \(L\)-deck displacement in space; hence the
+selected sink names are distinct physically. They require more than
+\(N_0/(72c_0)\) distinct actual raw flags.
+
+Truncate above \(H\) before extraction. The empty past forces every
+vertex into the initial-to-\(H+O(1)\) time slab. There are at most
+\(C_{\rm raw}(H+C_{\rm raw})L^d\) possible projected roots. Ordered
+tree shapes, bounded edge increments, binary sink markings and at most
+\(K_0\) causes per mark have at most \(K_{\rm raw}^{N_0+1}\)
+descriptions. Apply the raw law only to admissible descriptions with
+distinct actual images; all other codes merely overcount cardinality.
+This proves the exceptional bound without assigning independent flags
+to periodic copies.
+
+Off that event a full explanation has fewer than \(N_0\) edges and
+injective sinks by the same diameter bound. If \(g\) actual causes
+occur, \(n\le c_0g\), so the complete contour and its fixed attachment
+stars have \(O(g)\) edges. Bounded degree gives exponential anchored
+entropy by traversing a spanning tree twice, recording finite edge
+and role choices. All occurrences of a cause attach to its one raw
+hub. Enlarging constants covers old/new time offsets and isolated roots.
+For sufficiently small fixed \(p\), the exceptional bound is at most
+\(C(H+C)L^d e^{-\beta_{\rm raw}L}\).
+\end{proof}
+
+The next lemma is the one-dimensional two-sheet case of the fold
+\eqref{q:fold-map}; Proposition~\ref{c:oriented-source} pays shared
+physical faults across sheets in the same way.
+
+\begin{lemma}[Two-role shadow]\label{f4:roles}
+Fold a cycle of length \(m=2\ell\) into \([0,\ell)\) on a physical
+circle of length \(L\ge4\ell\), using positions \(a_0(\sigma)=\sigma\)
+and \(a_1(\sigma)=m-1-\sigma\) on that interval. Each extends to a
+one-Lipschitz map into the virtual cycle. Duplicating each actual raw
+hub into two formal roles gives intersection weight at most
+\((\sqrt p)^g\) for \(g\) distinct formal names.
+\end{lemma}
+\begin{proof}
+For \(\ell\ge2\) define \(f(\sigma)=\sigma\) on \([0,\ell-1]\),
+\(f(\sigma)=2\ell-2-\sigma\) on \([\ell,2\ell-2]\), and zero
+thereafter. Set \(a_0=f\), \(a_1=m-1-f\) modulo \(m\).
+Every physical nearest-neighbor edge, including the torus seam,
+changes \(f\) by at most one; the reflected role has the same property.
+For \(\ell=1\) use constant \(f=0\). The map
+\((\sigma,t)\mapsto(a_r(\sigma),t)\) consequently has bounded
+increments on every fixed-range raw graph. At most two formal names
+refer to one physical flag, so \(g\) names require at least
+\(\lceil g/2\rceil\) independent flags. This proves the law.
+All uses of one actual name in one role retain that name.
+\end{proof}

@@ -1,0 +1,201 @@
+\section{Central-strip sources and the hierarchy}\label{app:f4-sources}
+Time \(t\) counts rounds; it is an integer and is never quotiented. Fix a physical quantum
+line at \((x,y,z)=(x_0,y_0,z_0)\), running along \(\sigma\), with
+fold maps \(a_r\) from Lemma~\ref{f4:roles}. A cap bin has height
+\(W\), bounded uniformly in the chosen window by a computable \(w\).
+Its actual source hub is
+\[
+ \lambda=(a=x-t,\ b=y,\ \chi=\sigma+58t,\ \zeta=z+58t,
+                         \ j=\lfloor t/W\rfloor),
+\]
+with the first four coordinates modulo \(L\) and \(j\) retained as
+an integer. A hub event \(X_\lambda\) is the union of raw, intrinsic
+and overlay events, with the distinct-actual-name intersection law
+\(\gamma_C^{|F|}\). Suppose each wrong use has a connected lifted
+witness with \(E\le c_Cg\) edges and \(g\) distinct lifted marked
+hubs, bounded degree and fixed increments in all five coordinates.
+Every retained bin is between zero and
+\(\lfloor(H+C_{\rm stage})/W\rfloor+C_{\rm bin}\).
+These inputs are verified for the actual circuit in
+Section~\ref{f4:actual-sources}.
+
+\begin{lemma}[Central-strip shadow]\label{f4:strip}
+For a sufficiently large fixed increment bound \(R\), put
+\(q_{\rm cut}=\lfloor L/[32R(w+1)]\rfloor\), decreasing it by one
+fixed factor if necessary to include root-use spurs. At all sufficiently
+large \(L/(w+1)\), one source shadow agrees with every quantum root
+and has fixed Lipschitz increments on every rooted witness with fewer
+than \(q_{\rm cut}\) edges.
+\end{lemma}
+\begin{proof}
+Choose the integer \(\tau(\lambda)\equiv x_0-a\pmod L\) nearest to
+\((j+\tfrac12)W\), with a fixed tie rule, and set
+\[
+ \pi_r(\lambda)=
+   (a_r(\chi-58\tau(\lambda)),\tau(\lambda)).
+\]
+At an exact quantum root \((\sigma,t)\), the time \(t\) has that
+congruence and belongs to its bin. Since \(W<L\), it is the unique
+nearest representative. The cut in round \(t\) uses the first coordinate computed in that
+round. If that output's hub is indexed by the next boundary, join it
+to the quantum-use root by its fixed one-round spur before counting
+edges. This is the timing convention throughout the proof.
+
+Lift a spanning tree from a root and put
+\(t_v=t_{\rm root}-(a_v-a_{\rm root})\). With increment bounds
+\(R_a,R_j\le R\), a path of \(i<q_{\rm cut}\) edges obeys
+\[
+ |t_v-(j_v+\tfrac12)W|
+ \le W/2+i(R_a+WR_j)
+ \le w/2+q_{\rm cut}R(w+1)<L/8.
+\]
+A bounded root spur is absorbed by the fixed reduction of the cutoff
+and a lower-size threshold. Thus this lift gives the unique midpoint
+representative at every vertex. Two paths cannot have nonzero
+\(L\)-monodromy in \(a\), since their total displacement is below
+\(2Rq_{\rm cut}<L\). The same reasoning identifies repeated lifted
+occurrences projecting to one actual hub. On each selected edge,
+\(|\Delta\tau|\le R_a\), and the physical \(\sigma\)-shadow changes
+by at most \(R_x+58R_a\). Lemma~\ref{f4:roles} preserves this bound.
+The globally defined midpoint map is therefore consistent on all
+selected short witnesses, with the same value for each actual name.
+Only those edges are used; edges crossing an arbitrary representative
+branch cut elsewhere in the quotient graph need not be Lipschitz.
+\end{proof}
+
+\begin{lemma}[Long cap witnesses]\label{f4:cap-exception}
+For sufficiently small fixed \(\gamma_C\), the event that any needed
+cap explanation through \(H\) has at least \(q_{\rm cut}\) edges
+has probability at most
+\[
+ C_{\rm cap}(H+C_{\rm cap})L^4
+           \exp[-\beta_{\rm cap} L/(w+1)].
+\]
+Outside this event every needed cap use has a complete short certificate
+with distinct actual names and the shadow of Lemma~\ref{f4:strip}.
+\end{lemma}
+\begin{proof}
+Increase \(c_C\ge1\) for isolated roots and fixed stars. A connected
+\(E\)-edge witness has a spanning-tree depth-first walk of length at
+most \(2E\). Assign each distinct lifted mark to its first visit and
+partition the walk into pieces of at most \(q_{\rm cut}\) edges,
+retaining shared boundary vertices. For \(E\ge q_{\rm cut}\) the
+number of pieces is at most \(2E/q_{\rm cut}+1\le3c_Cg/q_{\rm cut}\).
+Some piece therefore contains at least \(q_{\rm cut}/(3c_C)\)
+assigned distinct lifted marks. For a sufficiently reduced fixed cutoff
+its characteristic diameters are below \(L/2\). Distinct lifts of
+one actual hub have the same integer bin and differ by an \(L\)-deck
+vector in a spatial characteristic. They cannot both occur in this
+piece. Its marks are distinct actual names before their law is applied.
+
+The causal bin bound supplies at most \(C(H+C)L^4\) starting vertices.
+Finite degree, roles and mark subsets give at most
+\(K_{\rm cap}^{q_{\rm cut}+1}\) descriptions per start. For each
+admissible description apply the actual source law to its distinct
+marks; other codes only overcount. Hence the exceptional probability
+is at most
+\[
+ C(H+C)L^4 K_{\rm cap}^{q_{\rm cut}+1}
+             \gamma_C^{\lfloor q_{\rm cut}/(3c_C)\rfloor}.
+\]
+Choose the source cap after \(c_C,K_{\rm cap},R\) to make its
+exponential base less than one. Floors and small cutoffs are absorbed
+in a fixed threshold and prefactor. This proves the bound. Every
+remaining complete explanation is short, and the same diameter
+argument makes all its marked names injective. Select a minimal one
+if several are available. The estimate is unconditional.
+\end{proof}
+
+\begin{lemma}[Mixed roles and gluing]\label{f4:mixed}
+Let raw hardware/calendar names have joint law \(p_H^{|F|}\), with
+one actual hub for every use of the same site and round. Duplicate
+cap and raw names into two formal fold roles, retaining their underlying
+events. For \(g_C,g_H\) distinct formal names of the two families,
+\[
+ \Pr(\hbox{all requested events})
+ \le\gamma_C^{g_C/4}p_H^{g_H/4}
+ \le\gamma_{\rm eff}^{g_C+g_H},\qquad
+ \gamma_{\rm eff}=\max(\gamma_C^{1/4},p_H^{1/4}).
+\]
+Gluing complete cap and raw witnesses at their actual quantum-use
+roots and adding the dispatcher stars gives bounded degree, fixed
+edge/source size and one Lipschitz shadow on all admitted short
+certificates.
+\end{lemma}
+\begin{proof}
+Each family names at least half as many actual hubs as formal names.
+Apply its joint law, then Cauchy--Schwarz between the two possibly
+dependent families. This gives the fourth powers displayed above.
+Raw calendar errors and direct hardware uses are annotations of one
+raw hub; raw/statistical/overlay cap types and old/new occurrences
+remain annotations of one cap hub.
+
+For a fixed cap coordinate and bin at the quantum line, \(a=x_0-t\)
+determines time modulo \(L\), and \(W<L\) permits at most one such
+time in the bin. The remaining coordinates fix the quantum root.
+The gluing degree is consequently bounded; fixed root-use spurs only
+enlarge this bound finitely. Shadows agree at the common root by the
+timing convention of Lemma~\ref{f4:strip}. Raw shadows use literal
+\((\sigma,t)\) followed by \(a_r\). Dispatcher attachment stars have
+fixed increments in each formal role, including the unfinished-module
+station envelope. Existing source names are retained throughout.
+The claimed size, entropy and shadow properties follow by enlarging
+these fixed catalogue constants once. Shared physical flags across
+two roles have already been paid by the fourth-root weight.
+\end{proof}
+
+\begin{lemma}[Alias-safe source recursion]\label{f4:recursion}
+Suppose the scheduled circuit has complete regular boxes of length
+\(P^\ell\), time height \(T^\ell\), fixed child-index halos, at most
+\(A_{\rm rec}\) candidate pairs, and two full bad child supports
+separated by \(\rho_{\rm gap}P^\ell\) whenever a parent is bad.
+Root counts are polynomial in \(P^\ell\). Choose \(s_{\rm top}\)
+larger than the complete halo and \(s_{\rm top}P^k\le L/2\).
+At a sufficiently small fixed source cap, short-certified bad-box
+events under the original physical law satisfy
+\[
+ \Pr(N_\ell^{\rm sh})\le z_\ell\le D\,2^{-2^\ell},\qquad
+ D=1/(2\bar A),\quad \bar A=\max(1,A_{\rm rec}),\quad0\le\ell\le k.
+\]
+The exceptional events of Lemmas~\ref{f4:raw} and
+\ref{f4:cap-exception} are paid separately.
+\end{lemma}
+\begin{proof}
+A base root is short-certified if it has one of the admitted complete
+certificates. Define the geometric bad-box predicate from these roots
+under the original law. Outside the two exceptions this includes all
+actual bad base roots. Work with sums of source weights of fully
+embedded, recursively pruned certificates, as in Lemma~\ref{d:recursion}.
+At a parent of level-\(\ell\) children, if a primitive witness has full
+graph length
+at least \(\epsilon_{\rm sh}P^\ell\), discard its entire repeated
+subtree and pay that witness once. Bounded anchored entropy and the
+joint source law bound this contribution by
+\(B_{\rm tail}P^{d_0\ell}e^{-a_{\rm tail}P^\ell}\).
+Choose \(\epsilon_{\rm sh}\) so a shorter witness has shadow reach
+below one third of the separated-support gap. The selected two child
+certificates then have disjoint formal source-name sets, because every
+name has one shadow. Their joint weight is the product of their
+weights. Within a child apply the same pruning recursively. Full halos
+are local cycle arcs by the choice of \(s_{\rm top}\); time stays
+unquotiented. The resulting sum satisfies
+\[
+ z_{\ell+1}\le A_{\rm rec}z_\ell^2+
+       B_{\rm tail}P^{d_0\ell}e^{-a_{\rm tail}P^\ell}.
+\]
+This multiplies weights of disjoint names, not marginal bad-box
+probabilities. A witness longer than the scale threshold is still
+counted at its full length. If that threshold exceeds the cap cutoff,
+there are simply no admitted cap witnesses in that case.
+
+Choose the fixed cap so that \(z_0\le1/(4\bar A)\) and
+\[
+ a_{\rm tail}\ge\max(0,\log(4\bar A B_{\rm tail}))
+                 +d_0\log P/P+2\log2.
+\]
+Exactly the comparison in Lemma~\ref{d:recursion} makes the remainder
+at most \((D/2)2^{-2^{\ell+1}}\); the squared term has the same bound
+since \(A_{\rm rec}D^2\le D/2\). Induction proves the claimed form,
+with exponent \(\log2\), uniformly in the window. None of these laws
+is conditioned on absence of the exceptional events.
+\end{proof}
