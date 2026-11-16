@@ -1,45 +1,74 @@
 \section{Discussion}\label{a:discussion}
+The physical noise rate of a fixed seven-gate circuit can select between
+exponentially long quantum storage and destruction after a time
+independent of size. Theorem B proves this in six dimensions, with
+separate circuits for whole-site and per-qubit noise. Theorem A retains
+the sharp three-dimensional linear scale and exact promised
+\(\Pi^0_1\) certification. Proposition~\ref{p:coexistence} retains a
+four-dimensional single-qubit medium with a designed decidable
+exponential window; its universal windows remain linear.
 
-One fixed circuit in each noise model has a sharp linear-versus-bounded
-storage diagram on effective noise windows. The seven-gate inventory
-has rational channel matrices, allowing exact finite certification tests.
-The classical selector builds on the authors' noise-window and
-fixed-noise constructions \cite{DMFixed2026,DMNoise2026,DMPhase2026},
-in the tiling and reliable-computation tradition of Robinson, Kari,
-Toom, Berman--Simon and G\'acs
-\cite{Robinson1971,Kari1992,Toom1980,BermanSimon1988,Gacs2001}.
-The classical hierarchy draws on G\'acs and its transverse protection on
-G\'acs--Reif; the quantum hierarchy uses Aharonov--Ben-Or's coherent CSS
-designs \cite{Gacs2001,GacsReif1988,ABO1999,ABO2008}.
+The computational charts and noise-window selector are published
+ingredients of our earlier classical work
+\cite{DMFixed2026,DMNoise2026,DMPhase2026}, in the tiling and
+reliable-computation tradition of Robinson, Kari, Toom, Berman--Simon
+and G\'acs \cite{Robinson1971,Kari1992,Toom1980,BermanSimon1988,Gacs2001}. Version 1 of this paper
+\cite{DMQuantum2026} already supplied the seven-gate compiler, the
+coherence, old/new density, slab-packing and H\"older methods of
+Section~\ref{sec:controller}, common-recovery interfaces, the
+full-channel sharing argument and the designed finite-torus exponential
+estimate. Theorem B adds static capped
+operation, a density law for names that seed two formal vertices, a total
+static initializer, and complete correlated-source accounting on the
+undecidable windows. Its finite counter avoids the causal-chart
+ceiling while the original-active death rule retains the all-start
+halting alternative.
 
-Positive autonomous-memory results include D\"unnweber--Styliaris--Trivedi,
-Drechsler--Oreg--Aharonov and Balasubramanian--Davydova--Lake
-\cite{DST2026,DOA2026,BDL2026}; Ponarovsky proves local sweep fault
-tolerance with noiseless bounded-depth classical processing \cite{Ponarovsky2026}.
-Harrington and Selub--Bhardwaj--Lake supply further hierarchical and local
-decoder context \cite{Harrington2004,SBL2026}. The four-dimensional
-appendix belongs to the topological/sweep lineage
-\cite{DKLP2002,Ahn2004,KubicaPreskill2019,VBK2021,PCC2011}; its
-finite-torus estimate carries no priority claim. Thermal and dissipative
-memory address related models \cite{Alicki2010,BDLin2026,KumarWeimer2026},
-while Hamiltonian protection and space-overhead bounds concern
-complementary resources \cite{PKSC2009,FMSh2022}.
-
-Undecidable spectra, quantum phase diagrams, relaxation and channel
-properties precede this operational question
+The memory ingredients belong to an established literature: Ahn's
+local higher-dimensional correction \cite{Ahn2004}, Kubica--Preskill's
+sweep rule \cite{KubicaPreskill2019}, Harrington's local hierarchy
+\cite{Harrington2004}, and G\'acs's reliable self-simulation
+\cite{Gacs2001}, with transverse protection in G\'acs--Reif
+\cite{GacsReif1988}. D\"unnweber--Styliaris--Trivedi already combine
+G\'acs-style control with a measurement-free concatenated code
+\cite{DST2026}. Related 2026 results include the local toric-code
+automaton of Balasubramanian--Davydova--Lake \cite{BDL2026}, the
+classical-to-quantum correspondence of Drechsler--Oreg--Aharonov
+\cite{DOA2026}, and Ponarovsky's local sweep fault tolerance with
+noiseless bounded-depth classical processing \cite{Ponarovsky2026}.
+Selub--Bhardwaj--Lake give further local decoder context
+\cite{SBL2026}. Thermal and dissipative memories address related
+models \cite{Alicki2010,BDLin2026,KumarWeimer2026,PCC2011}; Hamiltonian
+protection and space-overhead bounds concern complementary resources
+\cite{PKSC2009,FMSh2022}. Undecidability of spectra, phase diagrams,
+relaxation and channel properties precedes this operational question
 \cite{CPGW2015,BCW1D2020,BCW2021,PLC2024,ShiraishiMatsumoto2021,WCPG2011,
 EMG2012,KGE2014,DeLasCuevas2016,BMZ2026}.
-Bausch--Cubitt--Watson's machine-input intervals have a halting-side
-existential width; here both-branch windows are computably supplied.
-Our observable is a reference-entangled qubit under repeated noisy
-local dynamics, with a destruction alternative covering every encoding.
 
-The reserved four-dimensional exponential window is designed and
-decidable. Exponential storage on an undecidable window, in particular
-on every universal nonhalting window, remains open. A new controller
-would have to overcome the finite-torus chart ceiling while retaining
-all-encoding halting destruction. Two dimensions, smaller site dimension,
-nearest-neighbour geometry and noise after every gate rather than after
-every layer require further constructions. The whole-channel EB time
-here grows with \(L\); the distinct halting Bell ceiling is uniform in
-\(L\).
+The remaining questions include exponential storage on undecidable
+windows below dimension six, undecidable storage in two dimensions,
+a matching \(\exp(O_n(L))\) lifetime upper bound for the exponential
+media, giving \(\exp(\Theta(L))\) lifetime on nonhalting windows.
+Proposition~\ref{v:certification} gives the coarse
+\(\exp(O_n(L^4))\) upper bound and exact \(\Pi^0_1\)-complete
+certification. Smaller site dimension, nearest-neighbour
+geometry and noise after every gate rather than after every layer also
+require further constructions. The diagonal-band source cost of
+Lemma~\ref{v:wrapped} leaves the continuing-noise wrapped-band
+catastrophe hazard open.
+
+\subsection*{Proof status}
+The compiler, encoders, finite searches and constant choices are total
+mathematical prescriptions; their tables and circuits were not
+materialized, and the finite catalogue constants of
+Section~\ref{sec:exponential} enter only through their finiteness and a
+noncircular order of choice. The refutation-first checks of Theorem~B
+re-derived the cap geometry and counter, the static and all-start
+halting alternatives, Lemma~\ref{v:density}, the totality of the encoder
+of Lemma~\ref{v:encoder}, the per-qubit layer, the alias-free extraction,
+the order of choices, the windows and Lemma~\ref{v:wrapped}. They
+checked against the text, without re-deriving, the encoder's success on
+nonhalting inputs, the numerical catalogue constants, the group-contour
+construction inside Lemma~\ref{v:bridge}, and the proofs of the
+published results imported from \cite{DMNoise2026,SST2026} and from
+Sections~3 and~6 and Appendices~B--C. There is no machine-verified proof.

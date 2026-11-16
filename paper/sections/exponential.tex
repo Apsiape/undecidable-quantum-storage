@@ -1,0 +1,227 @@
+\section{Exponential storage on the undecidable windows}\label{sec:exponential}
+The finite-torus ceiling in Section~\ref{sec:ceiling} arises because a
+causal chart must continue across successive time diagonals. We instead
+place a static chart in a finite square and attach a finite counter.
+Two coordinates carry this square; four transverse coordinates carry a
+closed toric code. The classical rule is protected in two of the latter
+coordinates and copied in the other two.
+
+\begin{theorem}[Exponential storage, both noise models]\label{v:detailed}
+For each \(\mathsf r\in\{\mathrm W,\mathrm Q\}\) there is a separately
+compiled, computably specified, translation-invariant, finite-range,
+time-periodic circuit on \(\Z^6\), with \(N_{\mathsf r}\) qubits per
+site and elementary inventory
+\(\{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}\), of arity at most
+three. Noise in realization \(\mathsf r\) acts after every elementary
+layer on every factor, including idle, reset, controller, timer, helper,
+probe, port and work factors. There are computable pairwise disjoint
+nonempty rational open intervals \(I_n^{\mathsf r}\), a rational
+\(c_{\mathrm e}>0\) independent of \(n\) and the same for both media,
+and total computable thresholds
+\(L_{\mathrm e}^{\mathsf r}(n)\), with these properties on
+\((\Z/L\Z)^6\), using fidelity \eqref{eq:fidelity}.
+\begin{enumerate}
+\item Total computable maps \(\cE^{\mathsf r}_{n,L}\) and
+\(\cD^{\mathsf r}_{n,L,t}\), independent of \(\eps\) and of the halting
+answer, satisfy
+\[
+ F(\cE^{\mathsf r}_{n,L},\cD^{\mathsf r}_{n,L,t};L,t,\eps)\ge15/16
+ \quad\bigl(U(n)\uparrow,\ \eps\in I_n^{\mathsf r},\
+ L\ge L_{\mathrm e}^{\mathsf r}(n),\ 0\le t\le2^{\lfloor c_{\mathrm e}L\rfloor}\bigr).
+\]
+The same encoder serves every indicated integer time and rate.
+\item If \(U(n)\downarrow\), then for every \(\eta>0\) there is a finite
+\(C^{\mathsf r}_{n,\eta}\), independent of \(L\) and of
+\(\eps\in I_n^{\mathsf r}\), such that
+\(F^*_{L,\eps}(t)\le1/2+\eta\) for every \(L\), every such rate and
+every integer \(t\ge C^{\mathsf r}_{n,\eta}\). The supremum includes
+arbitrary encodings into the entire physical algebra and arbitrary
+initial controller, work, intersite and reference entanglement.
+\end{enumerate}
+The closures of the W windows lie in \((0,1)\); those of the Q windows
+lie in \((0,1/(2MK_{\rm samp}))\), where \(M,K_{\rm samp}\) are the fixed probe count and
+sampling depth chosen below. For each fixed rational \(0<\eta<3/8\),
+no total computable bound on \(C^{\mathsf r}_{n,\eta}\) as a function
+of \(n\) exists, by Proposition~\ref{v:certification}(iii).
+\end{theorem}
+
+These are new six-dimensional media. The sharp linear scale and
+certification in Theorem~\ref{thm:detailed} concern the original
+three-dimensional media. Proposition~\ref{v:certification} gives the
+exponential media a coarse \(\exp(O_n(L^4))\) lifetime upper bound and
+\(\Pi^0_1\)-complete certification by exact finite tests. A matching
+\(\exp(O_n(L))\) upper bound remains open. All interactions have fixed finite range, rather than a
+nearest-neighbour guarantee. The construction has astronomical
+constants: a depth-4096 query, a raw rate cap at most
+\(382205952^{-67440}/128\), an offset \(n_0\) of order a million or
+more, and very large helper, Boolean-depth, padding and probe parameters.
+Its windows decrease as \(4^{-n}/P_{\rm pad}\) in W and
+\(4^{-n}/(MK_{\rm samp})\) in Q;
+\(c_{\mathrm e}\) is a fixed tiny rational. The affine requirement
+that four independent quantum translations preserve two independent
+controller coordinates would force dimension at least six by
+rank--nullity. This observation concerns that layout class only.
+
+\subsection{Static squares and a counter with arbitrary initial phase}
+Write physical coordinates as \((u,P)\in\Z^2\times\Z^4\). A profile
+\(\mathcal P\) is inactive, or active with phase
+\(\mathsf A,\mathsf D,\mathsf B\) and a letter of the static chart of
+\cite[Sections~3--4]{DMNoise2026}. First put its base constraints in a
+fixed nearest-neighbour higher-block presentation; attach the following
+geometry and dynamics afterwards. A base constraint is checked only
+when its whole bounding box is active. Impose five finite constraints:
+\begin{enumerate}
+\item A \(2\times2\) square cannot have exactly three active corners.
+\item Horizontal active pairs belong to
+\(\mathsf{AA},\mathsf{AD},\mathsf{DB},\mathsf{BB}\). At an inactive west
+neighbour the phase is not \(\mathsf B\); at an inactive east neighbour
+it is not \(\mathsf A\).
+\item At an inactive south neighbour the phase is \(\mathsf D\) if
+the west neighbour is inactive, and \(\mathsf B\) otherwise. At an
+inactive north neighbour it is \(\mathsf D\) if the east neighbour is
+inactive, and \(\mathsf A\) otherwise.
+\item A \(\mathsf D\) site with active north neighbour has a
+\(\mathsf D\) northeast neighbour; transpose southwest for south.
+\item On a fully active \(2\times2\) square the southwest and northeast
+phases agree.
+\end{enumerate}
+Let \(V_{\mathcal P}\) mark every active participant in a forbidden
+local pattern. It is a fixed finite local Boolean function.
+
+\begin{lemma}[Square geometry and counter]\label{v:cap}
+Every valid active component is a finite square or a product of two
+infinite integer intervals. A finite square of side \(N_{\rm cap}\)
+has exactly \(N_{\rm cap}\) diagonal \(\mathsf D\) sites and locally
+recognizable endpoints. On this diagonal set
+\[
+ b'_j=b_j\mathbin\oplus h_j,\qquad h'_0=1,\qquad
+ h'_j=b_{j-1}h_{j-1}\quad(1\le j<N_{\rm cap}).
+\]
+Overflow is \(o=b_{N_{\rm cap}-1}h_{N_{\rm cap}-1}\). It occurs within
+\(1+2^{N_{\rm cap}+1}\) rounds from every state. With all bits zero and
+only \(h_0=1\), no overflow occurs before \(2^{N_{\rm cap}}-1\).
+\end{lemma}
+\begin{proof}
+The first constraint fills the bounding rectangle of any finite active
+nearest-neighbour path: a new boundary site propagates along its new
+row or column by the three-corners rule. Thus a component is a product
+of intervals. If its horizontal interval is finite, every row has one
+\(\mathsf D\), in the order \(\mathsf A^*D B^*\). Its position advances
+by one on each row, so the vertical interval is finite. The boundary
+rules put this diagonal at the southwest and northeast corners, forcing
+a square. A finite-height, infinite-width rectangle is impossible:
+choose a northeast diagonal away from any finite side endpoint. Its
+bottom phase is \(\mathsf B\), its top phase \(\mathsf A\), contrary to
+the fifth constraint. Infinite components therefore contain arbitrarily
+large square patches.
+
+For the counter, after one round \(h_0=1\), and
+\[
+ V_{\rm timer}=\sum_{j=0}^{N_{\rm cap}-1}2^j(b_j+h_j),\qquad
+ V'_{\rm timer}=V_{\rm timer}+1-2^{N_{\rm cap}}o.
+\]
+This follows from \(b\oplus h=b+h-2bh\). Its bounded range precludes
+\(2^{N_{\rm cap}+1}\) successive increments without overflow.
+The specified initial value is one; overflow requires a value at least
+\(2^{N_{\rm cap}}\), proving the lower bound. The local rule uses
+copies, XOR, AND and a fresh output for overflow, all realized by the
+seven gates of Section~\ref{sec:compilation}.
+\end{proof}
+
+The ordinary core word is bottom or \((\mathcal P,b,h,\mathsf d)\).
+Its deterministic Moore-neighbour rule \(F_{\rm cap}\) retains the centre
+profile, updates the counter using original diagonal endpoints, and sets
+\[
+ \mathsf d'=\mathsf d\lor V_{\mathcal P}\lor o\lor
+ \left[\operatorname{active}(\mathcal P)\land
+ \bigvee_{w\sim u,\ \operatorname{active}(\mathcal P(w))}\mathsf d(w)\right].
+\]
+Off the diagonal the new timer bits are zero. A bottom input makes the
+output bottom. Inactive vacuum is a genuine nonbottom word.
+Permission is \(\pi=\operatorname{active}(\mathcal P)(1-\mathsf d)\),
+with \(\pi(\bot)=0\); hence \(\pi(F_{\rm cap})\le\pi(\text{centre})\).
+Death leaves the original profile in place, so it creates no new counter
+endpoint.
+
+Protect the complete core in \(P_1,P_2\), copying in \(P_3,P_4\).
+At each provider in the three boxes \eqref{eq:c-boxes}, evaluate
+\(F_{\rm cap}\) on its nine Moore inputs. Let \(G\) return the word
+receiving at least 512 of the 768 votes, or bottom. These votes have a
+unique possible winner. Store the ordinary proposal \(\mathcal A_{\rm ord}=G(C_t)\) in a
+second coordinate. With \(v=(58,58)\) and \(D_{\rm q}=4096\), compute
+from old first coordinates the two finite queries
+\[
+ Q_0=G^{D_{\rm q}}(C_t)(u,P_{12}-(D_{\rm q}-1)v),\quad
+ Q_-=G^{D_{\rm q}}(C_t)(u-e_x,P_{12}+v-(D_{\rm q}-1)v).
+\]
+Here \(G^D\) means virtual iteration of the ordinary core rule; it
+contains neither helpers nor the statistical censor. Its virtual levels
+are evaluated locally from one transport of old words.
+
+Each helper index \(j\) at storage position \(w\) belongs to base
+\(w-je_y\) and copies from \(w-e_x+v\). It has two seven-bit fields:
+126 codes for high, one for low, one for unknown; and 126 codes for
+allowed, one for unavailable, one for unknown. Availability treats its
+last two codes as unavailable. All active, origin, end, phase, flag and
+edge-guard predicates read only the profiles of \(Q_0,Q_-\) at that
+base. In priority order a bottom required driver writes
+(unknown, allowed); current vacuum writes (unknown, unavailable);
+a genuine active origin writes (low, allowed); predecessor vacuum or
+a failed genuine active-edge guard writes (unknown, unavailable);
+otherwise both old fields copy. An origin takes precedence over an
+inactive predecessor.
+
+At an endpoint gather the provisional helper outputs by local
+recomputation from old words. Put \(V_{\rm av}=\#\text{allowed}\),
+\(H_{\rm up}=\#\text{allowed and high or unknown}\) and
+\(H_{\rm lo}=\#\text{allowed and high}\), an upper and a lower count
+of high lanes. Enable the test when
+\(V_{\rm av}\ge\lceil B/2\rceil\), with
+\(s_{\rm vote}=\lceil3CB/4\rceil\). The new first coordinate is bottom
+if either query is bottom, or at an enabled active phase-zero end if
+(flag one and \(H_{\rm up}\ge s_{\rm vote}\)) or
+(flag zero and \(H_{\rm lo}<s_{\rm vote}\)); otherwise it is \(\mathcal A_{\rm ord}\).
+The second coordinate always remains \(\mathcal A_{\rm ord}\). Thus postprocessing never
+writes a different nonbottom core. Historical bottom widens uncertainty
+and permits a test; it is distinct from a true inactive boundary.
+
+At fixed \(u\) use the closed four-dimensional plaquette CSS processor
+of Lemmas~\ref{q:sweep}, \ref{q:homology}--\ref{q:span} and the proof of
+Lemma~\ref{x:exponential}: both sectors, 400 reflected sweeps, one
+captured syndrome snapshot and stored correction decisions. Quantum
+gates keep \(u\) fixed. Permission changes only the existing final local
+erasure decision. Every retained quantum-capable factor, including
+syndrome/work, ports, data-derived records and unused factors, crosses
+this complete cut or is reset/discarded before reuse. Quantum spatial
+work precedes the longer classical calculation; no later swap retrieves
+discarded input.
+
+\paragraph{Structural property of both compiled media.}
+\begin{enumerate}[label=\textup{(S)},ref=S]
+\item\label{v:structure} Every gate's quantum-capable inputs and
+outputs lie in one fibre \(\{u\}\times(\Z/L\Z)^4\); these factors
+include data, syndrome, work, ports, all quantum-derived records and
+unused factors. Autonomous metadata \(\mathcal M\) is initially
+dephased, has only Boolean basis permutations, resets and dephasings
+as its own gates, and is never a target of a gate with a
+quantum-capable input. Metadata controls may arrive from other
+fibres; conditional on its initially measured word, its history law
+is independent of the quantum input. After the last elementary
+layer of every round, independent exogenous coins replace every
+site in W or every wire in Q, including idle factors; the coins are
+independent across positions and rounds and of all physical inputs.
+\end{enumerate}
+The processor just described verifies fibre confinement. The
+autonomy construction in Section~\ref{sec:compilation} and the
+dephased scratch and reset probes in Section~\ref{v:parameters}
+verify the metadata clause at every elementary gate. The noise
+definition \eqref{eq:site-noise} and its Q analogue verify the final
+clause. Thus (S) is a property of the compiled circuits for arbitrary
+inputs, including malformed metadata, rather than an encoding
+assumption.
+
+\input{sections/exponential-density}
+\input{sections/exponential-sources}
+\input{sections/exponential-storage}
+\input{sections/exponential-forgetting}
+\input{sections/exponential-certification}

@@ -41,15 +41,16 @@
 \author{Nidhal Mghirbi}
 \address{finite.works}
 \urladdr{https://finite.works}
-\date{Version 1.0.0, November 2026}
+\date{Version 2.0.0, November 2026}
 \keywords{Quantum memory, local decoding, undecidability, depolarizing noise, cellular automata}
 \begin{document}
 \begin{abstract}
-Can the noise rate of one fixed local circuit encode an undecidable quantum-storage problem? Yes: we construct a three-dimensional medium, using only X, H, CNOT, Toffoli, reset, dephasing and identity, whose storage behaviour on explicit rate windows is as hard to decide as the halting problem. A separate construction handles each of whole-site and independent single-qubit depolarization after every layer. Computable disjoint rational rate windows select universal-machine inputs. For each nonhalting input, one computable encoder stores a reference-entangled qubit for a fixed positive multiple of the side length, at every size above a computable input-dependent threshold. On halting windows, every encoding fails after a time uniform in size and rate. A linear whole-channel upper bound makes the nonhalting storage scale sharp; certification of the explicit circuits is \(\Pi^0_1\)-complete, with exact rational finite tests. The proof combines a noisy classical hierarchical calendar with concatenated binary quantum codes and a two-copy channel extension. A separate four-dimensional medium, under single-qubit depolarization only, has both an uncomputable storage diagram and a designed, decidable window of exponential storage. Interactions are finite-range rather than nearest-neighbour, constants are astronomical, and every finite sample eventually forgets.
+Can one decide from its noise rate whether a fixed local quantum medium is an excellent memory or no scalable memory at all? We construct two six-dimensional media, one for whole-site and one for independent single-qubit depolarization, for which this distinction is undecidable. Both circuits use only X, H, CNOT, Toffoli, reset, dephasing and identity, with noise after every elementary layer. Computable disjoint rational windows select universal-machine inputs. For every nonhalting input and all sizes above a computable threshold, one total computable encoder preserves a reference-entangled qubit with fidelity at least 15/16 through an exponential number of rounds, uniformly across its window. On halting windows every encoding into the entire physical algebra fails after a time uniform in size and rate. A capped static computational chart and a protected finite counter permit exponential operation; complete source witnesses control correlated controller errors on the torus. For these media we give a coarse lifetime upper bound exponential in the fourth power of size and \(\Pi^0_1\)-complete certification by exact finite tests. The three-dimensional construction retains its sharp linear storage scale. The interactions have fixed finite range and astronomical constants. Every finite sample eventually forgets; what is undecidable is how its useful storage time grows with size.
 \end{abstract}
 \maketitle
 \noindent\small AI-assisted mathematics; the authors have not independently verified
-these arguments. See the \hyperref[s:ai]{disclosure below}.\normalsize
+these arguments. \hyperref[s:ai]{Disclosure}.\normalsize
+\clearpage
 \input{sections/introduction}
 \input{sections/model}
 \input{sections/controller}
@@ -58,20 +59,20 @@ these arguments. See the \hyperref[s:ai]{disclosure below}.\normalsize
 \input{sections/forgetting}
 \input{sections/ceiling}
 \input{sections/certification}
+\input{sections/exponential}
 \input{sections/discussion}
 \section*{How this work was done}\label{s:ai}
-The authors directed the work and have not independently verified the
-mathematical arguments. GPT-6.1 Sol agents in Codesk sessions found the
-constructions and proofs, checked them in session, and drafted the text.
-Claude Opus 5.5 checked the results as a different model family, ran a
-literature check and reviewed the text; each check re-derived the steps
-new at that stage and took earlier-checked steps as given. For the
-three-dimensional theorem there were two such checks; the second derived
-the fault-tolerance contract of Lemma~\ref{d:gadgets} independently.
-Neither read the 2008 journal version of Aharonov and Ben-Or
-\cite{ABO2008}, so that lemma is proved here rather than cited.
-These are written proofs and model checks; there was no machine
-verification.
+The work used a combination of AI models, including Claude Opus 5.5,
+GPT-6.1 Sol and GPT-6 Astra, directed by the authors. Each new result was
+checked refutation-first by a model of a different developer from the
+one that found it; each check re-derived the steps new at that stage and
+took earlier-checked steps and published inputs as given. The written
+version was reviewed in the same way. The authors have not independently
+verified the mathematical arguments. The checks are written mathematical
+reviews supported by small exact computations of finite arithmetic and
+simulations of the clean classical rule; the circuits and their
+astronomical finite catalogues have not been materialized, and the
+arguments are not machine-verified.
 
 \appendix
 \input{sections/fold-controls}

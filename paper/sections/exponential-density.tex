@@ -1,0 +1,128 @@
+\subsection{Physical-name density and finite-age coherence}
+The compiler of Sections~\ref{sec:compilation} and~\ref{s:probe} gives
+independent physical site/round names \(H=A\lor E\), with
+\(\mu=\Pr(E)\le p=\Pr(H)\le2\mu\). A name may corrupt both its old
+copies and its new output. The following supplies the precise density
+estimate needed here, including that double appearance.
+
+\begin{lemma}[All-path density]\label{v:density}
+Let \(\mathcal M_{\rm raw}\) be the least finitary two-box closure with ordinary
+parents \((u+j,P+s,t-1)\), \(j\in\{-1,0,1\}^2\), \(s\) in the three
+provider boxes. Seed \((z,t)\) when \(H(z,t)\) or \(H(z,t+1)\) occurs.
+Let \(\mathcal D_\ell(z)\) mean that some ordinary backward
+\(\ell\)-edge path has a marked ordinary parent at at least
+\(\ell/1404\) of its first \(\ell\) vertices. Put
+\[
+ \Delta_{\rm raw}=13824,\quad B_{\rm raw}=2\Delta_{\rm raw}^2=382205952,
+ \qquad p_{\rm dens}=B_{\rm raw}^{-67440}/64.
+\]
+For \(p\le p_{\rm dens}\),
+\begin{equation}\label{v:density-bound}
+ \Pr(\mathcal D_\ell(z))\le
+ 4\sum_{f\ge\lceil\ell/16848\rceil}
+ [2B_{\rm raw}^{16860}\sqrt p]^f\le\frac{16}{3}e^{-\ell}.
+\end{equation}
+This holds simultaneously over all paths, including paths selected
+after all innovations and initial words are known, for finite-start
+marks without free initial seeds, and in injectively unwrapped torus
+cones. Replacement values and initial words are unrestricted.
+\end{lemma}
+\begin{proof}
+Use physical potentials
+\[
+ \psi_0=3(P_1+P_2)+350t,\quad
+ \psi_1=-3P_1-175t,\quad \psi_2=-3P_2-175t.
+\]
+They sum to zero. Every distinct-box support pair offers each charge a
+backward edge gaining at least 130; arbitrary loss is at most 350.
+Every mark has a finite acyclic derivation ending at seeds.
+
+Label frontier vertices by their descendant terminal sets, joining
+vertices whose sets overlap. Expose the latest frontier vertex and its
+two supports. An outside overlap component cannot be joined; the current
+component splits into at most two daughters, each containing one of
+these supports. Start three good arms at the root, one of each charge,
+and retain one endpoint per charge per component. At a split add a
+three-charge source at the exposed vertex, supplying missing endpoints;
+only its first edges may be bad. Frontier vertices with no arm endpoint
+must also be retained: they can carry the support through which a
+split daughter is reached in one edge. Such exposures can create sources
+in disconnected arm components; retain the component of the root source,
+in which every source emits, and every terminal receives, exactly one
+arm of each charge. If \(f'\) is its terminal count, each charge thus
+bijects \(f'\) sources and \(f'\) terminals, with \(f'-1\) added sources.
+Each bad first edge costs at most \(350+130=480\) relative to a good
+edge, so balanced cancellation, with arm multiplicity, gives
+\[
+ 130e_{\rm arm}\le480\cdot3(f'-1),\qquad e_{\rm arm}\le12(f'-1).
+\]
+A seeded root has one terminal and zero edges. Projection reduces size.
+A minimum-time vertex is a terminal, and the root is the maximum, so the
+whole connected contour has time span at most its edge budget.
+
+Take the latest remaining marked-parent occurrence on a density path,
+add its one-edge spur and its full contour, and skip occurrences whose
+parent time is at or above the earliest terminal time of that contour.
+Repeat, retaining the final contour whole even below the path endpoint.
+The selected formal terminal slabs are disjoint. A contour with \(f_i\)
+terminals covers at most \(12(f_i-1)+1\le12f_i\) positions, whence
+\(f=\sum f_i\ge\lceil\ell/16848\rceil\). The entire path, all spurs
+and all contours form a connected graph with at most
+\(\ell+12f\le16860f\) edges. Its undirected degree is at most
+\(2\cdot9\cdot768=13824\). Doubled-edge traversals and terminal subsets
+have at most \(2B_{\rm raw}^m\) descriptions for \(m\) edges; summing
+\(m\le16860f\) costs at most \(4B_{\rm raw}^{16860f}\). This counts
+the whole path, not only the attached contours.
+
+For \(f\) distinct formal terminals choose one of their two possible
+physical names. There are at most \(2^f\) choices. A physical name seeds
+at most two formal vertices, so each choice uses at least
+\(\lceil f/2\rceil\) distinct independent names. Thus the terminal
+probability is at most \(2^fp^{\lceil f/2\rceil}\le2^fp^{f/2}\).
+Apply this once to the complete terminal union: adjacent formal slabs
+can share an old/new name. This proves the series in
+\eqref{v:density-bound}. At the stated cap its base is at most
+\(B_{\rm raw}^{-16860}/4\); since
+\(16860\log B_{\rm raw}/16848>1\), the series is at most
+\(16e^{-\ell}/3\). Finite-start closure only deletes seeds; injective
+cones preserve their law.
+\end{proof}
+
+The contour argument is that of \cite[Lemmas~12.3 and~12.4]{DMFixed2026}.
+This recovers equation (L.1) of \cite[Section~10.2]{DMNoise2026}, stated
+there for single-vertex flags, for the compiled two-appearance names, and
+gives an explicit rate for the old/new density estimate in
+Lemma~\ref{c:coherence}. Its exact \(e^{-\ell}\) tail is stronger
+than the downstream polynomial unions require. At the weaker cap
+\(B_{\rm raw}^{-33720}/64\), the same count gives only
+\((16/3)\exp[-(\log4)\ell/16848]\); the windows of Section~\ref{v:parameters} lie below the stronger cap.
+
+The pairing argument of Lemma~\ref{c:coherence} (compare
+\cite[Lemma~10.2]{DMNoise2026}) carries over to Moore inputs: two
+unmarked nonbottom full-core readings at the same \((u,t)\) and
+transverse distance \(d\) agree outside their two \(\mathcal D_\ell\)
+events when \(t\ge\ell\ge\max(1,2d)\). Indeed at an unmarked root at
+most one box has marked inputs, leaving at least \(512-256\) clean
+successful providers. Away from marked-parent positions a signed unit
+shift gives \(3\cdot16\cdot15=720\) provider pairs. At most
+\(2(768-512)=512\) fail, leaving 208 distance-reducing pairs.
+Different outputs of the same deterministic Moore function force a
+common differing input index. Follow that index at both roots. At an
+exceptional step choose any clean successful providers; distance rises
+by at most 350. After the first step the readings are actual first
+coordinates, so even time-zero distance-zero conflict is impossible.
+With fewer than \(2\ell/1404\) exceptional paired steps the final
+distance is less than \(d-\ell/2\), a contradiction. All-parent bottom
+spreading ensures all followed inputs are nonbottom. This proves the
+finite-age comparison for the core and the ordinary second proposal.
+
+We will also use the physical source slabs of the proofs of
+Lemma~\ref{c:coherence} and Propositions~\ref{c:late-live}
+and~\ref{c:path-tail}. A complete witness reserves
+all its old/new names; restart strictly below its earliest physical
+name minus two. At a boundary formal time \(b\), reserve names through
+\(b+1\) and their appearances in \(\{b,b+1\}\); future names begin at
+\(b+2\). The last witness is kept whole. These conventions separate
+physical supports, including names whose two formal appearances straddle
+a cut. They are used both for deep historical queries and for rare
+contours along quantum paths.
