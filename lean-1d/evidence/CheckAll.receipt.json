@@ -1,0 +1,8 @@
+{
+  "task": "CheckAll",
+  "command": "scripts/check.sh",
+  "exit": 0,
+  "wall_seconds": 205,
+  "max_rss_kib": 3481164,
+  "final_line": "ALL CHECKS PASS"
+}

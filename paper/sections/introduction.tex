@@ -8,9 +8,16 @@ Threshold theorems show that below a sufficiently small noise rate, error correc
 
 The circuit never receives the rate as an input. Local noise statistics select a computation whose halting triggers erasure of the quantum data. This is consistent with threshold theorems because the circuit is engineered to erase its data when the rate encodes a halting input.
 
-\paragraph{Contributions.} The rate scale encodes a machine input throughout each open, computable window. On nonhalting windows the construction protects quantum data under faults correlated through the controller, with storage at least exponential in six dimensions, stretched-exponential in four dimensions under whole-site noise, and linear in three dimensions under either noise model. On halting windows every encoding forgets, including encodings into the controller or other work registers. The rate selection builds on our classical noise diagram \cite{DMNoise2026}. The observable here is a quantum channel's storage lifetime as size grows, distinct from the spectral gaps and ground-state phases studied for parameterized Hamiltonians \cite{BCW2021,CPGW2015}.
+\paragraph{Contributions.} The rate scale encodes a machine input throughout each open, computable window. On nonhalting windows the construction protects quantum data under faults correlated through the controller, with storage at least exponential in six dimensions, stretched-exponential in four dimensions under whole-site noise, and linear in three dimensions under either noise model. On rings under single-qubit noise, a one-dimensional construction has the same undecidable dichotomy with a linear lower bound (Theorem~\ref{q1:main}). On halting windows every encoding forgets, including encodings into the controller or other work registers. The rate selection builds on our classical noise diagram \cite{DMNoise2026} and, on rings, on its one-dimensional version \cite{DMNoise1D2026}. The observable here is a quantum channel's storage lifetime as size grows, distinct from the spectral gaps and ground-state phases studied for parameterized Hamiltonians \cite{BCW2021,CPGW2015}.
 
-\paragraph{Setting.} Fix a universal Turing machine \(U\), and write \(U(n)\uparrow\) for nonhalting and \(U(n)\downarrow\) for halting. The circuit acts on the periodic lattice \((\Z/L\Z)^d\), repeating a fixed schedule of elementary layers in each round. Time counts rounds in Theorems~\ref{thm:exponential} and~\ref{thm:main} and elementary layers in Theorem~\ref{thm:four-dimensional}. Fidelity is the overlap with the original Bell pair after encoding, storage and decoding on one half, leaving the reference untouched (Definition~\ref{def:fidelity}). Write \(F^*_{L,\eps}(t)\) for the best fidelity over all encoders and decoders on the full register. Our constructions guarantee \(15/16\) during storage, use \(7/8\) to define the optimal lifetime \(\tau_{L,\eps}\) and test certification, and bound halting-side fidelity eventually by \(1/2+\eta\) for every \(\eta>0\), near the measure-and-prepare benchmark \(1/2\) (Definitions~\ref{def:lifetime} and~\ref{def:windows}). The explicit encoding and final decoding maps are global, noiseless and total computable. They depend on \(n,L\) and, for decoding, on \(t\), independently of the rate and the halting answer. Correction during storage is local.
+The higher-dimensional results were deposited earlier as
+\href{https://doi.org/10.5281/zenodo.24254846}{doi:10.5281/zenodo.24254846},
+\href{https://doi.org/10.5281/zenodo.24269020}{doi:10.5281/zenodo.24269020}
+and
+\href{https://doi.org/10.5281/zenodo.24289384}{doi:10.5281/zenodo.24289384};
+the construction on rings is new here.
+
+\paragraph{Setting.} Fix a universal Turing machine \(U\), and write \(U(n)\uparrow\) for nonhalting and \(U(n)\downarrow\) for halting. The circuit acts on the periodic lattice \((\Z/L\Z)^d\), repeating a fixed schedule of elementary layers in each round. Time counts rounds in Theorems~\ref{thm:exponential} and~\ref{thm:main} and elementary layers in Theorems~\ref{thm:four-dimensional} and~\ref{q1:main}. Fidelity is the overlap with the original Bell pair after encoding, storage and decoding on one half, leaving the reference untouched (Definition~\ref{def:fidelity}). Write \(F^*_{L,\eps}(t)\) for the best fidelity over all encoders and decoders on the full register. Our constructions guarantee \(15/16\) during storage, use \(7/8\) to define the optimal lifetime \(\tau_{L,\eps}\) and test certification, and bound halting-side fidelity eventually by \(1/2+\eta\) for every \(\eta>0\), near the measure-and-prepare benchmark \(1/2\) (Definitions~\ref{def:lifetime} and~\ref{def:windows}). The explicit encoding and final decoding maps are global, noiseless and total computable. They depend on \(n,L\) and, for decoding, on \(t\), independently of the rate and the halting answer. Correction during storage is local.
 
 Whole-site depolarization (WS) replaces the entire site register with a maximally mixed state with probability \(\eps\), independently at each site after each elementary layer. Independent single-qubit depolarization (Q) does the same separately for each wire. Both act on every factor, including idle, controller and work factors (Section~\ref{s:local-circuits}). An \emph{admissible circuit} on \(\Z^d\) is computably specified, translation-invariant, time-periodic and of finite range, with elementary operations in \(\{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}\) (Section~\ref{s:local-circuits} defines reset \(R_0\) and dephasing \(D_Z\)).
 
@@ -43,16 +50,61 @@ For each of \textup{WS} and \textup{Q} applied after every elementary layer, the
 For the constants \(c\) and \(L_0(n)\) of Theorem~\ref{thm:detailed}, the set of indices \(n\) for which the explicit encoding and recovery achieve fidelity at least \(7/8\) at every rational rate in \(I_n\), every integer \(L\ge L_0(n)\) and every integer \(0\le t\le\lfloor cL\rfloor\) is \(\Pi^0_1\)-complete.
 \end{maintheorem}
 
-Table~\ref{tab:results} summarizes the three guarantees. Theorem~\ref{thm:detailed}(i) gives fidelity at least \(15/16\) through \(\lfloor cL\rfloor\) rounds on nonhalting windows, and part~(iii) bounds the optimal lifetime linearly for every encoding.
+
+\Needspace{24\baselineskip}
+\begin{maintheorem}[One dimension, single-qubit noise]\label{q1:main}
+There is one admissible circuit on rings, with finitely many qubits per site, independent single-qubit depolarization after every elementary layer, computable pairwise disjoint nonempty open rational rate windows \(I_n\), a rational \(c_1>0\), and a computable \(L_1(n)\), with these properties.
+\begin{enumerate}
+\item If \(U(n)\uparrow\), total computable rate-independent endpoint maps achieve Bell fidelity at least \(15/16\) for every \(\eps\in I_n\), every \(L\ge L_1(n)\), and every integer elementary-layer time \(0\le t\le\lfloor c_1L\rfloor\).
+\item If \(U(n)\downarrow\), then for every \(\eta>0\) there is a finite \(t_1(n,\eta)\), uniform in size and rate, such that \(F^*_{L,\eps}(t)\le1/2+\eta\) for every \(L\ge1\), every \(\eps\in I_n\), and every integer elementary-layer time \(t\ge t_1(n,\eta)\).
+\end{enumerate}
+The scalable-memory window labels, in the sense of Definition~\ref{def:windows}, are \(\Pi^0_1\)-complete. The same is true of the labels for which these particular endpoint maps have fidelity at least \(7/8\) at every rational rate in the window, every \(L\ge L_1(n)\), and every \(0\le t\le\lfloor c_1L\rfloor\).
+\end{maintheorem}
+
+\begin{corollary}[A translation-invariant periodic memory on rings]\label{q1:memory}
+There is an admissible circuit on rings, with a fixed finite number of qubits per site, and rationals \(c_{\rm m},\eps_{\rm m}>0\), such that at every fixed rate \(0<\eps\le\eps_{\rm m}\) of independent single-qubit depolarization after every elementary layer, total computable rate-independent encoders and decoders preserve Bell fidelity at least \(15/16\) at every integer elementary-layer time \(0\le t\le\lfloor c_{\rm m}L\rfloor\), for all sufficiently large \(L\). The classical clock is initialized; all storage-time control and correction are local, and every wire, including all control, is subject to the same noise.
+\end{corollary}
+
+The proofs occupy Sections~\ref{q1:model}--\ref{q1:effective}. The rate selection on rings builds on the one-dimensional version of our classical noise diagram \cite{DMNoise1D2026}; Marsan, Sablik and T\"orm\"a give a one-dimensional automaton whose ergodicity changes twice as the noise rate grows \cite{Marsan2025}. G\'acs supplied the classical one-dimensional reliable-computation foundation, from an initialized hierarchical configuration \cite{Gacs1986} and later with self-organization \cite{Gacs2001}. Related classical foundations are Cirel'son's hierarchical storage scheme
+\cite{Cirelson1978}, G\'acs's two-dimensional arrays \cite{Gacs1989},
+and the three-dimensional construction of G\'acs and Reif
+\cite{GacsReif1988}; Gray gives a guide to G\'acs's work \cite{Gray2001}. Aharonov and Ben-Or already proved a one-dimensional nearest-neighbour threshold without measurement or classical processing during computation \cite[Theorem~13]{ABO2008}; Gottesman proved a one-dimensional local-gate threshold with next-to-nearest-neighbour gates and suggested interspersing G\'acs-type classical fault-tolerant regions with quantum data \cite{Gottesman2000}. Those circuits are compiled spacetime schedules, neither translation-invariant nor periodic with a size-independent period. Gottesman's textbook also discusses replacing classical processing by
+fault-tolerant quantum circuits \cite[Section~15.3.1]{Gottesman2024}.
+Shtanko and Sharma give a further one-dimensional, non-uniform,
+measurement-free construction under nonunital noise \cite{SS2025},
+building on quantum refrigeration \cite{BGH2013}; here the noise is
+unital depolarization and entropy is removed by explicit resets.
+Fitzsimons and Twamley and Kay obtained one-dimensional global-control
+thresholds, with externally supplied pulse schedules
+\cite{FT2007,Kay2007,Kay2005}. Harrington's hierarchical toric-code decoder is a two-dimensional precursor with noiseless classical processing \cite{Harrington2004}. D\"unnweber, Styliaris and Trivedi give the closest architecture: a fixed, local, translation-invariant two-dimensional automaton that combines noisy hierarchical classical control with a measurement-free concatenated code \cite{DST2026}. They pose the one-dimensional case as open and suggest embedding a quantum code in G\'acs's one-dimensional automaton; Corollary~\ref{q1:memory} is a one-dimensional analogue of their memory along that route. Balasubramanian, Davydova and Lake give a two-dimensional toric-code automaton whose read-only instruction memory is assumed noiseless, and pose a local quantum analogue of G\'acs's automaton as an open problem \cite{BDL2026}. Drechsler, Oreg and Aharonov prove a four-dimensional memory, note that the one-dimensional fault-tolerant constructions break translation invariance, and ask about autonomous synchronous quantum memories in one dimension \cite{DOA2026}. They also credit Aharonov's suggestion at the 2022 Solvay conference
+\cite[Section~1.4]{DOA2026}. Selub, Bhardwaj and Lake identify removal
+of noiseless classical processing as an open direction and suggest
+G\'acs's techniques \cite[Section~1.3]{SBL2026}. Earlier questions about
+fault tolerance in quantum cellular automata appear in
+\cite[Section~IV]{Kay2007} and
+\cite[Section~10.1.2]{PerezDelgado2007}. Gidney and Bergamaschi prove a constant-rate fault-tolerant computer on a line with noiseless nonlocal classical operations and name translation invariance as a further goal \cite{GB2025}. We are not aware of a previous proof of Corollary~\ref{q1:memory}. It combines one-dimensional locality, a fixed translation-invariant time-periodic rule, and noise on every wire, including all control. It is synchronous, a PCA-type model in the terminology of Drechsler, Oreg and Aharonov, and its initialization and unrestricted endpoint maps are part of its hypotheses. Its gate set contains resets, which supply fresh low-entropy qubits
+\cite{ABIN1996}, and the non-Clifford Toffoli gate, so the Clifford-only
+memory bound of Nelson, Rajakumar and Gullans does not apply
+\cite{NRG2026}. The active circuit is outside the hypotheses of the
+thermal and Gibbs-sampler results for one-dimensional chains
+\cite{Bardet2023,BC2025,CD2026}. Bounds for geometrically local
+stabilizer Hamiltonians and local commuting constraints
+\cite{BravyiTerhal2009,BPT2010} likewise do not bound this circuit's
+concatenated code with nonlocal stabilizers. The linear storage lower
+bound is weaker than the guarantees of the non-uniform constructions
+above; the new feature is the model.
+
+Table~\ref{tab:results} summarizes the four guarantees. Theorem~\ref{thm:detailed}(i) gives fidelity at least \(15/16\) through \(\lfloor cL\rfloor\) rounds on nonhalting windows, and part~(iii) bounds the optimal lifetime linearly for every encoding.
 
 \begin{table}[!tb]
-\caption{Storage guarantees at fidelity \(15/16\) and upper bounds on optimal lifetime at fidelity \(7/8\), on nonhalting windows. Each lower bound holds above a computable size threshold. The displayed constants are fixed for the indicated circuits, and \(O_n\) permits dependence on the window index \(n\). On a halting window each circuit satisfies \(F^*\le1/2+\eta\) after a finite time uniform in size and rate, for every \(\eta>0\). The scalable-memory labels column concerns scalability of the optimal lifetime (Corollary~\ref{cor:window-undecidable}). Lemma~\ref{f:bell} and Theorem~\ref{lean:conditional} are formalized in Lean (Appendix~\ref{app:lean}).}\label{tab:results}
+\caption{Storage guarantees at fidelity \(15/16\) and upper bounds on optimal lifetime at fidelity \(7/8\), on nonhalting windows. Each lower bound holds above a computable size threshold. The displayed constants are fixed for the indicated circuits, and \(O_n\) permits dependence on the window index \(n\). On a halting window each circuit satisfies \(F^*\le1/2+\eta\) after a finite time uniform in size and rate, for every \(\eta>0\). The scalable-memory labels column concerns scalability of the optimal lifetime (Corollary~\ref{cor:window-undecidable} and Theorem~\ref{q1:main}). Lemma~\ref{f:bell}, Theorem~\ref{lean:conditional} and Lemma~\ref{q1:l1} are formalized in Lean (Appendix~\ref{app:lean}).}\label{tab:results}
 \centering\small\setlength{\tabcolsep}{5pt}
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{.16\linewidth}>{\raggedright\arraybackslash}p{.23\linewidth}>{\raggedright\arraybackslash}p{.29\linewidth}>{\raggedright\arraybackslash}p{.23\linewidth}@{}}
 \toprule Circuit and noise & Guaranteed lower bound & Lifetime upper bound & Scalable-memory labels\\\midrule
 6D (A), WS, Q & \(2^{\lfloor c_{\rm e}L\rfloor}\) rounds & \(\exp(O_n(L^4))\) rounds by resets of four-dimensional code fibres (Proposition~\ref{v:certification}(i)) & \(\Pi^0_1\)-complete\\\addlinespace[4pt]
 4D (B), WS & \(\exp(c_4L^{\alpha_4})\) elementary layers & \(\exp(O_n(L^4))\) elementary layers by full-register reset \eqref{f4:lifetime-upper} & \(\Pi^0_1\)-complete\\\addlinespace[4pt]
-3D (C), WS, Q & Order \(L\) rounds & \(<201L+C_0\) rounds for large \(L\) (Theorem~\ref{u:eb}) & \(\Pi^0_1\)-complete\\\bottomrule
+3D (C), WS, Q & Order \(L\) rounds & \(<201L+C_0\) rounds for large \(L\) (Theorem~\ref{u:eb}) & \(\Pi^0_1\)-complete\\\addlinespace[4pt]
+1D (D), Q & \(\Omega(L)\) elementary layers & \(\exp(O_n(L))\) elementary layers by full-register replacement (Section~\ref{q1:effective}) & \(\Pi^0_1\)-complete\\\bottomrule
 \end{tabular}
 \end{table}
 
@@ -105,7 +157,7 @@ For either six-dimensional circuit of Theorem~\ref{thm:exponential}, below every
 \begin{proof}
 The windows tend to zero, as shown in Section~\ref{v:parameters}. The compiler reduction makes the halting set of \(U\) undecidable. A finite or cofinite halting set would be decidable, so both sets of labels are unbounded. For any positive rate, choose a label of each kind sufficiently far along the sequence. Theorem~\ref{v:detailed}(i)--(ii) gives the two conclusions.
 \end{proof}
-Figure~\ref{fig:rates} illustrates the interleaving of the windows. The same accumulation argument applies to the three- and four-dimensional circuits, using \eqref{eq:windows} and Lemma~\ref{f4:encoder}. Their storage guarantees have the scales in Table~\ref{tab:results}. The absence of a positive threshold follows from the interleaving alone. The next corollary states the undecidability claim for each circuit.
+Figure~\ref{fig:rates} illustrates the interleaving of the windows. The same accumulation argument applies to the three- and four-dimensional circuits, using \eqref{eq:windows} and Lemma~\ref{f4:encoder}, and to the circuit of Theorem~\ref{q1:main}, whose windows lie in monotone preimages of native bins that tend to zero (Section~\ref{q1:parameters}). Their storage guarantees have the scales in Table~\ref{tab:results}. The absence of a positive threshold follows from the interleaving alone. The next corollary states the undecidability claim for each higher-dimensional circuit; Theorem~\ref{q1:main} states it on rings.
 
 \begin{corollary}[Undecidability on rational rates]\label{cor:window-undecidable}
 For each circuit of Theorems~\ref{thm:exponential}, \ref{thm:four-dimensional}
@@ -147,10 +199,10 @@ Cubitt--P\'erez-Garc\'ia--Wolf; Bausch--Cubitt--Watson; Purcell--Li--Cubitt \cit
 Wolf--Cubitt--P\'erez-Garc\'ia~\cite{WCPG2011} & Finite channel collections & Fidelity reached by some channel word\\\addlinespace[3pt]
 Balasubramanian--Davydova--Lake; Drechsler--Oreg--Aharonov; D\"unnweber--Styliaris--Trivedi~\cite{BDL2026,DOA2026,DST2026}
  & Local noisy quantum memories & Positive storage guarantees, including the four-dimensional Toom bound above\\\addlinespace[3pt]
-Aharonov--Ben-Or; G\'acs; G\'acs--Reif; Harrington~\cite{ABO2008,Gacs2001,GacsReif1988,Harrington2004}
+Aharonov--Ben-Or; G\'acs; G\'acs--Reif; Gottesman; Harrington~\cite{ABO2008,Gacs1986,Gacs2001,GacsReif1988,Gottesman2000,Harrington2004}
  & Hierarchical reliable computation and quantum correction & Protected schedules and encoded gates\\\addlinespace[3pt]
-Our prior work (Douglas--Mghirbi)~\cite{DMFixed2026,DMNoise2026,DMPhase2026} & Noisy classical local rules & Ergodicity and computable noise-window selection\\\addlinespace[3pt]
-This paper & Fixed noisy quantum circuits; physical noise rate & Storage on computable windows, forgetting for all encodings, exact certification for the circuits of Theorems~\ref{thm:exponential} and~\ref{thm:main} (Theorem~\ref{a:complete} and Proposition~\ref{v:certification})\\
+Our prior work (Douglas--Mghirbi)~\cite{DMFixed2026,DMNoise1D2026,DMNoise2026,DMPhase2026} & Noisy classical local rules & Ergodicity and computable noise-window selection\\\addlinespace[3pt]
+This paper & Fixed noisy quantum circuits; physical noise rate & Storage on computable windows, forgetting for all encodings, exact certification for the circuits of Theorems~\ref{thm:exponential}, \ref{thm:main} and~\ref{q1:main} (Theorem~\ref{a:complete}, Proposition~\ref{v:certification} and Section~\ref{q1:effective})\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -171,7 +223,7 @@ The classical lineage includes Kurdyumov and Toom's algorithmic ergodicity quest
 
 
 \subsection{Organization}\label{intro:organization}
-The body proves Theorem~\ref{thm:main} first because Theorems~\ref{thm:exponential} and~\ref{thm:four-dimensional} reuse its controller, compiler and whole-channel forgetting argument. The four-dimensional proof also reuses the six-dimensional static chart. Table~\ref{tab:where} gives the proof locations. Table~\ref{tab:terms} introduces the recurring terminology. Proof-idea paragraphs introduce the longer arguments.
+The body proves Theorem~\ref{thm:main} first because Theorems~\ref{thm:exponential} and~\ref{thm:four-dimensional} reuse its controller, compiler and whole-channel forgetting argument. The four-dimensional proof also reuses the six-dimensional static chart. Table~\ref{tab:where} gives the proof locations. Table~\ref{tab:terms} introduces the recurring terminology. Proof-idea paragraphs introduce the longer arguments. Sections~\ref{q1:model}--\ref{q1:effective} then give the construction on rings, including the structural clock, quantum compiler, joint probability estimates and whole-register forgetting proof.
 
 \begin{table}[!tb]
 \centering\small
@@ -181,8 +233,9 @@ The body proves Theorem~\ref{thm:main} first because Theorems~\ref{thm:exponenti
 \ref{thm:main}: Theorem~\ref{thm:detailed} & Proposition~\ref{d:storage} & Theorem~\ref{f:forgetting} & Theorem~\ref{u:eb} & Theorem~\ref{a:complete}; Corollary~\ref{a:time} for time bounds\\\addlinespace[3pt]
 \ref{thm:exponential}: Theorem~\ref{v:detailed} & Section~\ref{v:positive} & Section~\ref{v:forgetting} & Proposition~\ref{v:certification}(i) & Proposition~\ref{v:certification} \mbox{(ii)--(iii)}\\\addlinespace[3pt]
 \ref{thm:four-dimensional}: Theorem~\ref{f4:detailed} & Section~\ref{f4:positive} & Section~\ref{f4:forgetting} & Bound~\eqref{f4:lifetime-upper} & ---\\\addlinespace[3pt]
+\ref{q1:main}: Section~\ref{q1:effective} & Section~\ref{q1:storage} & Section~\ref{q1:forgetting} & Section~\ref{q1:effective} & Section~\ref{q1:effective}\\\addlinespace[3pt]
 Coexistence & \multicolumn{4}{l}{Proposition~\ref{p:coexistence}, with Lemma~\ref{x:exponential} and Proposition~\ref{q:linear}}\\\addlinespace[3pt]
-Window corollaries & \multicolumn{4}{l}{Section~\ref{intro:threshold}, from all three detailed theorems}\\
+Window corollaries & \multicolumn{4}{l}{Section~\ref{intro:threshold}, from Theorems~\ref{thm:exponential}--\ref{thm:main}; Theorem~\ref{q1:main} states its own}\\
 \bottomrule
 \end{tabular}
 \end{table}

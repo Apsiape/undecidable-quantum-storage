@@ -1,0 +1,7 @@
+comparator without Classical.choice permitted: exit 1, 51 s
+comparator against a retargeted challenge (MutantB): exit 1, 30 s
+mutant build: exit 0
+secondary check, changed definition (MutantA): exit 1, 41 s
+secondary check, retargeted theorem (MutantB): exit 1, 42 s
+nanoda on the Challenge export (contains sorryAx): exit 1, 0 s
+NEGATIVES PASS

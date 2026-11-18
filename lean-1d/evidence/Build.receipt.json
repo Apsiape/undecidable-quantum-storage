@@ -1,0 +1,7 @@
+{
+  "task": "Build",
+  "command": "lake build",
+  "exit": 0,
+  "wall_seconds": 59,
+  "mathlib_modules_compiled": 0
+}

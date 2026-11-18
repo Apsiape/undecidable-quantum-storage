@@ -1,0 +1,4 @@
+Deliberately altered challenges, each Challenge.lean with one line changed, built as temporary modules:
+MutantA: def Dpair (P T : ℕ) : ℕ := 8 * (P + 2) ^ 2 * (T + 3) ^ 2   (was (T + 2) ^ 2)
+MutantB: theorem num_flankPass : Num_FlankResponseTime := sorry      (was : Num_FlankPass)
+Expected: every negative control is rejected (non-zero exit).

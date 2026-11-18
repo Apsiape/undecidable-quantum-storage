@@ -1,0 +1,27 @@
+{
+  "task": "NegativeControls",
+  "expected": "every control rejected",
+  "controls": {
+    "comparator without Classical.choice permitted": {
+      "exit": 1,
+      "wall_seconds": 51
+    },
+    "comparator against a retargeted challenge (MutantB)": {
+      "exit": 1,
+      "wall_seconds": 30
+    },
+    "secondary check, changed definition (MutantA)": {
+      "exit": 1,
+      "wall_seconds": 41
+    },
+    "secondary check, retargeted theorem (MutantB)": {
+      "exit": 1,
+      "wall_seconds": 42
+    },
+    "nanoda on the Challenge export (contains sorryAx)": {
+      "exit": 1,
+      "wall_seconds": 0
+    }
+  },
+  "result": "NEGATIVES PASS"
+}

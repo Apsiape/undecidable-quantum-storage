@@ -1,0 +1,483 @@
+\section{A quantum schedule on the line}\label{q1:compiler}
+This section builds a self-simulating quantum schedule driven by \(R1\).
+
+\paragraph{Primitive and layout}
+
+At a native tick a site performs one on-site member of a fixed finite real gate set on named slots, or prepares a classical bit on a named slot. Then all bonds swap the right port of their left site with the left port of their right site. The ports are distinct internal factors. The bit preparation reads the low bit of the site's current classical retained word \(X\) (take zero for a no-word symbol). The local gate choice \(d(a,s)\) uses the ordinary address \(a\) and age \(s\). Illegal inputs have a total default. All sites have the same finite number \(S\) of quantum slots. Fix \(S\) before choosing the code: allow storage, three contact and three dummy slots, reversible Boolean control and two exchange ports, and enough slots for one cell and two neighbor records of a fixed binary-encoded universal classical tape machine. A larger fixed \(S\) causes no difficulty. Arrays of growing length, repeated computations and quantum ancillas occupy more \emph{sites}. An on-site native gate is I, \(X, H, \operatorname{CNOT}, CZ, \operatorname{Toffoli}, \operatorname{SWAP}, R0\) or discard (reset). At physical level compile a controlled gate via Fredkin swaps to exclusive prepared dummy ports, fixed unconditional gate, swap back and discard. Every preparation and every wait gets its physical noise. The externally controlled \(\operatorname{LOAD}\) into a blank slot is a reset and classical copy. At all levels it is one of \(R0\) or \(X\) after \(R0\) for the given classical oracle data.
+
+In the accurate clean \(R1\) tower, consider an epoch of \(T\) child ticks on a home of \(P\) child sites. The children have addresses 0 through \(P-1\) and synchronous ages 0 through \(T-1\). Throughout this epoch their \(X\) letters carry the five copies of the packet encoding the \emph{current} parent state. This follows by the clean identity \cite[Lemma~\ref*{cl:lem:clean}]{DMNoise1D2026} at the bottom and retention of \(X\) while occupied until the next ballot (untargeted fields are retained, \cite[Section~\ref*{cl:sec:native}]{DMNoise1D2026}). Fix the explicit packet layout of Lemma~\ref{q1:l9} for the \(R1\) construction: put each bounded scalar bit in the low bit of the word of a separate central-area live letter; store the low and high halves of a word in the two typed raw-letter slots of \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026}. Give live raw payloads a word, with a fixed zero default for not applicable. This uses \(O(w)\) scalar letters, and fits the specified central area. The physical rule, all parsers and the simulated evaluators use that one serialization. For the ordinary parent address, age and low bit of its retained word, the addresses of the required \(O(w)\) low bits are known. Use the middle copy. The low bit of a retained word of twice the child's width is the low bit of its low half, independent of the rank. Where an extra tag is required to interpret a default, serialize its bounded bits in the same scalar area. These choices differ from the serialization of \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026} only in where the scalar bits are stored inside the central area, and Lemma~\ref{q1:l9} checks that every classical statement used here holds for them; none of the quantum work is inserted into the classical hierarchy. Section~\ref{q1:clock} bounds full-symbol disagreements. Quantum level reduction below compares to the single clean schedule throughout. It never asks for noisy high-rank projected states during execution.
+
+It suffices to implement the transition for \(S\) input qubits per parent, whatever the clean parent's \(a,s\) and bit. Pick a constant-distance binary CSS code from Lemmas~\ref{d:code}--\ref{d:reduction}. The distance is selected below. Within a colony store all \(S\) encoded blocks at fixed, disjoint coordinate locations on ordinary child data slots. Reserve distinct compact work locations for a catalogue containing the circuits for all on-site gates on all possible named slots, logical resets and a logical preparation of one. Preparation of one is zero preparation followed by transversal \(X\). Input ports are themselves complete encoded blocks. Allocate left-port coordinates to the left of right-port coordinates. The number of positions in the catalogue is a constant after the code and \(S\) are fixed. Choose \(w\) afterwards so these positions fit strictly inside a home, even after reserving the \(O(\mathrm{poly}(w))\) work area for the compiler. Unused slots are reset before first use.
+
+\paragraph{Within one parent tick}
+
+All steps below consist of on-site native gates, one-bit LOADs and the fixed port swaps. To exchange the ordinary slots of two neighboring cells, at both ends swap those slots into the two facing ports in the same tick, then swap from the same ports back into the ordinary slots at both ends in the next tick. The two mandatory port exchanges implement exactly the requested swap on the data and a permutation on the old port contents. Unused ports merely bounce on their own bond. Exclusive assignments to disjoint links, or one link at a time, avoid conflicts. This implements nearest-neighbour permutations and local classical communications with a constant slowdown. Reset/control routines act on dedicated workspace. In particular a long permutation sends a fixed list of wire factors to known destinations; a fault during it touches at most the participating factors, irrespective of distance.
+
+\begin{enumerate}[label=\arabic*.]
+\item Normalize every incoming logical slot with repeated full \(\operatorname{EC}\) passes from Lemma~\ref{d:reduction}. Use fresh or reset work. Serializing the slots is allowed. Store each idle data coordinate on its own wire. Follow the normalizers by the complete EC-and-body for the selected instruction, including the idle case. Untouched slots retain their identity, with their own \(\operatorname{EC}\). Use \(b+1\) leading passes per block for the effective fault budget \(b\) specified below.
+\item For a finite, fixed alphabet of possible parent instructions, concatenate all candidate EC-and-body contact lists. Only the selected list acts on the designated data and work. For each contact, prepare fresh control scratch, fetch the required \(O(w)\) parent-word bits, compute the parent's decoded instruction, compare it with this candidate, use its answer at this single contact, then discard all its private computation. Compute the parent's instruction even at contacts for an inactive candidate. When the decoded instruction is a bit \(\operatorname{LOAD}\), use the parent retained bit to choose the logical zero or one preparation. Normalizers need no candidate test. Routes to and from each contact are fixed permutations followed by their inverses, even for an inactive candidate. At the contact scatter up to three operands into dummy slots conditionally, perform the unconditioned candidate primitive there and gather them back. Reset private dummies and scratch. The inactive action is exactly the identity on occupied wires. In particular the controller does not make one decision and distribute it to a whole code block. The effect of one failed decision is confined to that one contact. Separate candidates use disjoint work or reset it before access.
+\item Transfer the complete encoded \(R\) block of \(i\) to the \(L\) slot of \(i+1\) and vice versa by a fixed permutation. For each code coordinate in turn transpose the two corresponding positions by going forward along their line of adjacent transpositions and back along the prefix so only the endpoints exchange. All bonds between neighboring \emph{colonies} can do this simultaneously: for a given coordinate its left-port position lies strictly left of its right-port position within every home, so the intervals for consecutive colony boundaries are disjoint. Use a dedicated ordinary transport slot after moving the endpoints into it, then move them back from the transport slot at the end. No data-dependent gates follow this transport in the epoch. Padding is idle. On the quantum slots holding the encoding this is the mandatory parent port exchange. Each such token crosses at most one colony boundary. Records and inactive nonretained work are unconditionally discarded/reset at their declared round boundary. Exchange ports are retained factors at every level: a shuttle in flight spans two native ticks, hence two physical rounds. Their old contents are handled by \eqref{q1:e5.1}, the end-cell rule and, in the halting case, the \(D\)-erase of Lemma \ref{q1:l14}. No borrowed work is needed across a parent cut.
+\end{enumerate}
+
+The same construction implements one parent time step simultaneously for all parent cells. The on-site stages stay within their own homes. Only the final fixed-permutation stage needs the adjacent home, and every other initial slot stays in its own home. This spatial fact also bounds the support enlargement when the schedule is faulty.
+
+\paragraph{A finite table that can compute its own indexed gate}
+
+The apparent circularity in step 2 is the following. The desired parent instruction \(d(a',s')\) is a gate of the very schedule now being built. A full table of \(P T\) entries need never be reproduced inside a home.
+
+For clarity fix a universal binary classical tape machine once. Its synchronous tape-cell update uses only the old center and its nearest neighbors. A cell stores tape symbol and optional head/state; apply the finite transition truth table to construct the next row, reset old fields and exchange banks. For a malformed input fix an arbitrary total truth table. Implement a synchronous tape step with a fixed number of native substeps: fanout the two boundary copies of each old bit into dedicated slots, do left/right neighbor exchanges on the ports, compute the finite Boolean table in each cell with \(\operatorname{Toffoli}, \operatorname{CNOT}, X\) and fresh bits, then overwrite. Each neighbor exchange of the tape step is a complete paired shuttle of the two dedicated copy slots of one bond, in the sense of the exchange defined above (both cells swap their copy slot with the facing port in one tick and swap back in the next); bonds whose left cell has even and odd address use separate substeps. End-cell rule: the two end cells of a private tape interval perform no outward exchange. In the substep of an outward shuttle an end cell instead resets its outward copy slot and prepares in it the fixed blank record (blank symbol, no head, by \(R0\) followed by the fixed \(X\) pattern of the blank encoding). During a tape-update tile, an end cell's tape and neighbor-record routines never couple to its outward port. Separately scheduled installation, fetch, decision-return and operand routes use ports only through complete paired shuttles; their transient use of a tape endpoint's port does not supply an old port factor to the private decision logic. The same rule holds at every level. With a correctly initialized head this is a universal sequential computer. No clean dynamic classical side processor is assumed.
+
+Here is an indexed layout with a variable binary program \(v\). In the schedule for candidate contact \(i\) reserve these consecutive slots: clear the entire tape and its boundary on designated tracks, install the fixed prefix \((v,v)\), binary \(w\), the known hardwired parameters if needed and blank input positions, fetch the parent bits into those positions, run the universal cell-update tile for a fixed number of cycles, return the decision bit, act at contact \(i\), and clear/discard. A tagged invocation on \((v,v,w,a',s',i,\xi)\) returns the candidate selection bit specified below. Fetch the parent \(X\) bit in a fixed slot unconditionally; its value is used only when the returned instruction is \(\operatorname{LOAD}\). The catalogue, the contact number \(i\) and any candidate comparison are spatially fixed within that time slot. Allocate a tape interval of length proportional to the time bound plus the input length, with a blank guard: a valid single head moves at most one cell per step. A halting machine parks its output in a designated cell and remains idle. On any malformed result use the fixed default. The classical simulator controls only that contact's selection bit; the timetable of all contacts and routes is immutable.
+
+For each of the \(O(w)\) hardwired bit positions allocate a slot of \(4P+O(1)\) adjacent swaps/ticks with a bounded fixed slowdown. Load at the known source, move a single private bit along the segment to its appointed tape input, copy it, and return or reset transport. This provides random access to the serialized parent without using any read distinguished by rank. Reserve similar bounded linear intervals for all fixed gate routes and the final port exchange. The decision circuit proper repeats the same tape-update at all cells in the work interval. An implementation can pad each phase to a multiple of a common constant. The total duration and space are \(O_{v}(P\,\mathrm{poly}(w))\) and \(O_{v}(\mathrm{poly}(w))+O(1)\) active work sites plus the transport tracks respectively. The leading normalizers, code catalogue and number of conditional contacts are constants \emph{before \(w\) is chosen}. The literal size of these constants may be large.
+
+To generate an indexed gate, a program \(L\) on input \(v,w,a,s\) locates a stage by comparisons/subtractions against the fixed finite stage list, computes any repeated fetch number from the quotient in its padded time slot, and decides the stage's gate at address \(a\). For a nearest-neighbour route the active pair is the pair at its elapsed hop number; the return traverses the segment in reverse. For a tape cycle the active update is specified by address membership in the tape interval and the residue of time modulo the fixed elementary tile. Installing \((v,v)\) uses bits of the provided literal. The bit position, phase lengths, tape endpoints and fixed catalogue offsets require only comparisons, arithmetic and quotient/remainder on \(O_{v}(w)\)-bit integers. No index query evaluates the simulated tape contents. All \(O(w)\) parent scalar coordinates can be laid out consecutively; one may instead scan their \(O(w)\) explicit formula list. Choose a polynomial machine-time allowance \(w^{c}\) for each valid call. To see that \(c\) can be selected without a circular bound, treat \(c\) as a binary constant in the indexed generator: computing \(w^{c}\) takes a constant (dependent on \(c\)) number of \(O_{c}(w)\)-bit arithmetic operations. Calculating, comparing or dividing indices into an interval of \(w^{c}\) identical tape cycles has the same polynomial bit complexity degree irrespective of \(c\). All other loops are over the fixed catalogue, the fixed program text or \(O(w)\) scalar bits. Schoolbook addition, multiplication and long division and a fixed single-tape simulation give a bound \(C_{v,c}(1+w)^{A}\) with absolute exponent A independent of \(c\). Choose \(c>A+2\), then \(w\) large enough to cover the constant and return the head/output. Make \(v\) the finite tape-machine text for this very indexed generator \(L\), with input \((v,w,a,s)\). The installed pair \((v,v)\) runs \(L\) on its own text. Thus the decision in a fault-free private computation is exactly the opcode \(L(v,w,a',s')\) defining the schedule on the parent. This is the elementary self-description construction with two copies of a program string. The length of \(v\) is independent of \(w\).
+
+Reserve age 0 as an idle on-site tick for every address. All other stages start after it. For large \(w, P=5\cdot 2^{w}\) dominates every fixed power of \(w\) and \(T\ge \lfloor 3^{w}/w^{2}\rfloor\) dominates \(C P\) poly(\(w\)). A terminating search chooses \(w\) satisfying these inequalities and the \(R1\) bounds. Complete unused dates by idles. The clean parent operation at the aligned initial top tick is an identity on all nonport slots, with the fixed permutation of ports. In particular it preserves a designated nonport qubit. The physical rule hardwires the finished finite lookup or evaluates it by a fixed finite Boolean circuit each round.
+
+\begin{lemma}[Parametric complete gadgets and level reduction]\label{q1:l4}
+
+
+Fix any integer \(b\ge 1\) and any member \([[n_{s},1,2q_{s}+1]]\) of the \textbf{particular} binary CSS family of Lemma~\ref{d:code}. In the one-dimensional theorem the member is the least \(s\) satisfying \eqref{q1:e4.1} with \(b=b_{\mathrm{fault}}\) of \eqref{q1:e7.2} (Section~\ref{q1:parameters}, row \(s_{\mathrm{code}}\)); the member fixed by \eqref{d:capacity} is not used. Use its complete \(\operatorname{EC}\) and native real-gate bodies of Lemma~\ref{d:gadgets}, not an arbitrary code having the same distance. Suppose
+
+\begin{equation}\label{q1:e4.1}
+\begin{gathered}
+q_{s}-8 \ge  8(20b+8) = 160b+64.
+\end{gathered}
+\end{equation}
+
+Precede the complete \(\operatorname{EC}\)/body for every block, including an idle block, by \(b+1\) time-disjoint full \(\operatorname{EC}\) passes, with fresh or reset work. Synchronize these passes before interblock bodies. A routed implementation is admissible if deleting its fixed permutations and auxiliary decision circuits converts its faulty execution into the complete native circuit with at most \(b\) faulty gate/wait/reset locations, with arbitrary joint environment coefficients. Lemma \ref{q1:l5} proves this premise for the present compiler.
+
+For any such rectangle:
+
+\((a)\) On a correctable incoming block with at most \(9b\) deviations, its intended logical instruction is implemented, and the output deviates on at most \(9b\) coordinates per block, including terminal waits/transports counted in the \(b\)-location budget.
+
+\((b)\) On an arbitrary incoming block, the output is in the \(9b\)-correctable span of some logical input selected by its normalizations. This assertion is simultaneous on all good blocks, with arbitrary bad-block and reference entanglement.
+
+\((c)\) At the common cut, the same fixed recovery reduces all good rectangles to their intended instructions. All other actions can be expanded as joint faults supported on the named bad outgoing wires, with their fixed port-permutation images. This operation can be iterated through any finite hierarchy; the decoder does not depend on the fault history.
+
+All counts are independent of the number of locations, the route lengths, \(b\), and \(s\) except where displayed. In particular the numerical budgets \eqref{d:budgets} and \eqref{d:capacity} for the three-dimensional geometry are not hypotheses.
+
+\end{lemma}
+\begin{proof}
+
+Record explicitly the parametric content of Lemma~\ref{d:gadgets}. For its stated code, a complete routed \(\operatorname{EC}\)/body having \(j\) faulty locations and a correctable input with at most \(f\) deviations has output in the span of its ideal output with at most \(8j\) deviations if
+
+\begin{equation}\label{q1:e4.2}
+\begin{gathered}
+8(f+j) \le  q_{s}-8.
+\end{gathered}
+\end{equation}
+
+Faults can be correlated with every exterior system. Fault-free \(\operatorname{EC}\) maps the entire input Hilbert space into the code. These are exactly the conclusions of Lemma~\ref{d:gadgets}, whose statement is already quantified over \(f,j\) and every \(s\). The proof does not substitute a geometric budget for \(f\) or \(j\).
+
+For clarity, the following is the parameter check of the proof, grouped only into consecutive proof paragraphs.
+
+\begin{itemize}
+\item The opening of the proof of Lemma~\ref{d:gadgets} defines gate, wait and reset locations and private single-coordinate decisions. It has no geometry or budget choice.
+\item Its part on deterministic verified preparation constructs \(V_{t}\) and proves its fault-count induction for \(k\le t\). Set \(t=q_{s}\). The sentence there comparing the depth with the rectangle budget \(2b_{\mathrm{FT}}\) requires only \(q_{s}\ge 2b\), which follows from \eqref{q1:e4.1}. The recursive preparation size \(5^{q_{s}}\) affects time and location count, not the per-fault support assertion.
+\item Its part on coherent error correction proves bit/phase correction and arbitrary-input normalization. Its uses of unique decoding are precisely the margin \eqref{q1:e4.2}; its private radius indicators and swaps reach one coordinate. No \(b_{\mathrm{FT}}\) appears.
+\item Its part on the coherent Toffoli prepares the \(\operatorname{Toffoli}\) resource with \(R_{\mathrm{cat}}=2 \lfloor q_{s}/2\rfloor+1\) tests. The only numerical requirement is that the native-fault allowance be at most \(\lfloor q_{s}/2\rfloor\), and that the correction margins hold. Under \eqref{q1:e4.2}, its part on routing and the numerical envelope gives \(f+2(j+1)\le q_{s}/4\le \lfloor q_{s}/2\rfloor\), so both requirements hold. In our application \(j\le b\) and \eqref{q1:e4.1} also gives \(q_{s}\ge 2b\) directly.
+\item The same Toffoli part proves the resource conversion and its support bounds coordinatewise, for arbitrary complex input amplitudes. Its gates are exactly the listed real native gates, independent of any schedule geometry.
+\item Its part on routing and the numerical envelope deletes routing by commuting product-basis fault factors through permutations; a two-token routing fault costs at most two native faults. Its envelope is \eqref{q1:e4.2}, and the contact bound is per fault. For an alternative routing one must prove the deletion premise rather than reuse the number two. We do so in Lemma \ref{q1:l5} and count its resulting native locations in \(b\). The conservative \(8j\) bound remains valid for an unrouted circuit with \(j\) native faults (equivalently take routes of length zero). The formal circuit produced by Lemma \ref{q1:l5} executes the native gates of Lemma~\ref{d:gadgets} one per formal step, in a fixed linear order extending the gate order of Lemma~\ref{d:gadgets} (gates sharing a wire keep their stated order), with a native wait location on every other token at every step. The proof of Lemma~\ref{d:gadgets} attributes each fault to one location and follows it only through later gates on the same wires; it never uses the simultaneity of the gates of one transversal step. Serialization therefore only adds wait locations, each a legal native location.
+\item Its final paragraph proves the operator-span assertions coefficientwise and uses one recovery for the entire span. This is why arbitrary joint Kraus coefficients, references, and correlations between different faulty locations are permitted.
+\end{itemize}
+
+Now prove the reduction without the three-dimensional numerical substitutions. Among \(b+1\) leading passes on a block, at least one contains no touching native fault. Its output has code support even on arbitrary input, by the normalization clause of Lemma~\ref{d:gadgets}. Choose the last such pass. After that pass, all subsequent ECs and the complete body preserve the selected logical subsystem. Indeed before any such \(\operatorname{EC}\) or body there are at most \(8b\) residual coordinates from the preceding complete operation and at most \(b\) from intervening waits/transport, or at most \(9b\). Even allowing a further \(b\) coordinates at the cut before this count is taken gives \(f\le 10b\). With \(j\le b\),
+
+\begin{equation}\label{q1:e4.3}
+\begin{gathered}
+8(f+j) \le  88b \le  160b+64 \le  q_{s}-8.
+\end{gathered}
+\end{equation}
+
+Applying Lemma~\ref{d:gadgets} afresh leaves at most \(8j\le 8b\) coordinates; any remaining terminal waiting/permutation faults add at most \(b\), giving \(9b\). Starting from the clean pass, this proves \((b)\) by induction over the finite pass list. Starting instead from a \(9b\)-correctable incoming state proves \((a)\), because every pass is inside \eqref{q1:e4.3} and hence preserves its original logical input. The clean pass need not be at the same time on different blocks.
+
+The joint assertion is not a collection of state-dependent recoveries. Expand every shared fault in a tensor matrix basis on the good block factors and retain every other system as its coefficient. For each term, Lemma~\ref{d:gadgets} fixes the ideal logical map and puts the good output in the same correctable span. Consequently every complementary projection to that span has zero expectation on the positive joint output. The joint output therefore lies in the tensor product of those spans. In the fixed stabilizer-recovery coordinates the good logical operation is the intended operation, with a common coefficient on the bad inputs, syndromes and environment; off-diagonal logical matrix elements have that same coefficient. For an intended gate involving a bad operand, this means the intended gate on the actual recovered bad input, not identity on the good operand of that gate.
+
+At a common cut, absorb the next normalization of each preceding bad output into the arbitrary channel on that named wire, before applying the next interblock body. This composition has no access to any additional good logical input in recovery coordinates. Expanding it in matrix bases on the already named wires adds no wire. The good bodies then implement the intended gates on those logical wires. The fixed final port permutation merely permutes their names. Repeat in the finite directed circuit. This is the argument of Lemma~\ref{d:reduction} with \(r_{\mathrm{FT}}=8b\) replaced by the conservative carried allowance \(9b\) and with \eqref{q1:e4.3} in place of its \(72b\) inequality.
+
+Finally recursively recover every child. At most \(9b\) child-coordinate operators in a good parent become arbitrary operators on at most \(9b\) parent coordinates; the rest recover ideally. Since \(9b\le q_{s}\), the one recovery of Lemma~\ref{d:code} corrects their whole union span. Induction gives a fixed bottom-up recovery for every allowed history, exactly as in the last paragraph of the proof of Lemma~\ref{d:reduction}. This proves \((c)\) and completes the parametric check. No step used a lattice dimension, a geometry-specific budget, or a bound on the total number of locations. 
+\end{proof}
+
+
+
+\begin{lemma}[Deletion, fault paths, and boundary shuttles]\label{q1:l5}
+
+
+Use exactly the compiler's fixed timetable: all candidate contact lists, a freshly reset private decision before \textbf{each} contact, fixed routes and inverse routes, conditional scatter to exclusive dummy factors, one unconditional primitive on the dummies, gather, and disposal. A private decision has no protected-data access except its one contact, of arity at most three. The tape, fetch and decision-return tracks have internal guard cells, and the private tape obeys the end-cell rule of the tape step: its two end cells never take a factor from their outward ports and use the constant blank record instead. Every other inter-site transfer of a private stage (installation, fetch, record exchange between tape cells, decision return, operand routing) is a complete paired shuttle. Outward home-boundary ports are inaccessible except during the paired boundary crossings of the terminal exchange, which are two crossings of two ticks each per transported code coordinate. The final exchange uses dedicated transport and is followed by no data-dependent operation.
+
+\((i)\) With clean classical oracle reads and no faults, one compiled epoch on its designated encoded \(S\) input slots equals: \(b+1\) full \(\operatorname{EC}\) normalizers on every slot; the selected complete \(\operatorname{EC}\)/body with \(\operatorname{EC}\) also on idle slots; waits; and the prescribed parent port permutation \(E\). Other retained work is discarded/reset at its declared end. Old microscopic port contents undergo a separate permutation and never become logical data or input of a private machine. This equivalence holds on the entire input algebra, with arbitrary reference and old-port entanglement.
+
+(ii) A finite set \(F\) of named faulty child ticks converts, upon deletion of auxiliary routines and fixed routing, to joint arbitrary faults at at most \(K|F|\) native gate/wait/reset locations of that circuit, where
+
+\[
+\begin{gathered}
+K = 100000(S+1)^{2}.
+\end{gathered}
+\]
+
+The bound counts location insertions, not the duration of a private computation or route. It is independent of code size, tape length, route length and hierarchy rank. Native waits at every interval without a prescribed contact are included as legal fault locations. Faults on final exchange coordinates may be placed immediately before the ideal \(E\); their \(E\) images are named as well.
+
+\end{lemma}
+\begin{proof}
+
+Write the factors on one bond as \((o_{x},R_{x},L_{x+1},o_{x+1})=(A,p,q,B)\). In the first tick swap the two ordinary factors into their facing ports, then perform the mandatory port exchange; the tuple becomes \((p,B,A,q)\). In the second tick swap back and exchange ports again; it becomes
+
+\begin{equation}\label{q1:e5.1}
+\begin{gathered}
+(B,q,p,A).
+\end{gathered}
+\end{equation}
+
+Thus a paired shuttle is \(\operatorname{SWAP}(A,B)\otimes\operatorname{SWAP}(p,q)\). This is an identity of permutation unitaries, not an argument restricted to product or blank ports. Extra mandatory exchanges on unused port pairs are likewise permutations only of those unused factors. A word of complete shuttles implements its specified ordinary-factor permutation, tensored with a permutation of unused ports. The inverse route cancels the ordinary-factor routing away from its contact.
+
+At a contact the fault-free private machine returns the deterministic selection bit for the current candidate, and the bit requested by \(\operatorname{LOAD}\) when relevant (Lemma \ref{q1:l6} gives the recursive clean-oracle justification). This holds for arbitrary old port contents. Every inter-site transfer of the private machine (installation, fetch, record exchange between tape cells, decision return) is a complete paired shuttle, which by \eqref{q1:e5.1} exchanges the two moving factors and leaves the old port factors in the ports. The two end cells read the constant blank record instead of a port, by the end-cell rule. Every other factor the machine reads is reset in phase 1, prepared by the installation, or written by a fault-free \(\operatorname{LOAD}\). Hence the tape evolves exactly as the reset run of \(U_{\mathrm{cpu}}\) on its installed and fetched input, whose bits are the clean ones by Lemma \ref{q1:l6}, independently of every old port factor and of the reference. If unselected, scatter and gather leave every occupied formal-circuit factor untouched: the primitive acts only on reset dummies. If selected, scatter moves exactly its at most three operands to those dummies, the primitive acts on them, and gather returns its outputs. This statement includes reset or discard primitives: an active reset resets the intended operand; an inactive reset resets only an unused dummy. Each private machine and each candidate's reused work is reset before use and disposed of at the declared end. The selected candidate therefore gives its exact contact list; all unselected lists reduce to identities on the formal circuit. The unconditional normalizers precede that list. \(\operatorname{EC}\) for an idle slot is included in the chosen complete list, so idle slots are normalized unconditionally as a semantic action.
+
+For terminal port exchange, fix one code coordinate \(j\). In home \(i\) let \(l_{j}(i)<r_{j}(i)\) be its left/right endpoints. Intervals \([r_{j}(i),l_{j}(i+1)]\) for consecutive boundaries are disjoint. Along each interval use the forward adjacent-transposition word followed by the reverse prefix. This transposes its endpoints and restores every intermediate ordinary transport factor. Running all boundaries in parallel is legal because those intervals are disjoint. Do the coordinates successively. Moving endpoints into and out of the dedicated transport slot gives exactly the encoded \(E\). All other ordinary factors stay in their home. By \eqref{q1:e5.1}, microscopic old ports remain a separate permutation. Tracing/resetting declared unused work composes the same channel on both sides of the equality. This proves an exact channel identity with a reference, not only equality of classical configurations.
+
+\paragraph{Fault deletion and the incidence bound}
+
+Consider first one named faulty child tick. At the on-site cut it is an arbitrary joint \(CP\) map on \(S\) factors at one site. Conjugating by the mandatory \(E\) puts its outgoing factors in at most three neighboring sites. It is harmless to overcount these as \(S\) factors at each of those three sites. For a joint set of faults, choose local matrix bases on these factors in each Kraus operator and retain arbitrary operators on the reference, other faults and environment as common coefficients. We may follow each resulting formal-circuit token separately without asserting probabilistic independence.
+
+There are only the following destinations for a factor touched by the named tick.
+
+\begin{enumerate}[label=\textup{Case \arabic*.},leftmargin=*]
+\item \textbf{An occupied formal-circuit token, a native gadget record, or a transport token.} Between prescribed contacts all operations on that token are fixed permutations or identities. Conjugate the factor through those permutations and insert it immediately before its next prescribed native use, or at a native wait if it has no further use. Its physical path can have arbitrary length. We do not commute it through an active contact. If two factors' next uses are at different dates, insert their factors there with the same environment coefficient; intervening operations on disjoint wires commute. If a token is disposed of before any use, its factor can instead be absorbed into the disposal coefficient.
+\item \textbf{A private instruction-decoding computation.} Its clear, fetch, tape evolution, result return and disposal touch protected data only at the one pending contact. Its spatial and temporal gate list is immutable: tape contents select one answer bit and never a new route, address, target, or execution date. Guard cells exclude the outward ports and other work intervals. Replacing its complete faulty evolution by its induced map on the contact operands therefore costs at most three native locations. This is true for a coherent or entangled controller as well as for an incorrect classical answer. The next private computation begins with a fresh reset of the entire tape, boundary, return and control scratch. Garbage that the named tick leaves outside that reset set cannot reach the next computation either. A factor left in a port, including the outward port pair at either end of the tape, is never read by a private stage: every inter-site transfer there is a complete paired shuttle, which by \eqref{q1:e5.1} keeps old port factors in the ports, and the end cells use the constant blank record instead of their outward port. A factor left in an intermediate fetch, return or transport slot is only permuted by later routes and is never copied, since a moving bit's own slot is prepared by its \(\operatorname{LOAD}\) or installation. Hence no erroneous private state survives into the next computation, and each named tick spoils at most the computation pending at its date in each home it meets.
+\item \textbf{Scatter, primitive, or gather.} All access is confined to the contact's at most three formal operands and its private dummy/control work. Tracing/resetting the latter gives an arbitrary \(CP\) map on those operands. A data token stranded in a dummy and subsequently reset is included in that map. This again costs at most three locations, or one faulty arity-three native contact if its operands share that contact.
+\item \textbf{An unused port factor.} A complete clean shuttle has the product form \eqref{q1:e5.1}. Hence the factor stays on unused ports and cannot infect a later ordinary token through a clean shuttle. If its tick is itself one of the faulty shuttle/contact ticks, count the ordinary factors involved in that faulty tick under cases 1 or 3. No length-dependent recurrence of infection is present.
+\end{enumerate}
+
+For completeness, count directly. A named tick is an arbitrary joint map on the \(S\) factors of one site before \(E\). \(E\) moves at most two of them, its ports, to the neighbouring sites, where they remain the same factors. Classify each of the \(S\) factors by its role at that date.
+\begin{enumerate}[label=\textup{(\alph*)}]
+\item A formal-circuit token (data, intrinsic gadget record or work, terminal-transport token): case 1 charges it at one native location, at most \(S\) in all.
+\item A wire of a private computation (tape cell or record, fetch or return bit, control, dummy, input scratch): it belongs to the computation pending at this date in the home of the site. A port image entering a neighbouring home lands on an outward home-boundary port, which no private stage reads, so at most one computation is affected. Charging two is conservative, at three locations each by case 2.
+\item Operands at the pending contact (in transit, scattered or stranded): at most three, by case 3. They are already counted under \((a)\) or \((b)\); add three more.
+\item An unused port factor: no charge, by case 4.
+\end{enumerate}
+Hence one named tick costs at most \(S+6+3\) native locations, and
+
+\begin{equation}\label{q1:e5.2}
+\begin{gathered}
+S+9 \le  10(S+1) \le  100000(S+1)^{2}.
+\end{gathered}
+\end{equation}
+
+Budget check. Suppose the end-cell rule were weakened, so that garbage left by a named tick could be read by one further private computation. That computation's contact would add at most three native locations. The direct count above becomes \(S+12 \le  13(S+1)\). Even the cruder count, which charges \(3S\) factor lifetimes at the three post-\(E\) sites, three operands for each of nine possibly incident pending computations, and a factor \(12\) for pre-/post-\(E\) placement, both ends of a contact and the three possible named \(E\) images, becomes \(12(3S+27+3) = 36S+360 \le  360(S+1)\). Both are below \(K = 100000(S+1)^{2}\), so \(b = K(m+1)\) and every later constant are unchanged. If the further computation lay in the next parent tick, the named tick would belong to that parent's cover through the unit temporal collar of Lemma \ref{q1:l7}, so the charge would still fall on a counted named child. Under the end-cell rule, case 2 shows that this further computation does not occur.
+
+This overcount includes all reset/wait placements. It uses no number of contacts in a list or number of gates in a private computation. The distinction is essential: an intrinsic gadget's record is a formal-circuit token and is charged at its next native gate; the compiler's additional instruction computer is case 2 and has only one contact. The proof of Lemma~\ref{d:gadgets} handles any later propagation of an intrinsic record fault.
+
+Repeat for all named ticks and take the union of inserted locations. Coincidences only reduce its cardinality. The matrix-basis expansion retains all joint coefficients, so several inserted factors can represent one correlated map without increasing support. This proves (ii) in home interiors.
+
+\paragraph{Boundary and arbitrary neighbors}
+
+A good home's internal stages never couple its outward port to data or work. An arbitrarily driven neighboring port therefore remains inaccessible before terminal transport. During transport, the good half of a forward/reverse endpoint-transposition path moves its endpoint to the boundary, then later brings the received endpoint back. Its internal factors traverse the route and its inverse. Their restoration is independent of the received endpoint's value: the two boundary crossings can supply an arbitrary endpoint channel and arbitrary port garbage, but the only final formal factor in the good home exposed to that channel is its exchanged endpoint. This follows by writing the adjacent transpositions as a permutation with the boundary endpoint left as an unspecified input/output wire; every internal intermediate wire connects back to itself. No following data-dependent gate reads transport before its disposal.
+
+Thus a wholly bad home and its two incident transmitted ports can be named as arbitrary jointly. A faulty elementary boundary shuttle may touch both endpoints; charge it in both corresponding covers, which is already allowed in \eqref{q1:e5.2}. Lemma \ref{q1:l7}'s count is of these \textbf{named} children, with all routes and \(E\) images included. Old ports and initially arbitrary excluded scratch are either separated by \eqref{q1:e5.1}, never read by any private stage (end-cell rule), or reset before first use, so the argument also applies after a wholly bad preceding epoch. This completes the boundary case and the proof.
+\end{proof}
+
+
+The constant \(K\) is deliberately loose; by \eqref{q1:e5.2} it exceeds the direct count by a large factor. The words ``work returned to reset'' refer to declared disposable work after its actual discard/reset; syndrome work may depend on its input before that disposal. Designated encoded parent ports are protected logical slots and are not disposable work.
+
+
+\begin{lemma}[Base interface and the clean-oracle induction]\label{q1:l6}
+
+
+Fix the single initialized clean nonhalting \(R1\) tower used by Section~\ref{q1:clock}. Denote its complete rank-\(k\) state at native site/date \((x,t)\) by \(c_{k}(x,t)\), its ordinary address and age by \(a_{k},s_{k}\), and the low bit of its retained word by \(\xi_{k}\), with the compiler's total zero/default convention. Define the reference native instruction
+
+\[
+\begin{gathered}
+g_{k}(x,t) = d(a_{k}(x,t),s_{k}(x,t)),
+\end{gathered}
+\]
+
+where an opcode \(\operatorname{LOAD}\) prepares \(\xi_{k}(x,t)\), and is therefore \(R0\) or \(X\) after \(R0\). This reference instruction is independent of the quantum input and of the actual noisy high-rank projected classical history.
+
+At level zero, enlarge the named error set \(B_{0}\) to include every physical quantum fault stencil, every terminal selector cut in the nonhalting comparison, and every clock mark of Lemma \ref{q1:l3} centred at a physical instruction read. Then the actual tick equals the clean reference on-site instruction followed by \(E\) outside \(B_{0}\); at \(B_{0}\) it may be an arbitrary joint map on the named \(S\) slots and its \(E\) images.
+
+Induction invariant \(H_{k}\): in fixed recovery coordinates, every good level-\(k\) rectangle implements the native instruction \(g_{k}\) on its actual logical inputs, including the bit \(\xi_{k}\) for \(\operatorname{LOAD}\). Its output lies in the common correctable span. Arbitrary joint faults occur only on named bad level-\(k\) sites and their \(E\) images. This holds jointly with all bad subsystems, syndromes and reference. Hence the compiler never relies on an unproved accuracy assertion for a noisy high-rank oracle.
+
+\end{lemma}
+\begin{proof}
+
+The classical-lane interface is Lemma \ref{q1:l2}. In particular every physical instruction uses only raw bits of its own old bank (address, age, retained-word low bit and tags); by Lemma \ref{q1:l2}(ii) they equal the canonical clean bits outside clock marks. One-way classical controls do not write back into that lane. Its evolution is an autonomous dephased stochastic classical process, even for a reference-entangled quantum input. A wrong control symbol can change the instruction at that site/date, but cannot change the hardware's list of named local slots or its bounded \(E\) images. By the full-state clock projection, any such wrong read is inside a failed-test mark. A wrong raw read that happens to give the same instruction can harmlessly be marked too. A raw gate/reset/wait fault and a terminal cut are likewise arbitrary maps on the named slots. Aggregating the finitely many elementary sublayers of the native tick into the base stencil therefore gives exactly the stated level-zero model, on the full algebra. A persistent erroneous word is charged at every tick when it is read; no one-use assumption is made.
+
+Here is the required oracle linkage at the next rank. In the clean \(R1\) boundary encoding \(E_{k}(c_{k+1})\), every child home has its full retained packet \(X=\delta_{k}(c_{k+1})^{5}\), ordinary addresses, aligned ages and default scratch. This is the complete post-ballot statement given by the ballot rule of \cite[Section~\ref*{cl:sec:verifier}]{DMNoise1D2026} and the clean identity \cite[Lemma~\ref*{cl:lem:clean}]{DMNoise1D2026}. Apart from declared writes, the retained \(X\) is held (untargeted fields are retained, \cite[Section~\ref*{cl:sec:native}]{DMNoise1D2026}); none of the pre-vote mechanisms replaces a clean incumbent (proof of \cite[Lemma~\ref*{cl:lem:clean}]{DMNoise1D2026}). Consequently throughout the following parent epoch every child's retained packet refers to the \textbf{current state at the bottom of that parent epoch}, which is precisely the state whose one-step instruction is being simulated.
+
+Use the middle packet copy and the layout of Lemma \ref{q1:l9}. The parent's ordinary address, age and applicable tags are determined by a fixed \(O(w)\)-list of child-letter low bits. Each bounded scalar bit is one such letter's low bit. The parent retained word is split into its low and high child-width halves. Its lowest bit is the lowest bit of the low-half letter, at the same packet position at every rank. The tags and zero defaults are carried in the same scalar layout; thus this statement remains true when a represented field has no applicable word. No child is asked to obtain an entire word or a rank-dependent high-order bit from a single \(\operatorname{LOAD}\).
+
+Assume \(H_{k}\). During a good level-\((k+1)\) epoch, reduce its child computation using \(H_{k}\). The fault-free part of every child \(\operatorname{LOAD}\) prepares exactly the low bit of that child's clean rank-\(k\) retained letter. Therefore its fixed fetch routes supply precisely the scalar bits of \(c_{k+1}\) and the bit \(\xi_{k+1}\). A good lower \(\operatorname{LOAD}\) does not read an actual noisy rank-\((k+1)\) projection. If a child rectangle is bad, its \(\operatorname{LOAD}\) may instead be arbitrary, and is already a named child fault; Lemma \ref{q1:l5} charges its influence to the one pending contact. This distinction also covers private computations that are wrong because of data corrupted earlier in their current lifetime.
+
+On the ideal reduced child circuit, the fault-free private program returns exactly \(d(a_{k+1},s_{k+1})\) by the self-description construction and Lemma \ref{q1:l8}. It uses the fetched \(\xi_{k+1}\) only for the \(\operatorname{LOAD}\) candidate. Lemma \ref{q1:l5} deletes the unused candidates, private computations and routing. Lemma \ref{q1:l7} bounds the resulting effective native fault count in a good parent by \(b\). Lemma \ref{q1:l4} now gives the intended logical operation with the same clean oracle bit and a common correctable output span, jointly with all external systems. At bad parents retain a joint arbitrary map on their named outputs and \(E\) images. This is \(H_{k+1}\).
+
+The base \(H_{0}\) is the physical model already established; a physical site itself has no code to recover. Induction on the finite hierarchy proves every \(H_{k}\) used in the finite chart. This is an implication from one rank to the next, not a simultaneous assumption that all noisy projections are correct. Correctness of the classical oracle and correctness of the quantum data are separate: the reference oracle is clean, whereas an actual logical input inherited from a bad block can be arbitrary and correlated. The intended instruction acts on those actual logical inputs as asserted by Lemma \ref{q1:l4}. 
+\end{proof}
+
+
+
+\begin{lemma}[Named-child counts, budgets, and separated descendants]\label{q1:l7}
+
+
+A named level-\(i\) location is the site/tick \textbf{before} its mandatory \(E\), with all its \(S\) slots allowed to be faulty and its outgoing \(E\) images retained. Let \(Q_{i+1}(z)\) be the full child-location cover of the parent instruction at \(z\): its home, complete two terminal transport paths, every participating shuttle microgate, and all immediate pre/post-\(E\) port neighbors. Enlarge to whole adjacent homes and a unit temporal collar, namely the same child sites during the preceding and the following parent tick; its direct halfheight is at most \((1/2+1)T^{i+1} \le  2T^{i+1}\), as used in \eqref{q1:e7.4}. Set
+
+\begin{equation}\label{q1:e7.1}
+\begin{gathered}
+C_{i+1}(z) = \cup _{\delta=-1,0,1} Q_{i+1}(z+\delta). \\ N_{i+1}(z) = \one[ \#\{y \in  C_{i+1}(z): N_{i}(y)=1\} > m ].
+\end{gathered}
+\end{equation}
+
+Repeated membership is counted once. Counts in \eqref{q1:e7.1} are counts of \textbf{named} children \(N_{i}\), never counts merely of overloaded children. An overloaded basic cover means \(Q_{i+1}(z)\) itself has more than \(m\) named children. Its center and immediate neighbors are all named by \eqref{q1:e7.1}. The converse is neither asserted nor required; the union test is strictly conservative.
+
+With \(h_{\mathrm{cov}}=10, m=(10h_{\mathrm{cov}}+40)^{2}=19600\) and \(K=100000(S+1)^{2}\), set exactly
+
+\begin{equation}\label{q1:e7.2}
+\begin{gathered}
+b=K(m+1).
+\end{gathered}
+\end{equation}
+
+Then every good parent \((N_{i+1}=0)\) has at most \(b\) effective native faults. Its complete descendants' footprint has coordinate halfwidths at most \(h_{\mathrm{cov}} P^{i+1}, h_{\mathrm{cov}} T^{i+1}\). A bad parent contains two named children whose complete descendant footprints have max-norm separation at least \(8P^{i}\), provided \(P,T\ge 4\) and \(T\ge P\). The number of possible children in a complete parent cover is bounded, for example, by
+
+\begin{equation}\label{q1:e7.3}
+\begin{gathered}
+A_0=(20P+5)(20T+5).
+\end{gathered}
+\end{equation}
+
+This \(A_0\) is a harmless explicit upper bound for the \(O(PT)\) constant in the probability recurrence.
+
+\end{lemma}
+\begin{proof}
+
+If \(Q(z)\) is overloaded, each of \(C(z-1), C(z), C(z+1)\) contains \(Q(z)\), so each satisfies the strict test in \eqref{q1:e7.1}. This establishes the required conservative naming of an unsafe body and both transmitted ports. For a good parent, \(C(z)\) contains at most \(m\) named children. Its whole body, private decisions and terminal transport, including the required preimages under \(E\), lie in that cover by definition. Lemma \ref{q1:l5} replaces the faults of each such child by at most \(K\) native location faults, jointly, with no factor proportional to route length. Hence their union has size at most \(Km<b\). This is the budget used in Lemma \ref{q1:l4}. The extra \(K\) in \eqref{q1:e7.2} is existing slack; port halos are already included in each child's \(K\) and in \(C\), and do not require multiplying the budget again.
+
+In particular, it would be wrong to count \(m\) overloaded children and then expand each to three named children while retaining \(b\). That is not \eqref{q1:e7.1}. At every next rank one counts the full conservative \(N_{i}\) set. A child named only because of a neighboring overload is still a named child of cost \(K\) if it belongs to \(C\). Outgoing \(E\) images are traced to their named origin, rather than counted as unmarked good inputs. This also handles adjacent named parents: the coarse model permits a joint arbitrary map on their named slots before \(E\), followed by its ordinary port permutation, as in the level-zero model and the invariant \(H_k\) of Lemma~\ref{q1:l6} and in Lemma~\ref{q1:l4}\((c)\).
+
+We check the geometric constants directly. At one scale, taking the entire home, its two terminal paths, port neighbors, and the radius-one union increases a center's horizontal extent by at most four parent home widths in either direction. Allowing half a home for the center convention and rounding gives the direct bound \(5P^{j}\) at scale \(j\). A unit temporal collar similarly has direct halfheight at most \(2T^{j}\). Adding complete lower-scale descendants gives respectively
+
+\begin{equation}\label{q1:e7.4}
+\begin{gathered}
+5 \sum _{\ell=0}^{j-1} P^{j-\ell} \le  (20/3)P^{j} <10P^{j}, \\ 2 \sum _{\ell=0}^{j-1} T^{j-\ell} \le  (8/3)T^{j} <10T^{j}.
+\end{gathered}
+\end{equation}
+
+The inequalities use \(P,T\ge 4\) and only overcount footprints; enlarging them makes the good test more conservative. Thus the common bound \(h_{\mathrm{cov}}=10\) covers all the direct collars of the cover. Child centers have spatial/time spacings \(P^{i},T^{i}\). Counting centers in a rectangle of radii \(10P^{i+1},10T^{i+1}\), with two spare cells on each boundary, gives \eqref{q1:e7.3}.
+
+For separation, suppose a family of named children contains no pair with complete footprint gap at least \(8P^{i}\). Fix one child \(y_0\). Each footprint has radii at most \(10P^{i},10T^{i}\) by \eqref{q1:e7.4}. If another child's spatial index differs from that of \(y_0\) by more than \(2h_{\mathrm{cov}}+10\), the horizontal gap is more than \(8P^{i}\), even allowing one unit of endpoint rounding at each side. If its temporal index differs by more than \(2h_{\mathrm{cov}}+10\), its vertical gap is at least \(8T^{i}\ge 8P^{i}\) by \(T\ge P\). Thus every center lies within index distance \(2h_{\mathrm{cov}}+10\) of \(y_0\) in both coordinates. There are at most
+
+\begin{equation}\label{q1:e7.5}
+\begin{gathered}
+(4h_{\mathrm{cov}}+21)^{2}=61^{2}=3721 <19600=m
+\end{gathered}
+\end{equation}
+
+such centers. A bad parent's \(C\) contains more than \(m\) distinct named children, contradicting \eqref{q1:e7.5}. It therefore has the required separated pair. The separation concerns \textbf{complete descendants' footprints}, not just the centers or uncollared nominal boxes. This is the pair used after truncating long marks in Section~\ref{q1:storage}. 
+\end{proof}
+
+
+
+\begin{lemma}[An explicit uniform runtime for the indexed generator]\label{q1:l8}
+
+
+There is a fixed binary universal tape machine \(U_{\mathrm{cpu}}\) and an indexed generator \(L\) with the architecture specified in Section~\ref{q1:compiler}, for which the following computable bounds hold. Fix the finite code catalogue, the packet-coordinate formulas, and an integer padding exponent \(c_{\mathrm{pad}}\). Let \(v\) be the finite one-tape binary program text for this generator, and supply \(v\) as an ordinary input to \(L\). There is an explicitly computable integer \(D_{\mathrm{desc}}\ge 2\), depending on that finite description and \(c_{\mathrm{pad}}\) but not \(w\), such that, with
+
+\[
+\begin{gathered}
+A_{\mathrm{idx}}=32, \\ C_{v,c}=2^{80} D_{\mathrm{desc}}^{64},
+\end{gathered}
+\]
+
+\(U_{\mathrm{cpu}}\) on \((v,v,w,a,s)\) returns the correct indexed instruction, and on a tagged input \((v,v,w,a,s,i,\xi)\) returns the selection bit \(\mathrm{sel}_{i}\) defined below, in at most \(C_{v,c}(1+w)^{32}\) tape steps, uniformly for \(0\le a<P(w), 0\le s<T(w)\), every candidate index \(i\) and \(\xi\) in \(\{0,1\}\). The computation including return of its head/output to the designated cell takes at most twice that bound plus twice its input length plus four. Its visited tape interval has length at most twice that running-time allowance plus the input length plus four.
+
+\emph{Tagged calls.} The private computation at a contact of candidate \(i\) installs the tag \((i,\xi)\). The index \(i\) is a fixed binary string hardwired by the timetable and installed like the literal. The bit \(\xi\) is the fetched retained-word bit. A leading format bit distinguishes tagged from untagged input. On a tagged input \(L\) returns \(\mathrm{sel}_{i} = 1\) if \(L(v,w,a,s)\) is the instruction of candidate \(i\) and, when that instruction is \(\operatorname{LOAD}\), \(\xi\) equals the value candidate \(i\) prepares; otherwise it returns 0. On an untagged input \(L\) returns the opcode, and \(d_{w}(a,s) = L(v,w,a,s)\) is the untagged value. The tag has at most \(\lceil \log _{2}(N_1+1)\rceil+3\) bits, a number fixed before \(v\) and included in \(a_{0}\). The private machine therefore returns one bit, as phase 4 of Lemma \ref{q1:l10} assumes.
+
+The exponent 32 is absolute and independent of \(c_{\mathrm{pad}}\). Choose \(c_{\mathrm{pad}}=35\), then choose \(w\) by the terminating search
+
+\begin{equation}\label{q1:e8.1}
+\begin{gathered}
+2 C_{v,c}(1+w)^{32} + 2 a_{\mathrm{in}}(1+w)+4 \le  w^{35},
+\end{gathered}
+\end{equation}
+
+where \(a_{\mathrm{in}}(1+w)\) bounds the finite literal/input length. A private run of \(w^{35}\) cycles then completes every valid call; malformed results still have the compiler's total default. This instantiates the machine-time allowance \(w^{c}\) of the compiler specification with \(c=c_{\mathrm{pad}}=35>A_{\mathrm{idx}}+2\).
+
+\end{lemma}
+\begin{proof}
+\textbf{Precise description-size coefficient.}
+
+The following prescription makes the coefficient effective rather than an unspecified \(O(1)\). Generate the finite straight-line/loop arithmetic description of the phase list from the fixed native catalogue. A loop can range only over: a fixed catalogue list, the supplied finite program text, the bounded scalar-bit list of length \(O(w)\), the \(c_{\mathrm{pad}}\) multiplications defining \(w^{c_{\mathrm{pad}}}\), or the \(w\) multiplications defining \(3^{w}\). Include the finite \(R1\) clock formula and coordinate formulas. Use standard binary addition, subtraction, multiplication and long division. The compiler's fixed padding, packet layouts and finite stage lists give such a description directly; no loop simulates tape contents. Loops whose length depends on \(w\) nest at most two deep, and outside the two power loops no loop multiplies an integer carried from a previous iteration.
+
+Read off the description the following integers:
+\begin{itemize}
+\item \(|\mathrm{desc}|\), its number of operations and loop headers;
+\item \(\lambda_{\mathrm{max}}\), the largest bit length of a literal in it;
+\item \(c_{T}\), with bit length of \(T\) at most \(c_{T}(1+w)\) for the explicit \(T\) formula of \(R1\);
+\item \(c_{\mathrm{scal}}\), with \(c_{\mathrm{scal}}(1+w)\) bounding the length of the scalar-bit list;
+\item \(c_{w}:=c_{\mathrm{scal}}+c_{\mathrm{pad}}+2\);
+\item \(\delta_{\mathrm{fix}}\), the nesting depth of loops over fixed lists.
+\end{itemize}
+
+Put \(c_{\mathrm{ops}}:=|\mathrm{desc}|^{1+\delta_{\mathrm{fix}}} c_{w}^{2}\) and \(c_{\mathrm{bit}}:=2^{|\mathrm{desc}|}(6+c_{\mathrm{pad}}+c_{T}+\lambda_{\mathrm{max}}+c_{\mathrm{ops}})\). Take \(D_{\mathrm{desc}}\) to be the maximum of \(c_{\mathrm{bit}}, c_{\mathrm{ops}}, a_{0}+4|v|\), and two plus the sum of: the lengths of these descriptions and of \(v\); all their positive integer constants and fixed exponents; \(c_{\mathrm{pad}}\); the numbers of formal tape tracks and scratch integers; the lengths of the finite catalogues; and the finite transition-table sizes of the arithmetic, one-tape simulation and universal-interpreter templates described below. This definition is a terminating computation on finite strings and does not depend on \(w\).
+
+In particular it supplies the inequalities
+
+\begin{equation}\label{q1:e8.2}
+\begin{gathered}
+\text{bit length of every index/intermediate integer }\le  D_{\mathrm{desc}}(1+w), \\ \text{number of arithmetic calls/bit-list operations }\le  D_{\mathrm{desc}}^{3}(1+w)^{2}, \\ \text{input length} \le  a_{\mathrm{in}}(1+w),\quad\text{with } a_{\mathrm{in}}\le D_{\mathrm{desc}}^{2}.
+\end{gathered}
+\end{equation}
+
+Here is why the scan can verify \eqref{q1:e8.2}. Addresses have \(\log _{2} P=w+O(1)\) bits. The explicit period \(T\) of \(R1\) is a finite sum/product/\(\operatorname{floor}\) formula using \(2^{w},3^{w}\) and fixed powers of \(w\) (\cite[Section~\ref*{cl:sec:clock} and Appendix~\ref*{cl:sec:constants}]{DMNoise1D2026}), so its bit length is \(O(w)\), with coefficient bounded by its formula length and exponents. The quantum phase endpoints are fixed sums of \(P\) times bounded scalar-list lengths, route lengths, literal lengths and \(w^{c_{\mathrm{pad}}}\). Their bit lengths are also \(O_{v,c}(w)\). Stage lookup scans a fixed finite list; it finds a repeated fetch by quotient/remainder or, more generously, scans \(O(w)\) scalar positions. It never expands \(w^{c_{\mathrm{pad}}}\) tape cycles. Installing \((v,v)\) reads bits of the supplied string \(v\). No other variable-length loop occurs. Explicitly:
+\begin{itemize}
+\item A loop of \(w\)-dependent length has at most \(c_{w}(1+w)\) iterations. A loop over a fixed list has at most \(|\mathrm{desc}|\) iterations. With the nesting bounds, at most \(c_{\mathrm{ops}}(1+w)^{2}\) operations are executed.
+\item Bit lengths. The terms \(2^{w}, 3^{w}, w^{c_{\mathrm{pad}}}, w, a, s\) and the literals have bit length at most \((3+c_{\mathrm{pad}}+c_{T}+\lambda_{\mathrm{max}})(1+w)\). A straight-line operation on integers of bit length at most \(B\) gives at most \(2(B+1)\) bits. An integer carried through a loop changes only by addition or selection, so over at most \(c_{\mathrm{ops}}(1+w)^{2}\) executions it gains at most \(\log _{2}(c_{\mathrm{ops}}(1+w)^{2})+1 \le  (c_{\mathrm{ops}}+3)(1+w)\) bits.
+\item Induction over the at most \(|\mathrm{desc}|\) static operations therefore bounds every bit length by \(2^{|\mathrm{desc}|}(6+c_{\mathrm{pad}}+c_{T}+\lambda_{\mathrm{max}}+c_{\mathrm{ops}})(1+w) = c_{\mathrm{bit}}(1+w)\).
+\item The input length is \(a_{\mathrm{in}}(1+w)\) with \(a_{\mathrm{in}} = a_{0}+4|v| \le D_{\mathrm{desc}} \le  D_{\mathrm{desc}}^{2}\).
+\end{itemize}
+
+Hence \eqref{q1:e8.2} holds with \(D_{\mathrm{desc}}\) as defined.
+
+\medskip\noindent\textbf{Time bound.}
+
+On \(B\)-bit integers, schoolbook addition/subtraction/comparison takes at most \(4(B+1)^{2}\) elementary bit operations and multiplication/division at most \(16(B+1)^{2}\), using extra work tapes. Computing \(3^{w}\) by \(w\) repeated multiplications adds at most \(w\) such calls; computing \(w^{c_{\mathrm{pad}}}\) uses \(c_{\mathrm{pad}}\) calls. Both are already covered in \eqref{q1:e8.2}. Reading a program bit or a listed packet coordinate can be done by a scan and costs at most \(D_{\mathrm{desc}}(1+w)\) further bit operations, likewise covered by enlarging the syntactic count. In a direct multitape realization with at most \(D_{\mathrm{desc}}\) tapes, one call on \(B\)-bit integers, \(B+1 \le  2D_{\mathrm{desc}}(1+w)\), costs at most \(16(B+1)^{2} + 2D_{\mathrm{desc}}(B+1) \le  64D_{\mathrm{desc}}^{2}(1+w)^{2} + 4D_{\mathrm{desc}}^{2}(1+w) \le  68D_{\mathrm{desc}}^{2}(1+w)^{2}\) transitions, including returning the heads over the operands.
+\begin{itemize}
+\item Calls: at most \(D_{\mathrm{desc}}^{3}(1+w)^{2}\) calls give at most \(68D_{\mathrm{desc}}^{5}(1+w)^{4}\).
+\item Scans: at most \(D_{\mathrm{desc}}^{3}(1+w)^{2}\) scans of at most \(D_{\mathrm{desc}}(1+w)\) cells each give at most \(D_{\mathrm{desc}}^{4}(1+w)^{3}\).
+\item Input and output: reading the input and writing the bounded output take at most \(2D_{\mathrm{desc}}^{2}(1+w)+D_{\mathrm{desc}} \le  3D_{\mathrm{desc}}^{2}(1+w)\).
+\end{itemize}
+
+The total is at most \(72D_{\mathrm{desc}}^{5}(1+w)^{4}\). Since \(72 \le  64D_{\mathrm{desc}}^{3}\) for \(D_{\mathrm{desc}} \ge  2\), the realization therefore takes at most
+
+\begin{equation}\label{q1:e8.3}
+\begin{gathered}
+H(w)=64 D_{\mathrm{desc}}^{8}(1+w)^{6}
+\end{gathered}
+\end{equation}
+
+transitions, including parsing, stage arithmetic, lookup of the tagged candidate's instruction in the fixed catalogue, its comparison with the computed instruction and with \(\xi\), and writing the bounded output. These deliberately loose exponents include initialization and all scans. There is no dependence on the values of the simulated private tape cells.
+
+For completeness choose the following efficient fixed machine model rather than appeal to an arbitrary universal machine with unspecified overhead. Represent the finitely many work tapes on consecutive tracks of one tape, with one marked head on each track. Sweep the visited segment to perform each simulated transition, then sweep back. A segment has at most the input length plus \(H\) cells; track count and encoding sizes are bounded by \(D_{\mathrm{desc}}\). The resulting one-tape program runs in at most
+
+\begin{equation}\label{q1:e8.4}
+\begin{gathered}
+R(w)=128 D_{\mathrm{desc}} H(w)^{2}
+\end{gathered}
+\end{equation}
+
+steps. Choose \(U_{\mathrm{cpu}}\) to be the fixed binary interpreter which stores the target transition table and marked target tape, scans the table for the current state/symbol, and sweeps the visited target segment for each simulated step. Its per-step cost is at most \(32D_{\mathrm{desc}}^{2}(R+\text{input length}+1)\). Since \(R\) dominates the input length, a complete interpreted run takes at most \(128D_{\mathrm{desc}}^{2} R^{2}\). Substitution of \eqref{q1:e8.3}-\eqref{q1:e8.4} gives
+
+\begin{equation}\label{q1:e8.5}
+\begin{gathered}
+t_{U} \le  2^{45} D_{\mathrm{desc}}^{36}(1+w)^{24} \\ \le  2^{80} D_{\mathrm{desc}}^{64}(1+w)^{32} = C_{v,c}(1+w)^{32}.
+\end{gathered}
+\end{equation}
+
+All simulator constants are finite transition-table constants already included in \(D_{\mathrm{desc}}\). The redundant slack covers binary track delimiters and halt/output conventions. Every head moves at most one cell per transition. A home marker lets a halted computation return the head and output in at most its preceding step count plus its input length plus two. This proves both claimed bounds.
+
+Select \(c_{\mathrm{pad}}=35\) before constructing \(v\). The ratio \(w^{35}/(1+w)^{32}\) tends to infinity, so \eqref{q1:e8.1} is decidable by integer arithmetic and eventually holds. The two additional powers in the requirement \(c>A+2\) of the compiler specification are only slack to absorb the coefficient and return convention; our choice leaves three. The code catalogue may contain at least \(5^{q_{s}}\) preparation leaves. Its full literal length and transition-count coefficients enter \(D_{\mathrm{desc}}\) and hence \(C_{v,c}\); they are not silently treated as uniformly small. They are fixed before \(w\), so they do not affect termination.
+
+For avoidance of a code-length loop, choose a fixed integer \(a_{0}\) from the input formats, the tag length \(\lceil \log _{2}(N_1+1)\rceil+3\) and the scalar/clock formulas before constructing \(v\), and define \(a_{\mathrm{in}}(v)=a_{0}+4|v|\). This bounds both copies of the literal and all other input bits by \(a_{\mathrm{in}}(v)(1+w)\). \(L\) computes this same elementary formula from the length of its supplied literal \(v\) when locating phase endpoints; its own source does not contain a constant chosen only after measuring that source. \(W_{\mathrm{fixed}}\) and \(\lambda_{\mathrm{tile}}\) are fixed from the code and native tiles before \(v\). \(D_{\mathrm{desc}}\) and \(C_{v,c}\) are analysis/parameter-search bounds only, never constants embedded into \(L\).
+
+Finally define \(v\) to be the one-tape text of \(L\) itself, with \(c_{\mathrm{pad}}\) and all fixed catalogue data. Define the finite schedule by
+
+\[
+\begin{gathered}
+d_{w}(a,s)=L(v,w,a,s)
+\end{gathered}
+\]
+
+with its declared defaults outside valid indices. The install stage of \(L\) reads the two copies of its \textbf{input} string \(v\); it never needs to know its own literal text by magic. The physical private program at a contact of candidate \(i\) is supplied \((v,v,w,a',s',i,\xi)\), so it evaluates \(\mathrm{sel}_{i}\) of exactly the same function \(d_{w}\) on the parent indices. By \eqref{q1:e8.1} it halts before padding ends. This proves the self-description assertion without a fixed point in running time: 32 is fixed first, 35 second, \(v\) and \(D_{\mathrm{desc}}\) third, and \(w\) last. 
+\end{proof}
+
+
+
+
+\begin{lemma}[R1's permitted packet layout]\label{q1:l9}
+
+
+The compiler uses the following serialization of the \(R1\) packets. It is the serialization of \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026} with one change inside the central area: each of the \(O(w)\) bounded scalar bits is the low bit of the word of its own central-area live letter, which carries a fixed scalar tag and has all other word bits zero, whereas \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026} carries a scalar bit in a separate scalar-bit tag with a zero word. Everything else is kept: the live/dead discriminant and the declared order of the bounded fields in the central \(O(w)\)-length area, every next-width word's low/high halves in its two prescribed typed raw-letter slots, and the same fixed live padding at all other positions including the two endpoints. Serialize applicable/default tags among the bounded scalar bits. Use this same layout in encoders, parsers, output constructors and all represented evaluators. The statements of \cite{DMNoise1D2026} used in this paper hold verbatim for the structural lane with this serialization, in particular the native-transition and sparse-history statements (\cite[Proposition~\ref*{cl:prop:organization}]{DMNoise1D2026}, with \cite[Lemmas~\ref*{cl:lem:endpoint} and~\ref*{cl:lem:two-period}]{DMNoise1D2026}), the clean identity \cite[Lemma~\ref*{cl:lem:clean}]{DMNoise1D2026} and the time-zero boundary of \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026}. The required parent age/address/tag bits and retained-word lowest bit have computable packet positions independent of hierarchy rank.
+
+\end{lemma}
+\begin{proof}
+
+The serialization of \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026} requires a live/dead discriminant and all bounded fields in an \(O(w)\)-length central area, typed low/high word halves, and fixed live padding elsewhere, including both endpoints; at the bit level it writes a scalar bit as a separate scalar-bit tag with a zero word. The layout above keeps all of this except the last point. Give the scalar bits consecutive separate letter positions in that central area, in the declared order. Their number is polynomially bounded and in fact \(O(w)\); \(P_0=2^{w}\) contains them for the same sufficiently large-\(w\) choice. Encode bit 0 or 1 as the corresponding low bit of that letter's word, with its other bits and its tag fixed. Give every nonapplicable field the total default of \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026}. Keep all word-half positions and endpoint padding prescribed by the layout. The neutral packet encoding \(D\) is written in the same layout, so it is again a playable all-live packet with a dead discriminant and canonical body. This is an explicit effective encoder/parser for exactly the same legal mutable tuples; structural padding/tag checks are total and malformed whole packets still parse as \(D\), as \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026} requires.
+
+Check where the classical proofs use serialization. Input transport and voting (steps 1 and 2 of the repetition program in \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026}) copy and compare whole packet letters at homologous offsets, without inspecting which scalar bit occupies an offset. Validation checks the chosen tags/padding, then the universal word machine scans \(O(w)\) scalar positions and the fixed word-half locations, at polynomial cost in \(w\). Low/high-half operations on growing word widths remain the same bounded number of word operations described in \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026}. Replacing one scalar packing by this packing changes only the polynomial coefficient of that finite scan, which is absorbed by the fixed polynomial budget \(w^{O(1)}<P_0\) of \cite[Section~\ref*{cl:sec:packets}]{DMNoise1D2026} inside the computation allowance of \cite[Section~\ref*{cl:sec:clock}]{DMNoise1D2026}; it adds no geometric execution count. The structural proof (\cite[Definition~\ref*{cl:def:observations} and Proposition~\ref*{cl:prop:organization}]{DMNoise1D2026}, with the lemmas proving it, including \cite[Lemmas~\ref*{cl:lem:endpoint} and~\ref*{cl:lem:two-period}]{DMNoise1D2026}) uses occupancy, ordinary addresses, whole-letter equality and the single short exceptional interval, with no scalar-bit position premise. Each of the three homologous copies has the same new layout, so its uniqueness/vote arguments are unchanged. The clean proof (\cite[Lemma~\ref*{cl:lem:clean}]{DMNoise1D2026}) transmits complete legal packets and resets the complete mutable state; it therefore returns precisely \(E_{j}\) in this layout. Endpoint padding is still independent of the upper live state, which is the only layout property used in the terminating boundary recursion in the proof of \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026}. These checks cover every interface used by Section~\ref{q1:clock} and the compiler. They do not import a theorem about an arbitrary modification of \(R1\): the single change is local to the central scalar area, and every classical use of the serialization has been checked above.
+
+The address and age widths depend on the fixed \(P,T\), not rank, so their bit-position formulas are the same at every rank. A word at rank \(j+1\) has twice the child word width; its low bit is the low bit of its low half at rank \(j\). Recursing this observation never changes the packet address to read, only the word width, which a \(\operatorname{LOAD}\) does not inspect. The tags select the same zero default at all ranks. This proves the final assertion. 
+\end{proof}
+
+
+
+\begin{lemma}[The itemized timetable and space bound]\label{q1:l10}
+
+
+Fix \(S,K,m,b\) and the code before \(w\). Fix \(U_{\mathrm{cpu}}\) and \(c_{\mathrm{pad}}=35\) as in Lemma \ref{q1:l8}. Enumerate the finite exact native gate lists in the following definitions.
+
+\begin{itemize}
+\item Let \(E_{\mathrm{len}}\) be the number of primitive gate/reset/explicit-wait contacts in one complete full \(\operatorname{EC}\) pass, including its preparation trees and record processing. Let \(N_0=(b+1)S E_{\mathrm{len}}\). Serializing all input-slot normalizers gives exactly this unconditional contact count.
+\item Let \(N_1\) be the sum of the lengths of the complete candidate lists, one list for every possible on-site opcode and slot choice. Each list includes full \(\operatorname{EC}\)/body on its operands and full \(\operatorname{EC}\)/idle on all untouched slots. For \(\operatorname{LOAD}\) include zero and one candidates. List length counts each arity-at-most-three primitive contact once; decompositions and verified-preparation leaves are included.
+\item Let \(W_{\mathrm{fixed}}\) be the number of child positions reserved for the \(S\) encoded data blocks, the catalogue's maximum simultaneous work, exclusive contact/dummy slots, dedicated transport and its buffers, and fixed guards. It is finite and computable from those lists. At least \(n_{s}\) separate coordinates for each of the \(S\) input slots are included.
+\item Let \(a_{\mathrm{in}}\) be an integer such that the total number of bits installed or fetched for one private call, including \((v,v), w\), fixed parameters, the candidate tag, parent age/address/tags and retained-word bit, is at most \(a_{\mathrm{in}}(1+w)\). Count a bit more than once if the implementation transports it more than once. Concretely use \(a_{\mathrm{in}}(v)=a_{0}+4|v|\) with \(a_{0}\) fixed from the nonliteral input formats, the tag length and the scalar/clock formulas before \(v\). \(L\) computes this formula from its supplied literal \(v\), so phase indexing uses exactly the same coefficient as the finished schedule. Lemmas~\ref{q1:l8} and \ref{q1:l9} prove it is independent of rank and \(w\). \(W_{\mathrm{fixed}}\) and \(\lambda_{\mathrm{tile}}\) are selected before \(v\); analysis bounds \(D_{\mathrm{desc}}\) and \(C_{v,c}\) are not embedded in \(v\).
+\item Let \(\lambda_{\mathrm{tile}}\) be a fixed common tile length: enumerate the elementary native implementations of one universal tape update, parallel clear, literal installation, one shuttle, a local scatter/primitive/gather, and disposal; take a common multiple of their finite lengths, enlarged to bound each local routine. Pad their idle substeps to this length. All these routines have fixed native slot count. No \(\lambda_{\mathrm{tile}}\) depends on \(w\).
+\end{itemize}
+
+With \(P=5\cdot 2^{w}\) define the explicit upper bounds
+
+\begin{equation}\label{q1:e10.1}
+\begin{aligned}
+F(w)=\lambda_{\rm tile}\bigl[&10+32N_0(P+1)\\
+ &+N_1\{32+16a_{\rm in}(1+w)(P+1)+w^{35}+32(P+1)\}\\
+ &+32n_s(P+1)\bigr].
+\end{aligned}
+\end{equation}
+\begin{equation}\label{q1:e10.2}
+G(w)=W_{\rm fixed}+2w^{35}+a_{\rm in}(1+w)+8.
+\end{equation}
+
+There is a computable sufficiently large \(w\) satisfying all \(R1\) requirements, Lemma \ref{q1:l8}'s runtime inequality, the packet-position checks, and
+
+\begin{equation}\label{q1:e10.3}
+\begin{gathered}
+G(w)\le P, \\ F(w)\le \lfloor 3^{w}/w^{2}\rfloor\le T.
+\end{gathered}
+\end{equation}
+
+For this \(w\) every phase of a parent tick fits in \(T\) child ticks and \(P\) child sites, with the identical bounds at every rank. Age zero is an idle on-site tick at every address; the fixed \(E\) still occurs. Thus the aligned top initial tick preserves a designated nonport logical qubit.
+
+\end{lemma}
+\begin{proof}
+
+One adjacent ordinary-factor transposition is a two-tick shuttle (Lemma \ref{q1:l5}). Routing at most three tokens within one home to a contact and back uses at most \(6P\) adjacent transpositions, hence at most \(12P\) child ticks. Allowing loads into local slots, the primitive, guards, buffers and resets still costs less than \(32(P+1)\) tile units per unconditional native contact. Applying this to the \(N_0\) leading contacts gives the second term of \eqref{q1:e10.1}. All idle data coordinates remain on separate wires and their waits are part of the schedule/fault model.
+
+For each of the \(N_1\) candidate contacts execute these phases, in this order:
+
+\begin{enumerate}[label=\textup{Phase \arabic*.},leftmargin=*]
+\item Reset the entire private tape interval, head/state fields, input scratch, return track, dummies and guard boundary. Parallel reset of a fixed number of tracks takes a fixed number of tile units; reserve 32 for this and the terminal local disposal in the same contact budget.
+\item Install the literal and fixed bits and fetch all parent bits, including the retained-word bit unconditionally. Loading a bit at its fixed source and transporting it along a segment to its assigned input and back uses at most \(4P+O(1)\) ticks, as Section~\ref{q1:compiler} specifies. The two-tick shuttle realization, local copy and common-tile rounding are all bounded by \(16(P+1)\) tile units per installed/fetched bit. There are at most \(a_{\mathrm{in}}(1+w)\) bits. This is the second term inside the braces multiplying \(N_1\) in \eqref{q1:e10.1}. The allowance intentionally permits serial installation even though fixed literal bits can be installed in parallel.
+\item Run exactly \(w^{35}\) universal tape cycles on its guarded private interval, with paired-shuttle record exchanges and the end-cell rule of Lemma \ref{q1:l5}. Each synchronous cell update, including an end cell's blank-record preparation, takes at most \(\lambda_{\mathrm{tile}}\) native ticks. Lemma \ref{q1:l8} ensures that a valid computation halts, writes its result, and returns its head before this allowance ends. A halted computation idles, so its value cannot alter the following phase dates. Reserve the \(w^{35}\) term.
+\item Return the answer to the fixed contact, route its at most three operands, perform conditional scatter, the unconditional primitive and gather, undo the route, and dispose of all private work. A fixed segment walk and three-operand route together cost at most \(32(P+1)\) tile units: there are at most \(12P\) ticks for operand routing, at most \(4P+O(1)\) for decision return, and a fixed number for local scatter/gate/gather. The local constant and padding are covered by the fixed 32 term and \(\lambda_{\mathrm{tile}}\). Unselected candidates execute the same timetable.
+\end{enumerate}
+
+There are only \(N_1\) contacts; there is never more than one active private call in a home. All phases are expressed as integer tile units; rounding a fixed local routine or a single fetch to the common tile has already been charged by these generous per-routine allowances. There is no uncharged per-gate or per-tape-cell padding term.
+
+For the final \(E\), process its \(n_{s}\) code coordinates successively. A path between one home's right endpoint and the next home's left endpoint has fewer than \(2P\) edges. Its forward/reverse-prefix transposition uses fewer than \(4P\) adjacent transpositions, at two ticks each. Moving endpoints to/from the dedicated transport, clearing buffers and tile padding are bounded by \(32(P+1)\) tile units per coordinate. For a given coordinate all boundaries run simultaneously on disjoint lines (Lemma \ref{q1:l5}), so this term is \textbf{not} multiplied by the number of homes. No following data-dependent gate touches transport. Age-zero idle, final clearance, and fixed harmless phase separators consume at most ten additional tile units, the leading term of \eqref{q1:e10.1}. This proves the time bound.
+
+A universal tape head moves at most one cell per cycle. An interval of \(2w^{35}+a_{\mathrm{in}}(1+w)+8\) positions contains the input, both possible head excursions, and blank end guards. During a valid private computation the guard cannot be crossed. Malformed states cannot change any hardware endpoint or contact time, and all actual access remains on these tracks. All other quantum data and catalogue work use \(W_{\mathrm{fixed}}\) positions. Their disjoint placement therefore fits within \(G(w)\). Slots, port lanes and fixed finite tracks have already been included in \(S\) or \(W_{\mathrm{fixed}}\); growing arrays use extra sites. This proves \eqref{q1:e10.2}.
+
+All constants in \eqref{q1:e10.1}-\eqref{q1:e10.2} precede \(w\). Both \(F\) and \(G\) are bounded by a computable constant times \((P+1)(1+w)^{36}\). Consequently
+
+\begin{equation}\label{q1:e10.4}
+\begin{gathered}
+F(w)/(3^{w}/w^{2}) \le  C (2/3)^{w} (1+w)^{38} \to 0, \\ G(w)/(5\cdot 2^{w}) \to 0.
+\end{gathered}
+\end{equation}
+
+The \(R1\) requirement \(w\) sufficiently large is a finite collection of explicit polynomial/exponential inequalities (\cite[Section~\ref*{cl:sec:construction} and Appendix~\ref*{cl:sec:constants}]{DMNoise1D2026} and the inequalities in its proved structural lemmas). The compiler adds only the decidable inequalities displayed here and the finite coordinate checks. Exponential dominance proves that a sequential integer search eventually passes every test. The \(R1\) schedule has \(T\ge \lfloor 3^{w}/w^{2}\rfloor\) already from its \(\lfloor 3^{w}/q\rfloor\) calls of \(\operatorname{Shrink}(0)\), with \(q=w^2\) (\cite[Section~\ref*{cl:sec:clock}]{DMNoise1D2026}); we do not lengthen or alter that schedule. Reserve the unused dates as idles. Therefore all quantum phases fit in its actual \(T\).
+
+The same argument works at every rank: a child site and tick have the same \(S\)-slot native inventory; the scalar layout has the same addresses, and a rank-\((k+1)\) bit fetch is a rank-\(k\) \(\operatorname{LOAD}\). Word widths double, but only the low bit is requested. No time or space term depends on rank. Finally reserve age zero for idle before placing the other phases. The complete clean boundary has age zero and default scratch, by the ballot rule of \cite[Section~\ref*{cl:sec:verifier}]{DMNoise1D2026}, the clean identity \cite[Lemma~\ref*{cl:lem:clean}]{DMNoise1D2026} and the encoded boundary in the proof of \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026}; at that tick only \(E\) acts, which does not touch an ordinary designated nonport.
+
+The constants are chosen in the order \(S\), then \(K,h_{\mathrm{cov}},m,b\), then the code and the finite lists (\(N_0,N_1,n_s\) and the candidate catalogue), then \(U_{\mathrm{cpu}},c_{\mathrm{pad}},a_0,W_{\mathrm{fixed}},\lambda_{\mathrm{tile}}\), then \(v\), then the analysis bounds \(D_{\mathrm{desc}},C_{v,c}\) together with \(a_{\mathrm{in}}(v)=a_0+4|v|\), then \(w\), then \(P,T\), and finally the physical-noise thresholds. This agrees with Lemma~\ref{q1:l8} and Section~\ref{q1:parameters}.
+\end{proof}
+

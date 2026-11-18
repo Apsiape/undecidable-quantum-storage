@@ -1,0 +1,277 @@
+\section{Exact rate selection and joint error estimates}\label{q1:selector}
+\paragraph{Exact native rate selection under elementary single-qubit noise}
+
+Use an independent dephased selector lane, separate from the sensor-free \(R1\) structural clock. Simulate the complete deterministic \(R2\) local function \(f\) of the classical construction (\cite[Sections~\ref*{cl:sec:embedding}, \ref*{cl:sec:receiver} and~\ref*{cl:sec:stripes}]{DMNoise1D2026}), with its physical stride, fields, replica compartments, wall and work registers, raw probes and common whole-symbol substitution. Let \(A\) be its native site alphabet, \(M=|A|\). In particular a single simulated replacement flag belongs to the whole native physical site, including all fields sharing that flag. Never replace a native helper by an unperturbed implementation. Physical noise of rate \(e\) follows every elementary physical layer on every wire.
+
+\paragraph{Redundant Boolean steps and exact draws}
+
+Fix an integer \(h\) and encode every Boolean state bit in \(B=4h+3\) wires, in the computational basis. In one protected Boolean operation, give each input bit/index its own fanout tree to private copies for every required reader. For each destination index, privately majority the received copies separately on each input and implement its required total Boolean function, with reset work. All spatial transfers are between fixed named wires over fixed distances. A fault in a source tree harms at most one delivered index of one input bit per reader; private faults after fanout harm at most one destination per fault. With \(h\)-close input banks and at most \(h\) faults in the whole stencil the correct input wins all unaffected votes \((2h<B/2)\). At most \(h\) exceptions remain per output. Use \(h+1\) fresh, disjoint normalization passes (each a protected majority of a word to a new bank). At most \(h\) faults across these passes leave an entire pass clean, which maps even arbitrary measured input to unanimity; the remaining passes leave the final bank within \(h\) of its majority. Include storage waits, initialization, reads, and incoming/outgoing normalizations in the stencils. Decode every binary representation by a total parser, defaulting on unused strings. It follows from one-sided implications at each strobe that a decoded transition differs from the prescribed one on its actual decoded neighbours only in a bounded enlargement of a stencil carrying more than \(h\) independent wire-replacement flags. Mark the explicit excess flag count in these stencils, regardless of the incoming state or the outcome. Its probability is \(\le C_{h} e^{h+1}\). This also holds from arbitrary measured starting words after the initial normalization. Good incoming normalizations ensure different readers use the same bits. Ancillas and old banks are reset before being read again.
+
+At each site/date construct independent factory bits as follows. One rare factory starts with zero reset, the mandatory noisy layer, then basis read/fanout and the above normalization. Its abstract bit is its final bank majority even on a failed factory. Its one probability \(\beta(e)\) is a computable rational polynomial in \(e\), satisfies \(\beta(0)=0\) and has \(\beta'(0)>0\): a replacement immediately after reset can give one, all remaining operations clean, and single-flag contributions are nonnegative. A separate fair factory starts with a fresh Hadamard/basis dephasing fair draw. Make the copying and majority circuits complement equivariant: for an input vector \(x\) use \(x_{1}\) as orientation, form all \(x_{i}\) XOR \(x_{1}\), compute the majority of these oriented bits, XOR back \(x_{1}\). The inner gates use only invariant bits. Fresh copies of the orientation are made before use. Every relevant wire either complements or stays fixed when the initial fair draw complements. Under this coupling complement replacement bits on the corresponding wires: their joint law is unchanged. The final majority has an exactly fair law, including failed factories. A depolarization between reset and the fair Hadamard causes no bias in the ensuing basis read; later basis-valued innovations are independent. Factory banks are \(h\)-close to their abstract bits whenever the corresponding complete stencils have at most \(h\) faults. All factories use disjoint private wire-time keys, with actual resets on every initial input they use.
+
+Draw \(k=\lceil \log_2 M\rceil\) independent fair bits to form \(W\). Use a separate rare factory \(B_0\). Substitute the native symbol numbered \(W\) precisely if \(B_0=1\) and \(W<M\). In the ideal comparison this is an \emph{exact} independent uniform native replacement at rate \(\gamma(e)=\beta(e)M/2^{k}\). This works for a nonbinary alphabet without rejection loops. The protected Boolean native transition implements it, with only the bounded-stencil anomalies above. The comparison keeps the dependence between a native replacement and all helper fields it overwrites. The law is for the \emph{innovations}; conditioning on the absence of circuit anomalies would bias them, and is never used. For a finite region compare to exact native evolution on its full past cone from the same starting state. Induction shows equality if all transition stencils in that cone are good. A union bound costs at most \(C_{h}\,|\mathrm{cone}|\,e^{h+1}\). In this argument the native innovations can be defined on the same probability space on every realization, including runs with anomalies.
+
+\paragraph{Physical windows, noise-only marks and the core error set}
+
+The classical inputs used for \(R2\) are the two prefix tests with tunable exponents and the all-input coalescence of \cite[Lemmas~\ref*{cl:lem:receiver-mixing} and~\ref*{cl:lem:stripes}]{DMNoise1D2026}, the read-only parameter and its locking (\cite[Section~\ref*{cl:sec:parameter} and Lemma~\ref*{cl:lem:locking}]{DMNoise1D2026}), the initialized comparison \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026}, the all-start cap and ascent \cite[Lemmas~\ref*{cl:lem:cap-cut} and~\ref*{cl:lem:ascent}]{DMNoise1D2026}, and the initialized two-period descent of \cite[Lemma~\ref*{cl:lem:two-period}]{DMNoise1D2026}. We use them with their exact native noise model; Lemma~\ref{q1:l12} strengthens the cover to the radius moment needed for the quantum schedule. The quantitative choices below are those of Lemmas~\ref{q1:l11} and~\ref{q1:l12}.
+
+Use the fixed universal unary-input machine \(V(m)\), which simulates \(U(\nu_2(m))\) for \(m\ge1\), with the bin offset \(n_{\mathrm{bin}}\) of Lemma~\ref{q1:l11}, and include only sufficiently large \(m\) by choosing \(m=2^n(2J_{\mathrm{pad}}+1)\), with \(J_{\mathrm{pad}}\) fixed last. The native bin offset is frozen before physical compilation; \(J_{\mathrm{pad}}\) only selects later bins of the same fixed rule. At a nominal rational rate \(e_m\) in the interval of strict increase of \(\gamma\) near zero, choose \(\gamma(e_m)\) strictly inside the \(m\)-th native replacement-rate bin and put \(p=\gamma(e_m)/2\). Rationals \(e_m\) with this property are found by enumeration, using rational arithmetic and an effective neighbourhood of positive derivative. Here and below the nominal bin is a bin for the complete native replacement rate \(\gamma\), with \(p\) its half in the helper estimates. Fix all test lengths and walls in the \emph{analysis} at this nominal rate; they do not enter the physical rule as \(m\)-dependent gates. Lemma~\ref{q1:l12} compares the compiled helper with the nominal native innovations over the entire backward domain of both prefix computations, charges every compiler anomaly and every elementary-rate mismatch in that domain to the long failure type, and chooses the rational physical window about \(e_m\) inside the monotone preimage of the native bin. Windows for distinct selected indices lie in the preimages of disjoint bins, so they are mutually disjoint.
+
+For native core data errors use the union of the actual native substitution and a complete local compiler anomaly; its indicator has probability \(O(p)\) and a bounded physical stencil. Raw negative-time core flags can be added for domination. Paint around every failed helper center the fixed multiple of \(H_m=D_{\mathrm{boot}}^{m+2}\) (Lemma~\ref{q1:l11}) prescribed in \cite[Section~\ref*{cl:sec:joint}]{DMNoise1D2026}. All conclusions of the deterministic bootstrap and sparse induction then hold for this dominated error set. More specifically, on the initialized history every unexpected \(D\) at a core root is covered by failure of a prescribed nested test, as in the proof of \cite[Lemma~\ref*{cl:lem:clock-witness}]{DMNoise1D2026}. On a halting input the arbitrary-start cap and bottom-up ascent of \cite[Lemmas~\ref*{cl:lem:cap-cut} and~\ref*{cl:lem:ascent}]{DMNoise1D2026} say that every genuinely live core symbol after a finite burn-in is covered by a centered failed test through some finite rank \(K\), independently of the initial word; Lemma~\ref{q1:l13} gives the complete cover. The cap, test sizes and burn-in are common over this nominal window: they use the fixed index \(m\), its halting rank, the nominal prefix lengths and fixed geometry. The negative-time comparison of \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026} is needed only for the initialized assertion. Neither conclusion follows just from mixing.
+
+\paragraph{Initial helper history}
+
+At time zero the core uses the computable all-occupied boundary. Use its nominal negative-time ideal stationary helper to define the comparison of \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026} through the selector's searching levels, as in that lemma's proof. Negative-time forced core votes that disagree with their update are covered by the same bootstrap paint. Positive-time updates run the actual compiled circuit. The nominal and actual innovation comparison above permits prefix tests crossing zero. To prepare the required stationary marginal on a finite patch \(F\) at rational \(e_{m}\), simulate nominal native innovations on the finite past cone from date \(-s\) with a fixed bottom row. Enumerate the probability that the mapping from all possible bottom rows to \(F\) is nonconstant. Search for \(s\) making this less than \(1/128\). It terminates by the all-input coalescence property for helper slots, using a finite union over \(F\): this is the noise-only bound \(C(p)e^{-c(p)s}\) of \cite[Lemma~\ref*{cl:lem:stripes}]{DMNoise1D2026}, which uses \cite[Lemma~\ref*{cl:lem:receiver-mixing}]{DMNoise1D2026} and also gives the two-sided stationary realization. This yields a computable finite rational mixture without knowing whether \(V(m)\) halts. Use the same suffix of innovations in a mathematical stationary realization; the whole marginal couples with failure probability \(<1/128\). The clock lane, core data, helpers and quantum lanes occupy distinct wires. Only the helpers use this stationary marginal. The \(R1\) proof can share its fixed artificial negative history with its own clean comparison.
+
+
+\textbf{Central normalization convention for the physical Boolean compiler.} There is one centrally normalized retained bank per native site/bit before its fanout. Define the semantic word by total decoding of that bank after its \(h+1\) normalization passes. All readers use private per-index copies of this same \(h\)-close bank. Distinct readers do not independently normalize an arbitrary near-tie incoming word into competing semantic inputs. At most \(h\) flags in the complete stencil leave a clean normalization pass and then an \(h\)-close common bank; any \(h\)-close input with at most \(h\) further indexed faults still has at most \(2h<B/2\) wrong votes. Consequently the protected transition computes the prescribed total Boolean function on the same actual semantic neighbor word for every destination index, up to \(h\) exceptions and a separately marked excess-flag event. Storage, incoming central normalization, all fanout and outgoing normalization are included in that event's fixed stencil. The complete transition stencil also contains every rare/fair factory stencil, final factory normalization and storage through its read. A factory with at most \(h\) flags delivers an \(h\)-close bank representing its abstract final-majority bit; a bad factory is therefore charged to the same excess-flag union before a different abstract innovation could be read without a certificate. Native factory innovations remain defined unconditionally even on that marked event. This selects the shared normalization arrangement within the finite normalization and fanout implementation. The strobe normalization is this central normalization, or a private reader of its bank.
+
+\begin{lemma}[The exact native \(R2\) instance and the label padding]\label{q1:l11}
+
+Apply the parametric native \(R2\) construction to the following single fixed tuple \(\theta\), rather than silently identifying it with the particular numerical instance described in the construction. The geometry \((w_{c},P_{c},T_{c})\) is fixed before helper counts. Choose \(D_{\mathrm{boot}}\) so \(D_{\mathrm{boot}}^{m+2}\) contains every fixed structural collar and lookup displacement through rank \(m+1\) (the constant \(D_0\) of \cite[Section~\ref*{cl:sec:stripes} and the proof of Lemma~\ref*{cl:lem:locking}]{DMNoise1D2026}). Fix the requested radius exponent \(d_{\mathrm{mom}}\) after the quantum geometry; the target \(\delta\) may be fixed after the final physical constants and affects only the final padding threshold. In Lemma \ref{q1:l12} fix the short target exponent \(M_{s}\), then
+
+\[
+\begin{gathered}
+b_{\mathrm{refresh}} = \max (21,M_{s}+20), \\ v_{\mathrm{rep}} = M_{s}+20, \\ s_{\mathrm{read}} = 4 M_{s}+85  (\mathrm{odd}).
+\end{gathered}
+\]
+
+Next fix \(M_{l}\) as in Lemma \ref{q1:l12}, and set
+
+\[
+\begin{gathered}
+m_{\mathrm{ch}} = 20(M_{l}+20)+1  (\mathrm{odd}).
+\end{gathered}
+\]
+
+Use \(2v_{\mathrm{rep}}-1\) replicas per channel \(Y_{i}\), and \(s_{\mathrm{read}}\) independent receivers, each reading all \(m_{\mathrm{ch}}\) channels, with coordinatewise majority. Use the same fixed universal one-ended interpreter as \cite[Section~\ref*{cl:sec:parameter}]{DMNoise1D2026} with immutable program \(V\), where \(V(0)\) is a fixed infinite loop and, for \(m\ge 1\), \(V(m)\) computes \(\nu_{2}(m)\) and then simulates \(U(\nu_{2}(m))\). Take the base literal width at least \(m_{\mathrm{ch}}+4\) and large enough for that fixed program. Last fix once a bin offset \(n_{\mathrm{bin}}\) admissible for the classical construction. This specifies
+
+\[
+\begin{gathered}
+\theta=(w_{c},P_{c},T_{c},D_{\mathrm{boot}},M_{s},b_{\mathrm{refresh}},v_{\mathrm{rep}},s_{\mathrm{read}}, \\ M_{l},m_{\mathrm{ch}},n_{\mathrm{bin}},V,\text{base word width},\text{finite lane offsets}).
+\end{gathered}
+\]
+
+All choices of geometry, finite offsets, width and \(n_{\mathrm{bin}}\) are made by taking the least integer/template in fixed enumeration satisfying the explicit sufficient construction inequalities. This is a computable specification of one tuple, not an input parameter of the running rule. In particular \(n_{\mathrm{bin}}\) is fixed before the physical Boolean compilation and never changed afterward. The native bins are
+
+\[
+\begin{gathered}
+J_{m} = (2^{-A_{m}}, 2\cdot 2^{-A_{m}}), A_{m}=8^{m+n_{\mathrm{bin}}}, m\ge 0.
+\end{gathered}
+\]
+
+The native interfaces, deterministic bootstrap, full initialized descent, \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026}, arbitrary-input cap/ascent and all-input helper coalescence invoked here hold for this \(\theta\). After all physical stencils and the map \(\gamma\) are fixed, choose one \(J_{\mathrm{pad}}\ge 0\) last and select only
+
+\[
+\begin{gathered}
+m(n)=2^{n}(2 J_{\mathrm{pad}}+1), n\ge 0.
+\end{gathered}
+\]
+
+Then \(m(n)\ge 2J_{\mathrm{pad}}+1\) and \(V(m(n))\) halts exactly when \(U(n)\) halts. \(V\) and the native rule do not contain \(J_{\mathrm{pad}}\) or \(n\). Increasing \(J_{\mathrm{pad}}\) selects later bins of the same fixed rule.
+
+\end{lemma}
+\begin{proof}
+The distinction between geometry and width can also be checked directly. The native core date/address map uses the fixed \(w_c,P_c,T_c\) schedule and a fixed number of word-operation slots. A vector of fixed width is a field of its finite native alphabet; its coordinatewise Boolean operations are one finite-table transition, so widening that alphabet adds no native sites or instruction dates. The helper channels and receivers use their own finite fields and offsets. Their fixed channel count enters the finite job-time coefficient, which is absorbed by the final native bin cutoff in the stripe lemma. They do not lengthen the core schedule. Only after choosing those fields is the physical Boolean table compiled; its increased depth, slot count and spatial stride enter \(D_{\rm layer}\), the complete stencils and the physical scaling constants. Thus choosing native geometry before helper width makes no assumption of a width-independent physical circuit depth.
+
+The quantification over helper constants is part of the import, not an inferred robustness claim: \cite[Lemma~\ref*{cl:lem:stripes}, its proof and Appendix~\ref*{cl:sec:constants}]{DMNoise1D2026} permit an arbitrary prescribed short exponent, then the refresh/copy/reader constants, then an arbitrary prescribed long exponent, then the channel count, and finally the bin offset (there called \(n_0\), here \(n_{\mathrm{bin}}\)). \cite[Sections~\ref*{cl:sec:parameter} and~\ref*{cl:sec:stripes}, and Lemma~\ref*{cl:lem:joint}]{DMNoise1D2026} fix the core geometry and clock before, and independently of, the vector width and these helper counts. \cite[Lemma~\ref*{cl:lem:stripes}]{DMNoise1D2026} gives the corresponding all-start noise-only interface. The displayed concrete choices dominate those bounds with spare powers. Indeed the reader error exponent before fixed prefactors is \((s_{\mathrm{read}}+1)/4=M_{s}+21.5\). The refresh exponent after the \(p^{-8}\) suffix count is \(b_{\mathrm{refresh}}-7\ge M_{s}+13\), and the replica exponent after that count is \(v_{\mathrm{rep}}-8=M_{s}+12\). The factor \(H_{m}^{2}=p^{-o(1)}\) and fixed constants consume fewer than these spare powers when \(n_{\mathrm{bin}}\) is sufficiently large. The long majority-reference exponent is \((m_{\mathrm{ch}}+1)/20=M_{l}+20.1\); the missing-refresh term is superpolynomial. Thus native short and long failures may in particular be bounded by \(p^{M_{s}+2}/8\) and \(p^{M_{l}+2}/8\) for all native bins after the once-only choice of \(n_{\mathrm{bin}}\). These stronger bounds merely implement the arbitrary exponents stipulated in \cite[Lemma~\ref*{cl:lem:stripes}]{DMNoise1D2026}.
+
+This choice of \(n_{\mathrm{bin}}\) is effective. All prefactors come from finite schedules, fixed alphabets, finite union bounds or explicitly bounded geometric/exponential series. The conditions in the proof of \cite[Lemma~\ref*{cl:lem:stripes}]{DMNoise1D2026} are inequalities of fixed polynomials, exponentials, powers of \(p\) and \(H_{m}\). Replace logarithms by certified rational upper bounds and bound powers of \(\log (1/p)\) by a small inverse power of \(p\). For \(A_{m}=8^{m+n_{\mathrm{bin}}}\), every remaining ratio of the form \((m+2)/A_{m}\) decreases with \(m\); its next ratio is \((m+3)/(8(m+2))<1\). For these sufficient inequalities, the remaining index dependence is through nonnegative multiples of \((m+2)/A_{m}\) and \(1/A_{m}\). Thus checking their envelopes at \(m=0\) verifies them for every \(m\ge 0\). A search over integer \(n_{\mathrm{bin}}\) using these sufficient rational bounds terminates by the displayed positive exponent slack. Geometry/lane offsets and base width are likewise finite constructive choices in \cite[Section~\ref*{cl:sec:construction} and Appendix~\ref*{cl:sec:constants}]{DMNoise1D2026}. They do not depend on any computation's halting status.
+
+The dependence on the fixed machine is also parametric. Here is the premise check for each deterministic import. \cite[Section~\ref*{cl:sec:construction}]{DMNoise1D2026} defines total parsing and motion for arbitrary legal mutable words and a fixed literal program; the organization induction through \cite[Proposition~\ref*{cl:prop:organization}]{DMNoise1D2026} uses geometry and exact local evaluation, not a property of \(U\). In \cite[Section~\ref*{cl:sec:parameter}]{DMNoise1D2026} a promotion takes one true step of the fixed one-ended machine on fresh immutable operands; substituting \(V\) changes only this finite literal/table. In the proof of \cite[Lemma~\ref*{cl:lem:locking}]{DMNoise1D2026} the stripe identity locks precisely the integer \(m\) at rank \(m+1\) before evaluating that initial tape; its proof uses only \(\mathrm{popcount}\) and three spatial samples. It therefore installs the actual initial \(V(m)\) tape. At every higher rank it advances that tape by one true step, and checks its true halted bit. The packet format and word-doubling argument do not depend on how long \(V(m)\) runs. The frozen comparison in the proof of \cite[Lemma~\ref*{cl:lem:locking}]{DMNoise1D2026}, the full-state clean identity \cite[Lemma~\ref*{cl:lem:clean}]{DMNoise1D2026}, the endpoint boundary and the searching-rank comparison in the proof of \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026} use only these fresh true operands and the absence of a halt at the relevant positive layers. In the halting direction, the cut proof \cite[Lemma~\ref*{cl:lem:cap-cut}]{DMNoise1D2026} invokes the true halted-bit guard for every legal or malformed supplier, and the ascent \cite[Lemma~\ref*{cl:lem:ascent}]{DMNoise1D2026} quantifies over every starting row and translated grid. Replacing \(U\) by \(V\) preserves each premise exactly. Helper construction and its all-input coalescence (\cite[Sections~\ref*{cl:sec:embedding}--\ref*{cl:sec:stripes} and Lemmas~\ref*{cl:lem:receiver-mixing}--\ref*{cl:lem:stripes}]{DMNoise1D2026}) do not execute \(V\) and are unchanged. Thus the accepted imports apply to every tuple admissible for the classical construction, including \(\theta\), without any claim about unspecified extra helper faults. Lemma \ref{q1:l12} separately proves the required enlarged fault cover.
+
+Finally \(\nu_{2}(2^{n}(2J_{\mathrm{pad}}+1))=n\) because \(2J_{\mathrm{pad}}+1\) is odd. Every selected bin index is large when \(J_{\mathrm{pad}}\) is large. All remaining small-noise requirements, including those involving physical compilation constants chosen after \(\theta\), can therefore be met by \(J_{\mathrm{pad}}\) alone. The bin offset \(n_{\mathrm{bin}}\) and the physical transition remain fixed. In particular changing \(n_{\mathrm{bin}}\) after compilation is not described as equivalent to padding: it would change the native receiver's interval-to-index map. This proof uses only the displayed padding route. 
+\end{proof}
+
+
+
+\begin{lemma}[A radius-moment cover for the compiled two-scale field]\label{q1:l12}
+
+Fix the native selector geometry \(P_{c},T_{c},w_{c}\) and the bootstrap constant \(D_{\mathrm{boot}}\) of Lemma \ref{q1:l11}, independently of helper counts. Put \(b_{c}=\min (P_{c},T_{c})>1, B_{c}=\max (P_{c},T_{c})\), and fix any nonnegative moment exponent \(d\). It is enough to prove the assertion for the integer \(d_{\mathrm{mom}}=\max (4,\lceil d\rceil)\). There is one helper construction and physical Boolean compiler, given below independently of \(\delta\), such that for every \(\delta>0\) some final integer \(J_{\mathrm{pad}}\) gives the following bound: simultaneously for every selected index \(m=2^{n}(2J_{\mathrm{pad}}+1)\), every rate in its physical window and every deterministic sequence of elementary rates in that window, the following holds.
+
+Let \(E\) be the union of \((a)\) native core substitutions and complete-stencil compiler anomalies, and \((b)\) the fixed-multiple \(H_{m}=D_{\mathrm{boot}}^{m+2}\) paint about a short bad helper center or an enlarged long bad center. An enlarged long center includes native long failure, any compiler anomaly in the entire helper-prefix comparison domain, and any primitive rate mismatch in that domain. The comparison domain at center \(z\) is the union of the backward native cones of the short and long prefix computations at \(z\). All anomalies and band mismatches in it are charged to \(L\) at \(z\), and \(S\) is the native short test alone. Then every site whose prescribed fixed-multiple centered rank-\(i\) test fails \(i\)-sparsity is covered by a primitive-measurable marked ball from the list below. For each type \(a\), both the covered footprint and all its determining independent primitive keys lie inside its ball, of integer physical radius \(r_{a}\ge 1\); \(\Pr(\text{mark of type }a\text{ at a fixed center})\le z_{a}\); and
+
+\begin{equation}\label{q1:e12.1}
+\begin{gathered}
+\sum _{a} (1+r_{a})^{d} \sqrt{z_{a}} < \delta.
+\end{gathered}
+\end{equation}
+
+The sum includes the complete infinite rank list and finite physical offset/residue multiplicities. For a finite cap \(K\) retain only the test types with \(i\le K\), but retain the short and long center types even when \(K\) lies below their admission ranks. This yields finitely many types with a finite maximum radius. Negative-time raw flags may be added to the dominating field. The cover is simultaneous over incoming helper/core words; it never conditions innovations on anomaly absence.
+
+Here is an explicit admissible exponent choice. Let \(R_{\mathrm{geom}}\) be the least integer \(R\ge 1\) with \(b_{c}^{R}\ge B_{c}\) and put \(\Delta_{\mathrm{ad}}=10000\). Define successively
+
+\[
+\begin{gathered}
+\rho_{s}=18 R_{\mathrm{geom}}+2, \\ D_{s}=2 d_{\mathrm{mom}} \rho_{s}+20, \\ M_{s}=\max (2\rho_{s}+2(\Delta_{\mathrm{ad}}+1)D_{s}+20, \\ 2(d_{\mathrm{mom}}+1)\rho_{s}+20), \\ b_{\mathrm{refresh}}=\max (21,M_{s}+20), v_{\mathrm{rep}}=M_{s}+20, s_{\mathrm{read}}=4M_{s}+85, \\ \rho_{l}=(b_{\mathrm{refresh}}+7)R_{\mathrm{geom}}+2, \\ D_{l}=2 d_{\mathrm{mom}} \rho_{l}+20, \\ M_{l}=\max (2\rho_{l}+2(\Delta_{\mathrm{ad}}+1)D_{l}+20, \\ 2(d_{\mathrm{mom}}+1)\rho_{l}+20), \\ m_{\mathrm{ch}}=20(M_{l}+20)+1, \\ C_{\mathrm{pref}}=2(b_{\mathrm{refresh}}+6)+5, \\ h_{\mathrm{red}}=C_{\mathrm{pref}}+M_{l}+5.
+\end{gathered}
+\]
+
+Freeze the native offset \(n_{\mathrm{bin}}\) after the native helper choices and before physical compilation, as in Lemma \ref{q1:l11}. All further smallness, including \eqref{q1:e12.1}, is obtained by the last padding \(J_{\mathrm{pad}}\). These are explicit sufficient choices within the original arbitrary-exponent allowances, not a change of construction.
+
+\end{lemma}
+\begin{proof}
+We give the cover, its joint-key justification and every range of the moment sum.
+
+\smallskip\noindent\textbf{Step 1: Comparison events really are noise-only.} The native innovations are the unconditional whole-symbol factory draws of Lemma \ref{q1:l17}. Work first at a nominal rational physical rate \(e_{m}\) with \(\gamma(e_{m})\) strictly inside native bin \(m\), and put \(p=\gamma(e_{m})/2\). Native short and long sufficient tests have probabilities at most \(p^{M_{s}+2}/8\) and \(p^{M_{l}+2}/8\) after the fixed offset of Lemma \ref{q1:l11}. They apply simultaneously to every incoming helper history (\cite[Lemma~\ref*{cl:lem:stripes}]{DMNoise1D2026}). A complete protected Boolean transition, including incoming/outgoing normalizations, has a state-independent excess-flag event of probability at most \(C_{h} e_{\mathrm{sup}}^{h_{\mathrm{red}}+1}\). A backward prefix contains at most \(C_{N} p^{-C_{\mathrm{pref}}}\) primitive wire-dates. This follows by bounding its spatial and temporal extents by \(C p^{-(b_{\mathrm{refresh}}+5)}\), inserting all finite strides, native speeds, compiler depths and starting/terminal collars, and multiplying the two extents. The deliberately larger integer \(C_{\mathrm{pref}}\) above exceeds \(2(b_{\mathrm{refresh}}+6)+4\). All finite compilation constants enter \(C_{N}\), not that exponent.
+
+
+Since \(\gamma'(0)>0\), effective positive rational constants \(c_{e},e_{*}\) satisfy \(e_{\mathrm{sup}}\le c_{e} p\) whenever \(e_{\mathrm{sup}}\le 2e_{m}<e_{*}\) and \(\gamma(e_{m})=2p\). Therefore the union of anomalies in this entire prefix costs at most
+
+\[
+\begin{gathered}
+C_{N} C_{h} p^{-C_{\mathrm{pref}}}(c_{e} p)^{h_{\mathrm{red}}+1} \\ = C' p^{M_{l}+6}.
+\end{gathered}
+\]
+
+For \(p\) sufficiently small this is below \(p^{M_{l}+2}/8\). Give the physical window rational halfwidth \(\epsilon_{m}\) small enough that it stays in the monotone bin preimage, \(e_{\mathrm{sup}}<2e_{m}\), and
+
+\[
+\begin{gathered}
+\epsilon_{m} \le  p^{M_{l}+C_{\mathrm{pref}}+2}/(16 C_{N}).
+\end{gathered}
+\]
+
+Using the same independent uniform and replacement-value keys at every wire-date, a rate mismatch lies in the fixed threshold band about \(e_{m}\). For one fixed actual rate its probability anywhere in the prefix is at most \(C_{N} p^{-C_{\mathrm{pref}}} \epsilon_{m}\). To use one noise-only envelope for all rates in the window, mark the entire band of width \(2\epsilon_{m}\); its probability is at most \(2 C_{N} p^{-C_{\mathrm{pref}}} \epsilon_{m}\le p^{M_{l}+2}/8\). This remains true for any deterministic elementary-rate sequence in the window. It covers a splice inside a factory. On every realization the nominal native innovations are defined; if all prefix stencils and mismatch tests are good, induction on that full prefix gives equality from the actual incoming row. Arbitrary incoming rows cause no extra event. Thus an enlarged long center has probability at most \(C_{l} p^{M_{l}}\), with \(C_{l}\) fixed (one can make \(C_{l}=1\) by the unused slack). Its primitive support radius is at most \(C p^{-(b_{\mathrm{refresh}}+5)}\). A short center has probability at most \(C_{s} p^{M_{s}}\) and radius at most \(C p^{-16}\). This is precisely a union of named noise tests, not a test of whether a particular incoming word happened to fail. Primitive events in disjoint complete support regions are independent.
+
+\smallskip\noindent\textbf{Step 2: Dependent raw flags have the same double-exponential form.} The union of native substitutions and all bounded-stencil core anomalies has marginal probability at most \(C_{\mathrm{raw}} p\) and primitive support in a fixed radius \(R_{\mathrm{raw}}\). Use the rate-uniform envelope: any actual-rate substitution requires a primitive rare-factory flag below \(e_{\mathrm{sup}}\). Its complete fixed stencil, together with the excess-fault stencils, gives this same raw envelope for every elementary-rate sequence in the window. Distinct values can be dependent inside that radius. Use the binary mesh witnesses of \cite[Lemma~\ref*{cl:lem:sparse-witness}]{DMNoise1D2026}, with leaf regions intersected with their ancestors, using the proof of Lemma \ref{q1:l1}. A rank-\(i\) witness has \(2^{i}\) disjoint nonempty terminal regions. At rank zero each has bounded area \(a_{0}\). Enlarge each by the fixed microscopic raw stencil. Its conflict graph has finite degree \(\Delta_{\mathrm{raw}}\) bounded by the area of a fixed further enlargement: every conflicting disjoint region supplies a different integer site there. Choose an independent subset of at least \(2^{i}/(\Delta_{\mathrm{raw}}+1)\) leaves before taking probabilities. Each costs at most \(a_{0} C_{\mathrm{raw}} p\), and the number of trees is at most \(C_{\mathrm{tr}}^{2^{i}}\), with \(C_{\mathrm{tr}}\) fixed by the finite mesh lists and the finite root enlargement. Thus, after reducing \(p\), every required raw test has bound
+
+
+\begin{equation}\label{q1:e12.2}
+\begin{gathered}
+\Pr(\text{raw rank-}i\text{ failure}) \le  p^{c_{\mathrm{raw}} 2^{i}}
+\end{gathered}
+\end{equation}
+
+with, for example, \(c_{\mathrm{raw}}=1/[4(\Delta_{\mathrm{raw}}+1)]\) after absorbing the root-cover constants. An explicit sufficient smallness condition for the witness part is \(p \le  [C_{\mathrm{tr}}^{\Delta_{\mathrm{raw}}+1} a_{0} C_{\mathrm{raw}}]^{-2}\); finitely many extra constants are absorbed by another positive rational threshold. This proof uses finite dependence only, and applies equally to independently appended artificial negative-time keys. No iid assertion about painted errors is made.
+
+\smallskip\noindent\textbf{Step 3: Admission scales and the large-leaf packing constant.} Let \(j_{s},j_{l}\) be the least nonnegative integers with
+
+
+\[
+\begin{gathered}
+b_{c}^{j_{s}}\ge p^{-17},    b_{c}^{j_{l}}\ge p^{-(b_{\mathrm{refresh}}+6)}.
+\end{gathered}
+\]
+
+For small \(p, B_{c}^{j_{s}}\le p^{-\rho_{s}}\) and \(B_{c}^{j_{l}}\le p^{-\rho_{l}}\). Indeed \(j_{s}<17 \log _{b_{c}}(1/p)+1\) and \(B_{c}\le b_{c}^{R_{\mathrm{geom}}}\); the extra constants and exponents in \(\rho_{s},\rho_{l}\) dominate the final factor \(B_{c}\). Also \(H_{m}=p^{-o(1)}\); all raw, short-prefix and paint enlargements are smaller than one rank-\(j_{s}\) mesh cell, and all raw, short and long enlargements are smaller than one rank-\(j_{l}\) mesh cell. These assertions hold uniformly once \(m\) is sufficiently large.
+
+For completeness the packing is about ancestor-restricted regions before intersecting with the initially requested target, rather than arbitrarily thin target fragments. For a fixed root, put every descendant mesh on its translated origin. \(P_{c},T_{c}\) are integers, so every ancestor boundary lies on the rank-\(l\) mesh with cell sides \(w_{c} P_{c}^{l},w_{c} T_{c}^{l}\). Every nonempty ancestor-restricted leaf region contains a whole such cell. Distinct regions are disjoint, by their first disjoint siblings. A full rank-\(l\) leaf has two mesh cells per side, and its support enlargement at the relevant admission is at most one cell per side. If two enlarged supports meet, the chosen cells of the two ancestor-restricted regions lie in a fixed square of at most 20 mesh cells per side about the first full leaf. Each cell can be supplied by at most one disjoint region. Thus degree \(<20^{2}\); \(\Delta_{\mathrm{ad}}=10000\) is a common safe integer bound even with endpoint/collar conventions. This constant is independent of \(p\), helper counts, \(h_{\mathrm{red}}\) and the admission rank. Those constants determine how small \(p\) must be before the one-cell condition holds. A fixed enlarged centered root is first covered by its bounded list of doubled root boxes. Enlarging \(C_{\mathrm{tr}}\) accounts for that list. This proves the packing assertion even if the original target clips a leaf thinly.
+
+\smallskip\noindent\textbf{Step 4: Short admission.} At rank \(j_{s}\) call a leaf bad if its raw restriction is nonsparse or if a short-center paint meets it. A union bound over all possible center positions gives
+
+
+\begin{equation}\label{q1:e12.3}
+\begin{gathered}
+q_{s} \le  p^{c_{\mathrm{raw}} 2^{j_{s}}} + C (B_{c}^{j_{s}}+H_{m})^{2} p^{M_{s}} \\ \le  p^{c_{\mathrm{raw}} 2^{j_{s}}} + C' p^{M_{s}-2\rho_{s}}.
+\end{gathered}
+\end{equation}
+
+Both summands have primitive support in the one-cell enlargement just described. In a fixed binary witness with \(N=2^{i-j_{s}}\) leaves, retain an independent-support subset of size at least \(N/(\Delta_{\mathrm{ad}}+1)\). Multiplying its probabilities and summing at most \(C_{\mathrm{tr}}^{N}\) witnesses gives
+
+\[
+\begin{gathered}
+\Pr(\text{raw+short rank-}i\text{ failure}) \le  [C_{\mathrm{tr}} q_{s}^{1/(\Delta_{\mathrm{ad}}+1)}]^{N}.
+\end{gathered}
+\]
+
+The explicit bound on \(M_{s}\) makes \(M_{s}-2\rho_{s}\ge 2(\Delta_{\mathrm{ad}}+1)D_{s}+20\). Moreover \(c_{\mathrm{raw}} 2^{j_{s}}\) tends to infinity as \(p\) tends to zero, even though \(c_{\mathrm{raw}}\) was fixed only after physical compilation. Taking \(p\) smaller makes the bracket at most \(p^{D_{s}}\). Hence for every \(i>j_{s}\),
+
+\begin{equation}\label{q1:e12.4}
+\begin{gathered}
+\Pr(\text{raw+short rank-}i\text{ failure}) \le  p^{D_{s} 2^{i-j_{s}}}.
+\end{gathered}
+\end{equation}
+
+Selection is performed separately for each deterministic tree; dependence of overlapping leaf events causes no product assertion.
+
+\smallskip\noindent\textbf{Step 5: Long admission.} At rank \(j_{l}\) a leaf is bad for the full field only if its raw+short restriction is nonsparse or some enlarged long-center paint meets it. The bound is
+
+
+\begin{equation}\label{q1:e12.5}
+\begin{gathered}
+q_{l} \le  p^{D_{s} 2^{j_{l}-j_{s}}} + C p^{M_{l}-2\rho_{l}}.
+\end{gathered}
+\end{equation}
+
+Here \(b_{\mathrm{refresh}}>20\) gives
+
+\[
+\begin{gathered}
+j_{l}-j_{s} \ge  (b_{\mathrm{refresh}}-11)\log _{b_{c}}(1/p)-1 \to  \infty.
+\end{gathered}
+\]
+
+The first exponent in \eqref{q1:e12.5} therefore exceeds every fixed constant for all sufficiently small \(p\). The explicit \(M_{l}\) bound and the same \(\Delta_{\mathrm{ad}}\)-coloring show, for every \(i>j_{l}\),
+
+\begin{equation}\label{q1:e12.6}
+\begin{gathered}
+\Pr(\text{full rank-}i\text{ failure}) \le  p^{D_{l} 2^{i-j_{l}}}.
+\end{gathered}
+\end{equation}
+
+The full key support still fits in the one-cell enlargement at admission because the long support is \(C p^{-(b_{\mathrm{refresh}}+5)}\), a factor \(p\) smaller than its leaf-side lower bound. Complete primitive prefixes, anomaly stencils and mismatch keys have all been included.
+
+\smallskip\noindent\textbf{Step 6: The exact decomposed mark list.} Use a common fixed physical scaling factor \(C_{\mathrm{ball}}\) large enough for all root collars, prefix supports, paint displacements, primitive stencils and residue offsets. The types are:
+
+
+\begin{itemize}
+\item \(R_{i}\) for \(0\le i\le j_{s}\): a raw nonsparsity event, centered at the queried root, radius \(\lceil C_{\mathrm{ball}} B_{c}^{i}\rceil\), probability bound \(p^{c_{\mathrm{raw}} 2^{i}}\).
+\item \(S\): a short bad center, radius \(\lceil C_{\mathrm{ball}} B_{c}^{j_{s}}\rceil\), probability bound \(C_{s} p^{M_{s}}\).
+\item \(M_{i}\) for \(j_{s}<i\le j_{l}\): a raw+short nonsparsity event, radius \(\lceil C_{\mathrm{ball}} B_{c}^{i}\rceil\), probability bound \(p^{D_{s} 2^{i-j_{s}}}\).
+\item \(L\): an enlarged long bad center, radius \(\lceil C_{\mathrm{ball}} B_{c}^{j_{l}}\rceil\), probability bound \(C_{l} p^{M_{l}}\).
+\item \(H_{i}\) for \(i>j_{l}\): a full nonsparsity event, radius \(\lceil C_{\mathrm{ball}} B_{c}^{i}\rceil\), probability bound \(p^{D_{l} 2^{i-j_{l}}}\).
+\end{itemize}
+
+For \(i\le j_{s}\) a failed full test either has a short or long paint center meeting it, or equals a raw failure. In the first case the ball at that center covers the root: test radius \(B_{c}^{i}\) and its paint radius \(H_{m}\) are at most a fixed multiple of the respective admission radius. For \(j_{s}<i\le j_{l}\) the same reasoning removes only long centers and leaves a raw+short failure. For \(i>j_{l}\) use the full test itself. This proves coverage without declaring an undersized full test to have local primitive support. Each type is a function only of the independent keys inside its advertised ball. A single \(S\) or \(L\) center ball covers every lower-rank root implicated by that center, so no sum over those lower ranks is needed. The root test geometry has only finitely many stencil variants and residue lanes; take those as a fixed finite type multiplicity. Physical lane changes require this union and radius inflation, but do not change the probability argument.
+
+\smallskip\noindent\textbf{Step 7: Every part of the moment sum.} Absorb \(C_{\mathrm{ball}}\), integer rounding and the fixed type multiplicity in a constant \(C_{\mathrm{mom}}\). Replacing \(d\) by \(d_{\mathrm{mom}}\) only strengthens the requested result. The raw contribution is bounded by
+
+
+\begin{equation}\label{q1:e12.7}
+\begin{gathered}
+C_{\mathrm{mom}} \sum _{i\ge 0} B_{c}^{d_{\mathrm{mom}} i} p^{(c_{\mathrm{raw}}/2)2^{i}} \\ \le  C_{\mathrm{mom}} p^{c_{\mathrm{raw}}/2}/(1-B_{c}^{d_{\mathrm{mom}}} p^{c_{\mathrm{raw}}/2}),
+\end{gathered}
+\end{equation}
+
+when the denominator is positive; we used \(2^{i}\ge i+1\). The \(S\) and \(L\) contributions are respectively at most
+
+\begin{equation}\label{q1:e12.8}
+\begin{gathered}
+C_{\mathrm{mom}} \sqrt{C_{s}} p^{M_{s}/2-d_{\mathrm{mom}} \rho_{s}}, \\ C_{\mathrm{mom}} \sqrt{C_{l}} p^{M_{l}/2-d_{\mathrm{mom}} \rho_{l}}.
+\end{gathered}
+\end{equation}
+
+Both exponents are positive by the stated \(M\) choices. For middle ranks write \(i=j_{s}+j, j\ge 1\). Since \(2^{j-1}\ge j\),
+
+\begin{equation}\label{q1:e12.9}
+\begin{gathered}
+\sum _{\mathrm{middle}} (1+r)^{d_{\mathrm{mom}}} \sqrt{z} \\ \le  C_{\mathrm{mom}} p^{-d_{\mathrm{mom}} \rho_{s}} \\ \sum _{j\ge 1} B_{c}^{d_{\mathrm{mom}} j} p^{D_{s} 2^{j-1}} \\ \le  C_{\mathrm{mom}} p^{-d_{\mathrm{mom}} \rho_{s}} \\ [B_{c}^{d_{\mathrm{mom}}} p^{D_{s}}/(1-B_{c}^{d_{\mathrm{mom}}} p^{D_{s}})].
+\end{gathered}
+\end{equation}
+
+This tends to zero because \(D_{s}>d_{\mathrm{mom}} \rho_{s}\). The full high-rank sum has exactly \eqref{q1:e12.9} with \(\rho_{l},D_{l}\) instead. Thus the sum of all five ranges tends to zero as \(p\) tends to zero. Choose a positive rational threshold so that all denominators exceed \(1/2\), each preceding admission/prefix estimate holds, and the sum of \eqref{q1:e12.7}-\eqref{q1:e12.9} is less than \(\delta\). All inequalities are effective: use certified rational bounds for fixed logarithms and constants. For example, if \(R_{2}=\lceil \log _{2} b_{c}\rceil\), then \(2^{j_{s}}\ge p^{-17/R_{2}}\) and \(2^{j_{l}-j_{s}}\ge (1/2)p^{-(b_{\mathrm{refresh}}-11)/R_{2}}\), supplying rational-power sufficient conditions for the two diverging exponents. Raising both sides to integer powers removes fractional-power comparisons.
+
+Finally select \(J_{\mathrm{pad}}\) large enough that every \(m\ge 2J_{\mathrm{pad}}+1\) has \(p\) below this common threshold and all fixed support prefactors fit the admissions. This is effective because \(p\le 2^{-8^{m+n_{\mathrm{bin}}}}\) and \((m+2)/8^{m+n_{\mathrm{bin}}}\) decreases with \(m\). The same bounds dominate any actual rate sequence in its chosen narrow physical window by Step 1 and the primitive envelope of Step 2. They therefore hold simultaneously for every \(n\) and every actual rate, rather than only at one nominal bin. For a finite cap the retained list is a subset of this list plus the same two admission centers; \eqref{q1:e12.1} still holds and all radii are finite. This proves the moment cover, including arbitrary moment exponents, dependent raw flags and enlarged long failures. 
+\end{proof}
+
+
+
+\begin{lemma}[The complete-symbol selector kernel]\label{q1:l17}
+
+Let the native \(R2\) alphabet have cardinality \(M\), let \(k_{\mathrm{sel}}=\lceil \log _{2} M\rceil\), and number its symbols \(0,\dots,M-1\). At each native site/date use a fresh rare factory bit \(B\) with law \(\mathrm{Bernoulli}(\beta(e))\) and \(k_{\mathrm{sel}}\) fresh independent fair factory bits, forming \(W\) uniformly in \(\{0,\dots,2^{k_{\mathrm{sel}}}-1\}\). These abstract factory outputs are defined even if a factory has too many physical faults. Set \(J=W\) and accept a replacement exactly on \(\{B=1,W<M\}\). Put \(\gamma(e)=\beta(e) M/2^{k_{\mathrm{sel}}}\). The function \(\beta\) is a polynomial in \(e\) with rational coefficients, because the rare factory is a finite rational classical channel. For every native neighborhood \(a\) and native output symbol \(b\),
+
+\[
+\begin{gathered}
+\Pr(\text{accepted replacement with symbol }j) = \beta(e)/2^{k_{\mathrm{sel}}} = \gamma(e)/M, \\ 0 \le  j < M, \\ K_{\gamma}(a,b) = (1-\gamma(e))\, \one[b=f(a)] + \gamma(e)/M.
+\end{gathered}
+\]
+
+The innovations are independent over native site/dates, independent of the incoming native state, and replace one complete native symbol, preserving the stipulated common replacement flag across all helper/core fields sharing that symbol. The compiled physical semantic transition equals this native transition except on the separately marked complete-stencil excess-fault event. The kernel assertion is unconditional; it is not asserted conditional on no excess faults.
+
+\end{lemma}
+\begin{proof}
+The sample factories use disjoint private primitive wire-time keys and reset every incoming input. Their abstract outputs are thus functions of those keys alone. The rare factory defines \(\beta(e)\) as its unconditional final-majority probability. The complement-equivariant fair factory of the paragraph on redundant Boolean steps and exact draws in Section~\ref{q1:selector} has a measure-preserving involution complementing its original fair draw and every replacement value on a complementing wire. Fixed/invariant wires remain fixed. Every gate in the oriented circuit respects this involution, and the final majority complements. Hence its output is exactly fair, including on failed factories. Disjointness makes the \(k_{\mathrm{sel}}\) outputs independent and independent of \(B\) and the prior native state. Therefore \(\operatorname{Pr}(B=1,W=j)=\beta(e)2^{-k_{\mathrm{sel}}}\) for every \(j\). Summing over the \(M\) accepted \(j\) gives total replacement probability \(\gamma(e)\); the complementary event leaves \(f(a)\). Adding these two disjoint cases proves the displayed kernel, including \(b=f(a)\), where both cases contribute.
+
+No rejection loop or conditional redrawing occurs. This constructs independent native innovations on the same probability space as the circuit for every realization. An unused replacement mark on rejection may be assigned an extra independent mathematical value; it is never read by the physical circuit. The one complete-symbol parser and protected Boolean transition implement \(f(a)\), or the chosen symbol \(J\), on their actual decoded incoming neighbors whenever the full incoming/outgoing normalization and transition stencils are good. The contrapositive is exactly the explicit excess-flag certificate of the same paragraph and of the central normalization convention in Section~\ref{q1:selector}; it includes storage, initialization, all reader paths and final normalization. Consequently any semantic deviation is contained in that mark. Factory outputs and anomaly marks may share keys. Conditioning on anomaly absence could change their distribution, so the comparison keeps both on the unconditional product-key space. Induction on a finite backward native cone gives agreement with the exact native process when no anomaly occurs in that cone. This proves the asserted distinction between exact comparison innovations and compiled evolution. 
+\end{proof}

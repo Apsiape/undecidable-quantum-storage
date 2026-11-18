@@ -1,0 +1,36 @@
+\section{One-dimensional construction and its classical inputs}\label{q1:model}
+We use exactly the elementary gate and noise model of Section~\ref{s:local-circuits}. A macro round is a fixed finite schedule of \(D_{\rm layer}\) elementary layers; the noise after every layer is
+\[
+ \bigotimes_{\text{all wires }q}\bigl((1-\eps)\operatorname{Id}_q+
+ \eps\operatorname{Tr}_q(\,\cdot\,)I_q/2\bigr).
+\]
+Every idle and reset layer is included. Registers have finitely many named factors per site. Gates such as SWAP, CZ and a classically controlled real gate below denote fixed decompositions into the elementary operations of Section~\ref{s:local-circuits}. Old and new classical banks are distinct, dephased at round boundaries, with one-way copies into private controls. Each displacement uses a distinct destination lane. Thus translated gates have distinct targets even when displacements coincide modulo a small ring length.
+
+There are two autonomous classical lanes: a structural lane R1 initialized from a certified never-halting computation, and a rate-selecting lane R2. One round updates their whole native symbols, reads the old structural coordinates and retained word to execute one quantum instruction, performs the fixed port exchange, and uses the R2 strobe symbol to trigger terminal local erasure. Every nonretained quantum-capable factor is disposed of unconditionally after this erasure block. The autonomous banks remain dephased one-way controls; quantum gadget tapes and exchange ports are quantum-capable retained slots subject to erasure. Section~\ref{q1:forgetting} enumerates every factor.
+
+We use version~2.0.0 of the classical construction \cite{DMNoise1D2026}.
+Its Definition~\ref*{cl:def:sparse} fixes the sparsity convention.
+Lemma~\ref*{cl:lem:sparse-witness} supplies the deterministic mesh
+implication only; Lemma~\ref{q1:l1} replaces its iid probability bound.
+For R1 we use the one-point serialization variant of
+Section~\ref*{cl:sec:packets} proved in Lemma~\ref{q1:l9}: each bounded
+scalar bit is moved from its scalar-bit tag to the low word bit of its
+own live letter, with the other word bits zero; the typed word halves
+and fixed endpoint padding are retained. Encoders, parsers and evaluators
+all use that layout. Proposition~\ref*{cl:prop:organization},
+Definition~\ref*{cl:def:observations} with its lookahead bound, and
+Lemmas~\ref*{cl:lem:endpoint} and~\ref*{cl:lem:two-period} supply the
+structural comparison under their stated protection and live-output
+hypotheses. Lemma~\ref*{cl:lem:clean} identifies the clean full row,
+and the proof of Lemma~\ref*{cl:lem:past} constructs its computable
+aligned boundary. For R2, Lemmas~\ref*{cl:lem:stripes}
+and~\ref*{cl:lem:receiver-mixing} supply tunable noise-only prefix tests
+and all-input helper coalescence. Lemma~\ref*{cl:lem:locking} supplies
+the literal lock, and Lemmas~\ref*{cl:lem:cap-cut}
+and~\ref*{cl:lem:ascent} supply the arbitrary-start halting cap and
+ascent. The initialized nested tests use the proof of
+Lemma~\ref*{cl:lem:clock-witness}. The quantum probability bounds,
+routing deletion, joint reduction and whole-channel argument are proved
+below.
+
+Fix a universal target machine \(U\). The R2 literal is the single fixed machine \(V\), with \(V(0)\) an infinite loop and \(V(m)\) simulating \(U(\nu_2(m))\) for \(m\ge1\). After fixing every gate and stencil choose the integer \(J_{\rm pad}\), and let \(m(n)=2^n(2J_{\rm pad}+1)\). The rate windows are rational subintervals of the monotone preimages of the native bins for \(m(n)\). Their construction never asks whether \(U(n)\) halts. The complete order of constants is in Section~\ref{q1:parameters}.

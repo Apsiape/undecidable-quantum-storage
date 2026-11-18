@@ -1,6 +1,6 @@
 # Lean file manifest
 
-Lean library for *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*, version 2.2.0. The proofs cover Lemma 6.6 and Theorem 8.2 (Appendix J).
+Lean library for *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*, version 3.0.0. The proofs cover Lemma 6.6 and Theorem 8.2 (Appendix J).
 
 Paths are relative to this directory. The archive root's SHA256SUMS includes the digest of this manifest.
 
@@ -57,6 +57,6 @@ Paths are relative to this directory. The archive root's SHA256SUMS includes the
 | `QuantumStorage/CertificationElementary.lean` | `661302398fcafeab7815cf6614dad751a537f95c20bbc655eb85872fe4cbc48e` |
 | `QuantumStorage/Definitions.lean` | `1c44256244bc0db681915c7f7bdac8537495444048ce513938d271c27872241f` |
 | `QuantumStorage.lean` | `8dde87c3898e3caf15de0d781dc04df5761836c79356fdb9206059a876ea31c7` |
-| `README.md` | `d9445364b774b294e237dd3c50d6e93e9b191d8c145db2375bd18dbd301210f7` |
-| `SCOPE.md` | `46c5b886b93ae754ebb4e7f01afeb93e3123699e0be39839395f35869ed9f614` |
+| `README.md` | `7b1f94a17a1eac63458eb21f712848fc473164e1333e399b8a2786972ba6271a` |
+| `SCOPE.md` | `9d1bd6064442f9d1aaa095bfe1013dc18153df8dd746ad48fc2ca8343672671a` |
 | `Solution.lean` | `be4771d53c1254d7c5bc454b3fa36a4512ec0426ac09199962c3b641400174d0` |

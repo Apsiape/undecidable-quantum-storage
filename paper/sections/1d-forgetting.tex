@@ -1,0 +1,171 @@
+\section{Whole-register forgetting in one dimension}\label{q1:forgetting}
+\begin{lemma}[A rate-uniform all-start halting cover]\label{q1:l13}
+
+Fix the single native \(R2\) instance of Lemma \ref{q1:l11}, its already chosen physical compiler, and its selected label \(m\). Put \(p_{m}=\gamma(e_{m})/2\), where \(e_{m}\) is its rational nominal physical rate. Suppose \(V(m)\) halts. There are a finite positive burn-in \(B_{\mathrm{halt}}(m)\), finitely many types a with integer radii \(r_{a}\ge 1\), probabilities \(0\le z_{a}<1\), and primitive-measurable events \(M_{a}(z)\), such that:
+
+\begin{enumerate}[label=\arabic*.]
+\item For every initial measured autonomous word, every rate \(e\) in the selected interval, and every physical site/date \((x,t)\) with \(t\ge B_{\mathrm{halt}}(m)\), a live semantic \(R2\) core symbol is in a ball \(B_{\infty}(z,r_{a})\) for which \(M_{a}(z)\) occurs. The same ball family works for all these words and rates.
+\item Include a type for every relevant residue/read offset and a direct type for every fixed read/dispatch/terminal-erase stencil. Outside this enlarged cover every site has a correctly triggered complete quantum cut in that round, independently of the \(R1\) word and the quantum state.
+\item Each event and its ball depend on independent primitive keys within that ball. Disjoint balls therefore have independent mark events, conditional on any fixed initial autonomous word. In fact these mark events do not depend on that word.
+\item With the final small-rate selection made in Section~\ref{q1:parameters}, for the path-counting constant \(C_{\mathrm{path}}\) of the final finite-speed physical circuit,
+\end{enumerate}
+
+\[
+\begin{gathered}
+\sum _{a} C_{\mathrm{path}} (1+r_{a})^{4} \sqrt{z_{a}} < 1/2.
+\end{gathered}
+\]
+
+All statements are uniform over the entire selected physical interval. \(B_{\mathrm{halt}}(m)\) and the finite maximum radius may depend on a halting computation; their existence is asserted only on halting labels.
+
+\end{lemma}
+\begin{proof}
+Freeze every analysis test at the nominal \(p_{m}\): the short/long innovation prefixes, stripe box \(H_{m}\), admission ranks \(j_{s},j_{l}\), centered protection collars, paint, and the true literal's halting rank \(K_{\mathrm{cap}}\). These choices are not rate-dependent modifications to the physical rule. \cite[Lemma~\ref*{cl:lem:locking}]{DMNoise1D2026} gives a finite \(K_{\mathrm{cap}}\) once the literal has locked at rank \(m+1\) and the true simulated computation halts. Increase it to at least one if necessary. The deterministic cut/ascent implication of \cite[Lemma~\ref*{cl:lem:cap-cut}]{DMNoise1D2026} and \cite[Lemma~\ref*{cl:lem:ascent}]{DMNoise1D2026} uses only the truth of these finite tests, not the probability law generating them. Its quantifier includes all starting rows, all ages, all address groups and all forged mutable tapes. Hence a genuinely live physical core after the necessary history is available forces one of the buffered centered \(i\)-sparsity tests, \(0\le i<K_{\mathrm{cap}}\), to fail. It is enough, and conservative, to retain also rank \(K_{\mathrm{cap}}\).
+
+Here is the exact mark inventory, repeated over the finite residue lanes and fixed read offsets actually used by the circuit. Let \(R_{\mathrm{ad},s}=\lceil C_{\mathrm{ad}} B_{c}^{j_{s}}\rceil\) and \(R_{\mathrm{ad},l}=\lceil C_{\mathrm{ad}} B_{c}^{j_{l}}\rceil\). Constants include the physical stride, the complete prefix support and the fixed centered-test multiplier.
+
+\begin{itemize}
+\item \(R_{i}, 0\le i\le \min (K_{\mathrm{cap}},j_{s})\): raw dependent-stencil nonsparsity test, radius \(C_{\mathrm{cap}} B_{c}^{i+1}\), bound \(p_{m}^{c_{\mathrm{raw}} 2^{i}}\).
+\item \(S\): a short failure center, radius \(R_{\mathrm{ad},s}\), bound \(C_{s} p_{m}^{M_{s}}\).
+\item \(M_{i}, j_{s}<i\le \min (K_{\mathrm{cap}},j_{l})\): raw-plus-short nonsparsity test, radius \(C_{\mathrm{cap}} B_{c}^{i+1}\), bound \(p_{m}^{D_{s} 2^{i-j_{s}}}\).
+\item \(L\): a long failure center, radius \(R_{\mathrm{ad},l}\), bound \(C_{l} p_{m}^{M_{l}}\). Its event is the union of the nominal native long failure, any excess-fault compiler stencil in the complete short/long comparison prefixes, and any elementary threshold-band mismatch there. Short failures are kept in the separate \(S\) event; they are not charged at the long exponent.
+\item \(H_{i}, j_{l}<i\le K_{\mathrm{cap}}\): full nonsparsity test, radius \(C_{\mathrm{cap}} B_{c}^{i+1}\), bound \(p_{m}^{D_{l} 2^{i-j_{l}}}\).
+\item \(E_{b}\) for each one of the finite read/dispatch/erase stencil templates \(b\): at least one physical replacement flag in that complete stencil, radius \(r_{b}\), bound \(\min (1,N_{b} e_{\mathrm{sup}})\), where \(N_{b}\) is its enumerated number of primitive wire-dates and \(e_{\mathrm{sup}}\) is the rational upper endpoint of the window.
+\end{itemize}
+
+Keep \(S\) and \(L\) even if \(K_{\mathrm{cap}}\) lies below their respective admission ranks: a large-support helper center can paint a low-rank test. Zero-probability types can be omitted. Fixed multiplicative probability factors for centered covers are absorbed in the exponents exactly as in Lemma \ref{q1:l12}, by the final rate cutoff. Alternatively they can be retained in \(z_{a}\) and the same moment proof applies.
+
+The deterministic covering is as follows. Below \(j_{s}\), a failed test with no short/long paint in its enlarged domain is a raw failed test. In the middle range, with no long paint it is a raw-plus-short failed test. Above \(j_{l}\) it is itself a full failed test. A helper center responsible for any lower-rank failure lies within the corresponding admission-radius ball of the root of that failed test, and its one enlarged center ball covers that root and the center's full primitive support. These are exactly the three cases of \cite[Lemma~\ref*{cl:lem:joint}]{DMNoise1D2026}. Thus this list covers every possible failed cap test.
+
+The support inflation is uniform in the cap rank. The adaptive ascent displacements of \cite[Lemma~\ref*{cl:lem:ascent}]{DMNoise1D2026} are less than \(6T_{c}^{i+1}\) in time and \((4T_{c}/P_{c}+4)P_{c}^{i+1}\) in space. Since \(4T_{c} P_{c}^{i}+4P_{c}^{i+1} \le  8 B_{c}^{i+1}\), one fixed \(C_{\mathrm{cap}}\) contains them, the protected-work interface, all finite residue offsets, and the determining keys. The helper prefixes have the two fixed radii already included in the \(S,L\) balls. Let \(R_{\mathrm{max}}\) be the largest radius in the finite list of non-direct types, increased by the largest fixed physical read offset and by 2. Take, for example, \(B_{\mathrm{halt}}(m)=4(1+R_{\mathrm{max}}+C_{\mathrm{cap}} B_{c}^{K_{\mathrm{cap}}+1})\) macro rounds. Every preceding work, lower call and helper prefix queried by the ascent from a date at least \(B_{\mathrm{halt}}(m)\) is then strictly after initialization. Future service observations are allowed only as observations in the deterministic proof, with lookahead less than their own tile (\cite[Lemma~\ref*{cl:lem:ascent}]{DMNoise1D2026}); the larger two-sided radius already contains them. No future value is used by a physical control.
+
+For rate uniformity, generate each elementary replacement from a uniform \(U_{\mathrm{key}}\) and an independent replacement value. Actual rate \(e\) and nominal \(e_{m}\) disagree only if \(U_{\mathrm{key}}\) lies between these thresholds. Mark instead the deterministic band \([e_{\mathrm{inf}},e_{\mathrm{sup}}]\) in each full comparison prefix. Its probability is bounded by the width of that band times the enumerated prefix size. The selected window makes this at most the long failure allowance. Compiler anomalies and direct marks use the envelope \(e_{\mathrm{sup}}\); abstract nominal short/long tests keep their nominal laws. Native core substitutions at actual rate \(e\) in the window have probability \(\gamma(e)\le \gamma(e_{\mathrm{sup}})\le C_{\gamma} c_{e} p_{m}\), because \(\gamma\) is increasing there and \(\gamma(0)=0\). They are independent across native sites. Nonsparsity is monotone in the flag set, so the \(R/M/H\) bounds hold at every rate in the window. Consequently the comparison holds simultaneously for all starts, and, outside the band marks, for all actual rates in the chosen interval. This is not conditioning the factory innovations on absence of anomalies. Native innovations are defined even when anomalies occur. The cut/ascent implication therefore holds pointwise at every rate with exactly the same finite radii and burn-in.
+
+Lemma \ref{q1:l12}'s moment estimate applies to the infinite union \(R_{i},S,M_{i},L,H_{i}\) for any prescribed \(d\) and any positive tolerance; restricting to \(i\le K_{\mathrm{cap}}\) only decreases the sum. Take \(d\ge 4\). Account for the finitely many residues, read offsets and \(C_{\mathrm{cap}}\) once in its tolerance. The direct contribution is at most \(\sum _{b} (1+r_{b})^{d} \sqrt{N_{b} e_{\mathrm{sup}}}\), which tends to zero with the rate. The order of choice is legitimate: the exponents in Lemma \ref{q1:l12} are chosen for \(d\), whereas the desired small multiplicative constant is achieved by the last bin-skipping parameter \(J\) after the whole circuit and \(C_{\mathrm{path}}\) have been fixed. Choose the two contributions each less than \(1/(4C_{\mathrm{path}})\), with strict slack. This proves part 4. All events just listed are functions of primitive innovations or of explicit flag counts, never a trajectory-dependent disagreement. Their determining supports lie inside their balls, proving part 3. Finally, outside the cover the core is \(D\) and no relevant read or erase key is flagged. Lemma \ref{q1:l14} then gives a complete local cut. Arbitrary \(R1\) opcodes before that cut cannot alter this fact. This proves all parts. 
+\end{proof}
+
+\begin{lemma}[Slot inventory and complete local cuts]\label{q1:l14}
+
+With the mandatory end-of-round disposal already specified in Section~\ref{q1:forgetting} every physical factor belongs to one of the classes in the following inventory. A pristine \(D\)-triggered terminal cut at site \(x\) leaves no quantum dependence on any pre-cut input that reaches \(x\) during that round. Every path from an initial quantum factor to any quantum output crosses one such cut position in every intervening round. This includes an arbitrary encoder acting on the complete physical register. Autonomous classical registers may retain measured classical information; they are included in the channel as measured classical outputs.
+
+\noindent\textbf{Autonomous \(R1\) native word, its encoded bits and old/new retained banks}. They are dephased before their first read and updated only by their own total classical transition. Retained autonomous words remain classical. A bank no longer retained is unconditionally reset/discarded by round end. No quantum output is written into these words.\par\smallskip
+\noindent\textbf{Autonomous \(R2\) core and all native helper work, wall, receiver, replica, raw-probe and exported fields}. They use the same dephasing and one-way autonomous evolution, with total decoding as in Section~\ref{q1:selector}. Retained native fields remain classical; nonretained banks are disposed. Intended work storage in the native helper is still an autonomous classical field, even when called work.\par\smallskip
+\noindent\textbf{Private classical copies, fanout/majority/evaluation banks, factory source and output scratch}. These are reset before any possible read of their incoming state; they hold freshly created fair/rare draws and fixed Boolean computations. After their last use all private copies, old banks, factory scratch and outputs not promoted into a retained autonomous word are unconditionally reset/discarded, even if inactive throughout this round.\par\smallskip
+\noindent\textbf{All \(S\) native quantum slots}. These include ordinary data, contact slots, dummies, reset/gate records, syndrome factors and virtual-interpreter tape factors; their quantum state may be arbitrary. Every retained member, including idle or unused slots, undergoes the \(D\)-triggered erase at its physical site. Nonretained members are unconditionally disposed. A tape intended to be classical inside a quantum gadget belongs here, not in the autonomous \(R1\) class.\par\smallskip
+\noindent\textbf{Facing exchange ports and dedicated ordinary transport tracks/buffers}. These implement the fixed port permutation and paired shuttles, with no outward-port access during private tape-update stages. Spatial operations finish before the terminal cut. Every retained port/track/buffer undergoes the same terminal \(D\) erase; every borrowed/nonretained factor is unconditionally disposed. Old port contents do not escape the inventory.\par\smallskip
+\noindent\textbf{Fredkin/controlled-erase auxiliaries, fresh reset partners, quantum-targeted temporary work}. These remain part of the quantum system until actual disposal, regardless of their intended basis. The partner carrying the erased old state is reset/discarded after the swap. Every unused partner and every other temporary output is disposed at round end. There is no later return edge.\par\smallskip
+
+The word reset in the assembled physical rule means reset before first use \textbf{and mandatory disposal/reset after the final conditional-reset block in every round}, including for slots that happened not to be used. It never means that unused quantum work can persist until some later use.
+
+\end{lemma}
+\begin{proof}
+The hardware is a finite product of named factors.
+The primitive-and-layout paragraph of Section~\ref{q1:compiler}
+assigns the fixed native data, control, tape and port roles and places
+growing arrays on more sites. Its three-step parent-tick construction
+uses a fresh private computation for each contact and reserves the
+terminal transport, with the complete timetable in Lemma~\ref{q1:l10}. The classical compilation of Section~\ref{q1:model} and Section~\ref{q1:selector} adds only finite retained banks and disposable fanout/majority/factory/evaluation work. These are precisely the initial three rows. Each additional register in a finite implementation must be assigned either retained autonomous, retained quantum-capable, or disposable quantum-capable before the finite transition table is generated. Taking the union of all such assigned factors gives an exhaustive finite inventory. Reserving extra idle slots does not create another case: they are either retained quantum slots or disposable factors and receive the indicated reset.
+
+At the beginning of a round measure/dephase the retained autonomous words, before any read that could couple them to quantum data. Conditional on this measured word and the autonomous innovations, their whole evolution is classical and independent of the quantum input. A basis-valued private control \(c\) and a controlled operation \(\sum _{c} \lvert c\rangle\langle c\rvert \otimes U_{c}\) leave the control probabilities unchanged: on a state \(\sum _{c} \lvert c\rangle\langle c\rvert \otimes \rho_{c}\) the result is \(\sum _{c} \lvert c\rangle\langle c\rvert \otimes U_{c} \rho_{c} U_{c}^{*}\). The same assertion holds for a controlled CPTP map. Thus one-way controls cannot transmit unknown quantum information back into the autonomous words. Private quantum-targeted intermediates remain in the quantum classes until disposal; the argument does not declare them autonomous merely because a clean run would be in the computational basis. Noise on an autonomous basis bit is another classical innovation. Noise on quantum work remains inside the conditional quantum CPTP circuit.
+
+Let \(q\) be any retained quantum factor just before the terminal erase block and let \(r\) be its freshly reset partner. For a clean trigger \(c=D\), the controlled \(\operatorname{SWAP}\) is \(\operatorname{SWAP}(q,r)\). Before the swap the channel on \(r\) is the preparation \(\lvert 0\rangle\langle 0\rvert\) (tensored with the retained rest). After the swap and tracing/resetting the old-state output \(r\), the output \(q\) is \(\lvert 0\rangle\langle 0\rvert\) and has no incoming dependence from \(q\). This identity holds on a joint state with an arbitrary environment and reference: \(\operatorname{Tr}_{r}[\operatorname{SWAP}(\rho_{\mathrm{qE}} \otimes  \lvert 0\rangle\langle 0\rvert_{r})\operatorname{SWAP}]=\lvert 0\rangle\langle 0\rvert_{q} \otimes \operatorname{Tr}_{q} \rho_{\mathrm{qE}}\). Apply this to every retained quantum factor at the site. A fixed finite stencil includes the trigger normalization, dispatch, preparation, \(\operatorname{SWAP}\) decomposition and the reset/discard of its partner. If it has no replacement flags and the semantic trigger is \(D\), the exact identity applies. The direct marks of Lemma \ref{q1:l13} include every failure location in this entire stencil.
+
+Every nonretained output is disposed unconditionally, including idle scratch and the old partners. Post-cut layers only prepare/reset/store classical words or add noise; all quantum spatial operations precede the cut. Hence no quantum state can leave through a temporary slot and return after the cut. The terminal noise can replace a fresh output by I/2 but cannot recreate dependence on an earlier input. An arbitrary malicious initial state in any disposable register is removed before its first possible influence and again at round end. A malicious quantum state in an autonomous word is measured at the initial boundary and contributes only to the classical outcome a, whose correlations with the reference are retained in the full channel analysis.
+
+Draw the conservative dependence graph of the conditional CPTP circuit with edges from every input of a gate to every one of its outputs until a genuine preparation, replacement or discard. At round boundaries the only quantum vertices that can continue are the retained quantum-capable factors in the inventory. Therefore a surviving path must cross one retained cut location in each round; an unflagged \(D\) cut at that location terminates it. The rule and this conclusion also hold on small rings: a translated source-to-private-target transfer is a bijection for each named target lane, even when different spatial offsets coincide modulo \(L\). The lane names keep its target factors distinct. 
+\end{proof}
+
+\begin{lemma}[Total endpoints, machine substitution and physical time]\label{q1:l15}
+
+
+
+\((a)\) The imported \(R2\) construction is instantiated with its universal input machine \(U\) equal to the single fixed one-ended unary-input machine \(V(m)\) simulating the target machine on \(\nu_{2}(m), m\ge 1\); set \(V(0)\) to a fixed infinite loop. Native geometry, helper tuple and offset \(n_{\mathrm{bin}}\) are frozen once. A final fixed integer \(J\) relabels target input \(n\) by \(m(n)=2^{n}(2J+1)\). This changes no physical rule and satisfies \(V(m(n))\) halts if and only if the target \(U(n)\) halts.
+
+\((b)\) The finite helper-marginal preparation search at the nominal rational \(e_{m}\) terminates for every label, including halting labels, and yields a computable rational mixture coupled to the required stationary native helper marginal with failure less than \(1/128\). No halting oracle is used.
+
+\((c)\) The time \(t\) in the one-dimensional theorem and in the assembled theorem counts \textbf{elementary physical layers}. One macro round consists of \(D_{\mathrm{layer}}\) such layers. The rate-uniform ancestor estimate in Lemma \ref{q1:l13} plus the complete-cut inventory in Lemma \ref{q1:l14} is a legitimate replacement for the dimension-specific Proposition~\ref{f:ancestor} under Remark~\ref{rem:forgetting-interface}; no dimension-specific selector theorem from the three-dimensional construction is imported.
+
+\end{lemma}
+\begin{proof}
+A one-ended machine can compute \(\nu_{2}\) of a positive unary input by repeated division by two (or repeated pairing on its work tape) and simulate the target machine. Its text is fixed, its interpretation is independent of the chosen bin, and this simulation halts exactly on the desired inputs. The construction at \cite[Lemma~\ref*{cl:lem:locking}]{DMNoise1D2026} accepts any such fixed one-ended universal simulation program; its bitplane tape-step proof only uses a fixed finite transition table. Thus setting the source's \(U\):=\(V\) is an instance of that interface. Since \(2J+1\) is odd, \(\nu_{2}(2^{n}(2J+1))=n\). Increasing \(J\) after the circuit is frozen merely selects a subsequence of native bins with increasing minimum index; it does not change \(n_{\mathrm{bin}}\), widths or gates. This is why the alternative of changing \(n_{\mathrm{bin}}\) after compilation is unnecessary. Part \((a)\) follows.
+
+For \((b)\), let \(F\) be the finite collection of native helper slots required in the finite encoding chart, and fix the nominal native rate \(\gamma(e_{m})\), which is rational by Lemma \ref{q1:l17}. For integer \(s\), its backward radius-finite cone from date -\(s\) has finitely many native sites and finite-alphabet incoming bottom rows. A particular innovation assignment in that cone induces a deterministic map from \emph{all} bottom rows to the observed slots \(F\) at date zero. Enumerate assignments and rows and compute the probability \(q_{F}(s)\) that this map is nonconstant. This is a finite exact rational calculation: a native innovation chooses no replacement or a uniform alphabet value, all with rational probabilities. Search \(s=1,2\),... until \(q_{F}(s)<1/128\).
+
+The imported coalescence statement is used in its \textbf{grand-coupling/all-starts} form, not merely a fixed-pair estimate: the noise-only probability that the map to a specified physical helper slot remains nonconstant tends to zero exponentially. This is the explicit conclusion of
+\cite[Lemma~\ref*{cl:lem:stripes}]{DMNoise1D2026}, whose proof combines
+reference refreshes with the all-input receiver estimate of
+\cite[Lemma~\ref*{cl:lem:receiver-mixing}]{DMNoise1D2026}. Its proof coalesces every required slow fair-register input in the final half-cone; the map to a slow fair-register slot is nonconstant only if there has been no true refresh at that site in the relevant window; conditional on any common \(Y\) history, the receiver \(\operatorname{CLEAN}\)/wall slab erases the whole work state. The sufficient slab event is uniform over that common history. A union of the two noise-only failures, without conditioning away errors, yields the nonconstant-map bound. It is valid for every helper slot including raw work and for every fixed nominal rate in the selected small-rate windows. Union over finite \(F\) gives \(q_{F}(s)\) tending to zero, so the search terminates regardless of what \(V(m)\) does.
+
+Now simulate the selected finite past innovations from a fixed bottom row and output its marginal on \(F\). This finite procedure defines a rational mixture. In a two-sided stationary helper realization use the very same suffix innovations from -\(s\) to zero. If their map to \(F\) is constant, its value equals that obtained from the chosen fixed row whatever the stationary row at -\(s\) was. The coupling therefore fails with probability at most \(q_{F}(s)<1/128\). The stationary object here is the native autonomous helper, which is the object used for \cite[Lemma~\ref*{cl:lem:past}]{DMNoise1D2026}. Initialize its physical redundant representation in legal unanimous banks; future physical evolution is compared with that native evolution by the separately marked compiler anomalies. No claim that the physical compiled helper itself has exactly the native stationary law is needed.
+
+For any \(n,L\) the chosen chart is finite. The search just proved, finite recursive code encoding and a total fallback below the geometric cutoff give a total computable encoder. At any integer elementary time \(t\), the decoder, when within the selected horizon, runs the remaining finite physical layers at rational \(e_{m}\) and then fixed recursive recovery. Its suffix is a finite rational channel even if \(t\) falls inside a factory or controlled contact. Outside the horizon choose a fixed total reset decoder. Thus both endpoint maps exist algorithmically on every input, including halting ones; they never request the unknown actual rate. This also justifies using them in the computable finite-fidelity predicate.
+
+For \((c)\), a native round boundary is \(D_{\mathrm{layer}}\) elementary layers apart. Encoder date zero is immediately before boundary dephasing, so \(t=0\) is a well-defined identity/no-storage interval. All macro-time cone and ancestor arguments are converted to physical layers by multiplication by \(D_{\mathrm{layer}}\). To apply Remark~\ref{rem:forgetting-interface}, fix a measured initial autonomous word a. Lemma \ref{q1:l14} gives exactly the complete-cut conditional CPTP hypothesis of Lemma~\ref{f:factorization}. Lemma \ref{q1:l13} and the marked-ball chain argument give a bound \(B(1+s)^{d} \exp (-\kappa s)\) for the initial-site ancestor probability, uniform in a and actual rate, with physical determining cones of radius \(O(s)\) macro rounds. Independent primitive innovations in disjoint such cones give vector independence for block indicators. Lemma~\ref{f:domination} and Proposition~\ref{f:extension} then give an exact two-output extension of the \emph{whole} round channel; its size condition is on one fixed \(s\) rather than on the subsequent iteration count. Lemmas~\ref{f:iteration}--\ref{f:bell} iterate that extension and bound every encoder/decoder. The finitely many smaller rings have a positive full-register replacement probability bounded below by \((\inf  I_{n})\) to their bounded qubit count, as in the proof of Theorem~\ref{f:forgetting}. This checks every input listed in Remark~\ref{rem:forgetting-interface}. Finally, an upper bound over all decoders at a boundary persists at each later elementary layer by composing that evolution into the decoder. 
+\end{proof}
+
+
+\paragraph{Marked-ball chain count in \(1+1\) dimensions}
+
+Fix any measured initial autonomous word a. Condition on autonomous innovations and exogenous physical fault flags; syndrome measurements remain within the quantum CPTP circuit. For the conservative quantum graph allow every opcode the \(R1\) state might request. Lemma \ref{q1:l14} forces a surviving quantum path to cross a terminal local cut each round. For dates at least \(B_{\mathrm{halt}}(m)\), Lemma \ref{q1:l13} forces that cut position into its finite mark inventory, independently of a and of the quantum state.
+
+Let \(v=v_{\mathrm{quant}}\) bound spatial displacement between successive round cuts. A finite path segment of temporal span \(t\) is covered at its round vertices by finitely many original marked balls. Greedily retain disjoint original balls in decreasing radius. Every omitted ball lies in the triple enlargement of a retained ball with at least its radius. Set \(q_{\mathrm{expand}}=2v+4\). The \(q_{\mathrm{expand}}\)-expanded retained balls also cover the interpolated edges between path vertices, since every radius is at least one. Their touch graph contains a simple chain between endpoint neighborhoods. If its original radii are \(r_{1}\),...,\(r_{l}\), summing endpoint radii and the center gaps \(q_{\mathrm{expand}}(r_{j}+r_{j+1})+v+1\) gives
+
+\[
+\begin{gathered}
+t\le C_{\mathrm{path}} \sum _{j} (1+r_{j}), \\ C_{\mathrm{path}}=(100(v+4))^{4}.
+\end{gathered}
+\]
+
+This deliberately loose integer also bounds placement counts. Near a fixed endpoint the initial center has at most \(C(1+r_{1})^{2}\) possibilities. Each next center has at most \(C(1+r_{j})^{2}(1+r_{j+1})^{2}\) possibilities. Thus for a fixed ordered type list the number of center lists is bounded by \(\prod_{j} C_{\mathrm{path}}(1+r_{j})^{4}\). Sum only over disjoint original-ball lists; their mark probabilities multiply because their complete primitive supports are disjoint. Overlapping-ball events are never multiplied.
+
+Omit zero-probability types. At a fixed finite halting cap,
+
+\[
+\begin{gathered}
+\kappa_{0}=\min _{a} [-\log (z_{a})/(2(1+r_{a}))]>0.
+\end{gathered}
+\]
+
+Reserve one square-root of each product \(z_{a}\) to bound the chain's probability by \(\exp (-\kappa_{0} t/C_{\mathrm{path}})\). The other square-roots and the placement counts sum, at chain length \(l\), to at most
+
+\[
+\begin{gathered}
+[\sum _{a} C_{\mathrm{path}}(1+r_{a})^{4} \sqrt{z_{a}}]^{l} < 2^{-l}.
+\end{gathered}
+\]
+
+Summing \(l\ge 1\) gives a constant times \(\exp (-\kappa_{0} t/C_{\mathrm{path}})\). The last half of a path lasting \(s\) rounds lies after burn-in for \(s>2B_{\mathrm{halt}}+2\). From a fixed initial site there are at most 2vs+1 final endpoint sites and finitely many output-slot types. A union bound, and a larger prefactor for the finitely many shorter times, gives
+
+\[
+\begin{gathered}
+\Pr(\text{initial site }x\text{ has a surviving path after }s\mid a) \\ \le C_{\mathrm{ancestor}}(1+s)^{d_{\mathrm{ancestor}}}\exp (-c_{\mathrm{ancestor}} s).
+\end{gathered}
+\]
+
+One can take \(d_{\mathrm{ancestor}}=2\) with enlarged constants. These constants are uniform in a and the rate, and may depend on the halting witness. Switching quantum lanes causes no problem: the mark inventory already includes every finite residue/read offset, and \(v\) bounds the full quantum supergraph.
+
+The actual ancestor indicator depends on actual finite circuit edges and cuts. A depth-\(s\) quantum path from an initial site lies within \(R_{\mathrm{macro}} s\) spatially; determining its autonomous controls enlarges this to at most \(3R_{\mathrm{macro}} s\). The larger auxiliary mark certificates used solely for an upper bound do not enter this actual dependence cone. Thus block indicators on intervals of length in \([s,2s]\) have a dependency graph with fixed degree, for example \(\Delta_{\mathrm{dom}}=32(R_{\mathrm{macro}}+1)\) is sufficient. Nonneighbors use disjoint actual primitive key regions, hence independence from their entire vector conditional on a. On large rings unwrap the actual cone injectively, then extend independently on the line to estimate each tail. For dependencies use the actual ring cones, not independent copies of one ring key.
+
+\paragraph{Full-channel extension and the halting cutoff}
+
+Backward propagation of output observables through CPTP adjoints shows that, conditional on a and a complete history omega,
+
+\[
+\begin{gathered}
+T_{a,\omega}=G_{a,\omega}\circ\operatorname{Tr}_{A_{s}(a,\omega)^{c}},
+\end{gathered}
+\]
+
+with \(G\) CPTP and \(A_{s}\) the actual initial-site ancestor set. Complete cuts and discards terminate all omitted support. This is Lemma~\ref{f:factorization} with every physical hypothesis supplied by Lemma \ref{q1:l14}. Include the autonomous classical word and every retained final factor. Initial dephasing is the actual physical dephasing, so it applies even to malicious encodings entangling controllers and reference.
+
+Partition a sufficiently large ring into intervals of length in \([s,2s]\). A block-use indicator has probability at most \(2s\) times the ancestor bound. Choose one \(s=s_{\mathrm{dom}}\) for which this is at most \((1/4)^{\Delta_{\mathrm{dom}}+1}\) uniformly in the window. Lemma~\ref{f:domination} with \(q=1/2\) dominates the whole mask by fair independent block marks. Take a fair mask \(Y\) and its complement; under each sample a lower mask from a monotone coupling with the exact mask law. The lower masks are disjoint. Given each mask sample a FULL history from its original conditional law. Route disjoint initial quantum blocks to the corresponding maps \(G\), insert fixed factors only on irrelevant complements, and copy only the measured a to both controllers. Averaging gives two EXACT marginals equal to the complete \(s_{\mathrm{dom}}\)-round physical channel, including all retained metadata, on arbitrary reference-entangled input. This is Proposition~\ref{f:extension} under Remark~\ref{rem:forgetting-interface}. It is not a one-site approximate mixing argument.
+
+Lemma~\ref{f:iteration} iterates this full-algebra extension to \(2^{j_{\mathrm{clone}}}\) equal marginals after \(j_{\mathrm{clone}} s_{\mathrm{dom}}\) rounds. Its ring-size condition stays the one for \(s_{\mathrm{dom}}\). Lemma~\ref{f:bell} bounds every encoder/common decoder by \(1/2+2^{-j_{\mathrm{clone}}-1}\). Pick \(j_{\mathrm{clone}}\) from \(\eta\). The remaining finitely many ring sizes have a bounded qubit count \(N_{\mathrm{small}}\). At one final elementary noise layer, simultaneous replacement of their entire registers has probability at least \(p_{\mathrm{full}}=(\inf  I_{n})^{N_{\mathrm{small}}}>0\), independently each round. Such an event disconnects the Bell reference and gives decoded overlap exactly \(1/4\). Hence after \(s\) rounds,
+
+\[
+\begin{gathered}
+F\le 1/4+3(1-p_{\mathrm{full}})^{s}/4.
+\end{gathered}
+\]
+
+A common small-ring cutoff exists. Take its maximum with \(j_{\mathrm{clone}} s_{\mathrm{dom}}\) and multiply by \(D_{\mathrm{layer}}\). An all-decoder bound persists under every subsequent elementary layer by composition. This proves the theorem's uniform halting conclusion for every \(L\) and every actual rate in \(I_{n}\).

@@ -1,6 +1,6 @@
 \section{Lean formalization}\label{app:lean}
-The Lean 4 library formalizes the two results in Table~\ref{tab:lean}.
-Theorems~\ref{thm:exponential}, \ref{thm:four-dimensional} and~\ref{thm:main}, the constructions, the noise analysis and the compilation are not formalized.
+The Lean 4 library formalizes the two results in Table~\ref{tab:lean}; a second development, described at the end of this appendix, formalizes Lemma~\ref{q1:l1}.
+Theorems~\ref{thm:exponential}, \ref{thm:four-dimensional}, \ref{thm:main} and~\ref{q1:main}, the constructions, the noise analysis and the compilation are not formalized.
 Theorem~\ref{lean:conditional} gives the conditional certification statement and proof.
 
 \begin{table}[!htbp]
@@ -67,3 +67,35 @@ followed by the copy's filename. Compare the two printed declaration
 types with the statements in \texttt{Challenge.lean} and the paper.
 The challenge file has two intentional \texttt{sorry} bodies to expose
 the statements. The proof and axiom checks use \texttt{Solution.lean}. The archive's \texttt{lean/README.md} also documents a mechanical comparison of the two proved statements, with every definition they use, against the frozen statement file \texttt{Challenge.lean}, using the comparator tool (\href{https://github.com/leanprover/comparator}{\texttt{github.com/leanprover/comparator}}), and retains its output.
+
+\paragraph{The one-dimensional sparsity estimate.}
+A second development, in the archive's \texttt{lean-1d/} subdirectory,
+formalizes Lemma~\ref{q1:l1} and the classical inputs it uses from
+\cite{DMNoise1D2026}. It verifies the sparsity definition
+\cite[Definition~\ref*{cl:def:sparse}]{DMNoise1D2026} and its basic
+properties, the disjoint-child witness construction of
+\cite[Lemma~\ref*{cl:lem:sparse-witness}]{DMNoise1D2026} with its finite
+tree counts, and the independent-flag probability bounds of that lemma.
+For independent elementary keys with possibly unequal rates at most
+\(e\), finite stencils of at most \(s_R\) keys and chosen integer radius
+bounds, it proves the bound \(z_{R,j}(e)\) of Lemma~\ref{q1:l1} with the
+displayed constants, and \(C_R e^{c_R}\le 1/2\) for
+\(0\le e\le e_{R0}\). Choosing integer radius bounds when the final
+circuit is enumerated, which flooring the physical coordinates permits
+without changing the constants, and identifying the physical noise with
+the product-key model are application steps, not formalized results.
+The development also verifies the support-independence and
+bounded-overlap estimates underlying
+\cite[Lemma~\ref*{cl:lem:joint}]{DMNoise1D2026}, the raw-flag
+nested-test sum in its first conclusion, and 22 arithmetic parameter
+inequalities of \cite{DMNoise1D2026}. It does not formalize
+Lemmas~\ref{q1:l1.1} and~\ref{q1:l1.2}, the other lemmas of
+Sections~\ref{q1:model}--\ref{q1:effective}, Theorem~\ref{q1:main}, the
+automaton or the physical compilation. Its 43 theorems use only
+\texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. The
+comparator tool accepts all 43 against the frozen statement file
+\texttt{Challenge.lean}, and two independent kernel checkers, the Lean
+kernel checker and nanoda, accept the exported proofs. The toolchain and
+Mathlib commit are those above; build and check instructions and a
+statement-by-statement comparison with the printed text are in
+\texttt{lean-1d/README.md}.

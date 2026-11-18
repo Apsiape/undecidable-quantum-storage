@@ -1,0 +1,63 @@
+Resolving dependencies
+Building Flagship1D.Challenge
+⚠ [3122/3122] Replayed Flagship1D.Challenge
+warning: Flagship1D/Challenge.lean: imports `Mathlib.Probability.Independence.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Challenge.lean: imports `Mathlib.Probability.Independence.InfinitePi` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Challenge.lean: imports `Mathlib.Probability.ProductMeasure` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Challenge.lean: imports `Mathlib.Probability.ProbabilityMassFunction.Constructions` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Challenge.lean: imports `Mathlib.Analysis.SpecialFunctions.Pow.Real` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Challenge.lean:569:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:570:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:571:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:572:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:573:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:574:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:575:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:576:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:577:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:578:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:579:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:580:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:581:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:582:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:583:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:584:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:585:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:586:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:587:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:588:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:589:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:590:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:591:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:592:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:593:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:594:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:595:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:596:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:597:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:598:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:599:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:600:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:601:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:602:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:603:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:604:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:605:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:606:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:607:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:608:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:609:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:610:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:611:8: declaration uses `sorry`
+Build completed successfully (3122 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, Flagship1D.sparseInheritedBySubsets, Flagship1D.sparseImpliesNextSparse, Flagship1D.fullBoxNotSparse, Flagship1D.lemma_4_2_witness, Flagship1D.lemma_4_2_pairCount, Flagship1D.bjRecursion, Flagship1D.independentSelection, Flagship1D.productOnDisjointSupports, Flagship1D.treeBound, Flagship1D.num_cavityGain, Flagship1D.num_flankPass, Flagship1D.num_flankResponseTime, Flagship1D.num_clearanceTime, Flagship1D.num_responseTime, Flagship1D.num_cavityLength, Flagship1D.num_woundBand, Flagship1D.num_seedRatio, Flagship1D.num_seedSpacing, Flagship1D.num_seedCount, Flagship1D.num_epochCost, Flagship1D.num_transportMargin, Flagship1D.num_rearWall, Flagship1D.num_ownerCollar, Flagship1D.num_commonSpan, Flagship1D.num_satelliteWidth, Flagship1D.num_deficitConstant, Flagship1D.num_recruitment, Flagship1D.num_advanceDebit, Flagship1D.num_endpointException, Flagship1D.num_endGap, Flagship1D.num_fullBoxHypothesis, Flagship1D.restrictedWitnessTrees, Flagship1D.witnessTreeShape, Flagship1D.witnessTreeCount, Flagship1D.meshRootCover, Flagship1D.conflictDegreeArea, Flagship1D.witnessTreeProbability, Flagship1D.q1_l1, Flagship1D.q1_l1_threshold, Flagship1D.lemma_4_2_probability, Flagship1D.leafOverlapDegree, Flagship1D.exponentBookkeeping, Flagship1D.nestedTestSumRaw, propext, Quot.sound, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from Flagship1D.Challenge
+Building Flagship1D.Solution
+⚠ [3122/3126] Replayed Flagship1D.Defs
+warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.Independence.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.Independence.InfinitePi` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.ProductMeasure` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.ProbabilityMassFunction.Constructions` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Defs.lean: imports `Mathlib.Analysis.SpecialFunctions.Pow.Real` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (3126 jobs).
+error: Illegal axiom detected: 'Classical.choice'
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, Flagship1D.sparseInheritedBySubsets, Flagship1D.sparseImpliesNextSparse, Flagship1D.fullBoxNotSparse, Flagship1D.lemma_4_2_witness, Flagship1D.lemma_4_2_pairCount, Flagship1D.bjRecursion, Flagship1D.independentSelection, Flagship1D.productOnDisjointSupports, Flagship1D.treeBound, Flagship1D.num_cavityGain, Flagship1D.num_flankPass, Flagship1D.num_flankResponseTime, Flagship1D.num_clearanceTime, Flagship1D.num_responseTime, Flagship1D.num_cavityLength, Flagship1D.num_woundBand, Flagship1D.num_seedRatio, Flagship1D.num_seedSpacing, Flagship1D.num_seedCount, Flagship1D.num_epochCost, Flagship1D.num_transportMargin, Flagship1D.num_rearWall, Flagship1D.num_ownerCollar, Flagship1D.num_commonSpan, Flagship1D.num_satelliteWidth, Flagship1D.num_deficitConstant, Flagship1D.num_recruitment, Flagship1D.num_advanceDebit, Flagship1D.num_endpointException, Flagship1D.num_endGap, Flagship1D.num_fullBoxHypothesis, Flagship1D.restrictedWitnessTrees, Flagship1D.witnessTreeShape, Flagship1D.witnessTreeCount, Flagship1D.meshRootCover, Flagship1D.conflictDegreeArea, Flagship1D.witnessTreeProbability, Flagship1D.q1_l1, Flagship1D.q1_l1_threshold, Flagship1D.lemma_4_2_probability, Flagship1D.leafOverlapDegree, Flagship1D.exponentBookkeeping, Flagship1D.nestedTestSumRaw, propext, Quot.sound, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from Flagship1D.Solution

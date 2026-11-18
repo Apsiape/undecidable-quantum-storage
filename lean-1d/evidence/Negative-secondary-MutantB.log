@@ -1,0 +1,7 @@
+challenge declarations: 29794
+solution declarations: 30791
+targets: 43; non-target Challenge declarations compared: 29750
+axioms in Challenge closure: ['Classical.choice', 'Quot.sound', 'propext', 'sorryAx']
+axioms in Solution closure: ['Classical.choice', 'Quot.sound', 'propext']
+SECONDARY CHECK FAIL
+  target Flagship1D.num_flankPass: statement differs between Challenge and Solution

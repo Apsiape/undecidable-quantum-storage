@@ -1,0 +1,6 @@
+{
+  "task": "MathlibUpToDate",
+  "command": "lake build --no-build Mathlib.Probability.Independence.Basic Mathlib.Probability.Independence.InfinitePi Mathlib.Probability.ProductMeasure Mathlib.Probability.ProbabilityMassFunction.Constructions Mathlib.Analysis.SpecialFunctions.Pow.Real",
+  "exit": 0,
+  "wall_seconds": 6
+}

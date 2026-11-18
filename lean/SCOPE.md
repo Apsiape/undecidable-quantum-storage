@@ -1,6 +1,6 @@
 # Lean formalization scope
 
-This library accompanies *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*, version 2.2.0.
+This library accompanies *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*, version 3.0.0.
 
 | Paper result | Coverage |
 |---|---|

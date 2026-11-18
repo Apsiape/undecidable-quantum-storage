@@ -1,0 +1,92 @@
+\section{Quantum storage on every sufficiently large ring}\label{q1:storage}
+\paragraph{A stored qubit on each nonhalting window}
+
+Combine the \(R1\) schedule, an \(R2\) selector and the quantum step. Macro dates correspond to one native tick in each of the two classical rules and one quantum tick. At the strobe use the centrally normalized bank and read the current native \(R2\) core's chosen data symbol, with \(D\) the absent symbol, at every physical site \(x\): read that site's own native data field. In the proof its residue is \(x\) modulo \(D_{\mathrm{stride}}\) and its logical position is the quotient after removing this residue. Multiple strides or offsets are finite constants. Use the \(R1\) age/address to read the local quantum opcode as in Section~\ref{q1:compiler}. A correct selected epoch has a live selector at every required spacetime site. At the end of each macrostep attempt a full local reset of every retained quantum-capable slot when the selected core symbol is \(D\). A wrong dispatch, a reaction to a malformed intermediate register, or an imperfect terminal cut is counted as a direct physical fault of that strobe if the stipulated semantic controls are correct. Use a complete local primitive-stencil mark for any flagged wire in the relevant read/dispatch/erase stencil (probability at most \(Ce\)). Include hardware, port moves, waits and newly produced scratch up to its discard. A good core normalization on an \(h\)-close bank is read by majority, not by inspecting an arbitrary single redundant copy. For a completely arbitrary strobe state the semantic word is the total decode after normalization, as defined in Section~\ref{q1:selector}.
+
+\textbf{Base noise cover.} Actual effects different from the ideal clean quantum step, including unintended cuts, are contained in a union of marks in integer (physical site, macro date) spacetime. A mark centered at \(z\) of type \(a\) has footprint and primitive-key support in its ball of radius \(r_{a}\ge 1\) and probability at most \(z_{a}\). Use one common independent-key space, allowing nearby marks to share arbitrarily many keys. The types comprise direct microscopic faults, failed \(R1\) tests in Section~\ref{q1:clock} and the initialized failed core tests of Section~\ref{q1:selector}. For the last use the nominal stationary negative-time comparison, whose possible failure to match our finite encoder is charged separately below. A compiler anomaly mark always means the explicit flag count in its stencil, or an upper bounding stencil union, never disagreement depending on a particular incoming state. The prefix rate mismatch can likewise be marked by a uniform primitive draw in the deterministic threshold band. Thus these marks are measurable in the indicated independent keys. A rare wrong decoded selector or wrong clock may be charged even when the actual gate happened to be the intended one. Per site/time there are finitely or countably many types. For any fixed exponent \(d\) and \(\delta>0\), the fixed selector construction, which does not depend on \(\delta\), and a sufficiently small selected rate, reached through the final padding \(J_{\mathrm{pad}}\) (Lemmas~\ref{q1:l12} and~\ref{q1:l16}), give \(\sum _{a} (1+r_{a})^{d} \sqrt{z_{a}}<\delta\), uniformly in the chosen window. The compiler and \(R1\) geometry precede \(d\) and this choice of \(\delta\). All statements persist under one elementary rate splice inside the window, by Section~\ref{q1:selector} and the envelope bounds on primitive \(R1\)/hardware flags.
+
+\textbf{Probability of a bad top operation.} In this paragraph and the next, \(P,T,h,A,d,\delta\) stand for \(P_{q},T_{q},h_{\mathrm{cover}},A_{\mathrm{pair}},d_{\mathrm{moment}},\delta_{\mathrm{mark}}\) of Section~\ref{q1:parameters}; \(C\) denotes a constant fixed with the geometry, and the constant multiplying \(\delta\) in the recursion below is \(C_{\mathrm{rec}}\). Use the monotone bad-box tests of Section~\ref{q1:compiler}, with base \(B_{0}\) true at a site/tick whenever covered by a mark. Counting all marks regardless of whether a quantum gate failed there is conservative. If the rank-\((i+1)\) parent test is bad, two bad rank-\(i\) children can be chosen with distance at least \(8P^{i}\) between the complete sets of primitive locations involved in their descendant \emph{geometric} tests. For a fixed child, complete footprints have halfwidths at most \(hP^{i}\) and halfheights at most \(hT^{i}\), up to one child width/height at the grid boundaries. Two fixed children with footprints closer than \(8P^{i}\) must have grid offsets in each coordinate at most \(2h+10\), since \(T\ge P\). More than \((10h+40)^{2}\) distinct children cannot all be close to the chosen child. The complete parent footprint has at most \(C(PT)^{i}\) primitive lattice points, with the extra constant factor \(PT\) and fixed collars absorbed. Let \(A\) be a bound on the number of ordered child pairs, fixed once the geometry is fixed.
+
+Let \(u_{i}\) bound the supremum of bad-test probabilities over placements. Truncate \(B_{0}\) by deleting types with \(r_{a}>P^{i}\) when estimating one such pair. Each surviving child test is determined by keys within \(2P^{i}\) of its complete geometric footprint: the mark center and then its key support each require up to \(P^{i}\). Hence the two indicators are independent; each truncated probability is at most \(u_{i}\) by monotonicity. The only way the truncated parent differs is for a deleted mark to hit some primitive point of its full footprint. At most \(C(1+r_{a})^{2}\) centers of a given type hit one point. Thus
+
+\[
+\begin{gathered}
+u_{0} \le  C \delta, \\ u_{i+1} \le  A u_{i}^{2} + C \delta [PT / P^{d-2}]^{i}.
+\end{gathered}
+\]
+
+Take \(d\) large enough that the bracket is at most \(1/4\) and \(d\ge 4\) for the separate halting argument. Choose \(b_{*}\le 1/(4A)\) and \(\delta\) with both \(C_{\mathrm{rec}}\delta\le b_{*}/4\) and \(C_{\mathrm{path}} \delta<1/2\) for the path-counting constant of Section~\ref{q1:forgetting}. Induction gives \(u_{i}\le b_{*}2^{-i}\) (Lemma~\ref{q1:l18}). At most a fixed \(C_{\mathrm{top}}\) top boxes (one top-local tick and its port neighbors) matter for the protected nonport. They need no wraparound or dependence estimate between them. The union bound and deterministic reduction show that at the end of the top tick, with fixed recursive recovery, the output on the good event has exactly its input logical state jointly with the reference. The failing event has probability at most \(C_{\mathrm{top}} b_{*}2^{-k}\) at rank \(k\). The controller/mark choices are independent of the logical input. At no point does an individual helper-read bound stand in for a joint fault-process estimate.
+
+\textbf{Finite geometry and all elementary times.} One rank-\(k\) top tick spans \(H=T^{k}\) macrosteps and a code home of length \(P^{k}\). Choose a complete, aligned home in an integer chart (zero may be its origin). Put the message into one ordinary nonport slot of its rank-\(k\) cell, all other top slots in fixed states and all private work initialized as specified by the encoding. Recursively encode the \(S\) slots in each parent into its child blocks at the prescribed coordinates, with fresh auxiliary slots. At date zero the top on-site instruction is idle by the timetable for every location; the top port permutation does not act on the message. No quantum negative-time initialization is used. Initialize enough complete adjacent rank-\(k\) homes, using fixed top input for those homes, to cover the full past cone from the output block through \(H\) dates. For some computable constant \(C_{\mathrm{cone}}\) the needed interval, including the complete boundary blocks and cone of every physical controller transition used, has length at most \(C_{\mathrm{cone}}(H+P^{k}+1)\) (Lemma~\ref{q1:l16}). The physical circuit is finite-speed. Set \(k\) largest with \(4 C_{\mathrm{cone}}(T^{k}+P^{k}+1)\le L\); use a total fixed fallback if no \(k\ge 1\) qualifies. Map this whole interval injectively into the ring, choose arbitrary legal filler outside it. Initialize \(R1\) and core boundary symbols in this interval as in their respective sources, and prepare the finite nominal helper marginal jointly with error less than \(1/128\) (Lemma~\ref{q1:l15}). These occur on separate physical wires. The unrestricted endpoint encoder may do arbitrarily much finite work. An analysis coupling uses one infinite extension of all raw keys and both mathematical past histories for the entire finite quantum computation. Geometric certificates can extend beyond the injective cone, since the events being estimated on the ring have already been coupled by their actual past dependence. This does not treat disjoint unwrapped certificates as independent on a small physical ring.
+
+Write \(D_{\mathrm{layer}}\) for the fixed number of elementary layers per macrostep. For \(t\) from 0 to \(D_{\mathrm{layer}} H\) the decoder appends the remaining elementary layers on every received register at the chosen nominal rate \(e_{m}\), then applies the fixed bottom-up recovery and extracts the designated nonport. This is a computable channel at any \(t\), even with a partial contact, live ports or a pending factory. In the proof the combined process simply uses the true elementary rate through \(t\) and nominal afterwards. All estimates above hold for that splice. Beyond the horizon use any fixed total decoder. Thus \(F\ge 1-1/128-C_{\mathrm{top}} b_{*}2^{-k}\). Choose a fixed effective \(k_{0}\) with the final term at most \(1/32\), and take a computable \(L_{1}(n)\) large enough that \(k\ge k_{0}\) thereafter. Then \(H\to\infty\) with \(L\), and in fact \(H>c_{\mathrm{lin}}L\) by maximality of \(k\) and \(T\ge P\) (Lemma~\ref{q1:l18}). The initialization and recovery depend on \(n,L\) (and \(t\) for recovery) and are independent of the actual rate.
+
+
+\begin{lemma}[The recursion, horizon and fidelity constants]\label{q1:l18}
+
+Let \(A_{\mathrm{pair}}\ge 1\) and \(C_{\mathrm{rec}}\ge 1\) be the constants in the already established geometric recursion
+
+\[
+\begin{gathered}
+u_{0} \le  C_{\mathrm{rec}} \delta, \\ u_{i+1} \le  A_{\mathrm{pair}} u_{i}^{2} + C_{\mathrm{rec}} \delta q^{i}, \\ q = P_{q} T_{q} / P_{q}^{d_{\mathrm{moment}}-2} \le  1/4.
+\end{gathered}
+\]
+
+If \(0<b_{*}\le 1/(4 A_{\mathrm{pair}})\) and \(C_{\mathrm{rec}} \delta\le b_{*}/4\), then \(u_{i}\le b_{*}2^{-i}\) for all \(i\ge 0\). Choose \(k_{0}\ge 1\) with \(C_{\mathrm{top}} b_{*}2^{-k_{0}}\le 1/32\). Let \(C_{\mathrm{cone}}\) be an integer bounding the complete initialized cone as in Lemma~\ref{q1:l16}. If \(k\) is largest with \(4 C_{\mathrm{cone}}(T_{q}^{k}+P_{q}^{k}+1)\le L\), \(H=T_{q}^{k}\), and \(2\le P_{q}\le T_{q}\), then
+
+\[
+\begin{gathered}
+L < 12 C_{\mathrm{cone}} T_{q} H, \\ c_{\mathrm{lin}} = 1/(12 C_{\mathrm{cone}} T_{q}) \quad\text{implies}\quad c_{\mathrm{lin}} L < H \le  D_{\mathrm{layer}} H.
+\end{gathered}
+\]
+
+For \(k\ge k_{0}\), the nominal-rate completion decoder has fidelity at least
+
+\[
+\begin{gathered}
+1 - 1/128 - 1/32 = 123/128 \ge  15/16 = 120/128
+\end{gathered}
+\]
+
+at every integer elementary time \(0\le t\le \lfloor c_{\mathrm{lin}} L\rfloor\).
+
+\end{lemma}
+\begin{proof}
+The base is \(u_{0}\le b_{*}/4\le b_{*}\). If \(u_{i}\le b_{*}2^{-i}\), the recurrence and \(q\le 1/4\) give
+
+\[
+\begin{gathered}
+u_{i+1} \le  (A_{\mathrm{pair}} b_{*}^{2} + C_{\mathrm{rec}} \delta)4^{-i} \\ \le  (b_{*}/4+b_{*}/4)4^{-i} \\ = (b_{*}/2)4^{-i} \\ \le  b_{*}2^{-(i+1)}.
+\end{gathered}
+\]
+
+The last inequality is \(2^{-2i}\le 2^{-i}\), valid for \(i\ge 0\). This proves the induction with slack at rank zero as well.
+
+Maximality of \(k\) implies \(L<4 C_{\mathrm{cone}}(T_{q}^{k+1}+P_{q}^{k+1}+1)\). Both \(P_{q}^{k+1}\) and 1 are at most \(T_{q}^{k+1}=T_{q} H\), so the claimed strict bound follows by adding the three terms. Multiplication by \(c_{\mathrm{lin}}\) yields \(c_{\mathrm{lin}} L<H\). \(D_{\mathrm{layer}}\) is a positive integer, the number of physical elementary layers per macrostep, so \(H\le D_{\mathrm{layer}} H\). Consequently every stated elementary read time lies within the decoder's completion horizon. No conversion of \(c_{\mathrm{lin}}\) to macro-time is used.
+
+On the successful joint coupling, initialization loses probability less than \(1/128\) and the union of the at most \(C_{\mathrm{top}}\) relevant top bad tests loses at most \(C_{\mathrm{top}} b_{*}2^{-k}\). These events are independent of the logical input; the deterministic recursive recovery is the same map for every input and preserves its joint state with the reference on success. On failure its Bell overlap is nonnegative. Therefore its unconditional overlap is at least one minus these two probabilities, yielding \(123/128\) for \(k\ge k_{0}\). The elementary-time suffix uses nominal noise from the received entire register; its analysis is the allowed single rate splice, so the same inequality holds at a time inside any physical operation. A computable sufficient size cutoff is \(4 C_{\mathrm{cone}}(T_{q}^{k_{0}}+P_{q}^{k_{0}}+1)\), increased for the other finite-chart conditions. This makes \(k\ge k_{0}\) for all larger \(L\). 
+\end{proof}
+
+
+
+\paragraph{Joint bad-box recursion}
+
+Let \(B_{0}\) be coverage by the direct microscopic, clock and decomposed initialized-selector marks. Each mark's determining keys and covered footprint lie in its advertised ball. Lemmas~\ref{q1:l1}--\ref{q1:l3}, \ref{q1:l6} and~\ref{q1:l12} show that outside this set a physical instruction, including its \(\operatorname{LOAD}\) and terminal cut, equals the clean reference. A parent test counts named children as in Lemma \ref{q1:l7}. If it is bad, two bad child tests have complete descendant geometric footprints separated by at least \(8P_{q}^{i}\). Remove all base types with radius greater than \(P_{q}^{i}\). A remaining type that hits one child's footprint has its center within \(P_{q}^{i}\) of that footprint and every determining key at most another \(P_{q}^{i}\) away. Hence the two truncated indicators use disjoint primitive keys and are independent. Each has probability at most \(u_{i}\) by monotonicity. Union over at most \(A_{\mathrm{pair}}\) ordered pairs costs \(A_{\mathrm{pair}} u_{i}^{2}\).
+
+A deleted type must hit one of the at most \(C_{\mathrm{geom}}(P_{q} T_{q})^{i}\) points of the complete parent footprint. At most \((2r+1)^{2}\le 9(1+r)^{2}\) centers of a radius-\(r\) type can hit one fixed point. Since \(z_{a}\le \sqrt{z_{a}}\), the shared moment bound yields
+
+\[
+\begin{gathered}
+\sum _{r_{a}>P_{q}^{i}} 9(1+r_{a})^{2} z_{a} \\ \le 9 \delta_{\mathrm{mark}} P_{q}^{-(d_{\mathrm{moment}}-2)i}.
+\end{gathered}
+\]
+
+Absorb the geometric point count and the factor nine into \(C_{\mathrm{rec}}=\max (C_{\mathrm{base}},C_{\mathrm{tail}})\). The base union gives \(u_{0}\le C_{\mathrm{rec}} \delta_{\mathrm{mark}}\), and the tail gives
+
+\[
+\begin{gathered}
+u_{i+1}\le A_{\mathrm{pair}} u_{i}^{2}+C_{\mathrm{rec}} \delta_{\mathrm{mark}} \\ [P_{q} T_{q}/P_{q}^{d_{\mathrm{moment}}-2}]^{i}.
+\end{gathered}
+\]
+
+Lemma \ref{q1:l18} closes this recursion. No independence of untruncated child tests or of different top tests is used. The controller/mark choices are independent of the encoded logical input. Lemmas~\ref{q1:l4}--\ref{q1:l7} put successful outputs in one common correctable operator span, so the fixed bottom-up recovery preserves the state with its reference. Lemma \ref{q1:l16}'s actual finite cone, not a globally periodic hierarchy, gives the every-length ring coupling. Total endpoints and the elementary-time nominal suffix are Lemma \ref{q1:l15}. The fidelity and linear horizon are exactly Lemma \ref{q1:l18}.

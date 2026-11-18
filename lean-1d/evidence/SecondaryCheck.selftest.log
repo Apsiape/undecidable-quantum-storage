@@ -1,0 +1,5 @@
+ok   identical exports pass (exit 0)
+ok   name 'a.b' (one component) vs a.b (two components) fails (exit 1)
+ok   duplicate expression id is rejected (exit 1)
+ok   duplicate declaration is rejected (exit 1)
+SELF-TEST PASS

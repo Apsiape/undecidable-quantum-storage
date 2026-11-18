@@ -1,5 +1,5 @@
 \section{Imported mathematical results}\label{app:imports}
-Table~\ref{tab:imports} specifies the three Douglas--Mghirbi preprint inputs and their versions. These preprints do not use any result proved here. Each archive contains the corresponding paper's PDF. The other imported results are listed below with their source editions.
+Table~\ref{tab:imports} specifies the three Douglas--Mghirbi preprint inputs of the higher-dimensional constructions and their versions; Section~\ref{app:imports-1d} lists the fourth, used on rings. These preprints do not use any result proved here. Each archive contains the corresponding paper's PDF. The other imported results are listed below with their source editions.
 
 \begin{table}[!htbp]
 \caption{Source statements and proofs used in the construction.}\label{tab:imports}
@@ -16,3 +16,45 @@ Replica-majority construction and contour method & \cite[Theorem~2.1; Lemmas~12.
 The finite chart cover in Section~\ref{c:chart} uses the northeast-deterministic presentation of the limit set of a \(2\times2\) substitution from \cite[Theorem~3]{LGO2012} (Theorem~4 gives the four-way presentation), with the theorem locator in \href{https://hal.science/hal-00661887v1}{HAL:hal-00661887v1}.
 
 Lemma~\ref{f4:raw} applies the contour existence theorem of \cite[Theorem~22]{SST2026} to the three paired-box types. The source's Definitions~15\nobreakdash--17 and~20\nobreakdash--21 specify the graphs and their embeddings, and Lemma~13 identifies the unique trajectory as the maximal one. The proof uses the finite explanation graph from Proposition~31 and Theorem~33, the zero-sum identity of Lemma~41 and the edge counts from the proofs of Lemmas~38 and~40. The locators use the journal numbering and also apply to \href{https://arxiv.org/abs/2202.10999v3}{arXiv:2202.10999v3}. For the marked spanning tree it uses \mbox{\cite[Definition~2.4, Lemma~2.5 and Theorem~2 (Tree Separator)]{Gacs2021}}, \href{https://arxiv.org/abs/2105.05968v1}{arXiv:2105.05968v1}, to extract a bounded-size subtree with many original sink marks.
+
+\subsection{One-dimensional classical inputs}\label{app:imports-1d}
+The one-dimensional construction uses version~2.0.0 of
+\cite{DMNoise1D2026}, with the numbering of that version.
+Definition~\ref*{cl:def:sparse} gives sparsity, including the convention
+that restricted error sets are zero outside the restriction.
+Lemma~\ref*{cl:lem:sparse-witness} supplies only the deterministic mesh
+implication; Lemmas~\ref{q1:l1} and~\ref{q1:l12} prove the dependent-key
+estimates here. R1 uses the one-point variant of the serialization in
+Section~\ref*{cl:sec:packets} specified and proved in
+Lemma~\ref{q1:l9}: scalar bits occupy the low word bits of separate
+live letters instead of scalar-bit tags, with all other word bits zero;
+typed low/high word halves and fixed endpoint padding are retained.
+The encoders, parsers and represented evaluators use that same layout.
+Lemma~\ref{q1:l9} checks every classical use of it, including
+Proposition~\ref*{cl:prop:organization},
+Definition~\ref*{cl:def:observations} and its lookahead bound,
+Lemmas~\ref*{cl:lem:endpoint} and~\ref*{cl:lem:two-period},
+the clean identity of Lemma~\ref*{cl:lem:clean}, and the boundary
+construction in the proof of Lemma~\ref*{cl:lem:past}.
+In the structural comparison the two-period tests have an empty top
+exception, positive served inputs in the specified common tribe and
+live prescribed outputs. The proof of
+Lemma~\ref*{cl:lem:clock-witness} supplies the initialized nested-test
+cover for R2. The proof of Lemma~\ref*{cl:lem:past} also supplies R2's
+stationary-helper negative-time comparison.
+Lemmas~\ref*{cl:lem:stripes} and~\ref*{cl:lem:receiver-mixing} supply
+tunable all-start short/long noise-only tests and whole-helper
+coalescence at sufficiently small fixed rate.
+Lemma~\ref*{cl:lem:joint} supplies the two-scale decomposition geometry
+and short-before-long order, while Lemma~\ref{q1:l12} re-proves the
+probability estimates. Lemmas~\ref*{cl:lem:locking},
+\ref*{cl:lem:cap-cut} and~\ref*{cl:lem:ascent} supply the immutable
+literal lock and arbitrary-row finite halting cap and ascent.
+Sections~\ref*{cl:sec:native}--\ref*{cl:sec:embedding},
+\ref*{cl:sec:receiver}--\ref*{cl:sec:joint} and
+Appendix~\ref*{cl:sec:constants} specify the native algorithms,
+geometry and parameter order used in these proofs. The finite compiler
+anomalies, rate-band envelope, arbitrary moments, finite-ring chart
+and full-register channel estimates are proved in
+Sections~\ref{q1:clock}--\ref{q1:effective}.
+The quantum inputs are this paper's Lemmas~\ref{d:code}--\ref{d:reduction}, used parametrically in Lemma~\ref{q1:l4}, and Lemmas~\ref{f:factorization}, \ref{f:domination}, \ref{f:iteration}, \ref{f:bell} and Proposition~\ref{f:extension}. Remark~\ref{rem:forgetting-interface} identifies the hypotheses of the latter channel argument; Section~\ref{q1:forgetting} supplies and checks them for the circuit on rings. The exact finite-fidelity and \(\Pi^0_1\) argument of Section~\ref{q1:effective} follows Proposition~\ref{a:rational} and Theorem~\ref{a:complete}.

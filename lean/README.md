@@ -1,6 +1,6 @@
 # Lean proofs for Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers
 
-These proofs accompany *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*, version 2.2.0.
+These proofs accompany *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*, version 3.0.0.
 
 | Paper result | Lean declaration |
 |---|---|
