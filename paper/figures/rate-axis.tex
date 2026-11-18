@@ -1,0 +1,15 @@
+\begin{tikzpicture}[x=1mm,y=1mm,font=\footnotesize,bar/.style={draw=black!75,fill=black!12,line width=.4pt},store/.style={draw=rxaccent,fill=rxaccent!35,line width=.65pt}]
+\draw[-{Stealth[length=2mm]},black!75] (7,0)--(145,0);
+\node[anchor=east] at (7,0) {$\eps\to0$};
+\node[anchor=north east] at (145,-1) {increasing $\log\eps$};
+\foreach \x/\lab/\state in {23/{n+5}/bar,42/{n+4}/store,61/{n+3}/store,80/{n+2}/bar,99/{n+1}/bar,118/{n}/store}{
+ \draw[\state] (\x,2) rectangle +(10,7);
+ \node[above] at (\x+5,9) {$I_{\lab}$};
+}
+\node at (71,20) {Hypothetical labels};
+\node at (12,5) {$\cdots$};
+\draw[store] (21,-14) rectangle +(7,4);
+\node[anchor=west] at (30,-12) {$I_m$ with $U(m)\uparrow$};
+\draw[bar] (83,-14) rectangle +(7,4);
+\node[anchor=west] at (92,-12) {$I_m$ with $U(m)\downarrow$};
+\end{tikzpicture}

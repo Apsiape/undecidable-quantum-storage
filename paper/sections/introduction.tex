@@ -1,196 +1,140 @@
+\makeatletter
+\renewcommand\@cite[2]{[{#1\if@tempswa ,\nobreakspace #2\fi}]}
+\makeatother
+\hyphenation{Corollary Corollaries}
 \section{Introduction}\label{s:intro}
-Can a fixed local noisy quantum medium be an excellent memory at one
-noise rate and destroy every encoding at another, with no algorithm to
-distinguish its computably named rate windows? We construct such a
-medium, separately for two physical noise models. Nonhalting windows
-store a reference-entangled qubit for an exponential number of rounds;
-halting windows destroy every encoding after a time independent of size.
-The two media occupy six dimensions and use seven elementary gates.
-The three-dimensional construction retains a sharp linear storage scale.
-A further whole-site medium gives stretched-exponential storage on the
-undecidable windows in four dimensions.
-Lean 4 with Mathlib verifies the Bell-sharing bound
-(Lemma~\ref{f:bell}) and conditional window certification
-(Theorem~\ref{lean:conditional}); Appendix~\ref{app:lean} gives the scope.
+\subsection{The question and the answer}\label{intro:question}\label{intro:results}
+Threshold theorems show that below a sufficiently small noise rate, error correction can extend quantum storage indefinitely as resources grow \cite{ABO2008,AGP2006,Kitaev1997,KLZ1998}. For a fixed noisy circuit, can we tell from the noise rate whether storage time grows without bound as the system grows? We construct fixed circuits for which no algorithm can answer this question. Each circuit has a computable sequence of disjoint rate windows \(I_n\), nonempty open intervals with rational endpoints. Given a rational noise rate in these windows, it is undecidable whether the optimal lifetime at fidelity \(7/8\) is unbounded in the side length \(L\) (Corollary~\ref{cor:window-undecidable}). Windows of both kinds accumulate at zero, so the circuits have no positive noise threshold (Corollary~\ref{cor:no-threshold}).
 
-Fix a universal machine \(U\), and write \(U(n)\uparrow\) or
-\(U(n)\downarrow\) for nonhalting or halting on input \(n\). The precise
-model and fidelity convention are in Section~\ref{s:model}. Unless specified as elementary-layer time, time counts repetitions of
-one fixed finite circuit, called a round.
+The circuit never receives the rate as an input. Local noise statistics select a computation whose halting triggers erasure of the quantum data. This is consistent with threshold theorems because the circuit is engineered to erase its data when the rate encodes a halting input.
 
-The original three-dimensional construction has a sharp lifetime scale.
-\begin{maintheorem}\label{thm:main}
-For each of whole-site and independent single-qubit depolarization after
-every layer, there is a separately constructed, computably specified,
-translation-invariant, time-periodic finite-range circuit
-on \(\Z^3\), with gate inventory
-\[
- \{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}
-\]
-and computable disjoint rational windows \(I_n\): nonhalting gives optimal storage time
-\(\Theta(L)\); halting gives a time bound uniform in \(L\) and the window;
-certification of its explicit linear-time storage circuits is
-\(\Pi^0_1\)-complete.
+\paragraph{Contributions.} The rate scale encodes a machine input throughout each open, computable window. On nonhalting windows the construction protects quantum data under faults correlated through the controller, with storage at least exponential in six dimensions, stretched-exponential in four dimensions under whole-site noise, and linear in three dimensions under either noise model. On halting windows every encoding forgets, including encodings into the controller or other work registers. The rate selection builds on our classical noise diagram \cite{DMNoise2026}. The observable here is a quantum channel's storage lifetime as size grows, distinct from the spectral gaps and ground-state phases studied for parameterized Hamiltonians \cite{BCW2021,CPGW2015}.
+
+\paragraph{Setting.} Fix a universal Turing machine \(U\), and write \(U(n)\uparrow\) for nonhalting and \(U(n)\downarrow\) for halting. The circuit acts on the periodic lattice \((\Z/L\Z)^d\), repeating a fixed schedule of elementary layers in each round. Time counts rounds in Theorems~\ref{thm:exponential} and~\ref{thm:main} and elementary layers in Theorem~\ref{thm:four-dimensional}. Fidelity is the overlap with the original Bell pair after encoding, storage and decoding on one half, leaving the reference untouched (Definition~\ref{def:fidelity}). Write \(F^*_{L,\eps}(t)\) for the best fidelity over all encoders and decoders on the full register. Our constructions guarantee \(15/16\) during storage, use \(7/8\) to define the optimal lifetime \(\tau_{L,\eps}\) and test certification, and bound halting-side fidelity eventually by \(1/2+\eta\) for every \(\eta>0\), near the measure-and-prepare benchmark \(1/2\) (Definitions~\ref{def:lifetime} and~\ref{def:windows}). The explicit encoding and final decoding maps are global, noiseless and total computable. They depend on \(n,L\) and, for decoding, on \(t\), independently of the rate and the halting answer. Correction during storage is local.
+
+Whole-site depolarization (WS) replaces the entire site register with a maximally mixed state with probability \(\eps\), independently at each site after each elementary layer. Independent single-qubit depolarization (Q) does the same separately for each wire. Both act on every factor, including idle, controller and work factors (Section~\ref{s:local-circuits}). An \emph{admissible circuit} on \(\Z^d\) is computably specified, translation-invariant, time-periodic and of finite range, with elementary operations in \(\{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}\) (Section~\ref{s:local-circuits} defines reset \(R_0\) and dephasing \(D_Z\)).
+
+\begin{maintheorem}[Six dimensions, exponential storage]\label{thm:exponential}
+For each of \textup{WS} and \textup{Q} applied after every elementary layer, there is a separately compiled admissible circuit on \(\Z^6\) with computable disjoint rational windows \(I_n\) and a rational \(c_{\mathrm e}>0\), independent of \(n\) and the same for both noise models, such that the following hold.
+\begin{enumerate}
+\item If \(U(n)\uparrow\), the explicit encoder and time-dependent decoder achieve entanglement fidelity at least \(15/16\) at every rate in \(I_n\) and every integer round \(0\le t\le 2^{\lfloor c_{\mathrm e}L\rfloor}\) for all \(L\) at or above a computable threshold \(L_{\mathrm e}(n)\).
+\item If \(U(n)\downarrow\), then for every \(\eta>0\) there is a finite \(C_{n,\eta}\), independent of \(L\) and the rate in \(I_n\), such that \(F^*_{L,\eps}(t)\le 1/2+\eta\) for every \(L\), every \(\eps\in I_n\) and every integer \(t\ge C_{n,\eta}\).
+\end{enumerate}
 \end{maintheorem}
 
-Exponential storage is possible on the undecidable windows themselves.
-\begin{maintheorem}\label{thm:exponential}
-For each of whole-site and independent single-qubit depolarization after
-every elementary layer, a separately compiled, computably specified,
-translation-invariant, time-periodic finite-range circuit on \(\Z^6\)
-with the same seven gates has computable disjoint rational windows
-\(I_n\). For one rational \(c_{\mathrm e}>0\), independent of \(n\)
-and the same for both media:
-if \(U(n)\uparrow\), one encoder keeps entanglement fidelity at least
-\(15/16\) at every rate in \(I_n\) and every time
-\(t\le2^{\lfloor c_{\mathrm e}L\rfloor}\), for all \(L\) above a
-computable threshold \(L_{\mathrm e}(n)\); if \(U(n)\downarrow\), every
-encoding is destroyed after a time uniform in \(L\) and the window.
+The full quantifiers appear in Theorem~\ref{v:detailed}. The estimate in Lemma~\ref{v:bridge} also gives fidelity tending to one with size throughout the stated horizon. Proposition~\ref{v:certification} gives the upper bound and certification for these circuits. Figure~\ref{fig:rates} illustrates the rate windows.
+
+\begin{maintheorem}[Four dimensions, stretched-exponential storage]\label{thm:four-dimensional}
+For \textup{WS} applied after every elementary layer, there is an admissible circuit on \(\Z^4\) with computable disjoint rational windows \(I_n\) and rationals \(c_4,\alpha_4>0\), independent of \(n\), such that the following hold.
+\begin{enumerate}
+\item If \(U(n)\uparrow\), the explicit encoder and time-dependent decoder achieve entanglement fidelity at least \(15/16\) at every rate in \(I_n\) and every integer elementary-layer time \(0\le t\le \exp(c_4L^{\alpha_4})\) for all \(L\) at or above a computable threshold \(L_4(n)\).
+\item If \(U(n)\downarrow\), then for every \(\eta>0\) there is a finite \(C_{n,\eta}\), independent of \(L\) and the rate in \(I_n\), such that \(F^*_{L,\eps}(t)\le 1/2+\eta\) for every \(L\), every \(\eps\in I_n\) and every integer \(t\ge C_{n,\eta}\).
+\end{enumerate}
 \end{maintheorem}
 
-The encoder and the time-dependent decoder are total computable and do
-not depend on the rate or the halting answer. The detailed statement is
-Theorem~\ref{v:detailed}. Proposition~\ref{v:certification} adds a
-coarse \(\exp(O_n(L^4))\) lifetime upper bound and exact
-\(\Pi^0_1\)-complete certification for these exponential media.
-The matching linear upper bound applies to Theorem A.
+The detailed statement is Theorem~\ref{f4:detailed}. The lower bound includes intermediate elementary layers as well as round boundaries.
 
-Beyond-polynomial storage on the undecidable windows requires only four dimensions under whole-site noise.
-\setcounter{maintheorem}{3}
-\begin{maintheorem}\label{thm:four-dimensional}
-For whole-site depolarization after every elementary layer, a computably
-specified, translation-invariant, time-periodic finite-range circuit on
-\(\Z^4\) with the same seven gates has computable disjoint rational
-windows \(I_n\). For rationals \(c_4,\alpha_4>0\), independent of \(n\):
-if \(U(n)\uparrow\), one encoder keeps entanglement fidelity at least
-\(15/16\) at every rate in \(I_n\) and every elementary-layer time
-\(t\le\exp(c_4L^{\alpha_4})\), for all \(L\) above a computable threshold
-\(L_4(n)\); if \(U(n)\downarrow\), every encoding is destroyed after a
-time uniform in \(L\) and the window.
+\begin{maintheorem}[Three dimensions, linear scale]\label{thm:main}
+For each of \textup{WS} and \textup{Q} applied after every elementary layer, there is a separately constructed admissible circuit on \(\Z^3\) with computable disjoint rational windows \(I_n\). For the rational \(c>0\) and computable \(C_0\ge 2\) of Theorem~\ref{thm:detailed}, both independent of \(n\), the optimal lifetime \(\tau_{L,\eps}\) in rounds (Definition~\ref{def:lifetime}) and the optimal fidelity satisfy the following bounds.
+\begin{enumerate}
+\item If \(U(n)\uparrow\), then \(\lfloor cL\rfloor\le\tau_{L,\eps}<201L+C_0\) for every \(L\ge L_C(n)\), uniformly in \(\eps\in I_n\), where \(L_C(n)\) is the computable size cutoff defined after Theorem~\ref{thm:detailed}.
+\item If \(U(n)\downarrow\), then for every \(\eta>0\) there is a finite \(C_{n,\eta}\), independent of size and rate, such that \(F^*_{L,\eps}(t)\le1/2+\eta\) for every \(L\), every \(\eps\in I_n\) and every integer \(t\ge C_{n,\eta}\).
+\end{enumerate}
+For the constants \(c\) and \(L_0(n)\) of Theorem~\ref{thm:detailed}, the set of indices \(n\) for which the explicit encoding and recovery achieve fidelity at least \(7/8\) at every rational rate in \(I_n\), every integer \(L\ge L_0(n)\) and every integer \(0\le t\le\lfloor cL\rfloor\) is \(\Pi^0_1\)-complete.
 \end{maintheorem}
-Here \(L\) is the torus side length. We call it Theorem D because
-Appendix C already contains Proposition C.1, a different four-dimensional
-result. Its encoder and decoders are total computable and independent
-of the rate and the halting answer.
-The detailed scope is Theorem~\ref{f4:detailed}. Its exponent is
-astronomically small, below \(2\cdot10^{-4}\); no lifetime upper bound
-is proved for this medium.
 
+Table~\ref{tab:results} summarizes the three guarantees. Theorem~\ref{thm:detailed}(i) gives fidelity at least \(15/16\) through \(\lfloor cL\rfloor\) rounds on nonhalting windows, and part~(iii) bounds the optimal lifetime linearly for every encoding.
 
+\begin{table}[!tb]
+\caption{Storage guarantees at fidelity \(15/16\) and upper bounds on optimal lifetime at fidelity \(7/8\), on nonhalting windows. Each lower bound holds above a computable size threshold. The displayed constants are fixed for the indicated circuits, and \(O_n\) permits dependence on the window index \(n\). On a halting window each circuit satisfies \(F^*\le1/2+\eta\) after a finite time uniform in size and rate, for every \(\eta>0\). The scalable-memory labels column concerns scalability of the optimal lifetime (Corollary~\ref{cor:window-undecidable}). Lemma~\ref{f:bell} and Theorem~\ref{lean:conditional} are formalized in Lean (Appendix~\ref{app:lean}).}\label{tab:results}
+\centering\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.16\linewidth}>{\raggedright\arraybackslash}p{.23\linewidth}>{\raggedright\arraybackslash}p{.29\linewidth}>{\raggedright\arraybackslash}p{.23\linewidth}@{}}
+\toprule Circuit and noise & Guaranteed lower bound & Lifetime upper bound & Scalable-memory labels\\\midrule
+6D (A), WS, Q & \(2^{\lfloor c_{\rm e}L\rfloor}\) rounds & \(\exp(O_n(L^4))\) rounds by resets of four-dimensional code fibres (Proposition~\ref{v:certification}(i)) & \(\Pi^0_1\)-complete\\\addlinespace[4pt]
+4D (B), WS & \(\exp(c_4L^{\alpha_4})\) elementary layers & \(\exp(O_n(L^4))\) elementary layers by full-register reset \eqref{f4:lifetime-upper} & \(\Pi^0_1\)-complete\\\addlinespace[4pt]
+3D (C), WS, Q & Order \(L\) rounds & \(<201L+C_0\) rounds for large \(L\) (Theorem~\ref{u:eb}) & \(\Pi^0_1\)-complete\\\bottomrule
+\end{tabular}
+\end{table}
 
-For Theorem A, storage time is the last time at which some encoder and decoder reach
-entanglement fidelity \(7/8\). If \(U(n)\) never halts, then for every
-side \(L\ge L_0(n)\), with \(L_0\) computable, the explicit construction
-keeps fidelity at least \(15/16\) through time \(\lfloor cL\rfloor\).
-The rational \(c>0\) does not depend on \(n\), and neither does the
-time \(201L+C_0\) of the matching upper bound. On the halting side, the optimal fidelity
-is at most \(1/2+\eta\) after a time uniform in both volume and the
-chosen window, for every \(\eta>0\). The detailed theorem,
-Theorem~\ref{thm:detailed}, also gives a whole-channel upper bound.
-
-Finite systems forget in both cases. Independent full-support noise has
-a positive chance of replacing every site in one layer; this eventually
-removes the input. The distinction is the size dependence of useful
-storage time. For Theorem A, linear storage is optimal even
-though the constants in the two bounds differ enormously. All three theorems are existence results: their local dimensions,
-interaction ranges and noise scales are astronomical. Each site carries a fixed number of
-qubits, and one layer may apply many gates of at most three qubits at
-the same site, on disjoint qubits; the noise then acts once per site
-(\(\mathrm W\)) or once per qubit (\(\mathrm Q\)) after every layer.
-Encoding and final decoding are global,
-noiseless, computable operations; the repeated correction inside the
-medium is local.
-
-\begin{figure}[!ht]
-\centering
-\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,font=\small]
-\draw[->] (0,0)--(5.8,0) node[right]{\(\eps\)};
-\foreach \x/\w/\lab in {0.45/0.18/n+2,1.6/0.28/n+1,2.9/0.45/n,4.6/0.7/1}{
- \fill[blue!18] (\x,0.1) rectangle (\x+\w,0.7);
- \draw[blue!60!black] (\x,0.1) rectangle (\x+\w,0.7);
- \node[above] at (\x+\w/2,0.7) {\(I_{\lab}\)};}
-\node[align=center] at (2.8,-0.55){Computably named noise windows};
-\begin{scope}[shift={(7,0)}]
- \draw[->] (0,0)--(4.8,0) node[right]{\(L\)};
- \draw[->] (0,0)--(0,2.5) node[above]{storage time};
- \draw[thick,blue!65!black] (0.35,0.25) .. controls (2.5,0.35) and (3.3,0.7) .. (3.9,2.2);
- \node[above] at (2.4,1.65) {\(U(n)\uparrow:\ \ge2^{\lfloor c_{\mathrm e}L\rfloor}\)};
- \draw[thick,red!65!black] (0.35,0.65)--(4.1,0.65);
- \node[above] at (2.9,0.65) {\(U(n)\downarrow:\ O_n(1)\)};
-\end{scope}
-\node[draw,rounded corners,align=center] (a) at (1.2,-1.7){static noisy chart\\and finite counter};
-\node[draw,rounded corners,align=center] (b) at (5.4,-1.7){local toric-code\\correction};
-\node[draw,rounded corners,align=center] (c) at (9.7,-1.7){final controlled\\erasure};
-\draw[->] (a)--(b); \draw[->] (b)--(c);
-\draw[->] (a.south) to[bend right=18] (c.south);
-\end{tikzpicture}
-\caption{Theorem B: exponential guaranteed storage or size-independent
-destruction on computable noise windows. Locations, widths and constants
-are schematic; the blue curve is a lower bound. Theorem A separately
-has the sharp linear scale. Both constructions end each round with a
-complete permission-controlled cut.}
-\label{fig:story}
+\begin{figure}[!tb]
+\centering\input{figures/rate-axis}
+\caption{Six illustrative windows of Theorem~\ref{thm:exponential} on a schematic logarithmic axis. The indices and outcomes are hypothetical. The computable windows of both kinds accumulate at zero, without any asserted alternation pattern. Rates between the windows remain unclassified.}\label{fig:rates}
 \end{figure}
 
-\noindent\textbf{How the medium works.}
-For Theorem B, the classical computation is a static chart written once
-into a square of side \(\lfloor L/4\rfloor\) and separated from its
-periodic copies by vacuum, so it never has to wrap around the torus. A
-binary counter along the square's diagonal grants permission to store
-for \(2^{\lfloor L/4\rfloor}-1\) rounds. Four further coordinates carry a
-closed four-dimensional toric code with a local sweep decoder. Controller
-errors are correlated, so we bound them by counting complete witnesses
-of each wrong erasure, keeping enough coordinates to tell distinct noise
-events apart on the torus. On a halting window every region of the chart
-contains a local violation or a wrong rate test, or lies in a square small
-enough that its counter expires; permission then dies, and with it every
-encoding.
+\subsection{What is engineered and what is hard}\label{intro:nontrivial}
+Each construction uses one fixed local, translation-invariant rule, independent of \(n\). The noise rate is its only variable physical parameter. Given a rate in \(\bigcup_n I_n\), the index \(n\) is found by testing membership in the computable windows. The circuit must sense the rate while subject to the same noise, correct quantum errors correlated with faults in the classical controller, and bound the recoverable fidelity even when the encoding uses the full register. The forgetting bound also applies when the initial state uses a different index or puts information into the controller or work registers.
 
-For Theorem D, the same static cap occupies two coordinates and is
-protected in two transverse directions. A separate protected classical calendar schedules
-a concatenated quantum code along a chain. Folding its cycle into a
-segment uses two semantic qubits per site and keeps the interaction range fixed.
-The code hierarchy reaches a fixed fraction of the system size. Short
-error explanations have consistent source names on the torus; longer
-ones have an exponentially small probability. This yields a
-stretched-exponential storage guarantee in four dimensions.
+The windows are computable whether or not \(U(n)\) halts, so their rational midpoints suffice for the reduction. For each fixed rational \(0<\eta<3/8\), the halting-side time to \(F^*\le1/2+\eta\) has no total computable bound in \(n\) (Corollary~\ref{a:time}, Proposition~\ref{v:certification}(iii) and the end of Section~\ref{f4:forgetting}). The limit on \(\eta\) puts the forgetting bound strictly below the lifetime fidelity \(7/8\).
 
-For Theorem A, each site runs a noisy classical computation beside a quantum chain.
-A second, transversely protected classical field supplies the calendar
-for concatenated quantum error correction; higher clocks and programs
-remain classical. The computation never reads the noise rate.
-Instead, local counters compare how often fresh noise marks appear along
-rows of lengths \(2\cdot4^r-1\). On the window \(I_n\) this selects the
-depth at which the computation simulates \(U\) on input \(n\). Every
-round ends with a controlled erasure of the quantum data at each site
-where the computation is not live. For each nonhalting \(n\) and all
-\(L\ge L_0(n)\), the computation stays live near the code long enough
-for local correction to preserve the stored qubit through
-\(\lfloor cL\rfloor\). If \(U(n)\) halts, every chart contains a wrong
-gate, and the resulting bounds on paths of quantum dependence destroy
-every encoding after a time uniform in system size. Even without halting, the computation needs an
-aperiodic chart, which no side-\(L\) torus can carry. By \(200L\) rounds,
-continued liveness requires exceptional noise events. Their path bounds
-cut the remaining quantum dependence by \(201L+C_0\), outside an event
-of exponentially small probability in \(L\). This gives the linear
-upper bound and makes the storage scale optimal.
+\subsection{How it works}\label{intro:mechanism}
+The three- and six-dimensional constructions use the same rate-selection strategy. The computation chart is a set of local records of a simulated run. It occupies space-time in three dimensions and a static square in six dimensions (Figure~\ref{fig:chart-fibres}). Table~\ref{tab:mechanism} follows the two implementations. Figure~\ref{fig:round} shows one round in six dimensions.
 
-\subsection*{Context and credit}
-Undecidable properties of quantum many-body systems include the spectral
-gap \cite{CPGW2015} and ground-state phase diagrams. Bausch, Cubitt and
-Watson \cite[Theorem~2.1]{BCW2021} construct one continuously
-parameterized Hamiltonian with machine-input intervals: nonhalting
-gives a gapped product phase on a fixed interval, while halting gives
-a critical gapless phase on an interval whose width is specified
-existentially. Purcell, Li and Cubitt
-\cite{PLC2024} place a single phase boundary at an uncomputable point. Quantum-channel fidelity reachability was already shown
-undecidable by Wolf, Cubitt and P\'erez-Garc\'ia \cite{WCPG2011}.
-Table~\ref{tab:landscape} locates the operational question studied here.
-Our parameter is the rate of independent physical noise following a
-fixed circuit, and our negative branch quantifies over encodings into
-all its registers. Here the windows are computable on both branches.
+\begin{table}[!tb]
+\centering\small
+\caption{How the three- and six-dimensional circuits select, protect and erase.}\label{tab:mechanism}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.14\linewidth}>{\raggedright\arraybackslash}p{.4\linewidth}>{\raggedright\arraybackslash}p{.4\linewidth}@{}}
+\toprule Step & Three dimensions & Six dimensions\\\midrule
+Sample noise & Copy sampling registers along rows on a space-time chart (Section~\ref{c:chart}). & Copy sampling registers along rows on a static chart (Section~\ref{v:classical-rule}).\\\addlinespace[3pt]
+Select a computation & Local tests keep the depth selected by the rate. On \(I_n\) that depth runs \(U(n)\) (Section~\ref{sec:controller}). & The encoder supplies a candidate chart for \(U(n)\). The circuit checks it with local rate tests that can reject a chart at the wrong depth, even if the encoder supplied it (Sections~\ref{v:classical-rule} and~\ref{v:parameters}).\\\addlinespace[3pt]
+Protect the qubit & A protected classical clock schedules local correction on a concatenated-code chain (Section~\ref{sec:quantum}). & At each chart point, local correction acts on a four-dimensional toric-code fibre. The reference square has side \(N_{\rm cap}=\lfloor L/4\rfloor\). Its diagonal counter keeps storage enabled for at least \(2^{N_{\rm cap}}-1\) clean rounds (Sections~\ref{v:classical-rule} and~\ref{v:positive}).\\\addlinespace[3pt]
+Erase on halting & A chart inconsistency or failed test propagates and triggers conditional resets (Sections~\ref{sec:controller} and~\ref{s:terminal-erasure}). & A defect, failed rate test or counter expiry triggers conditional resets. A surviving square of side \(N\) has clean expiry within \(1+2^{N+1}\) rounds, and on a halting window its side is bounded independently of \(L\) (Sections~\ref{v:classical-rule} and~\ref{v:forgetting}).\\\addlinespace[3pt]
+Bound all recoverable fidelity & A coupling uses disjoint input blocks to give equal channel marginals. The cloning bound controls every encoding (Section~\ref{sec:forgetting}). & The same coupling and cloning argument applies after bounding the survival of dependence on each input site (Section~\ref{v:forgetting}).\\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\begin{table}[t]
+\paragraph{How the rate picks a depth.}
+A sampling lane starts low and can be refreshed by noise as it is copied along a row. At depth \(r\) the row length is \(\ell_r=2\cdot4^r-1\), so increasing \(r\) by one increases the number of refresh opportunities by about four. For example, in the selector's comparison model with aggregate refresh \(\mu=1/1000\) (illustrative values; the actual windows lie far below), rows of lengths \(31\) and \(127\) have probabilities \(1-(1-\mu)^{31}\) and \(1-(1-\mu)^{127}\) of seeing a refresh, about \(3\%\) and \(12\%\). A count across many lanes distinguishes short from long rows. The actual tests include the refresh bias, finite-copy effects and noise margins and agree on the selected depth throughout \(I_n\) (Section~\ref{c:chart} and Proposition~\ref{c:selector-import}).
+
+In three dimensions a live chart must be refreshed along successive time diagonals. On a torus of side \(L\), a sufficiently late live reading with no marked error would force a wide, locally legal diagonal strip periodic by \((L,-L)\). The tiling obstruction rules out that strip, and the probability that faults sustain a live reading instead gives the order-\(L\) upper bound (Section~\ref{sec:ceiling}). In six dimensions the static chart avoids this obstruction. The positive estimates count connected configurations of distinct faults to control correlated unwanted resets (Section~\ref{v:positive}). The four-dimensional circuit uses a static chart with a folded concatenated-code chain scheduled by a protected classical clock (Section~\ref{sec:four-dimensional}).
+
+\begin{figure}[!tb]
+\centering\input{figures/chart-fibres}
+\caption{Geometry of the six-dimensional circuit. Two coordinates locate the classical chart patch. Holding a chart point \(u\) fixed leaves a four-dimensional toric-code fibre \(\{u\}\times(\Z/L\Z)^4\). The boxes represent fibres schematically.}\label{fig:chart-fibres}
+\end{figure}
+
+\begin{figure}[!tb]
+\centering\input{figures/one-round}
+\caption{One round of the six-dimensional circuit. Noise samples from sampling registers test the rate scale, and the circuit checks a finite static chart for \(U(n)\) prepared by the encoder. A failed rate test, a local chart defect or counter expiry can trigger erasure. On a nonhalting window, local correction protects the qubit through the guaranteed horizon (orange branch). Noise follows every elementary layer, including those inside each box.}\label{fig:round}
+\end{figure}
+
+\subsection{No threshold and undecidability on rational rates}\label{intro:threshold}
+\begin{corollary}[No positive noise threshold]\label{cor:no-threshold}
+For either six-dimensional circuit of Theorem~\ref{thm:exponential}, below every positive noise rate there is a nonhalting window with exponential storage and a halting window with size-independent forgetting of every encoding. Thus no positive interval adjacent to zero consists entirely of scalable-memory rates, those with \(\sup_L\tau_{L,\eps}=\infty\) (Definition~\ref{def:lifetime}).
+\end{corollary}
+\begin{proof}
+The windows tend to zero, as shown in Section~\ref{v:parameters}. The compiler reduction makes the halting set of \(U\) undecidable. A finite or cofinite halting set would be decidable, so both sets of labels are unbounded. For any positive rate, choose a label of each kind sufficiently far along the sequence. Theorem~\ref{v:detailed}(i)--(ii) gives the two conclusions.
+\end{proof}
+Figure~\ref{fig:rates} illustrates the interleaving of the windows. The same accumulation argument applies to the three- and four-dimensional circuits, using \eqref{eq:windows} and Lemma~\ref{f4:encoder}. Their storage guarantees have the scales in Table~\ref{tab:results}. The absence of a positive threshold follows from the interleaving alone. The next corollary states the undecidability claim for each circuit.
+
+\begin{corollary}[Undecidability on rational rates]\label{cor:window-undecidable}
+For each circuit of Theorems~\ref{thm:exponential}, \ref{thm:four-dimensional}
+and~\ref{thm:main}, a scalable-memory window is one where the optimal
+lifetime is unbounded in \(L\) at every rate in the window, meaning
+\(\sup_L\tau_{L,\eps}=\infty\) for every \(\eps\in I_n\).
+The lifetime counts rounds in Theorems~\ref{thm:exponential} and~\ref{thm:main} and elementary layers in Theorem~\ref{thm:four-dimensional}
+(Definitions~\ref{def:round} and~\ref{def:lifetime}). The labels \(n\) of scalable-memory windows
+are exactly the nonhalting inputs of \(U\), so this set is \(\Pi^0_1\)-complete. For the promise problem with rational input
+\(q\in\bigcup_n I_n\), no algorithm decides whether \(\sup_L\tau_{L,q}=\infty\).
+\end{corollary}
+\begin{proof}
+Theorems~\ref{v:detailed}, \ref{f4:detailed} and~\ref{thm:detailed}
+give unbounded lifetimes on nonhalting windows and, with \(\eta=1/16\),
+uniformly bounded lifetimes on halting windows. Thus the set of scalable-memory window labels
+is the nonhalting set of \(U\), as in Theorem~\ref{a:complete}
+and Proposition~\ref{v:certification}. The rational midpoint of \(I_n\)
+is computable from \(n\), giving the reduction for rational rates.
+\end{proof}
+Every storing window in Theorems~\ref{thm:exponential}, \ref{thm:four-dimensional} and~\ref{thm:main} has a horizon diverging with \(L\), so it is a scalable-memory window. Scalability concerns the optimal lifetime over all encodings. For the explicit maps in Theorems~\ref{thm:exponential} and~\ref{thm:main}, a separate \(\Pi^0_1\)-complete predicate requires every prescribed exact finite test to pass (Proposition~\ref{v:certification}(ii) and Theorem~\ref{a:complete}). On a halting window, enumerating those tests eventually finds a violation.
+
+\subsection{Scope}\label{intro:scope}
+In the affine layout of Section~\ref{sec:exponential}, the four independent code directions must leave the two chart coordinates fixed. That requires at least \(4+2=6\) lattice directions in this layout. It is open whether two-dimensional decoders, including the noisy-control constructions \cite{BDL2026,DST2026} and the homogeneous decoders with noiseless classical processing \cite{Lake2025,SBL2026}, can support rate-selected storage under the controller-correlated faults of our model (Section~\ref{a:discussion}).
+
+These are existence results. The number of qubits per site is fixed and very large, as is the local dimension in spectral-gap undecidability constructions \cite{CPGW2015}. The interaction ranges are also fixed and very large. In the six-dimensional estimates, the probability per site and round that noise resamples the sampling registers is bounded above by a number of order \(10^{-578\,792}\). Lemma~\ref{v:density} and \eqref{v:cap-list} give the bound \(\mu_*\le p_{\rm dens}/2=B_{\rm raw}^{-67440}/128\); Section~\ref{v:parameters} relates it to the physical noise rate. We give no order-of-magnitude estimate for the register size or range. The four-dimensional stretched-exponential lower bound eventually exceeds the three-dimensional linear lower bound. A crossover size depends on the constants and size cutoffs. The four-dimensional upper bound is a full-register replacement bound, and a matching upper bound remains open. The six-dimensional upper bound likewise comes from full resets, applied separately to the four-dimensional fibres.
+
+Rates outside the selected windows remain unclassified. Appendix~\ref{sec:coexistence} gives a separate four-dimensional circuit for independent single-qubit noise with one reserved, explicitly identified exponential-storage window and a tail family on which linear storage versus forgetting is undecidable (Proposition~\ref{p:coexistence}).
+\subsection{Related work}\label{intro:related}
+\begin{table}[!tb]
 \caption{Closely related results and the observable studied here.}
 \label{tab:landscape}
 \small\centering
@@ -198,112 +142,49 @@ all its registers. Here the windows are computable on both branches.
 \toprule
 Work & Setting & Observable\\
 \midrule
-Cubitt--P\'erez-Garc\'ia--Wolf; Bausch--Cubitt--Watson; Purcell--Li--Cubitt
- & Local Hamiltonians; interaction parameter & Gap and ground-state phase\\[3pt]
-Wolf--Cubitt--P\'erez-Garc\'ia & Finite channel collections & Fidelity reached by some channel word\\[3pt]
-D\"unnweber--Styliaris--Trivedi; Drechsler--Oreg--Aharonov; Balasubramanian--Davydova--Lake
- & Autonomous noisy quantum memories & Positive storage guarantees\\[3pt]
-G\'acs--Reif; G\'acs; Aharonov--Ben-Or; Harrington
- & Hierarchical reliable computation and quantum correction & Protected schedules and encoded gates\\[3pt]
-Douglas--Mghirbi & Noisy classical local rules & Ergodicity and computable noise-window selection\\[3pt]
-This paper, Theorem A & Fixed seven-gate circuits on \(\Z^3\); physical noise rate & Sharp linear storage, bounded forgetting, exact certification\\[3pt]
-This paper, Theorem B & Separate seven-gate W/Q circuits on \(\Z^6\); physical noise rate & Exponential storage lower bound versus size-uniform forgetting on effective windows\\[3pt]
-This paper, Theorem D & Seven-gate W circuit on \(\Z^4\); physical noise rate & Stretched-exponential storage lower bound versus size-uniform forgetting on effective windows\\
+Cubitt--P\'erez-Garc\'ia--Wolf; Bausch--Cubitt--Watson; Purcell--Li--Cubitt \cite{BCW2021,CPGW2015,PLC2024}
+ & Local Hamiltonians; interaction parameter & Gap and ground-state phase\\\addlinespace[3pt]
+Wolf--Cubitt--P\'erez-Garc\'ia~\cite{WCPG2011} & Finite channel collections & Fidelity reached by some channel word\\\addlinespace[3pt]
+Balasubramanian--Davydova--Lake; Drechsler--Oreg--Aharonov; D\"unnweber--Styliaris--Trivedi~\cite{BDL2026,DOA2026,DST2026}
+ & Local noisy quantum memories & Positive storage guarantees, including the four-dimensional Toom bound above\\\addlinespace[3pt]
+Aharonov--Ben-Or; G\'acs; G\'acs--Reif; Harrington~\cite{ABO2008,Gacs2001,GacsReif1988,Harrington2004}
+ & Hierarchical reliable computation and quantum correction & Protected schedules and encoded gates\\\addlinespace[3pt]
+Our prior work (Douglas--Mghirbi)~\cite{DMFixed2026,DMNoise2026,DMPhase2026} & Noisy classical local rules & Ergodicity and computable noise-window selection\\\addlinespace[3pt]
+This paper & Fixed noisy quantum circuits; physical noise rate & Storage on computable windows, forgetting for all encodings, exact certification for the circuits of Theorems~\ref{thm:exponential} and~\ref{thm:main} (Theorem~\ref{a:complete} and Proposition~\ref{v:certification})\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Autonomous quantum memory under noisy local dynamics predates this
-construction, notably the fixed-rule two-dimensional quantum automata
-of D\"unnweber, Styliaris and Trivedi \cite{DST2026}, which already
-combine G\'acs-style hierarchical classical control with a
-measurement-free concatenated quantum code, and the local
-toric-code memories of Balasubramanian, Davydova and Lake
-\cite{BDL2026}. Both give lifetimes that grow without bound with system
-size, in two or three dimensions. The construction of Theorem~A also
-combines hierarchical reliable classical computation
-\cite{Gacs2001,GacsReif1988} with concatenated quantum fault tolerance
-\cite{ABO1999,ABO2008}. The additional conclusions here are an
-undecidable noise-window structure with destruction for every encoding;
-for Theorem~A, a sharp linear storage scale and exact certification;
-for Theorem~B, exponential storage on the undecidable windows
-themselves; for Theorem~D, a stretched-exponential guarantee there in
-four dimensions under whole-site noise.
-Harrington's hierarchical local decoder
-\cite{Harrington2004} is an early quantum-memory precedent. The exponential constructions use the toric-code and sweep lineage of
-Dennis, Kitaev, Landahl and Preskill \cite{DKLP2002}, Ahn
-\cite{Ahn2004}, Kubica and Preskill \cite{KubicaPreskill2019}, and
-Vasmer, Browne and Kubica \cite{VBK2021}. Particularly close comparisons are
-the classical-to-quantum memory correspondence of Drechsler, Oreg and
-Aharonov \cite{DOA2026} and the cubical sweep fault-tolerance theorem of
-Ponarovsky \cite{Ponarovsky2026}. We prove the source-dependent estimate
-needed for this medium rather than invoking a threshold for independent
-faults: the controller induces correlated erasures.
+\paragraph{Closest prior work.}
+Bausch, Cubitt and Watson construct a continuous one-parameter Hamiltonian family in which a Turing machine controls the ground-state phase of each parameter region \cite[Theorem~2.1]{BCW2021}. Their theorem gives a specified nonhalting interval and an interval of positive extent for a halting input. In our circuit the parameter is a physical noise rate, the observable is storage lifetime, and the same procedure computes \(I_n\) for either halting outcome. For the designated four-dimensional toric-code encoding with Toom correction, Drechsler, Oreg and Aharonov \cite[Section~3.2]{DOA2026} bound the worst-case decoded infidelity by \(2Cme^{-cL}\) at every round through \(m\), below a nonzero noise threshold. Their synchronous noise is a product of single-qubit Pauli channels applied between correction updates. Here depolarization acts after every elementary layer, including layers within a correction update, and faulty controller decisions can cause correlated erasures. Relative to our classical noise diagram \cite{DMNoise2026}, the additional ingredients are quantum recovery under those faults and forgetting for every encoding. Table~\ref{tab:landscape} compares the observables.
 
-The classical computational controller builds on our preprints on
-fixed-noise ergodicity, undecidable phase diagrams, and an uncomputable
-noise diagram \cite{DMFixed2026,DMPhase2026,DMNoise2026}. Those works
-supply the finite computational charts and classical probability
-estimates. Version 1.0.0 of this paper \cite{DMQuantum2026} already proved the
-linear quantum bridge and a designed exponential window. Version 2.0.0 \cite{DMQuantumV200} already supplies the static cap,
-canonical initializer, correlated-source method and six-dimensional
-Theorem B, together with Section~\ref{sec:quantum}'s real code gadgets
-and Section~\ref{sec:forgetting}'s full-channel sharing argument.
-Theorem D combines those published ingredients, including the
-private-port dispatcher of Section~\ref{d:dispatch} and the fold of
-virtual cycles into physical sheets with sheet-typed fault labels from
-Appendices~\ref{sec:fold-controls}--\ref{sec:folded}, with whole-state
-periodic calendar resets, exclusive port selection and a torus source
-analysis that controls aliases of the same physical fault. Its new
-conclusion is beyond-polynomial storage on the undecidable windows in
-four dimensions for whole-site noise.
+Noise-rate phase diagrams for quantum information predate this computability question. Aharonov studied a quantum-to-classical transition through entanglement length \cite{Aharonov2000}. Upper bounds on tolerable noise and storage time were developed by Razborov, Kempe--Regev--Unger--de Wolf, and Harrow--Nielsen \cite{HarrowNielsen2003,KRWdW2010,Razborov2004}. The need for fresh low-entropy resources is central to noisy reversible computation and quantum refrigeration \cite{ABIN1996,BGH2013}; reset supplies such resources here. Baumann, Stein and Linnhoff-Popien give an all-encoding memory ceiling in terms of fresh qubits per step \cite{BSL2026}. Pastawski, Kay, Schuch and Cirac give an upper bound under depolarization without fresh resources \cite{PKSC2009}. Our circuits reset a number of qubits proportional to their volume, so that resource is not fixed as size grows.
 
-Appendix~\ref{sec:coexistence} retains a separate four-dimensional
-construction. Proposition~\ref{p:coexistence} gives one independent-qubit
-medium with the same seven gates, an uncomputable storage diagram, and a
-reserved, designed and decidable window storing a qubit for
-\(2^{\lfloor c_{\exp}L\rfloor}\); its universal nonhalting windows have
-linear storage. Version 1.0.0 left exponential storage on the undecidable
-windows themselves open; Theorem B provides it, in six dimensions and for
-both noise models. Its proof uses the deterministic finite-torus
-machinery of Lemma~\ref{x:exponential}.
+D\"unnweber, Styliaris and Trivedi give a fixed, local, translation-invariant two-dimensional automaton with a noise threshold below which the memory lifetime diverges with system size, combining noisy hierarchical classical control with a measurement-free concatenated code \cite{DST2026}. Balasubramanian, Davydova and Lake give a strictly local circuit for the two-dimensional toric code that preserves a logical state for exponential time under circuit-level noise. Its schedule varies in space and time, and its time-translation-invariant variant uses three-dimensional stacks \cite{BDL2026}. Lake's homogeneous local decoder achieves a stretched-exponential lifetime using \(O(\operatorname{polylog}L)\) noiseless classical bits per noisy qubit \cite{Lake2025}. The time-translation-invariant surface-code decoder of Selub, Bhardwaj and Lake also achieves a stretched-exponential lifetime under phenomenological noise and assumes noiseless classical operations. Its streaming version is spatially translation-invariant, while its constant-density construction uses a spatially varying hierarchy \cite{SBL2026}. Section~\ref{a:discussion} describes the remaining question for these decoders. The classical-to-quantum correspondence of Drechsler, Oreg and Aharonov and the sweep construction of Ponarovsky are close comparisons \cite{DOA2026,Ponarovsky2026}. The memory tools used here follow G\'acs and G\'acs--Reif's reliable computation, Harrington's hierarchy, Aharonov--Ben-Or's coherent Calderbank--Shor--Steane (CSS) gadgets, and the toric-code and sweep-decoder work of Dennis--Kitaev--Landahl--Preskill, Ahn, Kubica--Preskill and Vasmer--Browne--Kubica \cite{ABO2008,Ahn2004,DKLP2002,Gacs2001,GacsReif1988,Harrington2004,KubicaPreskill2019,VBK2021}. Level reduction is in the extended-rectangle tradition of Aliferis, Gottesman and Preskill \cite{AGP2006}. Breuckmann, Duivenvoorden, Michels and Terhal study local decoders for the two- and four-dimensional toric codes \cite{BDMT2017}. Measurement-free correction and local-gate fault tolerance provide further context \cite{Gottesman2000,Heussen2024,PazSilva2010}.
 
-\paragraph{Changes in 2.0.0.}
-Theorem B adds exponential storage on the undecidable windows for
-separate six-dimensional media in both noise models. Theorem A and
-the four-dimensional designed-window result are retained. The new
-proof, a coarse lifetime upper bound and exponential-horizon
-certification are in Section~\ref{sec:exponential}; the discussion
-states the remaining dimensional and matching-lifetime questions.
+Thermal and dissipative memories concern different dynamics \cite{Alicki2010,BDLin2026,KumarWeimer2026,PCC2011}; dimensional no-go results for those models do not constrain the dimension of our circuits \cite{BravyiTerhal2009,Brown2016,Terhal2015}. Hamiltonian protection \cite{PKSC2009} and space-overhead bounds \cite{FMSh2022} address complementary resources. Xu and Xu's computable sufficient criterion for a restricted class of three-dimensional stabilizer Hamiltonians is a useful contrast \cite{XuXu2026}; our undecidability statement concerns fixed noisy circuits.
 
-\paragraph{Changes in 2.1.0.}
-Theorem D lowers the dimension of beyond-polynomial storage on the
-undecidable windows from six to four for whole-site noise.
-Section~\ref{sec:four-dimensional} gives the construction and proof;
-Appendices~\ref{app:f4-calendar}--\ref{app:f4-sources} prove the added
-calendar, folded-dispatch and torus-source lemmas. Theorems A and B and
-Appendices A--C retain their previous mathematical statements.
-Appendix~\ref{app:lean} adds Lean verification of Lemma~\ref{f:bell}
-and the printed conditional abstraction of Theorem~\ref{a:complete}.
+For undecidability in physics, see Perales-Eceiza and coauthors \cite{UndecidabilityReview2025}. Spectral gaps and phase diagrams, quantum-channel reachability, memory-channel capacity, measurement occurrence, tensor-network properties and thermalization have undecidable instances \cite{BCW1D2020,BCW2021,CPGW2015,CPGW2022,DeLasCuevas2016,EMG2012,Elkouss2018,KGE2014,PLC2024,ShiraishiMatsumoto2021,WCPG2011}. Bhattacharyya, Mehta and Zhao show hardness of approximating quantum capacity and uncomputability of a restricted entanglement-assisted zero-error capacity \cite{BMZ2026}. Xu and coauthors give convergent certified upper bounds on the bulk spectral gap but rule out general convergent lower bounds \cite{XuEtAl2026}. Matsuura studies fidelity hitting times in fixed periodically driven unitary dynamics \cite{Matsuura2026}; here the parameter is a physical noise rate and the conclusion quantifies over every encoding. The open rate windows give robustness in that parameter. They do not assert robustness under perturbations of the gates, a distinction also relevant to unstable undecidable spectral-gap families \cite{CastillaLucia2026,XuEtAl2026}.
 
-\subsection*{Reading guide}
-Section~\ref{s:model} states the model and full quantifiers.
-Sections~\ref{sec:controller} and~\ref{sec:compilation} give the classical
-selector and exact physical implementation. Section~\ref{sec:quantum}
-proves three-dimensional storage, including the gadget support bound,
-source counting and decoding at every requested time.
-Sections~\ref{sec:forgetting} and~\ref{sec:ceiling} prove the two
-all-encoding bounds; Section~\ref{a:certification} proves certification.
-Section~\ref{sec:exponential} proves Theorem B, including its static
-initializer, physical-name density bound, source law, quantum recovery
-and full-algebra negative branch. Computability readers can proceed
-from Theorem A to certification, or from Theorem B to its static
-alternative and final channel argument.
-Quantum-information readers can take the explicitly stated classical
-chart interface as an input. The folded-code and exponential-coexistence
-proofs are in Appendices~\ref{sec:fold-controls}--\ref{sec:coexistence}.
+The classical lineage includes Kurdyumov and Toom's algorithmic ergodicity questions, probabilistic cellular automata and undecidable unique ergodicity \cite{BMM2013,Kurdyumov1978,Toom2000,ToomContinuous2000,Torma2015}. Marsan and Sablik show that stability of a given cellular automaton invariant measure under uniform perturbation is undecidable \cite{MarsanSablik2024}. Braverman, Grigo and Rojas study computability of invariant measures after perturbation of a fixed classical dynamical system \cite{BravermanGrigoRojas2012}, whereas the undecidable observable here is the growth of a transient storage lifetime across system sizes. Noise-driven ergodicity and nonmonotone transitions are studied in \cite{MST2019,MarcoviciTaati2026,Marsan2025}; see also Gray's guide to G\'acs's positive-rates construction \cite{Gray2001} and Taati's theorem on rapid forgetting by reversible cellular automata under positive additive noise \cite{Taati2021}. Our classical interfaces are drawn from our preprints \cite{DMFixed2026,DMNoise2026,DMPhase2026}, in the tiling and reliable-computation tradition of Robinson, Kari, Toom and Berman--Simon \cite{BermanSimon1988,Kari1992,Robinson1971,Toom1980}. Appendix~\ref{app:imports} lists the source statements and the proofs adapted here.
 
-Section~\ref{sec:four-dimensional} can be read after the code and
-normalizer lemmas of Section~\ref{sec:quantum} and the static cap of
-Section~\ref{sec:exponential}. Its dependency tables specify the
-constant order; its appendices contain the new source and fold proofs.
+
+
+\subsection{Organization}\label{intro:organization}
+The body proves Theorem~\ref{thm:main} first because Theorems~\ref{thm:exponential} and~\ref{thm:four-dimensional} reuse its controller, compiler and whole-channel forgetting argument. The four-dimensional proof also reuses the six-dimensional static chart. Table~\ref{tab:where} gives the proof locations. Table~\ref{tab:terms} introduces the recurring terminology. Proof-idea paragraphs introduce the longer arguments.
+
+\begin{table}[!tb]
+\centering\small
+\setlength{\tabcolsep}{5pt}\caption{Proof locations for storage, forgetting, optimal lifetime and finite-test certification.}\label{tab:where}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.14\linewidth}>{\raggedright\arraybackslash}p{.19\linewidth}>{\raggedright\arraybackslash}p{.19\linewidth}>{\raggedright\arraybackslash}p{.17\linewidth}>{\raggedright\arraybackslash}p{.21\linewidth}@{}}
+\toprule Result & Storage & Forgetting & Lifetime ceiling & Finite-test certificate\\\midrule
+\ref{thm:main}: Theorem~\ref{thm:detailed} & Proposition~\ref{d:storage} & Theorem~\ref{f:forgetting} & Theorem~\ref{u:eb} & Theorem~\ref{a:complete}; Corollary~\ref{a:time} for time bounds\\\addlinespace[3pt]
+\ref{thm:exponential}: Theorem~\ref{v:detailed} & Section~\ref{v:positive} & Section~\ref{v:forgetting} & Proposition~\ref{v:certification}(i) & Proposition~\ref{v:certification} \mbox{(ii)--(iii)}\\\addlinespace[3pt]
+\ref{thm:four-dimensional}: Theorem~\ref{f4:detailed} & Section~\ref{f4:positive} & Section~\ref{f4:forgetting} & Bound~\eqref{f4:lifetime-upper} & ---\\\addlinespace[3pt]
+Coexistence & \multicolumn{4}{l}{Proposition~\ref{p:coexistence}, with Lemma~\ref{x:exponential} and Proposition~\ref{q:linear}}\\\addlinespace[3pt]
+Window corollaries & \multicolumn{4}{l}{Section~\ref{intro:threshold}, from all three detailed theorems}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Appendices~\ref{app:reproducibility}, \ref{app:imports} and~\ref{app:lean} document reproducibility, imported results and formalization.

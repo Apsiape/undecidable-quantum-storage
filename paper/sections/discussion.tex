@@ -1,91 +1,35 @@
 \section{Discussion}\label{a:discussion}
-The physical noise rate of a fixed seven-gate circuit can select between
-exponentially long quantum storage and destruction after a time
-independent of size. Theorem B proves this in six dimensions, with
-separate circuits for whole-site and per-qubit noise. Theorem D lowers
-the dimension of beyond-polynomial storage on the undecidable windows
-to four for whole-site noise, with a stretched-exponential lower bound. Theorem A retains
-the sharp three-dimensional linear scale and exact promised
-\(\Pi^0_1\) certification. Proposition~\ref{p:coexistence} retains a
-four-dimensional single-qubit medium with a designed decidable
-exponential window; its universal windows remain linear.
+The rate windows are computable, and the set of indices of scalable-memory windows is uncomputable. Interleaving alone rules out a positive noise threshold for these circuits. For a prescribed encoding and recovery, each rational-rate fidelity
+test is decidable by an exact finite calculation
+(Propositions~\ref{a:rational} and~\ref{v:certification}(ii)). A failed certificate has a finite,
+exactly checkable witness \((L,t,q)\). Deciding whether every test in
+the certificate passes is undecidable for the circuits of Theorems~\ref{thm:exponential}
+and~\ref{thm:main} (Theorem~\ref{a:complete} and Proposition~\ref{v:certification}(ii)).
+Finite-size experiments still give information at the tested sizes and times. Xu and coauthors obtain a related one-sided certification result for the bulk spectral gap, with convergent certified upper bounds and no general convergent lower bounds \cite{XuEtAl2026}.
 
-The computational charts and noise-window selector are published
-ingredients of our earlier classical work
-\cite{DMFixed2026,DMNoise2026,DMPhase2026}, in the tiling and
-reliable-computation tradition of Robinson, Kari, Toom, Berman--Simon
-and G\'acs \cite{Robinson1971,Kari1992,Toom1980,BermanSimon1988,Gacs2001}. Version 1 of this paper
-\cite{DMQuantum2026} already supplied the seven-gate compiler, the
-coherence, old/new density, slab-packing and H\"older methods of
-Section~\ref{sec:controller}, common-recovery interfaces, the
-full-channel sharing argument and the designed finite-torus exponential
-estimate. Theorem B adds static capped
-operation, a density law for names that seed two formal vertices, a total
-static initializer, and complete correlated-source accounting on the
-undecidable windows. Its finite counter avoids the causal-chart
-ceiling while the original-active death rule retains the all-start
-halting alternative.
+Hamiltonian undecidability and undecidable storage both concern observables that depend on arbitrarily large systems. In spectral-gap and phase-diagram results the observable is a property of the infinite-system Hamiltonian or its ground states, and a varying interaction can encode a machine input \cite{BCW2021,CPGW2015}. Here the gates remain fixed and depolarization varies. Its local statistics select the machine input, and the undecidable observable is whether the best recoverable entanglement fidelity supports storage times unbounded in system size. The open windows establish stability under changes of the noise rate within each window.
 
-The memory ingredients belong to an established literature: Ahn's
-local higher-dimensional correction \cite{Ahn2004}, Kubica--Preskill's
-sweep rule \cite{KubicaPreskill2019}, Harrington's local hierarchy
-\cite{Harrington2004}, and G\'acs's reliable self-simulation
-\cite{Gacs2001}, with transverse protection in G\'acs--Reif
-\cite{GacsReif1988}. D\"unnweber--Styliaris--Trivedi already combine
-G\'acs-style control with a measurement-free concatenated code
-\cite{DST2026}. Related 2026 results include the local toric-code
-automaton of Balasubramanian--Davydova--Lake \cite{BDL2026}, the
-classical-to-quantum correspondence of Drechsler--Oreg--Aharonov
-\cite{DOA2026}, and Ponarovsky's local sweep fault tolerance with
-noiseless bounded-depth classical processing \cite{Ponarovsky2026}.
-Selub--Bhardwaj--Lake give further local decoder context
-\cite{SBL2026}. Thermal and dissipative memories address related
-models \cite{Alicki2010,BDLin2026,KumarWeimer2026,PCC2011}; Hamiltonian
-protection and space-overhead bounds concern complementary resources
-\cite{PKSC2009,FMSh2022}. Undecidability of spectra, phase diagrams,
-relaxation and channel properties precedes this operational question
-\cite{CPGW2015,BCW1D2020,BCW2021,PLC2024,ShiraishiMatsumoto2021,WCPG2011,
-EMG2012,KGE2014,DeLasCuevas2016,BMZ2026}.
+The constructions use local operations and independent depolarization after every layer, including reset and idle layers. Theorem~\ref{thm:four-dimensional}'s whole-site-noise guarantee is superpolynomial on every
+nonhalting window. The small exponent limits the practical significance
+of that asymptotic improvement. Stability on an open interval of noise rates leaves open the question of stability under perturbations of the gates.
 
-The remaining questions include exponential, rather than
-stretched-exponential, storage on undecidable windows below dimension
-six; the single-qubit-noise version in four dimensions; beyond-linear
-storage in three dimensions; undecidable storage in two dimensions;
-and any lifetime upper bound for the four-dimensional medium. We also seek
-a matching \(\exp(O_n(L))\) lifetime upper bound for the exponential
-media, giving \(\exp(\Theta(L))\) lifetime on nonhalting windows.
-Proposition~\ref{v:certification} gives the coarse
-\(\exp(O_n(L^4))\) upper bound and exact \(\Pi^0_1\)-complete
-certification. Smaller site dimension, nearest-neighbour
-geometry and noise after every gate rather than after every layer also
-require further constructions. The diagonal-band source cost of
-Lemma~\ref{v:wrapped} leaves the continuing-noise wrapped-band
-catastrophe hazard open.
+The forgetting argument of Section~\ref{sec:forgetting} is a tool for other circuits with autonomous classical control. It couples the whole channel to an equal-marginal extension when the chance that a specified input site still matters is small. The cloning bound then limits recovery even when the encoding uses every part of the register.
 
-\subsection*{Proof status}
-The compiler, encoders, finite searches and constant choices are total
-mathematical prescriptions; their tables and circuits were not
-materialized, and the finite catalogue constants of
-Section~\ref{sec:exponential} enter only through their finiteness and a
-noncircular order of choice. The refutation-first checks of Theorem~B
-re-derived the cap geometry and counter, the static and all-start
-halting alternatives, Lemma~\ref{v:density}, the totality of the encoder
-of Lemma~\ref{v:encoder}, the per-qubit layer, the alias-free extraction,
-the order of choices, the windows and Lemma~\ref{v:wrapped}. They
-checked against the text, without re-deriving, the encoder's success on
-nonhalting inputs, the numerical catalogue constants, the group-contour
-construction inside Lemma~\ref{v:bridge}, and the proofs of the
-published results imported from \cite{DMNoise2026,SST2026} and from
-Sections~3 and~6 and Appendices~B--C. For Theorem~D the checks
-re-derived the exclusive dispatcher, the finite-torus raw cutoff, the
-two-role and central-strip source estimates, the separated-child
-recursion, the window arithmetic and the horizon. A further check
-re-derived the written Appendices~D--F, including the calendar reset
-table, and the order of constants from the text. The checks compared the
-imported gadget, initializer and all-start negative arguments with their
-texts without re-deriving them. Lean 4 with Mathlib verifies
-Lemma~\ref{f:bell} as printed and the conditional
-Theorem~\ref{lean:conditional}. The latter assumes storage and
-forgetting; the physical premises, Theorems A, B and D, all
-constructions, noise analysis and compilation remain outside the
-verification (Appendix~\ref{app:lean}).
+For the six-dimensional circuits, a matching \(\exp(O_n(L))\) upper bound would give exponential lifetime of order \(\exp(\Theta_n(L))\) on a nonhalting window. The known upper bound uses full resets of individual four-dimensional fibres. The prescribed diagonal defect bands of Lemma~\ref{v:wrapped} erase a plane in the clean comparison rule, but their probability of forming does not give an erasure rate under continuing noise. The four-dimensional whole-site circuit has the full-register bound \(\exp(O_n(L^4))\). A matching stretched-exponential upper bound is open.
+
+Under independent single-qubit noise, Theorem~\ref{thm:main} gives linear
+storage on every nonhalting window in three dimensions. The
+four-dimensional circuit of Proposition~\ref{p:coexistence} gives
+exponential storage on its reserved window \(I_0\) and linear storage
+on its nonhalting tail windows \(I_{n+1}\), which part~(iii) caps at
+\(201L+C_0\) rounds. Beyond-polynomial storage on every nonhalting
+window remains open for four-dimensional undecidable constructions
+under independent single-qubit noise. Theorem~\ref{thm:exponential}
+gives an exponential lower bound on every nonhalting window in six
+dimensions. Can an undecidable construction under the elementary-layer
+noise convention achieve an exponential lower bound on every nonhalting
+window below six dimensions, or a superlinear lower bound on every
+nonhalting window in three dimensions? It is also open whether
+two-dimensional circuits under that convention can have undecidable
+storage with rate\nobreakdash-selected forgetting for every encoding.
+Adapting the two-dimensional automaton of D\"unnweber, Styliaris and Trivedi \cite{DST2026} or the toric-code circuit of Balasubramanian, Davydova and Lake \cite{BDL2026} would require control of the controller-correlated erasures specific to our construction. The homogeneous decoder of Lake and the time-translation-invariant decoder of Selub, Bhardwaj and Lake assume noiseless classical processing \cite{Lake2025,SBL2026}. It is open whether their guarantees extend to the noisy rate-selection and erasure mechanism here. Further questions for undecidable constructions concern smaller site registers, nearest-neighbour interactions and a gate-local noise model with independent replacement of each gate's joint operand register by a maximally mixed state.

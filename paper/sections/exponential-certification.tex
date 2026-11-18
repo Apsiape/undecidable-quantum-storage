@@ -1,31 +1,30 @@
-\subsection{A coarse lifetime upper bound and exact certification}
-The complete-volume reset in \eqref{eq:finite-reset}, used above for
-small tori, already gives an \(\exp(O_n(L^6))\) lifetime upper bound
-in dimension six. Fibre confinement permits asynchronous resets and
-improves this exponent to four. Certification extends the method of
+\subsection{A coarse lifetime upper bound and exact certification}\label{v:cert-section}
+The full-register reset in \eqref{eq:finite-reset}, used above for
+small tori, gives an \(\exp(O_n(L^6))\) lifetime upper bound
+in dimension six. Full resets of individual fibres can occur at different times. Fibre confinement improves the exponent to four. Certification extends the method of
 Section~\ref{a:certification} to the explicit exponential-horizon
 circuits.
 
 \begin{proposition}[Fibre resets and exponential-horizon certification]\label{v:certification}
-Fix either medium \(\mathsf r\in\{\mathrm W,\mathrm Q\}\) of
+Fix either circuit \(\mathsf r\in\{\mathrm{WS},\mathrm Q\}\) of
 Theorem~\ref{v:detailed}. Set
 \[
 \begin{gathered}
- k_{\mathrm W}=1,\qquad k_{\mathrm Q}=N_{\mathrm Q},\qquad
- r_n^{\mathsf r}=\inf I_n^{\mathsf r},\\
- h_n^{\mathsf r}=\min\{h\in\N:h\ge1,\ 2^{-h}\le r_n^{\mathsf r}\},\qquad
+ k_{\mathrm{WS}}=1,\qquad k_{\mathrm Q}=N_{\mathrm Q},\qquad
+ a_n^{\mathsf r}=\inf I_n^{\mathsf r},\\
+ j_n^{\mathsf r}=\min\{h\in\N:h\ge1,\ 2^{-h}\le a_n^{\mathsf r}\},\qquad
  H_{\mathrm e}(L)=2^{\lfloor c_{\mathrm e}L\rfloor}.
 \end{gathered}
 \]
-Here \(r_n^{\mathsf r}\) is a positive computable rational and
-\(h_n^{\mathsf r}\) is a total computable integer. Time counts rounds,
+Here \(a_n^{\mathsf r}\) is a positive computable rational and
+\(j_n^{\mathsf r}\) is a total computable integer. Time counts rounds,
 one application of \(\Lambda_{L,\eps}\) per round.
 \begin{enumerate}
 \item For every \(n\), every \(L\ge1\), every \(\eps\in I_n^{\mathsf r}\)
 and every rational \(0<\delta<1\), put
 \begin{equation}\label{v:reset-time}
  T^{\mathsf r}_{n,\delta}(L)=
- \left\lceil(r_n^{\mathsf r})^{-k_{\mathsf r}L^4}\right\rceil
+ \left\lceil(a_n^{\mathsf r})^{-k_{\mathsf r}L^4}\right\rceil
  \left\lceil L^2/\delta\right\rceil.
 \end{equation}
 For every integer \(t\ge T^{\mathsf r}_{n,\delta}(L)\), the entire
@@ -38,20 +37,20 @@ where \(\Phi_t\) is entanglement breaking and \(\mathcal B_t\) is a
 channel. Consequently
 \[
  \|\Lambda_{L,\eps}^t-\Phi_t\|_\diamond\le2\delta,
- \qquad F^*_{L,\eps}(t)\le\tfrac12+\tfrac\delta2.
+ \qquad F^*_{L,\eps}(t)\le1/2+\delta/2.
 \]
 In particular, uniformly across the window,
 \begin{equation}\label{v:lifetime-upper}
- \tau_{L,\eps}<2^{(k_{\mathsf r}h_n^{\mathsf r}+3)L^4}
+ \tau_{L,\eps}<2^{(k_{\mathsf r}j_n^{\mathsf r}+3)L^4}
  \quad(L\ge1),\qquad
  \tau_{L,\eps}<2^{L^5}
- \quad(L\ge k_{\mathsf r}h_n^{\mathsf r}+3).
+ \quad(L\ge k_{\mathsf r}j_n^{\mathsf r}+3).
 \end{equation}
 If \(U(n)\uparrow\), then for every
 \(L\ge L_{\mathrm e}^{\mathsf r}(n)\),
 \[
  H_{\mathrm e}(L)\le\tau_{L,\eps}
- <2^{(k_{\mathsf r}h_n^{\mathsf r}+3)L^4}.
+ <2^{(k_{\mathsf r}j_n^{\mathsf r}+3)L^4}.
 \]
 \item For the explicit maps in Theorem~\ref{v:detailed}, fix the finite
 decoder choices as in the proof below and write
@@ -78,30 +77,32 @@ computable \(g:\N\to\N\) such that, for every halting \(n\), every
 \(t\ge g(n)\), one has \(F^*_{L,\eps}(t)\le1/2+\eta\).
 \end{enumerate}
 \end{proposition}
+\par\noindent\emph{Proof idea.} Reset whole quantum fibres at possibly different rounds while keeping the autonomous classical histories. The resulting channel bound controls lifetime. Separately, finite fidelity polynomials let the proof transfer the exact certification argument to an exponential horizon.
+
 \begin{proof}
 For (i), use structural property~\ref{v:structure}. Write
 \(\mathcal Q\) for all quantum-capable factors and \(\mathcal M\)
 for the autonomous metadata. The quantum factors split into \(L^2\)
 fibres \(F_u=\{u\}\times(\Z/L\Z)^4\). Let \(R_{u,j}\) be the event
 that the final noise layer of round \(j\) replaces all \(L^4\) sites
-of \(F_u\) in W, or all \(N_{\mathrm Q}L^4\) wires there in Q. Its
+of \(F_u\) in \(\mathrm{WS}\), or all \(N_{\mathrm Q}L^4\) wires there in Q. Its
 probability is
 \[
  \rho_{L,\eps}=\eps^{k_{\mathsf r}L^4}.
 \]
 The replacement coins are exogenous and independent across rounds.
-Let \(G_t\) be the event that every fibre has such a reset in rounds
+Let \(\mathcal G_t\) be the event that every fibre has such a reset in rounds
 \(1,\ldots,t\). This event is independent of every physical input,
 including the initial metadata. A union bound gives
 \begin{equation}\label{v:fibre-tail}
- q_t:=\Pr(G_t^c)
+ q_t:=\Pr(\mathcal G_t^c)
  \le\min\{1,L^2(1-\rho_{L,\eps})^t\}
  \le\min\{1,L^2e^{-t\rho_{L,\eps}}\}.
 \end{equation}
 
-We prove that the normalized channel on \(G_t\) is entanglement
+We prove that the normalized channel on \(\mathcal G_t\) is entanglement
 breaking even though the fibre resets occur at different times.
-Initially the actual circuit dephases \(\mathcal M\); let \(a\)
+Initially the circuit dephases \(\mathcal M\); let \(a\)
 be its measured full word, with projector \(\Pi_a\). Conditional
 on \(a\), the initial quantum state may still have arbitrary
 intersite and reference correlations. Condition also on a complete
@@ -129,11 +130,11 @@ history the entire output is a preparation independent of the initial
 quantum state.
 
 Average these preparations over good histories conditional on \(a\)
-to obtain states \(\sigma_{a,G_t}\). Since \(G_t\) has
+to obtain states \(\rho_{a,\mathcal G_t}\). Since \(\mathcal G_t\) has
 input-independent probability, its normalized branch is the channel
 \[
  \Phi_t(\omega)=\sum_a
- \Tr[(\Pi_a\otimes I_{\mathcal Q})\omega]\,\sigma_{a,G_t}.
+ \Tr[(\Pi_a\otimes I_{\mathcal Q})\omega]\,\rho_{a,\mathcal G_t}.
 \]
 This is a measure-and-prepare channel on the entire physical algebra,
 including for inputs entangled with a reference. The complementary
@@ -162,27 +163,27 @@ on small tori, and every quantum displacement has zero
 every \(L\ge1\), without a code-geometry threshold.
 
 At \(\delta=1/2\) the fidelity is at most \(3/4<7/8\). Since
-\((r_n^{\mathsf r})^{-k_{\mathsf r}L^4}
-\le2^{k_{\mathsf r}h_n^{\mathsf r}L^4}\) and the latter is an integer,
+\((a_n^{\mathsf r})^{-k_{\mathsf r}L^4}
+\le2^{k_{\mathsf r}j_n^{\mathsf r}L^4}\) and the latter is an integer,
 \[
  T^{\mathsf r}_{n,1/2}(L)
- \le2L^2\,2^{k_{\mathsf r}h_n^{\mathsf r}L^4}
- \le2^{(k_{\mathsf r}h_n^{\mathsf r}+3)L^4}.
+ \le2L^2\cdot2^{k_{\mathsf r}j_n^{\mathsf r}L^4}
+ \le2^{(k_{\mathsf r}j_n^{\mathsf r}+3)L^4}.
 \]
 Here \(\log_2(2L^2)\le1+2L\le3L^4\) for integer \(L\ge1\).
 Monotonicity of optimal fidelity gives
 \(\tau_{L,\eps}<T^{\mathsf r}_{n,1/2}(L)\).
-For \(L\ge k_{\mathsf r}h_n^{\mathsf r}+3\), the last display is
+For \(L\ge k_{\mathsf r}j_n^{\mathsf r}+3\), the last display is
 at most \(2^{L^5}\). All constants and cutoffs are computable from
-the rational window endpoint, uniformly in its actual rate.
+the rational window endpoint, uniformly in its rate.
 The nonhalting lower bound follows from Theorem~\ref{v:detailed}(i).
 Requiring all fibres to reset simultaneously would instead give the
-prior whole-volume exponent six; asynchrony is essential here.
+whole-volume exponent six noted above; asynchrony is essential here.
 
 For (ii), we first specify the exact finite external circuits. Use
 the total static search and defaults of Lemma~\ref{v:encoder}.
 For the closed plaquette CSS code let \(A,B\) be the binary spaces
-of its X and Z stabilizers, with \(A\subseteq B^\perp\). Extend a
+of its \(X\) and \(Z\) stabilizers, with \(A\subseteq B^\perp\). Extend a
 basis of \(A\) to \(B^\perp\), then to the full binary space.
 Finite linear equations choose complementary logical vectors agreeing
 with the declared coordinate membrane pair. Prepare the
@@ -193,8 +194,7 @@ invertible binary basis change with CNOTs and swaps. This realizes
 the finite binary encoding of Lemma~\ref{v:encoder} with real
 Clifford gates; small or degenerate cases use its prescribed defaults.
 
-Use the same intended-complex syndrome and component-filling decoder
-as in Lemmas~\ref{q:homology}--\ref{q:span} and~\ref{v:bridge}.
+Use the syndrome of the intended complex and the same decoder with component filling (Lemmas~\ref{q:homology}--\ref{q:span} and~\ref{v:bridge}).
 Freeze box, lift and filling choices, using lexicographic tie-breaks
 where a choice remains, and fix a failure correction outside its good
 regime. These frozen choices are harmless: by Lemma~\ref{q:homology},
@@ -205,69 +205,16 @@ All finite boundary and incidence data are computable from \(L\).
 Exhaustive finite searches specify corrections for every syndrome.
 Syndrome extraction, Pauli corrections and inverse encoding use
 Clifford gates, computational-basis measurements and finite Boolean
-functions. Such functions compile with X, CNOT, Toffoli and reset;
+functions. Such functions compile with \(X\), CNOT, Toffoli and reset;
 \(Z=HXH\). At a requested time use the declared captured-snapshot
 and intended-circuit completion convention before the common
 recovery. This gives a total finite circuit determined by
 \((n,L,t)\), independent of the rate and halting answer, including
 all failure cases.
 
-The rational-superoperator argument of
-Proposition~\ref{a:rational} now applies to these actual circuits.
-For completeness, Bell, basis and mixed preparations have rational
-density entries; X, CNOT, Toffoli and swaps are permutations.
-Hadamard conjugation replaces each relevant matrix block by half a
-signed sum of old blocks, despite its matrix entries involving
-\(1/\sqrt2\). Reset, dephasing, partial trace and sums of
-unnormalized measurement branches preserve rational entries; no
-division by a branch probability occurs. The deterministic static
-search prepares a basis state. The replacement superoperator has
-rational coefficients with denominator \(2^{N_{\mathrm W}}\) in W
-and two in Q, and every elementary noise map is affine in \(\eps\).
-Finite composition and the final Bell functional therefore give
-\(f^{\mathsf r}_{n,L,t}\in\mathbb Q[\eps]\). An exact algorithm
-computes the finite circuits and propagates the Bell density matrix,
-including the reference, with rational-polynomial entries. Each
-finite input terminates, even on halting labels and default cases.
-At rational \(q\), direct rational propagation decides the sign of
-\(f^{\mathsf r}_{n,L,t}(q)-7/8\), including equality.
+Proposition~\ref{a:rational}'s rational-superoperator argument applies to these finite circuits, including their default cases. The deterministic static search prepares a basis state, and no measurement branch is normalized. Each \(f^{\mathsf r}_{n,L,t}\) is therefore a computable rational-coefficient polynomial, and comparison with \(7/8\) at rational rate is exact.
 
-Enumerate integer sizes, integer times and rational rates, represented
-by integer numerator and positive denominator. Accept invalid codes
-and all triples outside \eqref{v:predicate}. Its domain tests are
-decidable: the cutoff and endpoints are total computable, and the
-rational \(c_{\mathrm e}\) gives the exact finite integer
-\(H_{\mathrm e}(L)\). On each remaining triple use the exact
-comparison just proved. Their universal conjunction is \(\Pi^0_1\);
-every failed test is eventually found.
+Use the exact-test enumeration, midpoint counterexample and continuity argument in the proof of Theorem~\ref{lean:conditional}, with the domain \eqref{v:predicate}. Its horizon \(H_{\rm e}(L)\) is a computable integer and grows without bound, so every halting time fits below it at a sufficiently large size. Theorem~\ref{v:detailed}(i) makes all tests pass on nonhalting inputs; part (ii), at \(\eta=1/16\), gives a failed midpoint test on halting inputs. The same input compiler gives hardness. This uses only Theorem~\ref{v:detailed}(i)--(ii) and the finite-circuit calculation, independently of part (i) of this proposition.
 
-If \(U(n)\uparrow\), Theorem~\ref{v:detailed}(i) gives
-\(f^{\mathsf r}_{n,L,t}(q)\ge15/16\) throughout this domain.
-If \(U(n)\downarrow\), choose an integer
-\(T\ge\max\{1,C^{\mathsf r}_{n,1/16}\}\), the rational midpoint
-\(q\) of \(I_n^{\mathsf r}\), and a sufficiently large
-\(L\ge L_{\mathrm e}^{\mathsf r}(n)\) with
-\(H_{\mathrm e}(L)\ge T\). Theorem~\ref{v:detailed}(ii) gives
-\(f^{\mathsf r}_{n,L,T}(q)\le9/16<7/8\), a failed finite test.
-The time \(T\) is an existential witness; membership does not require
-computing it from \(n\). Thus \(P_{\mathsf r}(n)\) is exactly the
-nonhalting set of the fixed universal machine, and the usual total
-input compiler gives many-one \(\Pi^0_1\)-hardness. For each fixed
-\((n,L,t)\), polynomial continuity shows that a strict violation at
-a real rate persists in a neighborhood containing a rational rate
-in the same open window. This proves the real-rate equivalence.
-This certification argument uses Theorem~\ref{v:detailed}(i)--(ii)
-and the exact finite-circuit calculation, independently of (i) of
-this proposition.
-
-Finally suppose the function \(g\) in (iii) existed. Compute
-\(t=\max\{1,g(n)\}\), the rational midpoint \(q\), and by a
-terminating integer search a size
-\(L\ge L_{\mathrm e}^{\mathsf r}(n)\) with
-\(H_{\mathrm e}(L)\ge t\). Compute the explicit fidelity at
-\((L,t,q)\) exactly. Nonhalting gives at least \(15/16\), while
-halting and the assumed bound give at most
-\(1/2+\eta<7/8\). Comparing with \(7/8\) would decide halting,
-a contradiction. The size-dependent time in (i) is consistent with
-this absence of a computable size-independent bound.
+For (iii), apply the contradiction argument of Corollary~\ref{a:time} with \(L_{\rm e}^{\mathsf r}(n)\) and \(H_{\rm e}(L)\): their computability and unbounded horizon supply the required size, and the exact finite comparison just proved supplies the test. A size-dependent upper bound from (i) does not provide the forbidden size-independent bound.
 \end{proof}

@@ -1,33 +1,15 @@
-\subsection{A total static encoder and exponential storage}
+\subsection{A total static encoder and exponential storage}\label{v:positive}
 \begin{lemma}[Finite static initialization]\label{v:encoder}
 For every \((n,L)\) a total rate-independent algorithm specifies a cap
 state and a closed-code encoder. On a nonhalting input and above a total computable size threshold,
 the cap state is locally valid, carries the canonical projected geometry
-and the correct cutoff flag at every active site, and keeps clean
-permission through \(2^{\lfloor L/4\rfloor}-1\) rounds.
+and the correct cutoff flag at every active site. For such an input above that threshold, the core trajectory under \(F_{\rm cap}\) keeps the storage-enable bit at one at every active site through
+\(2^{\lfloor L/4\rfloor}-1\) rounds.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Search the finite square and its collar for a legal assignment with the canonical projection. Initialize the counter and the closed toric code from the chosen patch.
+
 \begin{proof}
-We use the canonical construction in the \emph{proof} of
-\cite[Lemma~11.2]{DMNoise2026}, including its following cutoff-converse
-paragraph. Its substitution seed \(t_*\) is fixed by the child
-\((2,2)\) of \(\sigma^2\). With
-\(q(z)=\lfloor(z-1)/4\rfloor\), \(d(z)=(z-1)\bmod4\), its projected
-letters satisfy
-\(A_0(z)=\sigma^2(A_0(q(z)))(d(z))\). Signed integer coordinates
-iterate to the fixed seed; the phase is
-\(\varpi=(-1/3,-1/3)\), \(\tau_0=(-2/3,-2/3)\).
-All ranks are finite since \(3u+1\ne0\) for integer \(u\).
-Every coordinate has a finite frame owner: at zero
-\[
- (0-\tau_{0,i})\bmod4^{d+1}=(4^{d+1}+2)/3
- \in[4^d+1,3\cdot4^d],
-\]
-with margins growing to infinity. Any fixed integer perturbation
-therefore lies inside such a frame at sufficiently large depth.
-Walls are unbounded in both directions, so nearest-wall orientations
-and nearest-stop event tags are computable. Their direct local routing
-check is part of that published proof; it requires these three
-properties, rather than a typical phase.
+Proposition~\ref{v:static-import} supplies the computable projection, finite ownership and legal nonhalting extension.
 
 As in the proof of Lemma~\ref{c:initialization}, the search is
 exhaustive: on the finite cap and its fixed collar enumerate all static alphabet
@@ -42,103 +24,108 @@ finite list has a computable cardinality; return its first match or a
 fixed vacuum fallback. Each test is decidable, so this terminates
 without waiting for the machine to halt.
 
-For success use the \emph{proofs} of
-\cite[Lemma~3.3 and Proposition~4.3]{DMNoise2026}. At this phase each
-coordinate has a finite owner. A site whose two coordinates are free
-at the same depth lies in that depth's board; all other sites are
-horizontal-only or vertical-only carriers, or walls. Thus every active
-site belongs to its proper board even at this nontypical phase.
-The all-phase board argument forces the initialized finite run on each
-board. The cutoff converse of \cite[Lemma~3.2]{DMNoise2026} uses only
-finite ranks. Fill each board by
-its finite computation, its channels from its endpoints and empty
-records elsewhere, as in the proof of Proposition~4.3. Large boards run
-\(V(n+1)=U(n)\); small or failed scans reach their boundary or fail
-without a halt. On nonhalting no board contains a halt letter.
-This produces a global legal static chart with the specified projection,
-whose restriction occurs in the finite list.
+On nonhalting, the legal static extension in Proposition~\ref{v:static-import} restricts to a patch in the finite search list.
 
 An accepted hidden patch need not extend globally. Local static validity
 makes \(F_{\rm cap}\) preserve the profile without violations, while
-its canonical geometry supplies the ownership needed for the helper
+its canonical geometry supplies the ownership needed for the sampling-register
 estimates. The all-site cutoff test prevents a truncated long ruler
 from carrying a false flag-one short experiment. Vacuum suspends
-cross-boundary tests. Set death and timer bits to zero, with just the
-least diagonal carry one; Lemma~\ref{v:cap} gives the permission horizon.
-Initialize each helper by its own shifted base flag, low for one and
+cross-boundary tests. Set death and counter bits to zero, with just the
+least diagonal carry one; Lemma~\ref{v:cap} gives the storage-enable horizon.
+In the positive-branch reference trajectory the core follows
+\(F_{\rm cap}\) with constant profile, zero death bits and this counter,
+the queries return the reference profile, and every censor test passes.
+At the canonical geometry with correct flags, a censor bottom with
+correct drivers on its recent ride and no hardware fault is exactly
+the intrinsic event \(S_\lambda\).
+Initialize each sampling register by its own shifted base flag, low for one and
 high for zero, unknown for inactive base, and all availability
 unavailable, including fields stored outside the cap. Initial or partial
 histories use genuine positive-time refreshes only. The blank-gap size
 bound in Section~\ref{v:parameters} makes ownership valid after projection.
 
 At a fixed active interior \(u_0\), binary symplectic elimination
-encodes the unknown qubit into the logical pair whose logical Z
+encodes the unknown qubit into the logical pair whose logical \(Z\)
 membrane spans \(P_1,P_2\) at fixed \(P_3,P_4\), fixing the other five
 pairs. This is a total finite algorithm. Small or degenerate sizes have
 prescribed default maps. No rate or halting answer enters it.
 \end{proof}
 
-\begin{lemma}[Exponential bound for the actual sources]\label{v:bridge}
+A dangerous certificate is a connected graph in the typed catalogue
+of source label coordinates, with \(g\) distinct marked lifted source labels whose
+projected source labels are bad. If \(m\) is its edge count, it satisfies
+\(b_{\rm span}L\le m\le C_{\rm all}g\) for constants \(b_{\rm span}>0\) and \(C_{\rm all}\) depending only on the fixed catalogue, as constructed in the proof of Lemma~\ref{v:bridge}. This event concerns the source
+marks alone, before any Pauli values are chosen. Below, full coordinates
+mean the characteristic coordinates and the integer bin, with the
+catalogue role, as in \eqref{v:hubs}.
+
+\begin{lemma}[Exponential bound for the sources]\label{v:bridge}
 There are fixed computable \(A_{\rm e},\kappa_{\rm e}>0\) such that,
-before reference cap expiry and above a total computable threshold,
+for \(T<2^{N_{\rm cap}}-1\) and above a total computable size threshold, as in the reference counter bound (Lemma~\ref{v:cap}),
 \begin{equation}\label{v:exp-bound}
- \Pr\{\text{a dangerous certificate by }T\}
+ \Pr(\text{a dangerous certificate by }T)
  \le A_{\rm e}(T+A_{\rm e})L^6 2^{-\kappa_{\rm e}L}.
 \end{equation}
 Its complement admits one intended-code recovery for every allowed
 Pauli or local-map assignment, including arbitrary reference
 coefficients, at every requested integer time through \(T\).
 \end{lemma}
+\par\noindent\emph{Proof idea.} Map controller witnesses into quantum space-time and group nearby terminals. A large syndrome component then forces a connected graph with many marked sources. A short piece of that graph avoids aliases on the physical torus.
+
 \begin{proof}
-We extend the deterministic closed-code argument in
+\emph{Images.} We extend the deterministic closed-code argument in
 Lemma~\ref{x:exponential}; its iid probability conclusion is replaced
-by \eqref{v:joint}. Keep the complete characteristic/bin coordinates
-\eqref{v:hubs}. A hub has a unique quantum spacetime image at \(u_0\):
+by \eqref{v:joint}. Keep the characteristic/bin coordinates
+\eqref{v:hubs}. A source label has a unique quantum space-time image at \(u_0\):
 \[
  t_{\rm img}=u_{0x}-(u_x-t),\qquad
  P^*_{12}=\chi_{12}-58t_{\rm img}(1,1),\qquad P^*_{34}=P_{34}.
 \]
-This image is Lipschitz on the full bounded-edge graph; it recovers an
-actual quantum vertex at \(u_0\). The base coordinate \(u_y\) and the
+This image is Lipschitz on the full bounded-edge graph; it recovers a
+physical quantum vertex at \(u_0\). The base coordinate \(u_y\) and the
 integer bin are retained even though they are not used in this image.
 Every quantum time or spatial connector also has bounded increments
-in the full graph. A short helper corridor retains both bin endpoints.
+in the full graph. A short sampling-register corridor retains both bin endpoints.
 
-At every erroneous controller cut attach its complete
+\emph{Ball packing.} At every erroneous controller cut attach its complete
 \(C_{\rm ctl}g_i\)-edge witness. Enclose its quantum image, all source
-images and its fixed influence spur in a closed spacetime ball of radius
-\(r_i\le C_{\rm ball}g_i\). Direct hardware sources receive their
-constant-radius stars in the same graph. Greedily choose disjoint balls
-in decreasing radius; triple enlargements cover all original terminal
-appearances. Selected witnesses have disjoint lifted source sets:
-a reused hub has one image, which would lie in both original balls.
+images and its fixed influence spur in a closed space-time ball of radius
+\(1\le r_i\le C_{\rm ball}g_i\). Treat a direct hardware source as a
+single-source witness and enclose its constant-radius star in the same way.
+Select from both kinds of balls together, greedily choosing disjoint
+balls in decreasing radius. Triple enlargements cover all original
+terminal appearances. Selected witnesses have disjoint lifted source sets:
+a reused source label has one image, which would lie in both original balls.
 Assign each covered terminal to one selected enlarged ball and replace
 all terminals assigned there by a single defective group sink. Give it
 a fixed group role distinct from every ordinary quantum/history role.
 Selected centres are distinct, and group sinks have no predecessors,
 so the quotient is acyclic.
 
-The unchanged processor gives five predecessor alternatives with
-balanced poles
+\emph{Contour bound.} The unchanged processor gives five predecessor alternatives with
+balanced potentials
 \[
  F_j=-(P_j+58t)\quad(1\le j\le4),\qquad
  F_5=\sum_{j=1}^4(P_j+58t).
 \]
-Their closed-square gains are 58 on each negative wall and 168 on the
-sum wall after 400 reflected sweeps. Fixed stage spurs have bounded
-losses. These are the specialization in the proof of
+Their closed-square gains are 58 on each negative potential and 168 on the
+sum potential after 400 reflected sweeps. The stage spurs of
+Lemma~\ref{q:round-shadow}, constructed in the proof of
+Lemma~\ref{q:universal}, have bounded losses. These are the specialized gains from the proof of
 Lemma~\ref{x:exponential}, rather than the folded numerical gains.
 An occupied nonfault root has an occupied admissible predecessor for
 every charge. Complementing gives the good recurrence: OR over charges
-of AND over their admissible parents. For this finite acyclic typed
-graph, \cite[Theorem~22]{SST2026} supplies a contour, and its
-Lemma~41 gives the balanced-pole cancellation. These are deterministic
-uses; graph choices are counted before source probabilities.
+of AND over their admissible parents. Apply
+Lemma~\ref{q:frontier} to the finite acyclic typed graph. Its
+group-dependent bound accounts for the different radii of the sinks.
+The contour construction uses positions, roles and which sources are marked. The choices are independent of Pauli values, and the graphs are counted before applying the source probabilities.
 
 Let \(m_{\rm grp}\) groups be used and let \(E_{\rm Q}\) be the
 charged contour edge count. A group receives at most one terminal arm
-of each charge. Assign it its centre's poles. Terminal discrepancies
-are bounded by a constant times its spacetime radius, including time.
+of each charge. Assign it its centre's potentials. Terminal discrepancies
+are bounded by a constant times its space-time radius, including time.
+The terminal-link losses are absorbed into the allowance \(K_{\rm Q}r_i\) per charge.
 With fixed margin \(\delta_{\rm Q}>0\), wrong-charge loss
 \(D_{\rm loss}\), and terminal coefficient \(K_{\rm Q}\), cancellation
 gives
@@ -152,13 +139,17 @@ controller witnesses. In the isolated-terminal case retain the original
 root and its connector too. The connected full graph contains that
 root and distinct lifted source anchors with at most
 \(C_{\rm all}g\) edges. This defines the finite constant used earlier.
-It depends only on the pre-helper catalogue and the controller edge
+It depends only on the catalogue fixed before the sampling-register count and the controller edge
 bound. A group has no unbounded identifier or source-type multiplicity.
 
-Use this construction along the first large intermediate syndrome
-component, in either sector, keeping the common snapshot decisions
-fixed. Greedy spatial ball packing and fourfold covering, as in the
-proof of Lemma~\ref{x:exponential}, give a connecting chain. Retain
+\emph{Connecting chain.} Use this construction along the first large intermediate syndrome
+component, in either sector, keeping the stored mask from the exact
+400-step recurrence fixed. Map its vertices to shadow roots by
+Lemma~\ref{q:round-shadow}, as in the proof of
+Lemma~\ref{q:universal}. Enclose each shadow root's full graph, including every source label image,
+in a space-time ball in the image coordinates. Greedy disjoint packing
+and \(4+2R_{\rm blk}+1\)-fold covering, as in the proof of Lemma~\ref{x:exponential},
+give a connecting chain. Disjoint balls have disjoint lifted source label sets. Retain
 links to \emph{both} original extreme roots, including when one ball
 covers the whole path. The resulting graph has
 \[
@@ -169,8 +160,8 @@ in a quantum coordinate persists in the corresponding characteristic,
 so bounded full-coordinate edges require at least \(b_{\rm span}L\)
 edges. Extra controller excursions do not remove this separation.
 
-Choose a fixed rational \(\epsilon_{\rm geom}>0\), and put
-\(q_{\rm short}=\lfloor\epsilon_{\rm geom}L\rfloor\), so
+\emph{A short alias-free piece.} Choose a fixed rational \(f_{\rm geom}>0\), and put
+\(q_{\rm short}=\lfloor f_{\rm geom}L\rfloor\), so
 \(q_{\rm short}\le m\) and the maximum full-coordinate edge range
 times \(q_{\rm short}\) is below \(L/2\). Double a spanning tree,
 mark the first visit to each source, and divide the at-most-\(2m\)-edge
@@ -180,48 +171,51 @@ the last endpoint to the last piece. There are at most
 \(q_{\rm short}/(3C_{\rm all})\) distinct lifted anchors. Marks need
 not be leaves.
 
-Two distinct lifts of one actual hub have the same integer bin and
+Two distinct lifts of one physical source label have the same integer bin and
 differ by a nonzero \(L\)-deck vector in one of the six characteristic
 coordinates. They cannot both lie in this short piece. Only now are its
-marks distinct actual source identities, allowing \(\gamma^g\).
+marks distinct source identities, allowing \(\gamma_{\rm src}^g\).
 Quantum spatial projection alone would lose a \(u_y\) deck shift;
 a \(u_x\) shift also changes virtual image time and can be compensated
 spatially by transverse shifts. Keeping all six coordinates and the bin
 prevents both aliases. The separate \(O(W)\)-support ownership argument
-is what makes their actual source law valid.
+is what makes their source law valid.
 
-All source bins in explanations through physical horizon \(T\) lie in
+\emph{Counting.} All source bins in explanations through physical horizon \(T\) lie in
 \[
- 0\le k\le\lfloor(T+C_{\rm stage})/W\rfloor+C_{\rm bin}
+ 0\le j\le\lfloor(T+C_{\rm stage})/W\rfloor+C_{\rm bin}
 \]
 for fixed stage constants. Driver recursion decreases physical time or
 finite virtual depth, the initial reference is correct, and unavailable
-initial helpers use partial-window experiments. There are no prehistory
+initial sampling registers use partial-window experiments. There are no prehistory
 seeds. Connectors stay between endpoint bins. This causal assertion is
 separate from the edge/source bound; the virtual image time does not
 replace actual bin time. Hence there are at most
 \(A_0(T+A_0)L^6\) starts. Padded short walks and source subsets cost
-\((\Delta_{\rm all}+1)^{q_{\rm short}}2^{q_{\rm short}+1}\).
+\((\Delta_{\rm all}+1)^{q_{\rm short}}\cdot2^{q_{\rm short}+1}\).
 Apply the joint law only to admissible distinct-name annotations. Their
 probability sum is at most
 \[
  2A_0(T+A_0)L^6
- [2(\Delta_{\rm all}+1)\gamma^{1/(3C_{\rm all})}]^{q_{\rm short}}.
+ [2(\Delta_{\rm all}+1)\gamma_{\rm src}^{1/(3C_{\rm all})}]^{q_{\rm short}}.
 \]
 By the earlier \(\gamma_*\) choice the bracket is at most \(1/4\),
-which gives \eqref{v:exp-bound}.
+which gives \eqref{v:exp-bound} with \(A_{\rm e}=8A_0\) and
+\(\kappa_{\rm e}=2f_{\rm geom}\).
 
 Finally Lemmas~\ref{q:homology}--\ref{q:span} apply to the universal
 no-certificate event, including every serialized intermediate component.
-The Clifford processor, dephased control and private mixed helpers admit
+The Clifford processor, dephased control and private mixed ancillas admit
 the same unconditional Pauli/replacement instrument as before. Its one
 component-filling decoder corrects the whole permitted operator span,
 with reference coefficients.
 \end{proof}
 
+\begin{proof}[Proof of Theorem~\ref{v:detailed}(i)]
+
 Choose rational
 \(0<c_{\mathrm e}<\min(1/10,\kappa_{\rm e}/4)\), taking the smaller
-choice for the two compiled media. With \(T=2^{\lfloor c_{\mathrm e}L\rfloor}\),
+choice for the two compiled circuits. With \(T=2^{\lfloor c_{\mathrm e}L\rfloor}\),
 an effective enlargement of \(L_{\mathrm e}^{\mathsf r}(n)\) makes
 \eqref{v:exp-bound} at most \(1/16\), and absorbs all code, support and
 ownership thresholds. Since \(N_{\rm cap}\ge L/5\) eventually, this
@@ -229,3 +223,4 @@ horizon lies strictly below \(2^{N_{\rm cap}}-1\). Lemma~\ref{v:encoder}
 and the single common decoder prove part (i) of
 Theorem~\ref{v:detailed}. All maps have finite fallback definitions on
 the remaining inputs and sizes.
+\end{proof}

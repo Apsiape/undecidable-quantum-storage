@@ -1,9 +1,9 @@
 {
-  "title": "Undecidable quantum storage with seven elementary gates",
+  "title": "Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers",
   "upload_type": "publication",
   "publication_type": "preprint",
-  "version": "2.1.0",
-  "publication_date": "2026-11-16",
+  "version": "2.2.0",
+  "publication_date": "2026-11-18",
   "creators": [
     {
       "name": "Douglas, Seth",
@@ -14,7 +14,7 @@
       "orcid": "0009-0005-6534-1118"
     }
   ],
-  "description": "Can one decide from its noise rate whether a fixed local quantum medium is an excellent memory or no scalable memory at all? We construct two six-dimensional media, one for whole-site and one for independent single-qubit depolarization, for which this distinction is undecidable. Both use only X, H, CNOT, Toffoli, reset, dephasing and identity, with noise after every elementary layer. Computable disjoint rational windows select universal-machine inputs: above a computable size threshold, nonhalting preserves a reference-entangled qubit with fidelity at least 15/16 through exponentially many rounds, while halting destroys every encoding after a time uniform in size and rate. We also obtain stretched-exponential storage on the undecidable windows in four dimensions under whole-site noise, using a static cap and a folded concatenated code with a periodic classical calendar. Its fixed positive exponent is below 0.0002 and astronomically small; the bound beats a given polynomial only at astronomically large sizes. One total computable encoder serves all guaranteed times and rates in each window. For the six-dimensional media we also give a coarse lifetime upper bound and Π⁰₁-complete certification by exact finite tests; the three-dimensional construction retains its sharp linear scale. All interactions have fixed, very large range, and the windows lie below astronomically small rate caps. The Bell-sharing bound and conditional window certification are verified in Lean 4 with Mathlib. Every finite sample eventually forgets; what is undecidable is how useful storage time grows with size.",
+  "description": "A quantum memory is usually judged by its threshold: below some noise rate, larger memories store quantum information for longer, without limit. We construct fixed local noisy quantum circuits for which no algorithm can decide, from a rational noise rate, whether the best achievable storage time grows without limit with system size. For each of two noise models, whole-site and single-qubit depolarization after every layer, the circuit is translation-invariant and time-periodic on six-dimensional tori of side L. A computable list of disjoint intervals of noise rates is indexed by the inputs n of a universal Turing machine. If the machine runs forever on n, then at every rate in the n-th interval a rate-independent encoding keeps a qubit, entangled with a reference, at fidelity at least 15/16 for at least exponentially many rounds in L, for all L above a computable size. If it halts, every encoding loses this fidelity after a number of rounds that depends on neither L nor the rate. No algorithm can decide which case holds, and intervals of both kinds accumulate at zero, so the circuits have no noise threshold. The rate is never an input: local noise samples select the computation, its halting triggers local erasure of the quantum data, and a no-cloning bound controls every encoding. Related circuits show the same dichotomy with storage time at least stretched-exponential in L in four dimensions under whole-site noise, and of order L in three dimensions under both noise models. These are existence results: registers and interaction ranges are very large and the noise rates astronomically small.",
   "keywords": [
     "quantum memory",
     "local decoding",
@@ -26,5 +26,5 @@
   "access_right": "open",
   "license": "cc-by-4.0",
   "language": "eng",
-  "notes": "Preprint. It has not been peer reviewed. Version 2.1.0 updates version 2.0.0 (10.5281/zenodo.24269020). New: Theorem D, stretched-exponential qubit storage exp(c_4 L^alpha_4) on the undecidable noise windows for a fixed seven-gate medium on Z^4 under whole-site depolarization after every layer, with every-encoding destruction on halting windows (alpha_4 < 2*10^-4; no lifetime upper bound for this medium); and Lean 4 verification of the Bell-sharing bound (Lemma 6.6) and of the conditional window certification (Theorem G.1). Theorems A and B and Proposition 9.8 are unchanged. The authors have not independently verified the mathematical arguments; the work used a combination of AI models with cross-developer checks. Text: CC BY 4.0. Script: MIT or Apache 2.0."
+  "notes": "Preprint. Version 2.2.0 matches the arXiv text. Text: CC BY 4.0. Script: MIT or Apache 2.0.\nPrevious version: 2.1.0 (10.5281/zenodo.24289384)."
 }

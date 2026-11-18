@@ -1,7 +1,7 @@
 \subsection{Order and bounds for the constants}\label{f4:constants}
-All constants in Tables~\ref{f4:order-a}--\ref{f4:order-b} are fixed
-for the medium, except the final window and size quantities. A finite
-catalogue means the explicit port templates, provider offsets, typed
+All constants in Sections~\ref{f4:order-a} and~\ref{f4:order-b} are fixed
+for the circuit, except the final window and size quantities. A finite
+catalogue means the explicit port templates, replica offsets, typed
 support/entry/corridor steps and source/use stars, with values of
 alphabet words omitted. It can be enumerated by finite loops before
 any truth table is materialized. The following convention makes the
@@ -16,71 +16,96 @@ A source affects at most \(n(\mathcal A)V(\mathcal A)\) labelled
 uses, and a graph with finite edge catalogue has degree at most twice
 its number of oriented entries. A doubled-tree description with marks
 and cause choices is bounded by
-\([8(\Delta+1)^2(K_0+1)]^{E+1}\). These deliberately generous bounds
-are sufficient throughout; their numerical minima play no role.
+\([8(\Delta+1)^2(K_0+1)]^{E+1}\). These bounds give the effective finite maxima used below; optimizing them is unnecessary.
 
-\begin{table}[!htp]
-\caption{Constants chosen before the statistical helper parameters.
-Rows are in dependency order.}\label{f4:order-a}
-\scriptsize\centering
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.24\textwidth}>{\raggedright\arraybackslash}p{.43\textwidth}>{\raggedright\arraybackslash}p{.25\textwidth}@{}}
-\toprule Constant & Dependencies and usable bound or prescription & Chosen before\\\midrule
-Local dispatch catalogue \(\mathcal A_{\rm loc}\) & At most 270 tuple templates,
+\subsubsection{Geometric and circuit constants}\label{f4:order-a}
+Each item ends with the quantities chosen after it.
+\begin{enumerate}[label=\arabic*.,leftmargin=2em]
+\item \textbf{\boldmath Local dispatch catalogue \(\mathcal A_{\rm loc}\).} At most 270 tuple templates,
 730 ports; include cut/reset/idles, primitive decomposition and one-step
-ownership stars. Physical operand diameter \(\le4\), marked radius \(\le8\). & All remaining rows.\\[3pt]
-\(h_0,\kappa_0,\kappa_1,v_0\) & Count footprints and incidences of
+ownership stars. Physical operand diameter \(\le4\), marked radius \(\le8\).
+\emph{Precedes.} All remaining rows.
+
+\item \textbf{\boldmath\(h_{\rm base},\kappa_0,\kappa_1,v_0\).} Count footprints and incidences of
 \(\mathcal A_{\rm loc}\). Use radius at least eight; the ownership part
 is one child step. Bound counts by
 \(732n(\mathcal A_{\rm loc})V(\mathcal A_{\rm loc})\), enlarging the
-catalogue for each cover incidence. & Code, full normalizer length,
-\(P,T\), alphabet.\\[3pt]
-\(h,\rho_{\rm gap},a_{\rm sep},b_{\rm FT}\) & \(h=2h_0+2\),
+catalogue for each cover incidence.
+\emph{Precedes.} Code, full normalizer length,
+\(P_{\rm cal},T_{\rm cal}\), alphabet.
+
+\item \textbf{\boldmath\(h_{\rm halo},\rho_{\rm gap},a_{\rm sep},b_{\rm FT}\).} \(h_{\rm halo}=2h_{\rm base}+2\),
 \(\rho_{\rm gap}=1\) is allowed;
-\(a_{\rm sep}=1+\lceil(4h+2\lceil\rho_{\rm gap}\rceil+5)^2\rceil\);
-\(b_{\rm FT}=\max(1,\kappa_0\kappa_1v_0(a_{\rm sep}-1))\). & Code.\\[3pt]
-\(e,r_{\rm FT},s_{\rm code},q_{\rm code}\) & \(e=8\),
+\[
+ a_{\rm sep}=1+\lceil(4h_{\rm halo}+2\lceil\rho_{\rm gap}\rceil+5)^2\rceil;
+\]
+\(b_{\rm FT}=\max(1,\kappa_0\kappa_1v_0(a_{\rm sep}-1))\).
+\emph{Precedes.} Code.
+
+\item \textbf{\boldmath\(r_{\rm FT},s_{\rm code},q_{\rm code}\).}
 \(r_{\rm FT}=8b_{\rm FT}\); least \(s_{\rm code}\) with
-\(2^{s_{\rm code}}-1\ge40960(b_{\rm FT}+1)\). & Native table, \(P,T\).\\[3pt]
-Native table, \(C_Q,P,T,r_{\rm exp},s_{\rm top}\) & Build finite real
+\(2^{s_{\rm code}}-1\ge40\,960(b_{\rm FT}+1)\).
+\emph{Precedes.} Native table, \(P_{\rm cal},T_{\rm cal}\).
+
+\item \textbf{Native table, \boldmath\(C_Q,P_{\rm cal},T_{\rm cal},r_{\rm exp},s_{\rm top}\).} Build finite real
 gadgets; bound routed work by \(C_QP^2\). Search powers
-\(P=2^{r_{\rm exp}}>2\) fitting all phases in \(T=P^4\). Choose
-even \(s_{\rm top}\) exceeding complete spatial halos. & Source target,
-helper count, hardware depth.\\[3pt]
-\(\mathcal A_{\rm raw},K_0,c_0,R_{\rm phys},\Delta_{\rm raw}\) & Fixed
-calendar transport, old/new and use stencil; \(K_0\le n(\mathcal A_{\rm raw})\),
+\(P_{\rm cal}=2^{r_{\rm exp}}>2\) fitting all phases in \(T_{\rm cal}=P_{\rm cal}^4\). Choose
+even \(s_{\rm top}\) exceeding complete spatial halos.
+\emph{Precedes.} Source target,
+sampling-register count, hardware depth.
+
+\item \textbf{\boldmath\(\mathcal A_{\rm raw},K_0,c_0,R_{\rm phys},\Delta_{\rm raw}\).} Fixed
+clock transport, old/new and use stencil; \[
+ K_0\le n(\mathcal A_{\rm raw}),
+\]
 \(c_0\le n(\mathcal A_{\rm raw})V(\mathcal A_{\rm raw})\).
 Take \(R_{\rm phys}\ge1\) to bound contour/source steps;
-\(\Delta_{\rm raw}\le2n(\mathcal A_{\rm raw})\). & Raw probability cap,
-\(B,J\); independent of alphabet.\\[3pt]
-\(K_{\rm raw},C_{\rm w},K_{\rm w}\) & Tree ceiling above;
+\mbox{\(\Delta_{\rm raw}\le2n(\mathcal A_{\rm raw})\)}.
+\emph{Precedes.} Raw probability bound,
+\(B,J\); independent of alphabet.
+
+\item \textbf{\boldmath\(K_{\rm raw},C_{\rm w},K_{\rm w}\).} Tree ceiling above;
 \(E<12c_0g\) plus enumerated attachment stars. Use its coefficient
 for \(C_{\rm w}\), raise the tree ceiling to \(C_{\rm w}+1\) for
-\(K_{\rm w}\). & \(p_H\) cap.\\[3pt]
-\(R_{\rm pre},\Delta_{\rm pre}\) & \(D_{\rm q}=4096\),
+\(K_{\rm w}\).
+\emph{Precedes.} Bound on \(p\).
+
+\item \textbf{\boldmath\(R_{\rm pre},\Delta_{\rm pre}\).} \(D_{\rm q}=4096\),
 \(R_{\rm pre}=2^{12}(D_{\rm q}+3)\);
 \(\Delta_{\rm pre}=R_{\rm pre}^2[64(2D_{\rm q}+5)(9\cdot768+16)^2+256]\).
-Enlarge once for fixed dispatch stars. & \(C_h,B\), palette.\\[3pt]
-\(\Omega_{\rm pre},L_{\rm star},c_C\) & Sum absolute three-pole offsets
+Enlarge once for fixed dispatch stars.
+\emph{Precedes.} \(C_h,B\), palette.
+
+\item \textbf{\boldmath\(\Omega_{\rm pre},L_{\rm star},c_C\).} Sum absolute three-potential offsets
 on the source/entry stars (raw old/new contributes 696);
 \(L_{\rm star}\) is their total link bound.
-\(c_C=\lceil3(1440+\Omega_{\rm pre})/128+3+L_{\rm star}\rceil\).
+\[
+ c_C=\lceil3(1440+\Omega_{\rm pre})/128+3+L_{\rm star}\rceil.
+\]
 Pole offsets are bounded directly by six times summed characteristic
-coordinate offsets. & \(B\), palette.\\[3pt]
-Mixed degree, size, shadow increment, \(R,K_{\rm cap}\) & Union of preceding
+coordinate offsets.
+\emph{Precedes.} \(B\), palette.
+
+\item \textbf{\boldmath\(R,K_{\rm cap}\).} Here \(R\) is the full increment bound of Lemma~\ref{f4:strip}. Union of preceding
 catalogues with two formal roles and fixed gluing stars. Degree at most
 sum of their degrees plus star incidence; size at most sum of size
-bounds plus star lengths; shadow step \(\le R_x+58R_a+R_a\).
-Use the tree ceiling for \(K_{\rm cap}\). & Cutoff formula, source targets.\\[3pt]
-\(A_{\rm rec},d_0,B_{\rm tail},\epsilon_{\rm sh}\) & At most the square
-of the number of children in the fixed \(P\)-by-\(T\) cover for
-\(A_{\rm rec}\); root count has exponent five, enlarged for fixed
-covers. Choose \(\epsilon_{\rm sh}<\rho_{\rm gap}/(3\operatorname{Lip})\),
-where \(\operatorname{Lip}\) is the shadow increment of the preceding row.
-Anchored enumeration fixes \(B_{\rm tail}\). & \(\gamma_{\rm eff}\) target.\\\bottomrule
-\end{tabular}
-\end{table}
+bounds plus star lengths. In this row \(R_x\) bounds increments in
+the chain-coordinate component \(\chi\), and \(R_\omega\) bounds
+increments in \(\omega=x-t\) (Appendix~\ref{app:f4-sources}).
+The image step is at most \(R_x+59R_\omega\).
+Use the tree ceiling for \(K_{\rm cap}\).
+\emph{Precedes.} Cutoff formula, source targets.
 
-For the negative path catalogue, include full provider-group contours,
+\item \textbf{\boldmath\(A_{\rm rec},d_0,B_{\rm tail},f_{\rm sh}\).} At most the square
+of the number of children in the fixed \mbox{\(P_{\rm cal}\)-by-\(T_{\rm cal}\)} cover for
+\(A_{\rm rec}\); root count has exponent five, enlarged for fixed
+covers. Choose \mbox{\(f_{\rm sh}<\rho_{\rm gap}/(3\operatorname{Lip})\)},
+where \(\operatorname{Lip}\) is the image increment of the preceding row.
+Anchored enumeration fixes \(B_{\rm tail}\).
+\emph{Precedes.} \(\gamma_{\rm eff}\) target.
+\end{enumerate}
+
+For the negative path catalogue, include full replica-group contours,
 their doubled spatial cubes and two time slices, and the actual
 \(\sigma\)-edge/port/cut skeleton. Let \(\Delta_{\rm neg}\) be its
 finite maximum degree, \(C_{\rm neg}\) its edge count per paid rare
@@ -99,67 +124,77 @@ use
 This counts connected marked descriptions and bounds their temporal
 coverage. All entries use the fixed two-dimensional quorum and finite
 quantum-contact template; none uses the number of code cells, the
-calendar alphabet, helper count or padding length. Padding has no
+clock alphabet, sampling-register count or padding length. Padding has no
 quantum branching and is covered by its one round flag. The same
 finite-star counting fixes \(K_{\rm hist}\) before \(B\), by
 \eqref{v:history-count}.
 
-\begin{table}[!htp]
-\caption{Probability, hardware and window constants, continuing
-Table~\ref{f4:order-a}.}\label{f4:order-b}
-\scriptsize\centering
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.24\textwidth}>{\raggedright\arraybackslash}p{.43\textwidth}>{\raggedright\arraybackslash}p{.25\textwidth}@{}}
-\toprule Constant & Dependencies and prescription & Chosen before\\\midrule
-\(K_{\rm hist},K_{\rm rare},B_{\rm rare},N_{\rm seed}\) & Fixed historical
-and negative catalogues as above;
-\(N_{\rm seed}=\binom{2\cdot352^2}{256}\). & Probability caps, \(B\),
-palette.\\[3pt]
-Source targets, \(a_{\rm tail},D,\beta_{\rm cap},\beta_{\rm raw}\) & Impose both
-inequalities in Lemma~\ref{f4:recursion};
-\(D=1/(2\max(1,A_{\rm rec}))\). Require the exceptional bases in
-Lemmas~\ref{f4:raw}, \ref{f4:cap-exception} strictly below one;
-take any positive rational lower bound on their exponential rates. &
-\(C_h,B,\mu_*\).\\[3pt]
-\(C_h\) & Choose rational \(0<C_h\le1/100\) so
-\(\sqrt{2C_h}\) is within the cap-source target. & \(B\).\\[3pt]
-\(B=4^j,\eta_+,\eta_-,\rho_{\rm code}\) & \(\rho_{\rm code}=126/128\);
-search \(B\ge20/C_h\) making the tails \eqref{v:etas} sufficiently
-small and \(4z_B<1\). Explicit tails are displayed below. & Support
-colors, \(\mu_*,n_0\).\\[3pt]
-\(h_{\rm bin},h_{\rm hist}\), \(D_{\rm bin},D_{\rm ov}\),
-\(\xi_{\rm bin},\xi_{\rm hist}\) & Enumerate full \(B\)-dependent physical
-supports and overlap colors as in \eqref{v:joint}; choose positive
-rational overlay targets for the remaining source/history margins. &
-\(\mu_*,J,P_{\rm pad}\).\\[3pt]
-\(\mu_*\) & Rational below \(C_h/100\), the positive/raw/density caps
-and all four strict negative inequalities below. Include the published
-raw cap \(382205952^{-67440}/128\). & \(n_0\), palette, hardware.\\[3pt]
-\(n_0\), palette, \(J\) & \(n_0\ge\max(j+2,3)\), all nominal windows
-below \(\mu_*/2\). Build the finite chart/calendar/compiler and count
-its full internal elementary depth \(J\). & Padding, physical windows.\\[3pt]
-\(P_{\rm pad},\eps_*\) & \(P_{\rm pad}\ge2J\) with
-\(2h_{\rm bin}JC_h/P_{\rm pad}\le\xi_{\rm bin}\) and
-\(2h_{\rm hist}JC_h/P_{\rm pad}\le\xi_{\rm hist}\).
-Choose rational \(\eps_*>0\) whose image under \(\mu\) lies in
-\((\mu_*/2,\mu_*)\); nominal windows were put below \(\mu_*/2\). &
-Physical \(I_n\).\\[3pt]
-\(I_n,w_n,L_4(n)\) & Rational inner preimages of the nominal windows;
-\(w_n=\lceil C_h/\mu(a_n)\rceil+2\) for \(I_n=(a_n,b_n)\).
-Effective sufficient power bounds in the storage proof. & Initialization
-and size analysis only; never medium parameters.\\[3pt]
-\(\alpha_4,c_4\) & \(\alpha_4=1/r_{\rm exp}\);
-choose positive rational \(c_4<(2s_{\rm top}P)^{-\alpha_4}\log2/32\).
-Enlarge the size threshold for fixed round depth. & Storage assertion;
-independent of \(n\).\\\bottomrule
-\end{tabular}
-\end{table}
+\subsubsection{Probability, hardware and window constants}\label{f4:order-b}
+Each item ends with the quantities chosen after it.
+\begin{enumerate}[label=\arabic*.,leftmargin=2em]
+\item \textbf{\boldmath\(K_{\rm hist},K_{\rm rare},B_{\rm rare},N_{\rm seed}\).} Use the historical and negative catalogues above and set
+\mbox{\(N_{\rm seed}=\tbinom{2\cdot352^2}{256}\)}.
+\emph{Precedes.} Probability bounds, \(B\),
+palette.
 
-Here the padding/cap row can be implemented without revisiting \(n_0\):
+\item \textbf{\boldmath\(a_{\rm tail},D,\beta_{\rm cap},\beta_{\rm raw}\).} Use the two inequalities of Lemma~\ref{f4:recursion}. Set
+\mbox{\(D=1/(2\max(1,A_{\rm rec}))\)}. Require the exceptional bases in
+Lemmas~\ref{f4:raw} and~\ref{f4:cap-exception} strictly below one;
+take any positive rational lower bound on their exponential rates.
+\emph{Precedes.} \(C_h,B,\mu_*\).
+
+\item \textbf{\boldmath\(C_h\).} Choose rational \(0<C_h\le1/100\) so
+\(\sqrt{2C_h}\) is within the cap-source target.
+\emph{Precedes.}~\(B\).
+
+\item \textbf{\boldmath\(B=4^{k_B},\eta_+,\eta_-,\rho_{\rm code}\).} \(\rho_{\rm code}=126/128\);
+search \(B\ge20/C_h\) making the tails \eqref{v:etas} sufficiently
+small and \(4z_B<1\). Explicit tails are displayed below.
+\emph{Precedes.} Support
+colours, \(\mu_*,n_0\).
+
+\item \textbf{\boldmath\(h_{\rm bin},h_{\rm hist}\), \(D_{\rm bin},D_{\rm ov}\),
+\(\alpha_{\rm bin},\alpha_{\rm hist}\).} Enumerate full \(B\)-dependent physical
+supports and overlap colours as in \eqref{v:joint}; choose positive
+rational overlay targets for the remaining source/history margins.
+\emph{Precedes.} \(\mu_*,J,P_{\rm pad}\).
+
+\item \textbf{\boldmath\(\mu_*\).} Rational below \(C_h/100\), the positive, raw and density bounds
+and all four strict negative inequalities below. Include the
+raw bound \(382\,205\,952^{-67\,440}/128\).
+\emph{Precedes.} \(n_0\), palette, hardware.
+
+\item \textbf{\boldmath\(n_0\), palette, \(J\).} \(n_0\ge\max(k_B+2,3)\), all nominal windows
+below \(\mu_*/2\). Build the finite chart/clock/compiler and count
+its full internal elementary depth \(J\).
+\emph{Precedes.} Padding, physical windows.
+
+\item \textbf{\boldmath\(P_{\rm pad},\eps_*\).} \(P_{\rm pad}\ge2J\) with
+\(2h_{\rm bin}JC_h/P_{\rm pad}\le\alpha_{\rm bin}\) and
+\(2h_{\rm hist}JC_h/P_{\rm pad}\le\alpha_{\rm hist}\).
+Choose rational \(\eps_*>0\) whose image under \(\mu\) lies in
+\((\mu_*/2,\mu_*)\); nominal windows were put below \(\mu_*/2\).
+\emph{Precedes.} Physical \(I_n\).
+
+\item \textbf{\boldmath\(I_n,w_n,L_4(n)\).} Rational inner preimages of the nominal windows;
+\(w_n=\lceil C_h/\mu(a_n)\rceil+2\) for \(I_n=(a_n,b_n)\).
+Effective sufficient power bounds in the storage proof.
+\emph{Precedes.} Initialization
+and size analysis only; never circuit parameters.
+
+\item \textbf{\boldmath\(\alpha_4,c_4\).} \(\alpha_4=1/r_{\rm exp}\);
+choose positive rational \(c_4<(2s_{\rm top}P_{\rm cal})^{-\alpha_4}(\log2)/32\).
+Enlarge the size threshold for fixed round depth.
+\emph{Precedes.} Storage assertion;
+independent of \(n\).
+\end{enumerate}
+
+Here the padding and rate-cap choice can be implemented without revisiting \(n_0\):
 choose \(\eps_*\) rational with
 \(\mu_*/2<1-(1-\eps_*)^{P_{\rm pad}}<\mu_*\), and initially put all
 nominal windows below \(\mu_*/2\). Strict monotonicity makes this
 rational search total. Thus no compiled hardware is chosen twice.
-For clarity the helper tails used in Table~\ref{f4:order-b} are
+For clarity the sampling-register tails used above are
 \[
 \begin{gathered}
  u_B=2^{-\lfloor3BC_h/100\rfloor},\quad
@@ -172,36 +207,34 @@ For clarity the helper tails used in Table~\ref{f4:order-b} are
 \]
 They vanish as \(B\) grows at fixed \(C_h\). The remaining strict
 negative inequalities are
-\[
-\begin{aligned}
+\begin{align*}
  K_{\rm hist}(2C_h)^{3/8}(2\mu_*)^{3/8}&<1/64,\\
- K_{\rm hist}[\eta_-+\xi_{\rm hist}^{1/D_{\rm ov}}]^{1/4}&<1/64,\\
+ K_{\rm hist}[\eta_-+\alpha_{\rm hist}^{1/D_{\rm ov}}]^{1/4}&<1/64,\\
  K_{\rm rare}[N_{\rm seed}(2\mu_*)^{256}]^{1/16}&<1/64,\\
  K_{\rm rare}(2\mu_*)^{1/2}&<1/64.
-\end{aligned}
-\]
+\end{align*}
 Choose \(B\) and its overlay target for the second inequality before
 shrinking \(\mu_*\); positive powers make all searches terminate.
 
-Internal and padding whole-site flags \(E_{\rm int},E_{\rm pad}\)
-are independent across actual sites/rounds, with
+The internal and padding fields \(A,E\) are independent, with independent flags at distinct physical sites and rounds. Their rates satisfy
 \[
  \nu=1-(1-\eps)^J,\qquad
  \mu=1-(1-\eps)^{P_{\rm pad}},\qquad
- p_H=\Pr(E_{\rm int}\lor E_{\rm pad})\le2\mu,\quad
+ p=\Pr(A\lor E)\le2\mu,\quad
  \nu\le2J\mu/P_{\rm pad}.
 \]
 The last padding replacement is a product uniform word, conditional
-on its one flag. Thus helper marks are conditionally independent
+on its one flag. Thus sampling-register marks are conditionally independent
 uniform fields. Internal faults are arbitrary overlays; discrepancies
 from the counterfactual clean sample are charged there. Padding adds
 no quantum movement. This is the whole-site physical experiment used
 in every source and negative estimate.
 
-Finally, even with unit incidence factors, \(h_0\ge8\) gives
-\(h\ge18\), \(a_{\rm sep}>79^2\), \(b_{\rm FT}\ge6240\).
+Finally, even with unit incidence factors, \(h_{\rm base}\ge8\) gives
+\(h_{\rm halo}\ge18\), \(a_{\rm sep}>79^2\), \(b_{\rm FT}\ge6240\).
 The verified preparation in Lemma~\ref{d:gadgets} has at least
 \(5^{2b_{\rm FT}}\) leaves. One qubit per virtual cell and one native
-layer per round require \(P^5\ge5^{12480}\), hence
-\(\alpha_4\le5/(12480\log_2 5)<2\cdot10^{-4}\).
+layer per round require \(P_{\rm cal}^5\ge5^{12\,480}\), hence
+\(\alpha_4\le5/(12\,480\log_2 5)<2\times10^{-4}\).
 The actual capacity and station multiplicity make it far smaller.
+

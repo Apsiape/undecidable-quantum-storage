@@ -1,24 +1,23 @@
-\section{Three-dimensional storage with a protected classical calendar}\label{sec:quantum}
+\section{Three-dimensional storage with a protected classical clock}\label{sec:quantum}
 
-Write the physical coordinates as \((i,\sigma,z)\). Quantum data move
-only along \(\sigma\), at fixed \((i,z)\). One semantic quantum qubit
-per chain cell suffices: code coordinates and gadget work occupy more
-cells. Two autonomous classical fields have distinct jobs. The selector
+This section proves Theorem~\ref{thm:detailed}(i). It develops the concatenated-code and coherent-gadget estimates (Lemmas~\ref{d:code}--\ref{d:reduction}), constructs the classical clock and its source law (Lemma~\ref{d:sources}), and proves the renormalization bound and storage at every requested time (Lemma~\ref{d:recursion} and Proposition~\ref{d:storage}). The new source estimates account for correlated errors in the protected clock.
+
+Semantic registers are the registers of the scheduled circuit before
+compilation. Write the physical coordinates as \((i,\sigma,z)\).
+Quantum data move only along \(\sigma\), at fixed \((i,z)\). One semantic qubit per chain cell suffices. Code coordinates and gadget work occupy additional cells. Two autonomous classical fields have
+distinct jobs. The selector
 \(C_{\rm sel}\) supplies the compulsory final cut; a field \(S\)
 schedules quantum correction. Every syndrome and every bit computed
 from quantum data belongs to the quantum track, including when it is
-basis-valued. This section constructs the positive storage circuit: a
-one-level fault-tolerance bound (Lemmas~\ref{d:code}--\ref{d:reduction}),
-a classical calendar and the source law for its errors
-(Lemma~\ref{d:sources}), a renormalization bound (Lemma~\ref{d:recursion})
-and storage at every requested time (Proposition~\ref{d:storage}).
+basis-valued.
 
 The hierarchy follows the reliable-computation tradition of G\'acs
 and G\'acs--Reif \cite{Gacs2001,GacsReif1988}; hierarchical local quantum
 decoding has an early precedent in Harrington \cite{Harrington2004}.
+The closest quantum precedent is the two-dimensional translation-invariant automaton of D\"unnweber, Styliaris and Trivedi \cite{DST2026}, combining a G\'acs-type self-simulating classical hierarchy with a measurement-free concatenated code; here the clock must also tolerate noise after every elementary layer and coexist with controller-triggered erasures.
 We use the coherent CSS gadget designs of Aharonov and Ben-Or
-\cite{ABO2008,ABO1999}. The support bound needed here is proved below
-for the actual real-gate subsystem.
+\cite{ABO2008}. The support bound needed here is proved below
+for the specified real-gate subsystem.
 
 \subsection{An explicit binary code and one recovery}
 
@@ -32,9 +31,12 @@ and one stabilizer recovery correcting the union span of all errors of
 weight at most \(q_s\). Encoding, recovery and the total classical
 functions used by the gadgets have finite exact real circuits.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Use the orthogonality and distance of the binary evaluation codes to obtain one CSS logical qubit. Finite elimination and syndrome recovery give exact encoding and correction procedures.
+
 \begin{proof}
-Let \(\mathcal R_s=\mathrm{RM}(s,2s+1)\), the evaluations of multilinear
-polynomials of degree at most \(s\) on \(\mathbb F_2^{2s+1}\).
+Let \(\mathcal R_s=\mathrm{RM}(s,2s+1)\), where \(\mathrm{RM}(s,m)\)
+is the binary Reed--Muller code of evaluations of multilinear polynomials
+of degree at most \(s\) on \(\mathbb F_2^m\).
 Products of two generating monomials have degree below \(2s+1\),
 so their evaluation inner product is even. Also
 \(\dim\mathcal R_s=\sum_{j=0}^s\binom{2s+1}{j}=2^{2s}\), half the
@@ -43,14 +45,17 @@ divisible by four. Self-orthogonality makes every pairwise intersection
 even, and \(\mathrm{wt}(u+v)=\mathrm{wt}(u)+\mathrm{wt}(v)
 -2|\supp u\cap\supp v|\) proves double evenness for every word.
 
-The usual splitting \(f=f_0+x_m f_1\) proves the distance of
+The usual polynomial splitting \(f=f_0+x_m f_1\), with \(f_0,f_1\) local to this argument, proves the distance of
 \(\mathrm{RM}(r,m)\) to be \(2^{m-r}\): if \(f_1=0\), the weight
 is twice that of \(f_0\); otherwise the weights of \(f_0\) and
 \(f_0+f_1\) sum to at least the weight of \(f_1\). Induction gives
 the bound, and a product of \(r\) coordinate literals attains it.
 Puncture at zero to obtain \(\mathcal C_s\). Its dual
 \(\mathcal D_s=\mathcal C_s^\perp\) is the shortened code, contained
-in \(\mathcal C_s\) with codimension one. The logical words are
+in \(\mathcal C_s\) with codimension one. These are the CSS codes of
+punctured doubly even self-dual codes used by Shor
+\cite[Sections~5 and~7]{Shor1996}, here from the self-dual Reed--Muller
+codes; \(s=1\) gives the \([[7,1,3]]\) Steane code. The logical words are
 \[
  |a_L\rangle=|\mathcal D_s|^{-1/2}
        \sum_{w\in\mathcal D_s}|w+a\one\rangle,
@@ -61,7 +66,7 @@ Puncturing lowers distance by at most one, and
 attains weight \(2^{s+1}-1\) in the nontrivial coset. This gives
 \(d_s\) and \(q_s\). Products of two weight-\(q_s\) Pauli errors
 have weight below \(d_s\); their compression to the code is scalar
-or zero. The Knill--Laflamme equations therefore give one recovery
+or zero. The Knill--Laflamme equations \cite{KnillLaflamme1997} give one recovery
 for the entire error span, including coherent cross terms.
 
 Choose generators of \(\mathcal D_s\), complete them to an invertible
@@ -76,7 +81,10 @@ each fixed \(s\). The code size and the running time may be enormous.
 \end{proof}
 
 \subsection{Real native procedures and the sign bit}
-The calendar issues semantic gates, which Section~\ref{d:dispatch}
+In the gadget bound below, \(j\) counts faults; in coordinatewise
+operations and Table~\ref{tab:toffoli}, \(j\) indexes a protected
+coordinate. Preparation depth \(t\) is local to the definition of \(V_t\).
+The clock issues semantic gates, which Section~\ref{d:dispatch}
 compiles into physical gates. Use the semantic inventory
 \begin{equation}\label{d:native}
  \mathcal G_{\mathbb R}=
@@ -87,8 +95,8 @@ Discard on an existing physical slot is reset. The transversal logical
 identities follow directly from
 \((a\one+w)\cdot(b\one+w')=ab\pmod2\) for
 \(w,w'\in\mathcal D_s\), and character orthogonality for the Hadamard.
-They give logical \(X,H,\mathrm{CNOT},\mathrm{CZ}\); SWAP exchanges
-blocks. Toffoli is implemented coherently with a resource state below.
+They give logical \(X,Z,H,\mathrm{CNOT},\mathrm{CZ}\). For \(Z\), use
+the identity with \(b=1\) and \(w'=0\). SWAP exchanges blocks. Toffoli is implemented coherently with a resource state below.
 
 For a basis word \(w\in\mathbb F_2^{n_s}\), define \(a(w)\) by
 bounded-distance decoding: if \(w\) is within Hamming distance \(q_s\)
@@ -108,8 +116,8 @@ Compute \(a(w)\) in private scratch, apply
 \(\mathrm{CCZ}(a,b_j,c_j)\mathrm{CZ}(a,d_j)\), then uncompute.
 Here
 \[
- Z=HXH,\quad \mathrm{CZ}=H_{\rm target}\mathrm{CNOT}H_{\rm target},
- \quad \mathrm{CCZ}=H_{\rm target}\mathrm{Toffoli}H_{\rm target}.
+ Z=HXH,\quad \mathrm{CZ}=H_b\,\mathrm{CNOT}_{ab}\,H_b,
+ \quad \mathrm{CCZ}=H_{\rm target}\,\mathrm{Toffoli}\,H_{\rm target}.
 \]
 The module touches one expendable cat block and only coordinate \(j\)
 of each protected block. Its possibly large Boolean computation has
@@ -131,8 +139,10 @@ The statement includes arbitrary environment and reference coefficients.
 Physical decomposition multiplicity is counted in the location budget,
 rather than in the constant eight.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Count touching faults for each routed primitive. Verified preparation, repeated recovery checks and separate port work keep the residual error within the correction bound.
+
 \begin{proof}
-We give the four procedure arguments. A native location is a gate, wait
+The proof treats verified preparation, coherent error correction, coherent Toffoli and routing in turn. A native location is a gate, wait
 or reset of the circuit before routing. All records and their reversible
 processing are quantum work. A private correction decision for coordinate
 \(i\) controls only that coordinate. Record copying is done before
@@ -141,55 +151,57 @@ the admitted fault budget.
 
 \smallskip\noindent
 \emph{Deterministic verified preparation.}
-Let \(Q_0\) be the exact encoder for \(|0_L\rangle\).
-For \(t\ge1\), \(Q_t\) uses five \(Q_{t-1}\) blocks: a candidate
-\(B_1\), testers \(B_2,B_3,B_4\), and spare \(B_5\).
-Couple \(B_1\to B_2\) transversally and decode \(B_2\) modulo
-\(\mathcal D_s\), including its logical bit. First check the
-bit-error pattern of \(B_3\) with \(B_4\); then couple
-\(B_3\to B_1\), apply \(H\) to \(B_3\) and decode the phase check.
-Each coordinate reads private copies of the three decoded patterns.
-It keeps \(B_{1,i}\) if their union has weight at most \(t\), and
-otherwise Fredkin-swaps it with \(B_{5,i}\). Dispose of the work at
-its declared end. This is a predetermined replacement circuit.
+Here \(V_t\) denotes verified preparation. Let \(V_0\) be the exact encoder for \(|0_L\rangle\).
+For \(t\ge1\), \(V_t\) uses five \(V_{t-1}\) blocks: a candidate
+\(B_1\), testers \(B_2,B_3,B_4\) and spare \(B_5\).
+Apply transversal CNOTs \(B_1\to B_2\), then \(B_3\to B_4\) to
+check \(B_3\)'s bit errors before it interacts with the candidate.
+Use the resulting basis words of \(B_2,B_4\) as the two raw bit
+records. Then apply transversal CNOT \(B_3\to B_1\) and transversal
+\(H\) to \(B_3\), whose basis word is now the raw phase record.
+Copy each raw record in the computational basis for each coordinate
+before any decoding. On its own copies, each coordinate computes
+minimum-weight representatives modulo \(\mathcal D_s\) for both bit
+records, so the check includes logical \(X\), and modulo
+\(\mathcal C_s\) for the phase record. These are total functions with
+a fixed lexicographic tie-break. For input Pauli components
+\(X^{x_i}Z^{z_i}\) on \(B_i\), clean checks give the bit shifts
+\(x_1+x_2\) and \(x_3+x_4\) modulo \(\mathcal D_s\) and the phase shift
+\(z_1+z_2+z_3+z_4\) modulo \(\mathcal C_s\). The candidate carries
+\(X^{x_1+x_3}Z^{z_1+z_2}\) before selection. These identities follow by
+propagating \(X\) forward and \(Z\) backward through the CNOTs. Shifts
+by \(\mathcal D_s\) and phases from \(\mathcal C_s=\mathcal D_s^\perp\)
+fix \(|0_L\rangle\).
+Each private decision tests whether the union of the three supports
+has weight at most \(t\), and controls only its own Fredkin between
+\(B_{1,i}\) and \(B_{5,i}\), swapping on rejection. Dispose of the work
+at its declared end. This is a predetermined replacement circuit.
 
-With \(k\le t\) faults, induction gives an output in the span of
-\(F|0_L\rangle\) with \(\mathrm{wt}(F)\le k\).
-If every recursive subtree has at most \(t-1\) faults, its deviation
-is at most its own fault count. Uncorrupted private decisions see a
-union bounded by the total count \(k\le t\), and keep the candidate.
-Its residual consists of its own errors, phase errors transferred
-from \(B_2\), bit errors transferred from \(B_3\), and coordinates
-hit in the final verification/selection circuit. Each is charged to
-its originating fault; their total is at most \(k\). A faulty private
-computation can change only its own output coordinate.
-If one subtree has at least \(t\) faults, it consumes the entire
-budget: \(k=t\) and the final checks and all other blocks are clean.
-All private decisions then agree. A bad candidate is either replaced
-by the clean spare or accepted with union pattern of weight at most
-\(t\). A bad \(B_2\)'s transferred phase errors are detected by the
-exact phase check; a bad \(B_3\)'s dangerous bit pattern is checked
-by \(B_4\) before coupling. If only \(B_4\) is bad, rejection selects
-the clean spare; if only \(B_5\) is bad, the clean candidate passes.
-These cases give the same bound. In particular the output cannot be
-a coordinatewise splice of two arbitrary codewords: in the first
-case every uncorrupted decision keeps, and in the second all
-decisions agree. Use depth \(t=q_s\); it is finite and at least the
-native rectangle budget \(2b_{\rm FT}\) selected below.
+\emph{Claim.} If \(V_t\) contains \(k\le t\) faults, its output lies in the span of \(F|0_L\rangle\) with \(\mathrm{wt}(F)\le k\). We prove this by induction on \(t\), in two cases.
+
+\emph{Case 1: every recursive subtree has at most \(t-1\) faults.} By induction, each subtree's deviation is at most its own fault count. On each Pauli term, a fault in a transversal check can affect both blocks at its coordinate, and a raw fan-out fault can change the bit at its record index in the copies it reaches, including a proper subset of them; both effects add at most one index per fault to the union of possible record shifts. Raw phase factors act only on the consumed records. Since \(k\le t\le q_s\), every copy reaching a clean private decoder has a unique minimum-weight representative within this support bound. The union used by each such decision therefore has weight at most \(k\), and the decision keeps the candidate. The residual is supported on the charged indices that reach the candidate, together with the targets of faulty private computations or Fredkins; each such fault affects only its own output coordinate.
+
+\emph{Case 2: some subtree has at least \(t\) faults.} It consumes the entire budget: \(k=t\), and the final checks and all other blocks are clean, so all private decisions agree within each coherent raw-record branch. A bad candidate is either replaced by the clean spare or accepted with union pattern of weight at most \(t\). A bad \(B_2\)'s transferred phase errors are detected by the exact phase check; a bad \(B_3\)'s dangerous bit pattern is checked by \(B_4\) before coupling. If only \(B_4\) is bad, rejection selects the clean spare; if only \(B_5\) is bad, the clean candidate passes. Each case gives the same bound.
+
+In neither case can the output be a coordinatewise splice of two arbitrary codewords: in Case~1 every uncorrupted decision keeps the candidate, and in Case~2 all decisions agree. Use depth \(t=q_s\); it is finite and at least the native rectangle budget \(2b_{\rm FT}\) selected below.
 
 \smallskip\noindent
 \emph{Coherent error correction.}
-For bit correction couple data transversally into a verified plus block.
-For each eventual data coordinate make a private record and compute
-its nearest-codeword error vector modulo \(\mathcal C_s\); apply
-only that vector's corresponding correction bit. Phase correction
-is the same operation in the Hadamard basis. A data-record copying
-fault changes one coordinate in each record. Within the unique-decoding
-margin it changes the inferred error by that same coordinate; a fault
-inside a private computation affects only its own data target.
-The transversal coupling transmits at most one coordinate from a
-verified-ancilla error. The preparation bound just proved charges
-those coordinates to their actual faults. Applying the two stages
+For bit correction couple data transversally into a verified plus
+block \cite{Steane1997}. For each eventual data coordinate make a
+private record and compute its nearest-codeword error vector modulo
+\(\mathcal C_s\). Apply only that vector's corresponding correction bit.
+A data-record fan-out fault at index \(i\) can flip that bit in any
+copy it reaches, even when some copies have already been made. Inside
+the decoding margin the nearest codeword stays the same, so the
+inferred error changes only at \(i\), and only the decision for
+data coordinate \(i\) can apply a different correction. Phases on
+the copied words act on consumed work. A fault inside a private
+computation reaches only its own data target. Phase correction repeats
+the argument in the Hadamard basis, with bit and phase roles
+interchanged. The transversal coupling transmits at most one
+coordinate per fault, even if a fault affects both operands. The preparation bound just proved charges
+those coordinates to their faults. Applying the two stages
 removes the incoming correctable error and leaves at most one
 coordinate per native fault in each output block.
 
@@ -197,65 +209,136 @@ For normalization, also compute the radius indicator privately.
 In an exact syndrome branch outside the prescribed decoding region,
 exchange every data coordinate with the corresponding coordinate of
 a verified zero block. In a branch inside it, correct the error.
-In the fault-free circuit all private indicators agree in each branch,
-and both branches have code support. Thus the entire output has code
-support for an arbitrary input, including a purification. Under the
-margin used here the intended correctable branch is separated from
-the replacement threshold; a disturbed private decision has only its
-own coordinate as target. There is no shared faulty accept bit.
+In the fault-free circuit all private indicators agree in each
+syndrome branch. Correction maps the admitted syndrome to the code,
+and replacement returns the verified zero block. Thus the entire
+output has code support for an arbitrary input, including a
+purification. Under the margin used here all copies reaching clean
+private decoders stay inside the replacement threshold. A faulty
+private decision or swap can affect only its own output coordinate.
 
 \smallskip\noindent
 \emph{Coherent Toffoli.}
-Put
+We use a coherent form of Shor's Toffoli construction
+\cite[Section~6]{Shor1996}, including the resource state, its preparation
+by cat sign tests and its conversion to the gate. The processing is
+measurement-free as in \cite{ABO2008}. Put
 \[
  |A_0\rangle=\frac12\sum_{a,b}|a_L,b_L,(ab)_L\rangle,
  \qquad |A_1\rangle=X_{L,3}|A_0\rangle.
 \]
-Their equal superposition is three encoded plus words. Repeated encoded
-cat sign tests using \eqref{d:sign} distinguish these branches.
-Use \(R_{\rm cat}=2\lfloor q_s/2\rfloor+1\) tests, complete EC on
-the resource blocks between tests, Hadamards on the cats, and private
-per-coordinate computations that decode each cat block by the
-bounded-distance coset decoder, take the parity of those decoded bits,
-and compute the majority over tests. A private
-majority controls only its coordinate of the branch-correcting \(X\).
+Their equal superposition is three encoded plus blocks. Prepare each
+by \(V_{q_s}\) followed by transversal \(H\). For each of
+\(R_{\rm cat}=2\lfloor q_s/2\rfloor+1\) sign tests, prepare a fresh
+encoded cat by fanning out a verified plus block via transversal CNOT
+into verified zero blocks, all made using \(V_{q_s}\). Use one expendable
+cat block per protected coordinate in \eqref{d:sign}. Each test uses
+its own cat. On ideal resource words with logical bits \(x,y,z\),
+the sum of \(b_jc_j+d_j\) over the protected coordinates is \(xy+z\)
+modulo two, by the transversal identities. A clean test in sector
+\(xy+z\) writes that sector's parity on the cat and leaves the three
+protected logical qubits unchanged.
 
-One native fault spoils at most one repeated test and touches at most
-one coordinate of each protected block. A residual resource-coordinate
-error is removed by the next EC. During cat fan-out, an error on one
-coordinate of the first cat block can be copied to that coordinate
-of later cat blocks. Each such block remains in the same decoded
-coset, so \(a(w)\) is unchanged. A fault in one sign computation can
-spoil its expendable cat and its one protected coordinate; that cat
-is not reused on other coordinate triples. Thus cat fan-out does not
-turn one fault into many wrong signs on protected coordinates.
-The majority is correct while the native fault count is at most
-\(\lfloor q_s/2\rfloor\). Private parity/majority faults have the
-same one-target bound. This proves the resource support assertion.
+Apply complete error correction (EC) to the resource blocks between
+tests. Apply transversal Hadamards to the used cats. Each protected
+coordinate privately decodes all cat blocks by bounded-distance coset
+decoding, takes the parity for each test and computes the majority.
+Each private branch decision controls one coordinate of \(X\) on the
+third resource block.
+
+The preparation bound charges each residual coordinate of the initial
+resource and cat blocks to its originating fault. Transversal fan-out
+copies at most one coordinate per fault into each cat block, leaving
+its decoded coset unchanged within the margin. Each sign computation
+can spoil its own expendable cat block and touch only one coordinate
+of each resource block. In each sign sector, expand a disturbed test
+in operators on the affected cat and resource coordinates. Propagating
+a resource-coordinate error through its controlled sign module adds
+only cat operators and errors at that same resource index. The next
+EC removes the resource error into a syndrome factor, so the ideal
+logical words in the sector are unchanged, with all exterior systems
+retained as coefficients. A residual left by the initial preparation
+or by one EC can affect only the next test, since the following EC
+removes it. This description iterates with earlier cats and syndromes
+retained in the exterior coefficients. A fault on a used cat during
+its Hadamards or record copying reaches only that test's record.
+Each native fault can therefore spoil at most one repeated test for
+the undisturbed private decisions. Their majority is correct for at
+most \(\lfloor q_s/2\rfloor\) native faults. Faults in a private parity,
+majority or branch correction affect only the corresponding target
+coordinate. The leading EC of the conversion removes the remaining
+resource errors before data contact. With at most \(2j\) native
+faults from \(j\) routed faults, the margin in \eqref{d:margin}
+covers both the majority and this EC.
 
 The resource-to-gate conversion uses transversal CNOT and Hadamard,
-private decoding of consumed blocks, and private real corrections.
+private decoding of consumed blocks and private real corrections.
 Its disposal preserves an unknown complex qubit. For half-Toffoli on
 logical data bits \(c,d\), let the resource carry \((x,y,xy)\); CNOTs
 from its first two blocks into the data leave consumed outcomes
-\(u=c+x\), \(v=d+y\). Add
-\(xv+yu+uv\) to the third register and apply \(X^u,X^v\) to
+\(u=c\,+\,x\), \(v=d\,+\,y\). Add
+\(xv\,+\,yu\,+\,uv\) to the third register and apply \(X^u,X^v\) to
 the first two. Since \(xy+xv+yu+uv=(x+u)(y+v)=cd\), the
 retained registers become \((c,d,cd)\) in every branch;
 \((u,v)\) is uniform independently of \((c,d)\), and all decoder
 garbage depends on \((u,v)\) alone. For full Toffoli on data bits
-\((a,b,c)\) the new target is \(c+ab\). The old target, after Hadamard,
-decodes to a bit \(h\) and contributes phase \((-1)^{hc}\); the output correction
-contributes
+\((a,b,c)\), apply this to \((a,b)\) and add the old target to the
+third resource block by CNOT, so the new target is \(c+ab\). The old
+target, after Hadamard, decodes to a bit \(h\) and contributes phase
+\((-1)^{hc}\); the output correction, \(Z^h\) on the new target and a
+\(\mathrm{CZ}^h\) on the two retained control blocks, contributes
 \[
  (-1)^{h(ab+(c+ab))}=(-1)^{hc}.
 \]
 They cancel, leaving the same garbage vector for every \((a,b,c)\).
 Consequently disposal gives the correct gate for arbitrary complex
-amplitudes and a reference. Each conversion fault has one protected
-coordinate per block as its contact. The complete EC followed by
-this body, as well as each transversal body, first removes the
-correctable input and obeys the same total-count support bound.
+amplitudes and a reference.
+
+Table~\ref{tab:toffoli} gives the conversion before routing.
+The resource blocks \(1,2,3\) are retained; the data blocks of the
+controls, and for full Toffoli of the old target, are consumed. For
+each coordinate \(j\), a private register \(R_j\) receives copies of
+the consumed blocks and holds the decoded bits \(u_j,v_j\) (and
+\(h_j\)); its outputs control coordinate \(j\) only.
+
+\begin{table}[!tb]
+\caption{Native schedule of the resource-to-gate conversion. Steps
+marked (F) occur only for full Toffoli. Outside EC and record preparation,
+the gates act coordinatewise. A superscript gives the private control bit.
+In step 5, the controlled CNOTs and the doubly controlled \(X\) are
+Toffolis. In step 6, \(Z^{h_j}\) is a Hadamard-conjugated CNOT and
+\(\mathrm{CZ}^{h_j}\) a Hadamard-conjugated Toffoli.}\label{tab:toffoli}
+\small\centering
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.50\textwidth}>{\raggedright\arraybackslash}p{0.33\textwidth}@{}}
+\toprule
+Step & Operation & Retained coordinates reached by one native fault before routing\\
+\midrule
+1 & Complete EC on every block. & As in the EC bound.\\\addlinespace[3pt]
+2 & CNOT from resource blocks 1 and 2 into the two control data blocks. & At most the fault's coordinate in each retained block, including propagation to block 3 in step 5.\\\addlinespace[3pt]
+3 (F) & CNOT from the old-target block into resource block 3, then \(H\) on the old-target block. & At most the fault's coordinate in each retained block, including propagation from block 3 to blocks 1 and 2 in step 5.\\\addlinespace[3pt]
+4 & For each \(j\), fan out the consumed blocks by CNOTs into \(R_j\) and decode \(u_j,v_j\) (and \(h_j\)) by bounded-distance coset decoding. & A raw-coordinate fault leaves all clean decoder outputs unchanged within the margin. A private decoder fault can reach coordinate \(j\) in each retained block in steps 5--6.\\\addlinespace[3pt]
+5 & On coordinate \(j\): \(\mathrm{CNOT}^{v_j}_{1\to3}\), \(\mathrm{CNOT}^{u_j}_{2\to3}\), \(X_3^{u_jv_j}\), \(X_1^{u_j}\), \(X_2^{v_j}\), in this order. & Coordinate \(j\) of blocks 1, 2 and 3.\\\addlinespace[3pt]
+6 (F) & On coordinate \(j\): \(Z_3^{h_j}\), then \(H_2\,\mathrm{CNOT}^{h_j}_{1\to2}\,H_2\), which is \(\mathrm{CZ}^{h_j}\) on blocks 1 and 2. & Coordinate \(j\) of blocks 1, 2 and 3.\\\addlinespace[3pt]
+7 & Reset or discard the consumed blocks and every~\(R_j\). & None.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Steps 2, 3, 5 and 6 act coordinatewise, so an error at index \(i\)
+can reach only index \(i\) of each retained block. A disturbed \(R_j\)
+changes only the coordinate-\(j\) gates in steps 5 and 6. A bit error
+on a consumed block can be copied to that same coordinate of later
+copies, which stay in the same decoded coset within the margin. From
+step 4 onward a consumed block is only a fan-out control and is then
+discarded.
+A phase error on it, including one kicked back from a copy, reaches
+no retained block. A phase error before the old target's Hadamard
+becomes a bit error at the same index and is covered by the coset margin.
+Step 7 acts only on disposed registers. Each native fault thus touches
+at most one protected coordinate per retained block. One routed fault
+can give at most two native faults by the routing argument below.
+The complete EC removes the incoming correctable errors. The EC and
+body together obey the stated support bound, as for a transversal body.
 
 \smallskip\noindent
 \emph{Routing and the numerical envelope.}
@@ -279,8 +362,11 @@ The premise \eqref{d:margin} implies
 All unique-decoding and cat-majority arguments are therefore inside
 their stated margins, including one additional insertion. The routed
 total deviation is at most \(2j\), hence at most \(8j\).
-Route length, private table size and the \(5^{q_s}\) preparation
-leaves affect location count and time, not contact per fault.
+The complete table counts all EC and Toffoli resource preparations,
+including the \(5^{q_s}\) leaves of each verified zero preparation for
+the initial plus blocks and for the fresh cats. These preparations,
+route length and private table size affect location count and time.
+The contact bound is per fault.
 
 Finally these are operator statements. Expand arbitrary faulty Kraus
 operators in local matrix or Pauli bases, retaining all exterior
@@ -299,36 +385,37 @@ An encoded Toffoli table contains physical Toffolis; replacing them
 at the next level is finite circuit substitution. Induction on the
 number of levels proves that every finite concatenated identity
 circuit remains in this inventory. Invalid opcodes select identity.
-Section~\ref{d:dispatch} reduces it to the seven physical gates.
+Section~\ref{d:dispatch} reduces this inventory to the seven physical gates.
 
-\subsection{Hardened correction and correlated normalizers}
+\subsection{Repeated error correction before each gadget}
+Level reduction follows the extended-rectangle tradition of Aliferis, Gottesman and Preskill \cite{AGP2006}. Each rectangle here starts with repeated full error correction before the encoded body. The rectangles do not overlap or include trailing error correction. The proof treats the correlated faults generated by the controller.
+
 Fix the constant semantic width, candidate-port geometry and complete
 boundary halo before selecting a code. Let \(\kappa_0\) count physical
 conversion into dirty semantic locations, \(\kappa_1\) bound child-box
 participation, and \(v_0\) bound parent boxes meeting a rectangle.
 These are incidence bounds per cell and time; extra ancillas use more
 cells and extra correction passes use more time. With complete halo
-\(h\) and a fixed shadow gap \(\rho\), choose
-\begin{equation}\label{d:budgets}
+\(h\) (the \(h_{\rm halo}\) of Section~\ref{d:threshold-section}) and a fixed image gap \(\rho\), choose
+\begin{gather}
  a_{\rm sep}>(4h+2\lceil\rho\rceil+5)^2,
- \qquad b_{\rm FT}=\max\{1,\kappa_0\kappa_1v_0(a_{\rm sep}-1)\},
-\end{equation}
-and then choose
-\begin{equation}\label{d:capacity}
- e=8,\quad r_{\rm FT}=8b_{\rm FT},\quad
- s=\min\{s\ge1:2^s-1\ge40960(b_{\rm FT}+1)\}.
-\end{equation}
-All Fredkin, CZ, SWAP, CCZ and Z decomposition faults are paid in
-\(\kappa_0\), hence \(b_{\rm FT}\). The preparation depth is
-\(q_s\ge2b_{\rm FT}\). The integer \(s\) is fixed for the medium.
+ \qquad b_{\rm FT}=\max\{1,\kappa_0\kappa_1v_0(a_{\rm sep}-1)\},\label{d:budgets}\\*
+ r_{\rm FT}=8b_{\rm FT},\quad
+ s=\min\{s\ge1:2^s-1\ge40\,960(b_{\rm FT}+1)\}.\label{d:capacity}
+\end{gather}
+The bound \(q_s\ge72b_{\rm FT}+8\) suffices for the
+fault-tolerance margin here. We use the larger constant shared with
+Section~\ref{sec:four-dimensional}.
+The constant \(\kappa_0\), and hence \(b_{\rm FT}\), counts every fault in the Fredkin, CZ, SWAP, CCZ and \(Z\) decompositions. The preparation depth is
+\(q_s\ge2b_{\rm FT}\). The integer \(s\) is fixed for the circuit.
 
-Let \(B_g\) be one full EC followed by an
+Let \(B_g\) be one full error-correction pass followed by an
 encoded body. Precede every \(B_g\) by \(b_{\rm FT}+1\) time-disjoint
-full EC passes on each input block, with fresh private work. Synchronize
+full error-correction passes on each input block, with fresh private work. Synchronize
 these normalizing phases before interblock bodies. Every idle block
 normalizes too.
 
-\begin{lemma}[Joint level reduction]\label{d:reduction}
+\begin{lemma}[Level reduction]\label{d:reduction}
 If a parent rectangle contains at most \(b_{\rm FT}\) bad child
 circuit locations, its output is correctable by one fixed recursive
 recovery. Good logical subsystems are preserved jointly, including
@@ -336,6 +423,8 @@ when entangled with bad blocks and an arbitrary reference. Effective
 faults at the next level have support only on the union of the named
 bad child locations' outgoing wires.
 \end{lemma}
+\par\noindent\emph{Proof idea.} A good block has a clean error-correction pass after its last arbitrary input. Track the remaining child faults through the body and decode the block to its intended operation.
+
 \begin{proof}
 Each good block's normalization has a last clean EC pass, because
 there are more full passes than touching faults. That pass maps any
@@ -361,7 +450,7 @@ The preceding argument puts each output in \(\mathcal C_r\).
 Positivity then puts the joint output in the tensor product of these
 spaces: every complementary projection has expectation zero. In fixed
 recovery coordinates \(\mathcal C_r\simeq\mathcal H_{\rm log}
-\otimes\mathcal H_{\rm syn}\), the complete operator identity in
+\otimes\mathcal H_{\rm syn}\), the operator identity in
 Lemma~\ref{d:gadgets} fixes the whole originally good logical algebra.
 Its Stinespring map is
 \[
@@ -392,7 +481,60 @@ union span. Induction corrects all recursively allowed supports and
 their coherent combinations. The same decoder serves every history.
 \end{proof}
 
+\begingroup
+\renewcommand{\thetheorem}{\thesection.3a}
+\renewcommand{\theHtheorem}{\thesection.3a}
+\begin{lemma}[Clean schedule and ownership]\label{d:ownership}
+In the clean reference under an idle top, at every level \(\ell\)
+and every level-\(\ell\) step the requests form a matching of native
+tuples with consistent types, roles and offsets. Each level-\(\ell\)
+location (gate, routing SWAP, waiting-token idle, reset, discard or
+EC-pass gate) is a step of exactly one level-\((\ell+1)\) table share.
+It is executed within one level-\((\ell+1)\) period on child cells
+of the at most three operand blocks of that parent location.
+Consequently its complete support lies in at most five consecutive
+level-\(\ell\) cells during one level-\(\ell\) period, enlarged by
+the halo of its descendants. Each level-\(\ell\) cell-time belongs
+to exactly one level-\(\ell\) location, and no token is in flight
+across a level-\((\ell+1)\) period boundary.
+\end{lemma}
+\addtocounter{theorem}{-1}
+\endgroup
+\begin{proof}
+Use downward induction from the idle top. At level \(k\) all cells
+are idle, a matching of unary tuples. Suppose the level-\((\ell+1)\)
+requests form a consistent matching. A tuple of arity \(a\) occupies
+\(a\) operand blocks, each executing its share at the common age,
+a function of time in the clean reference. By the multi-block
+specification in Section~\ref{d:calendar-section}, the shares restrict
+one table whose every layer is a matching on its \(aP_{\rm cal}\)
+child cells. Thus their child requests form a consistent matching,
+also at block seams inside the tuple. Distinct parent tuples use
+disjoint blocks. Each child step belongs to the table issuing it,
+including resets, discards, EC gates and padded idles; every table
+returns all tokens home. The two-cell operand offsets give the
+five-cell window, and the complete descendant halo is the geometric
+series in Section~\ref{d:threshold-section}. No tuple crosses a
+top-level block boundary because the top is idle. The cyclic seam
+of Lemma~\ref{f4:periodic} is such a boundary; for Theorem~\ref{thm:main}
+every seam is outside the extended cone of Proposition~\ref{d:storage}.
+
+Thus \(\kappa_0\) is the fixed dispatch conversion bound of
+Section~\ref{d:dispatch} and Lemmas~\ref{f4:dispatch}--\ref{f4:dispatch-partial}.
+Every resulting primitive location has exactly one ancestor at each
+level, so a primitive station is charged to at most \(\kappa_0\)
+locations at every level. The constants \(\kappa_1\) and \(v_0\)
+are finite maxima of child participation and parent-box intersection
+over the five-cell window, one period and the fixed child-index collar.
+These normalized geometric maxima depend only on the arity bound,
+that window and \(h_{\rm halo}\), uniformly in level and code size.
+This derives the incidence constants used in \eqref{d:budgets} and
+Lemma~\ref{f4:geometry}.
+\end{proof}
+
 \subsection{A finite classical interpreter for the schedule}\label{d:calendar-section}
+The classical field \(S\) issues the schedule through a finite tower of block simulations. A block of \(P_{\rm cal}\) cells simulates one cell at the next level, and the top level is idle.
+
 Choose a sufficiently large even block length \(P_{\rm cal}\) and a
 period \(T_{\rm cal}=P_{\rm cal}^4\), or one larger fixed polynomial.
 The radius-one classical field \(S\) has finite address and age,
@@ -402,7 +544,7 @@ and finite tape/head and broadcast tracks. A block of
 length \(O(\log P_{\rm cal}+\log T_{\rm cal})\), with blank padding.
 
 During a simulation period it copies its old string and those of its
-two neighbors, interprets one local transition and its old quantum
+two neighbours, interprets one local transition and its old quantum
 instruction, broadcasts the instruction, executes its padded encoded
 quantum table, and commits the next string. Communication and broadcast
 cost \(O(P_{\rm cal})\); one virtual transition uses polynomial time
@@ -410,11 +552,28 @@ and space in the logarithms of the parameters. The algorithm computes
 one transition, rather than running the entire virtual period.
 For the already fixed quantum table, padding and line routing take
 at most \(C_QP_{\rm cal}^2\) steps. Include quantum idles during
-classical work, the hardened leading EC, and every reset. Thus a
+classical work, the hardened leading EC and every reset. Thus a
 terminating search finds \(P_{\rm cal}\) large enough for all work
-to fit. Pair instructions use fixed parity/matching roles, with even
-parameters allowing the same rule recursively. Deadlines and fixed
-conflict priorities make malformed classical words total.
+to fit. Deadlines and fixed conflict priorities make malformed
+classical words total.
+
+\emph{Multi-block instructions.} A virtual instruction is a triple
+\((\tau,r,\kappa)\): a native type \(\tau\in\mathcal G_{\mathbb R}\)
+of arity \(a\le3\), a role \(r\in\{1,\ldots,a\}\), and the offsets
+\(\kappa\) of the other operands, each within two virtual cells. For
+each \(\tau\) fix one routed encoded table \(E_{\mathbb R}(\tau)\)
+on the \(aP_{\rm cal}\) child cells of the \(a\) operand blocks, in
+operand order. It consists of the normalizing EC passes, the body and
+the line routing of Lemma~\ref{d:gadgets}, acts only on those child
+cells, and returns every token to its home cell at its end. Its share
+\(E_{\mathbb R}(\tau,r)\) lists, for each child age and child address
+in block \(r\), that child's instruction. A block with old instruction
+\((\tau,r,\kappa)\) broadcasts this triple to its cells, and each
+cell's current request is
+\(E_{\mathbb R}(\tau,r)(\text{age},\text{address})\)
+(Table~\ref{f4:fields}). No cell decides a tuple from its
+neighbours' words. The role field adds a fixed number of bits and
+does not change the period budget.
 
 The local algorithm is defined first. The encoder writes its finite
 description as ordinary program data. The interpreter computes that
@@ -430,16 +589,15 @@ identities
 \]
 Induction gives a finite tower of \(k\) simulation levels under a top
 idle state, executing \(E_{\mathbb R}^k(I)\). Higher clocks and
-programs stay classical. Every finite initial symbol is computed by
-\(k\) block decompositions and finite encodings.
+programs stay classical. The encoder computes every finite initial symbol by \(k\) block decompositions and finite encodings.
 
-\subsection{Protecting the entire calendar symbol and counting sources}
+\subsection{Protecting the entire clock symbol and counting sources}
 Clone the intended \(S\) trajectory over the transverse \((i,z)\)
 plane. At every physical update predict its next whole symbol from
-its three old \(\sigma\)-neighbors at every provider in
+its three old \(\sigma\)-neighbours at every replica in
 \eqref{eq:c-boxes}; retain a symbol with at least 512 votes, or a
 fixed default. A clean wrong output needs at least 257 wrong
-predictions, occupying two provider boxes. Each wrong prediction
+predictions, occupying two replica boxes. Each wrong prediction
 has a wrong old input. Use private copies of old \(S\) for the
 current quantum instruction, before committing its next symbol.
 A later correct retained symbol does not undo a wrong current use.
@@ -451,70 +609,72 @@ edges. Its anchored description count is at most \(K_{\rm w}^g\).
 Under the one joint physical law, any requested \(g\) labels have
 intersection probability at most \(\gamma_{\rm eff}^g\), where
 \[
- \gamma_{\rm eff}=\max\{\sqrt{\gamma_0},\sqrt p\}.
+ \gamma_{\rm eff}=\max\{\sqrt{\gamma_{\rm src}},\sqrt p\}.
 \]
-Each source has one Lipschitz shadow in chain space-time. Full bin
+Each source has one Lipschitz image in chain space-time. Full bin
 and role information is retained when witnesses are counted.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Trace wrong clock and controller outputs to grouped noise sources. Bound the complete support of each explanation in the coordinates used by the concatenation.
+
 \begin{proof}
-For \(S\) use characteristics \(i+58t,z+58t\) and balanced poles
-\(-3(i+58t),-3(z+58t),3(i+z+116t)\). The three provider boxes give
+For the clock field \(S\) (whose replica boxes are \(S_0,S_1,S_2\)) use characteristics \(i+58t,z+58t\) and balanced potentials
+\(-3(i+58t)\), \(-3(z+58t)\) and \mbox{\(3(i+z+116t)\)}. The three replica boxes give
 ranges
 \[
-\begin{array}{c|rrr}
- &F_1&F_2&F_3\\ \hline
+\begin{array}{crrr}
+ &F_1&F_2&F_3\\
  S_0 &[129,174]&[129,174]&[-348,-258]\\
  S_1 &[-351,-306]&[129,174]&[132,222]\\
  S_2 &[129,174]&[-351,-306]&[132,222]
 \end{array}
 \]
 for backward gains. Any two boxes provide a positive parent for each
-pole, with margin at least 129. The \(\sigma\)-shift affects none
-of these poles. Lemma~\ref{q:frontier}'s grouped-terminal proof
-therefore gives \(O(g_H)\) edges for distinct actual raw names
+potential, with margin at least 129. The \(\sigma\)-shift affects none
+of these potentials. Lemma~\ref{q:frontier}'s grouped-terminal proof
+therefore gives \(O(g_H)\) edges for distinct physical raw names
 \((i,\sigma,z,t)\). Old/new roles and quantum hardware use the same
-raw hub \(H_{i,\sigma,z,t}\). The literal shadow \((\sigma,t)\)
-is Lipschitz; there are no helper contractions in this raw graph.
+raw source label \(H_{i,\sigma,z,t}\). The literal image \((\sigma,t)\)
+is Lipschitz; there are no sampling-register contractions in this raw graph.
 
-For \(C_{\rm sel}\), the canonical hub is
+For \(C_{\rm sel}\), the canonical source label is
 \[
  \lambda=(i-t,\sigma+58t,z+58t,\lfloor t/W\rfloor).
 \]
 Its event is the union of its raw, statistical and overlay exceptions,
-with the law \(\gamma_0^{g_C}\) in Proposition~\ref{c:source-law}.
-These three types annotate one hub. Helper gather/consult links cancel
+with the law \(\gamma_{\rm src}^{g_C}\) in Proposition~\ref{c:source-law}.
+These three types annotate one source label. Sampling-register gather/consult links cancel
 on the base characteristic; a clean predictor entry traverses all
 1024 levels, distributing its fixed debit over those levels.
 The selector link calculation and grouped-terminal argument are given
 in Table~\ref{q:links} and Lemma~\ref{q:frontier}; deleting the copied
 coordinate changes neither. Keep the bin and entry roles in the full
-bounded-degree graph. On a quantum line \(i=i_0\) its shadow is
+bounded-degree graph. On a quantum line \(i=i_0\) its image is
 \[
  t^*=i_0-(i-t),\qquad
  \sigma^*=(\sigma+58t)-58t^*.
 \]
-It agrees with the actual root and is constant on each canonical hub.
-Contracted helper links have zero shadow increment; all other typed
+It agrees with the root and is constant on each canonical source label.
+Contracted sampling-register links have zero image increment; all other typed
 links have fixed bounded increments.
 
-Glue the two full graphs at actual quantum-use roots by the fixed
-hardware stars. For \(g_C\) owner hubs and \(g_H\) raw hubs,
+Glue the two full graphs at quantum-use roots by the fixed
+hardware stars. For \(g_C\) owner source labels and \(g_H\) raw source labels,
 Cauchy--Schwarz gives
 \[
- \Pr(\text{all})\le\gamma_0^{g_C/2}p^{g_H/2}
+ \Pr(\text{all})\le\gamma_{\rm src}^{g_C/2}p^{g_H/2}
                   \le\gamma_{\rm eff}^{g_C+g_H}.
 \]
 This pays every physical overlap. Bounded full degree and the linear
 edge budget give exponential anchored enumeration by a doubled-tree
 walk with finite annotations. In particular neither source types nor
-coincident shadows create duplicate charges or free bin choices.
+coincident images create duplicate charges or free bin choices.
 \end{proof}
 
 \subsection{Separated complete supports and the threshold}\label{d:threshold-section}
 Use regular chain space-time boxes of spatial side
 \(P_{\rm cal}^{\ell}\) and temporal side \(T_{\rm cal}^{\ell}\).
 Their fixed child-index cover includes a constant collar. Geometric
-series bound all complete descendants by a fixed halo \(h\).
+series bound all complete descendants by a fixed halo \(h_{\rm halo}\).
 Let \(N_0\) mean primitive dirtiness, and define \(N_{\ell+1}\)
 by at least \(a_{\rm sep}\) bad children in that cover. This is a
 monotone geometric predicate on scheduled bad roots. If all parent
@@ -529,13 +689,15 @@ parent is bad. Separation in time can be still larger, because
 many candidate pairs per parent, independently of \(\ell\).
 
 \begin{lemma}[Source-certificate recursion]\label{d:recursion}
-At a sufficiently small computably selected source cap there are
+At a sufficiently small computably selected source bound there are
 constants \(\bar A\ge1\) and \(D=1/(2\bar A)\) such that
 \[
  \Pr(N_\ell)\le z_\ell\le D\,2^{-2^\ell}
 \]
 uniformly in the hierarchy level and selected nonhalting window.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Prune the certificate tree at a long primitive witness. Otherwise the proof extracts separated child certificates and uses the joint source law to multiply their weights.
+
 \begin{proof}
 Let \(z_\ell\) be the sum of source weights of recursively pruned
 fully embedded certificates in one level-\(\ell\) box. At a parent,
@@ -544,36 +706,36 @@ small fixed multiple of \(P_{\rm cal}^{\ell}\), replace its entire
 repeated subtree by that witness and its root. Lemma~\ref{d:sources}
 pays at most
 \(B_{\rm tail}P_{\rm cal}^{d_0\ell}
- e^{-\alpha P_{\rm cal}^{\ell}}\).
+ \exp(-a_{\rm tail}P_{\rm cal}^{\ell})\).
 The polynomial counts possible roots, including the anisotropic time
 extent. Otherwise every witness is shorter than one third of the
 separated-support gap. The two complete child certificates have
-disjoint source-label sets, since a label has one shadow. Their
+disjoint source-label sets, since a label has one image. Their
 weights multiply under the joint intersection bound, and enumeration
 factors. Hence
 \begin{equation}\label{d:sum-recursion}
  z_{\ell+1}\le A_{\rm rec}z_\ell^2+
- B_{\rm tail}P_{\rm cal}^{d_0\ell}e^{-\alpha P_{\rm cal}^{\ell}}.
+ B_{\rm tail}P_{\rm cal}^{d_0\ell}\exp(-a_{\rm tail}P_{\rm cal}^{\ell}).
 \end{equation}
 The long case discards the full subtree; its leaves are not counted
 again. This is a recursion for certificate sums, not for independent
 bad-location probabilities.
 
-Put \(\bar A=\max(1,A_{\rm rec})\). Choose the source cap so that
+Put \(\bar A=\max(1,A_{\rm rec})\). Choose the source bound so that
 \[
  z_0\le\frac1{4\bar A},\qquad
- \alpha\ge\max\{0,\log(4\bar A B_{\rm tail})\}
+ a_{\rm tail}\ge\max\{0,\log(4\bar A B_{\rm tail})\}
        +\frac{d_0\log P_{\rm cal}}{P_{\rm cal}}+2\log2.
 \]
 For \(P_{\rm cal}\ge3\), use
 \(\ell/P_{\rm cal}^{\ell}\le1/P_{\rm cal}\) for \(\ell\ge1\)
 and \(2(2/P_{\rm cal})^\ell\le2\).
 The remainder in \eqref{d:sum-recursion} is at most
-\((D/2)2^{-2^{\ell+1}}\). If \(z_\ell\le D2^{-2^\ell}\), its
+\((D/2)2^{-2^{\ell+1}}\). If \(z_\ell\le D\,2^{-2^\ell}\), its
 squared contribution is at most the same quantity because
 \(A_{\rm rec}D^2\le D/2\). The base inequality is
 \(z_0\le D/2\). This proves the displayed bound with the fixed
-exponent \(\log2\). All entropy constants precede the source cap;
+exponent \(\log2\). All entropy constants precede the source bound;
 shrinking that cap makes these strict conditions attainable.
 \end{proof}
 
@@ -585,6 +747,8 @@ computable \(L_0(n)\), \(\cE_{n,L}\), \(\cD_{n,L,t}\) satisfying
 part (i) of Theorem~\ref{thm:detailed}. One encoder works for every
 requested time and every rate in its window.
 \end{proposition}
+\par\noindent\emph{Proof idea.} Choose a logarithmic block scale so the probability of a bad top-level box is small over the whole linear horizon. One recovery handles the permitted histories at each requested time.
+
 \begin{proof}
 Let \(k\) be the least integer \(k\ge1\) with
 \(2^k\ge64\lceil\log_2(L+2)\rceil\), and set
@@ -604,7 +768,7 @@ Prepare the finite \(k\)-level quantum block and classical simulation
 tower under an idle top. Clone intended \(S\) over the required
 transverse cone. Lemma~\ref{c:initialization} supplies the finite
 selector chart by exhaustive hidden-cover search, with low/high
-helpers on their base rows. Nonhalting guarantees success. The search
+sampling registers on their base rows. Nonhalting guarantees success. The search
 is finite even for halting inputs; failure and small sizes use a fixed
 fallback. Neither a noise rate nor a halting answer is read.
 
@@ -633,5 +797,7 @@ so Lemma~\ref{d:reduction}'s one bottom-up recovery gives the Bell
 state exactly. Averaging gives fidelity at least \(15/16\).
 The initial encoder did not depend on the requested time. The
 external circuit is total and computable from \((n,L,t)\), independently
-of the actual rate and fault history.
+of the rate and fault history.
 \end{proof}
+
+This proves Theorem~\ref{thm:detailed}(i). Section~\ref{sec:forgetting} proves (ii) for every encoding.

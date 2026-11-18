@@ -1,12 +1,13 @@
-\section{The folded four-dimensional storage construction}\label{sec:folded}
+\section{The folded four-dimensional code}\label{sec:folded}
 
 The quantum processor is a closed four-dimensional toric code folded
 into four internal sheets of the physical four-dimensional lattice.
 The fold shares physical faults between distant virtual points. We
 keep their sheet labels and prove a single recovery corrects the
-whole coherent span of the permitted errors. Topological-code
+whole coherent span of the permitted errors (Lemmas~\ref{q:universal}
+and~\ref{q:span}). Topological-code
 storage and local correction provide the context
-\cite{DKLP2002,Harrington2004,KubicaPreskill2019,BDL2026}; the
+\cite{BDL2026,DKLP2002,Harrington2004,KubicaPreskill2019}; the
 source-dependent estimate used here is proved below.
 
 \subsection{Closed folded geometry}\label{q:geometry}
@@ -17,12 +18,12 @@ For sufficiently large \(L\), set
 \]
 Activate physical sites with
 \(r_2,r_4\in[a_*,a_*+m-1]\). There are four internal sheet labels
-\(\sigma=(\sigma_2,\sigma_4)\in\{0,1\}^2\), each carrying six
+\(\varsigma=(\varsigma_2,\varsigma_4)\in\{0,1\}^2\), each carrying six
 plaquette qubits. Put \(x_j=r_j-a_*\) for \(j=2,4\) and identify
 \begin{equation}\label{q:fold-map}
  q_1=r_1,\quad q_3=r_3,\qquad
- q_j=\begin{cases}x_j,&\sigma_j=0,\\
-                   2m-1-x_j,&\sigma_j=1\end{cases}
+ q_j=\begin{cases}x_j,&\varsigma_j=0,\\
+                   2m-1-x_j,&\varsigma_j=1\end{cases}
  \quad(j=2,4).
 \end{equation}
 This is a bijection from the active registers onto the cubical torus
@@ -67,129 +68,39 @@ Active check ancillas and records belong to the active processor.
 For a fixed sheet extend \eqref{q:fold-map} affinely beyond the active
 box and use
 \begin{equation}\label{q:orientation}
- i_\sigma=q_4-q_2,\quad P_{1,\sigma}=q_1,\quad
- P_{2,\sigma}=q_2,\quad Q_\sigma=q_3-q_1.
+ i_\varsigma=q_4-q_2,\quad P_{1,\varsigma}=q_1,\quad
+ P_{2,\varsigma}=q_2,\quad Q_\varsigma=q_3-q_1.
 \end{equation}
 Its integral linear part has determinant \(\pm1\). It defines that
 sheet's selector orientation. The four selectors share the same
 physical innovations; each retains the original single-selector
 marginal law.
 
-\subsection{Sweep predecessors}
-
-We use a variant of the sweep rule of Kubica and Preskill
-\cite{KubicaPreskill2019}. Simultaneously at every vertex, read the
-positive incident edges of the syndrome present before the sweep; if
-their number is even, pair them in a fixed order and flip the
-corresponding positive plaquettes, and if it is odd, do nothing. This
-is the positive sweep; reflection reverses all
-directions. Fixed Clifford extraction and local Boolean record
-processing implement the rule. Run \(400\) reflected sweeps per CSS
-sector on the virtual complex.
-\begin{lemma}[Sweep predecessors]\label{q:sweep}
-For one positive sweep, every vertex of the new syndrome has, separately
-for each of the four functions \(x_j\), an old syndrome predecessor with
-nonnegative gain in that function. It also has an old predecessor with
-strictly positive gain in \(-\sum_jx_j\). The reflected sweep has the
-corresponding reversed-coordinate property. After \(M\) reflected
-sweeps the gains for the walls \(-x_j\) and \(\sum_jx_j\) are at least
-\(0\) and \(M\), respectively.
-\end{lemma}
-\begin{proof}
-Suppose a new syndrome vertex \(v\) was absent from the old syndrome.
-It is a corner of a corrected plaquette based at an old syndrome vertex
-\(u\). If its \(j\)-coordinate was raised, the old positive edge in
-direction \(j\) used at \(u\) has the raised endpoint as an old syndrome
-vertex. That endpoint supplies the \(x_j\) predecessor. If the coordinate
-was not raised, use \(u\). The correction root \(u\) has smaller
-coordinate sum than \(v\), and supplies the last predecessor.
-
-An old vertex that remains a syndrome vertex supplies its own first
-four predecessors. If it has an old negative incident edge, that
-edge's lower endpoint supplies the last one. Otherwise every old
-incident edge is positive. Their number is even because the syndrome
-is a cycle. The vertex's own correction then cancels all of them.
-Any incident edge remaining after the parallel correction must be
-toggled by a correction based at a vertex of smaller coordinate sum;
-that correction root is an old syndrome vertex. This proves the strict
-last gain. Cancellations between parallel corrections do not change
-this argument. Reflection and iteration give the stated bounds. The
-dual lattice differs by a fixed half-cell displacement and has the
-same proof.
-\end{proof}
-
 \subsection{Common potentials and every link type}
 
-For a local lifted virtual chart set \(d=(58,58,58,57)\) and
-\begin{equation}\label{q:walls}
- F_j=-(q_j+d_jt)\ (1\le j\le4),\qquad
- F_5=\sum_{j=1}^4(q_j+d_jt).
-\end{equation}
-They sum to zero. Table~\ref{q:links} lists backward increments
-\(F(\text{parent})-F(\text{root})\). It includes links created by
-classical gathering and predictor recentering. Write
-\(\delta_i\in\{-1,0\}\), \(v=(58,58)\), and \(T=1024\).
-
-\begin{table}[ht]
-\centering\small
-\renewcommand{\arraystretch}{1.1}
-\begin{tabular}{>{\raggedright\arraybackslash}p{.25\textwidth}>{\raggedright\arraybackslash}p{.68\textwidth}}
-\toprule
-Link & Five increments, or their justified lower bounds\\
-\midrule
-Selector support &
-\((58-u_1,58-u_2,58-u_1,57-u_2-\delta_i)\),\newline
-\(\Delta F_5=2u_1+2u_2+\delta_i-231\).
-Charge-specific good choices give \((43,43,43,42,88)\).\\
-Profile support &
-\((58-u_1,58,58-u_3,57)\),\newline
-\(\Delta F_5=u_1+u_3-231\).
-The \(320\)-separated boxes give \((43,58,43,57,89)\).\\
-\(400\) reflected sweeps &
-\((58,58,58,57,169)\) as charge-specific lower bounds.\\
-Helper copy corridor &
-\((0,0,0,0,0)\) on its base characteristic.\\
-Gather then field consult &
-\((0,0,0,+j,-j)\) for the gather \(i\mapsto i-j\);
-\((0,0,0,-j,+j)\) for the consult back to the base.
-Their compressed link has zero increment.\\
-Clean predictor entry &
-\((0,0,0,T-1,-(T-1))\), followed by all \(T\) formal support levels.\\
-Same-site old/new star &
-\(\pm(58,58,58,57,-231)\); total absolute oscillation \(462\).\\
-Quantum or program-use link &
-For its fixed displacement \((\Delta q,\Delta t)\),
-\((-\Delta q_j-d_j\Delta t)_{j=1}^4\) and
-\(\sum_j\Delta q_j+231\Delta t\). Each sheet's allowed list is finite.\\
-\bottomrule
-\end{tabular}
-\caption{All link types in the common five-potential derivation.
-The good entries for different charges may use different parents.}
-\label{q:links}
-\end{table}
+Use the potentials \eqref{q:walls} and the backward increments of Table~\ref{q:links}.
 
 For the selector, a parent moves in virtual coordinates by
 \((u_1,u_2,u_1,u_2+\delta_i)\). A negative charge chooses outside its
-corresponding nonzero provider box; the sum charge chooses a nonzero
+corresponding nonzero replica box; the sum charge chooses a nonzero
 box. For the profile only \(q_1,q_3\) move, and the desired profile
-is constant on those provider planes. A wrong clean provisional
-profile output needs at least \(257\) wrong providers, hence two
+is constant on those replica planes. A wrong clean provisional
+profile output needs at least \(257\) wrong replicas, hence two
 boxes. Its \(320\)-spacing gives the profile row. Syndrome gains
 follow from Lemma~\ref{q:sweep}.
 
-Intrinsic overlay events and helper-driver errors are named on the
+Intrinsic overlay events and sampling-register driver errors are named on the
 base characteristic. The gather and consult are compressed together
-before making a terminal. Thus no uncancelled \(B\)-sized helper
-link enters a constant that must be fixed before \(B\).
+before making a terminal. Thus no uncancelled \(B\)-sized sampling-register link enters a constant that must be fixed before \(B\).
 
-A clean recentered deep query has formal clock \(t+T-1\) and provider
-coordinate \(P-(T-1)v\). The first three co-moving \(q\)-coordinates
-agree with the actual root, whereas its fourth is smaller by
-\(T-1\). This gives the predictor-entry row. Such a clean entry
-traverses all \(T\) noiseless formal levels before reaching actual
+A clean recentred deep query has formal time \(t+T_{\rm hist}-1\) and replica
+coordinate \mbox{\(P-(T_{\rm hist}-1)v\)}. The first three co-moving \(q\)-coordinates
+agree with the root, whereas its fourth is smaller by
+\(T_{\rm hist}-1\). This gives the predictor-entry row. Such a clean entry
+traverses all \(T_{\rm hist}\) noiseless formal levels before reaching actual
 old data; an internally corrupted lookup goes directly to its local
 source instead. Allocate the entry's \(F_5\) debit over those next
-\(T\) edges. Each loses less than one unit, so their good gain is
+\(T_{\rm hist}\) edges. Each loses less than one unit, so their good gain is
 at least \(87\). Successive entered blocks on an arm are disjoint.
 An arm beginning inside a block owes no earlier entry debit; a
 fork-first bad edge has its loss ceiling enlarged by one. This is
@@ -208,79 +119,16 @@ classical derivation an arm never returns to syndrome types. Hence
 these quantum-to-classical and terminal links occur at most once
 per arm. Repeated classical predictor entries are paid by the
 separate block argument above.
-\begin{lemma}[Grouped derivations]\label{q:frontier}
-Suppose a finite acyclic backward derivation has \(k\) balanced
-potentials. For each potential every positive support has a selected
-parent with gain at least \(d_0>0\), and every selected edge loses at
-most \(K_0\). Allow source-free zero-gain corridors, followed by a
-positive support, and bounded entry and terminal links, at most one
-of each per arm. Group terminal appearances by source label, with
-bounded total potential oscillation per group. Then every root has a
-connected projected witness with at most \(C_{\rm w}g\) edges and \(g\)
-distinct true source labels. The constant \(C_{\rm w}\) is computable from
-the fixed typed stencils, gain, loss, link, and oscillation bounds.
-\end{lemma}
-\begin{proof}
-The argument refines Toom's contour method
-\cite{Toom1980,BermanSimon1988,Gacs2001} to grouped terminal labels.
-For a derivation vertex \(v\), let \(T(v)\) be the set of terminal
-labels reachable from it. Begin with the frontier consisting of the
-root and expose a frontier nonterminal by replacing it with all its
-selected parents. Partition the frontier by connected components of
-the intersection graph of its \(T\)-sets. New sets are subsets of the
-exposed set, so exposure cannot merge previous components.
-
-If one component splits into \(j\) daughters, each daughter contains
-a selected parent of the exposed vertex. Indeed, any remaining old
-frontier set previously attached to the exposed set intersects a
-terminal set of at least one selected parent; any surviving connection
-not using the exposed set remains. For each charge, keep one arm
-endpoint in every current component. Initially follow a charge-good
-arm from the root to a terminal. At a split the existing endpoint
-belongs to one daughter. Add \(j-1\) source occurrences at the exposed
-vertex. For that charge route their first edges into the daughters
-missing an endpoint, then continue by charge-good edges. The chosen
-parent's whole reachable terminal set is in that daughter, so the
-continuation cannot leave it. The assignments for different charges
-may differ.
-
-At the terminal frontier each distinct terminal label receives
-exactly one arm endpoint per charge. Join the starts at each source
-occurrence and the endpoints at each terminal label, and retain the
-undirected arm component containing the original root. In this
-component every source starts one arm of each charge and every
-terminal receives one of each charge. Therefore \(g\) retained
-terminal labels correspond to \(g\) retained source occurrences.
-Exactly \(g-1\) occurrences were added, so at most \(k(g-1)\) first
-edges fail to be charge-good.
-
-Sum potential increments along all arms. Balanced potentials cancel
-at each source. They cancel at the terminal groups up to their bounded
-oscillation. If \(E\) counts positive edges with arm multiplicity,
-and \(K_{\rm link}\) bounds the total loss of the allowed links on
-one arm, telescoping gives
-\[
- d_0 E\le
- k(d_0+K_0)(g-1)+kK_{\rm link}g+\Omega g,
-\]
-where \(\Omega\) is a computable group-oscillation bound. Thus
-\(E=O(g)\). A zero corridor cannot split an overlap component. After
-projection each such corridor contributes a fixed number of links,
-charged to its following positive support; root and terminal
-exceptions cost \(O(g)\). The entry and terminal links also cost
-\(O(g)\). Projection preserves connectedness and can only identify
-edges, giving the asserted witness.
-\end{proof}
 
 Apply Lemma~\ref{q:frontier} with five charges after this amortization.
 The source labels are
 \begin{equation}\label{q:labels}
- \lambda_\sigma=
- (\sigma,i_\sigma-t,P_{1,\sigma}+58t,
-      P_{2,\sigma}+58t,Q_\sigma,\lfloor t/W\rfloor).
+ \lambda_\varsigma=
+ (\varsigma,i_\varsigma-t,P_{1,\varsigma}+58t,
+      P_{2,\varsigma}+58t,Q_\varsigma,\lfloor t/W\rfloor).
 \end{equation}
 They recover all four co-moving virtual coordinates; in particular
-\(q_4+57t=(i_\sigma-t)+(P_{2,\sigma}+58t)\).
+\(q_4+57t=(i_\varsigma-t)+(P_{2,\varsigma}+58t)\).
 
 \subsection{Local charts and spatial certificates}
 
@@ -288,7 +136,7 @@ At a closing fold translate one sheet's whole coordinate chart by
 \(\pm2m\), once per folded axis for the entire certificate and all
 its classical ancestors. At a middle fold the default coordinates
 already give adjacent virtual values. The two translations commute.
-Fix the ordinary period-\(L\) lifts in directions one and three in
+Fix the ordinary period\nobreakdash-\(L\) lifts in directions one and three in
 the same way. A local virtual chart narrower than
 \(\min(L,2m)/100\) meets at most one fold per axis. Within one sheet
 it has one affine physical inverse. Ancestors leaving the active
@@ -296,10 +144,10 @@ box continue this same affine extension. Source names and reference
 phase use the same translation, so a typed label has one image.
 
 A joint-field root has the witness from Lemma~\ref{q:frontier};
-zero helper corridors collapse to fixed role/bin links. Its projected
-graph has bounded degree fixed before the helper length, alphabet,
+zero sampling-register corridors collapse to fixed role/bin links. Its projected
+graph has bounded degree fixed before the sampling-register length, alphabet,
 and on-site circuit depth are selected. The following proof uses
-the joint typed-label law with base \(\gamma=\gamma_0^{1/4}\).
+the joint typed-label law with base \(\gamma_{\rm fold}=\gamma_{\rm src}^{1/4}\).
 \begin{lemma}[Spatial diameter tail]\label{q:spatial}
 For sufficiently small constants chosen as in the controller
 construction, the probability that the joint tracked field has a
@@ -308,24 +156,28 @@ in two adjacent times, is at most \(A_0e^{-a_0R}\). The constants
 are computable and uniform over the nonhalting windows, within the
 finite legal chart on which the source law applies.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Cover the path by balls containing complete witnesses and retain a disjoint family. Connecting their enlarged balls gives a spanning certificate whose length is paid for by distinct marked sources.
+
 \begin{proof}
 For every occupied vertex on a finite path choose the connected
 witness of Lemma~\ref{q:frontier}. Its transverse characteristic
-projection, including all its terminal labels, lies in a ball centered
+projection, including all its terminal labels, lies in a ball centred
 at the root with radius at most \(C_1g\). Select these balls greedily
 in decreasing radius, keeping a ball if it is disjoint from all
 previously kept balls. Every discarded ball is contained in the
 threefold enlargement of an intersecting retained ball of at least
-its radius. Fourfold enlargements therefore cover the polygonal
+its radius. Use \(4+2R_{\rm blk}+1\)-fold enlargements, with
+\(R_{\rm blk}\) from Lemma~\ref{q:round-shadow}, so the same covering
+also includes the intermediate-stage shadow links. These enlargements cover the polygonal
 path. A simple chain of these enlarged balls joins its two endpoints.
 
 The terminal-label sets of the selected witnesses are disjoint:
 a common label has one transverse characteristic position and would
 belong to two disjoint original balls. This implication concerns
 labels; the underlying statistical tests may still overlap.
-Connect successive selected centers by coordinate paths, and attach
-the two endpoint anchors. Consecutive centers are separated by at
-most four times the sum of their radii. Since the chain is simple,
+Connect successive selected centres by coordinate paths, and attach
+the two endpoint anchors. Consecutive centres are separated by at
+most \(4+2R_{\rm blk}+1\) times the sum of their radii. Since the chain is simple,
 each radius is charged a bounded number of times. Thus the union is
 a connected certificate containing the prescribed path root, with
 \(e\le C_2G\) edges and \(G\) distinct true labels. Its span gives
@@ -337,11 +189,11 @@ A doubled-edge traversal of a connected \(e\)-edge graph has length
 \(2e\). Its bounded degree, terminal subset, and finite role labels
 bound the number of rooted annotated certificates by \(K_{\rm an}^e\) for a
 computable \(K_{\rm an}\). A fixed certificate has probability at most
-\(\gamma^G\le\gamma^{e/C_2}\). Therefore the required probability is
+\(\gamma_{\rm fold}^G\le\gamma_{\rm fold}^{e/C_2}\). Therefore the required probability is
 at most
 \begin{equation}\label{q:animal}
  \sum_{e\ge R/C_3}
-       \bigl(K_{\rm an}\gamma^{1/C_2}\bigr)^e.
+       \bigl(K_{\rm an}\gamma_{\rm fold}^{1/C_2}\bigr)^e.
 \end{equation}
 The construction first fixes these geometric constants and then
 chooses its source parameters so that the base is at most \(1/4\).
@@ -349,170 +201,6 @@ This gives the claimed exponential tail.
 \end{proof}
 
 
-
-\subsection{One recovery for every permitted Pauli assignment}
-
-We first record the deterministic topological criterion. All sizes
-in this paragraph refer to the intended virtual complex.
-
-\begin{lemma}[Local filling invariant]\label{q:homology}
-Let \(\ell_{\min}=\min(L,2m)\) and \(r=\ell_{\min}/20\).
-Starting from a code state, if every syndrome component in both CSS
-sectors has coordinate diameter less than \(r\) at every serialized
-elementary plaquette Pauli update, a fixed final filling decoder
-recovers the entire logical state and its reference exactly.
-\end{lemma}
-\begin{proof}
-A syndrome component is itself a \(1\)-cycle. Its small lift lies
-in a contractible box, so fix a \(2\)-chain filling there by finite
-Gaussian elimination and a deterministic box/lift convention. Set
-\[
- h(e)=\left[e+\sum_\nu C_\nu(\partial e)\right]
- \in H_2(\mathbb T^4;\mathbb F_2).
-\]
-Under one plaquette update only components meeting that plaquette
-can change. The affected old and new components and their fillings
-lie in a common box of width at most \(8r+O(1)<\ell_{\min}\), after
-enlarging the fixed size threshold. Unaffected fillings cancel.
-The difference of the two corrected chains is closed in that box,
-hence a \(3\)-boundary. Thus \(h(e)\) is unchanged. It starts at
-zero. Applying the same argument on the dual cellulation shows that
-the final Pauli acts by stabilizers in both sectors, including on
-reference-entangled states.
-\end{proof}
-
-A fixed exogenous classical history determines a catalogue of allowed
-Pauli-insertion supports: physical-noise supports, erroneous record
-or mask uses, controller erasures, and each affected sheet image of
-a wrong program gate. The nonunitary instruments of the intended
-processor have one common unconditional Stinespring dilation. Only
-unitaries differ between actual and intended programmed circuits.
-Choose a dangerous scale \(r_{\rm d}\) equal to a sufficiently small
-fixed fraction of \(m\). An admissible dangerous certificate is a
-connected typed-source certificate of the preceding construction
-spanning at least a fixed multiple of \(r_{\rm d}\), with allowed
-predecessor, program-use, and terminal annotations. Define
-\(\mathcal G\) to mean that none exists. This definition precedes
-and is independent of any choice of Pauli values at the catalogue.
-
-\begin{lemma}[Universal certificate implication]\label{q:universal}
-For a fixed exogenous classical history, every Pauli assignment at
-the allowed catalogue locations that changes corrected homology in
-either CSS sector yields an admissible dangerous certificate.
-Consequently, on \(\mathcal G\), the same intended-complex filling
-decoder corrects every insertion history on the entire logical
-codespace, including its reference.
-\end{lemma}
-\begin{proof}
-Fix an arbitrary complete insertion assignment \(h\). In the ideal
-inserted network the data are always a Pauli frame on a codeword.
-Indeed, Clifford extraction conjugates Pauli observables to Pauli
-observables, and conjugation by an inserted Pauli changes only their
-signs. A stabilizer measurement therefore has a deterministic record
-for this frame, independent of the stored logical state. Record
-Paulis flip fixed basis records; the local Boolean matching then
-computes deterministic correction choices. Its work remains basis
-classical. In the common instrument dilation the associated
-measurement environment vector is logical-independent. This proves
-the assertion for the entire successive history by induction.
-
-In a fixed extraction/sweep block, a syndrome vertex has the ideal
-\(400\)-sweep predecessors of Lemma~\ref{q:sweep} unless its ideal
-backward cone contains an inserted or erroneous location. In that
-case terminate its quantum arm at the last such location in the
-block. The remaining ideal propagation has a fixed radius in that
-sheet. Attach the corresponding per-sheet link, then its true
-profile-use or selector derivation, or its fresh hardware source.
-Record errors have the same bounded local correction influence.
-The derivation is finite, its classical entries never return to
-quantum types, and Table~\ref{q:links} supplies all its increments,
-including repeated predictor blocks.
-
-A Pauli term may have several separated sheet patches. Let \(K_*\)
-bound their number and \(R_*\) their radii, from the fixed catalogue.
-Choose \(r_{\rm d}\) small enough that any union of \(K_*\) patches
-linked at distances \(2(r_{\rm d}+R_*)\) fits in a contractible box much
-narrower than \(\ell_{\min}\). Combine such nearby patches into
-one box. Separated boxes can be applied successively: if the
-before and after syndromes have only components smaller than
-\(r_{\rm d}\), no such component joins two separated boxes. An
-intermediate connected piece therefore belongs to the before
-syndrome near an unprocessed box or to the after syndrome near a
-processed box, together with the bounded patch neighborhoods.
-Inside a combined box serialize its plaquettes. Every intermediate
-component is contained in a fixed multiple of that contractible
-box. Taking the fixed fraction defining \(r_{\rm d}\) smaller if needed
-puts these diameters below the barrier in
-Lemma~\ref{q:homology}.
-
-It follows that a change of corrected homology forces a
-macroscopic syndrome component either at a tracked block boundary
-or in such a local serialization. A first macroscopic path can be
-shadowed, at bounded distance, by the joint syndrome/controller
-field on the two adjacent tracked times. Every local patch is
-anchored at its allowed typed insertion source; no long virtual
-edge is inserted between distinct sheet images. Apply the
-predecessor construction just proved and Lemma~\ref{q:frontier},
-then the ball/connector construction of
-Lemma~\ref{q:spatial}, to obtain the dangerous certificate.
-
-All these constructions use only positions, finite roles, and true
-terminal events. The argument applies to the arbitrary assignment
-\(h\) with which we began. The certificate count therefore controls
-the union over every assignment. On \(\mathcal G\) no assignment
-can change homology, and the one fixed filling decoder returns every
-logical state exactly by Lemma~\ref{q:homology}.
-\end{proof}
-
-\begin{lemma}[Common recovery and coherent span]\label{q:span}
-Let \(V\) encode a logical system \(A\), also writing \(V\) for its encoding channel,
-and suppose one recovery
-\(\mathcal D\) satisfies \(\mathcal D\Phi_hV=\operatorname{id}_A\)
-for every allowed Pauli-inserted history in a common unconditional
-instrument network. Then it also corrects coherent unitary changes
-whose Pauli expansions use those locations. If changed gates couple
-to an ideal-decoupled outside system \(E\), the corrected dilation
-has the form \(I_A\otimes K_E\), with \(K_E\) an isometry. Hence
-logical/reference marginals are preserved even for initially
-correlated logical and outside inputs.
-\end{lemma}
-\begin{proof}
-Choose the common history dilations \(\Omega_h\) and one recovery dilation
-\(R\). Exact identity recovery on a logical basis gives
-\[
- R\Omega_hV|a\rangle=|a\rangle\otimes|s_{h,a}\rangle,
-\]
-since the recovered marginal is pure. Preservation of the
-off-diagonals forces
-\(\langle s_{h,b}|s_{h,a}\rangle=1\), so these unit vectors are
-all equal, including their phase. Therefore
-\(R\Omega_hV=I_A\otimes|s_h\rangle\).
-
-For each changed unitary write
-\(U_{\rm act}U_{\rm ideal}^*=\sum_P\alpha_P P\).
-Expanding the finite interleaved product in the common dilation gives
-\(\Omega_{\rm act}V=\sum_h\alpha_h\Omega_hV\). Applying \(R\) yields
-\[
- R\Omega_{\rm act}V=I_A\otimes\sum_h\alpha_h|s_h\rangle.
-\]
-The actual dilation is isometric, so the remaining vector has norm
-one. The full coherent sum, including all cross terms, has exact
-identity recovery.
-
-For an outside system instead expand each difference as
-\(\sum_P P_{\rm active}\otimes B_P\). The intended active/outside
-factorization allows all outside operations and their dilation
-baths to remain in these operator-valued coefficients. The same
-calculation gives
-\[
- (R\otimes I)\Omega_{\rm act}(V\otimes I_E)=I_A\otimes K_E.
-\]
-Isometry implies \(K_E^*K_E=I_E\). Its partial trace is a channel
-on the environment, so the logical/reference marginal is unchanged
-for every joint input on \(A,E\), and a reference. Active check
-ancillas and records remain in \(\Omega_h\); only ideally decoupled
-outside factors enter \(E\).
-\end{proof}
 
 \subsection{Linear horizon on physical tori}
 
@@ -522,7 +210,7 @@ For the explicit maps write
 \]
 
 \begin{proposition}[Linear storage]\label{q:linear}
-For the independent-qubit realization there are a computable
+For the independent single-qubit realization there are a computable
 rational \(c>0\), computable positive \(A_1,a_1\), an integer
 \(b_1\), and a total computable threshold \(L_0(n)\) such that,
 for each nonhalting \(n\) and all \(L\ge L_0(n)\), the explicit
@@ -534,37 +222,36 @@ rate-independent encoding and intended-fold recovery have fidelity
 The constants \(c,A_1,a_1,b_1\) are independent of \(n\).
 The same initial encoder works for all these times and rates.
 \end{proposition}
+\par\noindent\emph{Proof idea.} Choose the horizon so every relevant cone fits into a small lifted chart. Pay for repeated physical faults across the sheets, and recover using a single decoder whenever there is no dangerous certificate.
+
 \begin{proof}
-After fixing the complete medium, compute a conservative per-round
-velocity and source-support bound \(V_*\), including physical helper
-lanes, characteristic drift, every fixed hardware role, and both
+After fixing the circuit, compute a conservative per-round
+velocity and source-support bound \(V_*\), including physical sampling lanes, characteristic drift, every fixed hardware role, and both
 old/new times. Fix an additive halo \(A_*\). Choose a rational \(c\)
 small enough that all cones through \(cL\), clipped containing balls,
-and fourfold enlargements have width less than \(m/100\).
+and \(4+2R_{\rm blk}+1\)-fold enlargements have width less than \(m/100\).
 For example a sufficiently reduced rational of order
 \(1/[10^{10}(V_*+1)]\) works after an effective enlargement of
 \(L_0\), since \(m\ge L/128\) for all large \(L\).
 
-Each sheet's active logical \(i_\sigma\)-interval has width at most
+Each sheet's active logical \(i_\varsigma\)-interval has width at most
 \(2m\). Lemma~\ref{c:initialization} places its chart seam a distance
 at least \(L/4\) away and covers the whole required initial history,
-future, and collar cone by a finite cover search. Each selector
-may use its own phase and hidden lift. Only its live license is
-used across the fold. The low/high initializer supplies positive-time
+future and collar cone by a finite cover search. Each selector
+may use its own phase and hidden lift. Across the fold, only the live selector output enables storage. The low/high initializer supplies positive-time
 source supports, even when \(W\) exceeds \(cL\).
 
 Stop a first dangerous virtual path at its first exit from a small
-box at scale \(r_{\rm d}=\Theta(m)=\Theta(L)\). Its two-time roots,
-actual source supports, and enlarged witness balls lie in one
+box at scale \mbox{\(r_{\rm d}=\Theta(m)=\Theta(L)\)}. Its two-time roots,
+source supports and enlarged witness balls lie in one
 small virtual chart. Use the one-deck-translation-per-sheet
 convention above. Within a sheet its affine physical inverse is
-injective on these supports. Cross-sheet repeated coins are paid
-by H\"older's fourth-root loss. For each source event use its actual
+injective on these supports. The fourth root in H\"older's inequality accounts for coins repeated across sheets. For each source event use its actual
 restricted positive-time atoms; extend missing exterior comparison
 atoms independently.
 
 The animal count \eqref{q:animal}, with
-\(\gamma=\gamma_0^{1/4}\), bounds existence of any dangerous
+\(\gamma_{\rm fold}=\gamma_{\rm src}^{1/4}\), bounds existence of any dangerous
 certificate by an exponential in its virtual span. Polynomial
 unions over physical roots, \(O(L)\) times, and fixed hardware roles
 give
@@ -573,7 +260,7 @@ By Lemma~\ref{q:universal}, on \(\mathcal G\) one intended-fold
 recovery corrects every permitted Pauli history. Conditional on the
 exogenous classical history, actual wrong programmed unitaries have
 exactly the per-sheet operator supports in its catalogue. Physical
-noise has its Pauli/replacement unraveling.
+noise has its Pauli/replacement unravelling.
 Lemma~\ref{q:span} therefore gives exact recovery for the actual
 coherent circuit, including any outside correlations it created.
 Bad histories have nonnegative entanglement fidelity, giving the bound.

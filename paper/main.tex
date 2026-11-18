@@ -1,16 +1,23 @@
-\documentclass[11pt]{amsart}
+\pdfoutput=1
+\providecommand{\DoNotLoadEpstopdf}{}
+\documentclass[11pt,a4paper]{article}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage[a4paper,textwidth=15.5cm,textheight=23.5cm,centering]{geometry}
-\usepackage{mathtools,amssymb,amsthm}
-\usepackage{microtype}
-\usepackage{enumitem}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.08in]{geometry}
+\usepackage{booktabs,array,enumitem,microtype,xcolor,needspace,upquote,multicol}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
-\usepackage{array,booktabs}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[hypcap=false]{caption}
 \usepackage[unicode,colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
-\hypersetup{pdftitle={Undecidable quantum storage with seven elementary gates},pdfauthor={Seth Douglas and Nidhal Mghirbi},pdfsubject={Quantum storage and undecidability}}
+\setlength{\emergencystretch}{2em}
+\setlist{nosep}
+\setcounter{tocdepth}{1}
+\makeatletter
+\renewcommand*\@pnumwidth{2em}
+\@clubpenalty=10000
+\renewcommand*\l@section[2]{\addvspace{.15em}\@dottedtocline{1}{0pt}{2.4em}{\bfseries #1}{\bfseries #2}}
+\makeatother
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
@@ -32,25 +39,35 @@
 \newcommand{\cE}{\mathcal E}
 \newcommand{\cD}{\mathcal D}
 \newcommand{\one}{\mathbf 1}
+\colorlet{rxaccent}{orange!80!black}
 \setlist[enumerate]{label=\textup{(\roman*)},leftmargin=2em,itemsep=3pt,topsep=4pt}
 \setlist[itemize]{leftmargin=1.7em,itemsep=2pt,topsep=4pt}
 \allowdisplaybreaks[2]
 \raggedbottom
-\title[Quantum storage with seven gates]{Undecidable quantum storage with seven elementary gates}
-\author{Seth Douglas}
-\author{Nidhal Mghirbi}
-\address{finite.works}
-\urladdr{https://finite.works}
-\date{Version 2.1.0, November 2026}
-\keywords{Quantum memory, local decoding, undecidability, depolarizing noise, cellular automata}
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\hyphenation{Lemma Lemmas Theorem Theorems Proposition Propositions Definition Definitions}
+\hypersetup{pdftitle={Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers},pdfauthor={Seth Douglas and Nidhal Mghirbi},pdfsubject={Quantum storage and undecidability}}
+\title{Undecidable quantum storage:\\[.3em]\small no algorithm can tell from the noise rate whether a fixed circuit remembers}
+\author{\begin{tabular}{@{}c@{\qquad}c@{}}Seth Douglas & Nidhal Mghirbi\\[-1pt]\small\href{https://orcid.org/0009-0007-4708-3252}{0009-0007-4708-3252} & \small\href{https://orcid.org/0009-0005-6534-1118}{0009-0005-6534-1118}\end{tabular}\\[3pt]\normalsize\href{https://finite.works}{finite.works}}
+\date{Version 2.2.0, November 2026}
 \begin{document}
-\begin{abstract}
-Can one decide from its noise rate whether a fixed local quantum medium is an excellent memory or no scalable memory at all? We construct two six-dimensional media, one for whole-site and one for independent single-qubit depolarization, for which this distinction is undecidable. Both use only X, H, CNOT, Toffoli, reset, dephasing and identity, with noise after every elementary layer. Computable disjoint rational windows select universal-machine inputs: above a computable size threshold, nonhalting preserves a reference-entangled qubit with fidelity at least 15/16 through exponentially many rounds, while halting destroys every encoding after a time uniform in size and rate. We also obtain stretched-exponential storage on the undecidable windows in four dimensions under whole-site noise, using a static cap and a folded concatenated code with a periodic classical calendar. Its fixed positive exponent is below 0.0002 and astronomically small; the bound beats a given polynomial only at astronomically large sizes. One total computable encoder serves all guaranteed times and rates in each window. For the six-dimensional media we also give a coarse lifetime upper bound and \(\Pi^0_1\)-complete certification by exact finite tests; the three-dimensional construction retains its sharp linear scale. All interactions have fixed, very large range, and the windows lie below astronomically small rate caps. The Bell-sharing bound and conditional window certification are verified in Lean 4 with Mathlib. Every finite sample eventually forgets; what is undecidable is how useful storage time grows with size.
-\end{abstract}
 \maketitle
-\noindent\small AI-assisted mathematics; the authors have not independently verified
-these arguments. \hyperref[s:ai]{Disclosure}.\normalsize
-\clearpage
+\begin{abstract}
+A quantum memory is usually judged by its threshold: below some noise rate, larger memories store quantum information for longer, without limit. We construct fixed local noisy quantum circuits for which no algorithm can decide, from a rational noise rate, whether the best achievable storage time grows without limit with system size. For each of two noise models, whole-site and single-qubit depolarization after every layer, the circuit is translation-invariant and time-periodic on six-dimensional tori of side $L$. A computable list of disjoint intervals of noise rates is indexed by the inputs $n$ of a universal Turing machine. If the machine runs forever on $n$, then at every rate in the $n$-th interval a rate-independent encoding keeps a qubit, entangled with a reference, at fidelity at least $15/16$ for at least exponentially many rounds in $L$, for all $L$ above a computable size. If it halts, every encoding loses this fidelity after a number of rounds that depends on neither $L$ nor the rate. No algorithm can decide which case holds, and intervals of both kinds accumulate at zero, so the circuits have no noise threshold. The rate is never an input: local noise samples select the computation, its halting triggers local erasure of the quantum data, and a no-cloning bound controls every encoding. Related circuits show the same dichotomy with storage time at least stretched-exponential in $L$ in four dimensions under whole-site noise, and of order $L$ in three dimensions under both noise models. These are existence results: registers and interaction ranges are very large and the noise rates astronomically small.
+\end{abstract}
+\begin{center}\small Claude Opus 5.5, GPT-6.1 Sol, GPT-6.2 Sol and GPT-6 Astra assisted with this work; the authors take responsibility for every claim. Archive and Lean sources: \href{https://doi.org/10.5281/zenodo.24254845}{doi:10.5281/zenodo.24254845}.\end{center}
+\makeatletter
+\newcommand{\papercontents}{%
+  \section*{\contentsname}%
+  \begin{multicols}{2}%
+  \footnotesize
+  \@starttoc{toc}%
+  \end{multicols}%
+}
+\makeatother
+\papercontents
 \input{sections/introduction}
 \input{sections/model}
 \input{sections/controller}
@@ -62,34 +79,18 @@ these arguments. \hyperref[s:ai]{Disclosure}.\normalsize
 \input{sections/exponential}
 \input{sections/z4}
 \input{sections/discussion}
-\section*{How this work was done}\label{s:ai}
-The work used a combination of AI models, including Claude Opus 5.5,
-GPT-6.1 Sol and GPT-6 Astra, directed by the authors. Each new result was
-checked refutation-first by a model of a different developer from the
-one that found it; each check re-derived the steps new at that stage and
-took earlier-checked steps and published inputs as given. The written
-version, including the four-dimensional theorem and its appendices, was
-reviewed in the same way. The authors have not independently
-verified the mathematical arguments. The checks are written mathematical
-reviews supported by small exact computations of finite arithmetic and
-simulations of the clean classical rule; the circuits and their
-astronomical finite catalogues have not been materialized. The Lean core
-was written by AI agents; its statements were read blind against the
-paper before any proof, and its proofs were checked by two independent
-kernels. Its scope is Lemma~\ref{f:bell} and the conditional
-Theorem~\ref{lean:conditional}; the physical results remain outside
-that verification.
-
 \appendix
-\input{sections/fold-controls}
-\input{sections/folded}
-\input{sections/coexistence}
+\input{sections/code-estimates}
 \input{sections/z4-calendar}
 \input{sections/z4-dispatch}
 \input{sections/z4-sources}
+\input{sections/coexistence}
+\input{sections/fold-controls}
+\input{sections/folded}
+\input{sections/reproducibility}
+\input{sections/imports}
 \input{sections/lean}
 \input{references}
 \end{document}
-
 
 

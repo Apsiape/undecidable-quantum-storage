@@ -1,21 +1,23 @@
 \section{Stretched-exponential storage in four dimensions}\label{sec:four-dimensional}
 The static cap of Section~\ref{sec:exponential} needs two chart
 coordinates and two quorum coordinates. A concatenated code uses only
-a chain. Combining that cap with Section~\ref{sec:quantum}'s calendar
-and folding the chain gives the following addition.
+a chain. Combining that cap with Section~\ref{sec:quantum}'s clock
+and folding the chain gives the following theorem.
 
-\begin{theorem}[Four-dimensional whole-site medium]\label{f4:detailed}
+Folding puts the virtual cycle into half its length with two roles per site, so it fits on a physical torus of any side \(L\). We describe the circuit, verify the hierarchy hypotheses and state the source law in Sections~\ref{f4:circuit}--\ref{f4:actual-sources}. Section~\ref{f4:constants} orders the constants, and Sections~\ref{f4:positive} and~\ref{f4:forgetting} prove the storage and forgetting alternatives.
+
+\begin{theorem}[Detailed form of Theorem~\ref{thm:four-dimensional}]\label{f4:detailed}
 There is a computably specified, translation-invariant, finite-range,
 time-periodic circuit on \(\Z^4\), with a fixed \(N\) qubits per site,
 elementary inventory
 \(\{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}\) of arity at
 most three, and independent whole-site depolarization
 \eqref{eq:site-noise} at every site after every elementary layer.
-It acts on all physical factors, including data, calendar, controller,
-helper, port, work, reset-following and idle factors. There are
+It acts on all physical factors, including data, clock, controller,
+sampling register, port, work, mixed ancilla, reset-following and idle factors. There are
 computable pairwise disjoint nonempty rational open intervals \(I_n\)
 whose closures lie in \((0,\eps_*)\) for a fixed rational
-\(\eps_*>0\), a fixed \(P=2^{r_{\rm exp}}\), \(r_{\rm exp}\ge2\),
+\(\eps_*>0\), a fixed clock block length \(P_{\rm cal}=2^{r_{\rm exp}}\), \(r_{\rm exp}\ge2\),
 \(\alpha_4=1/r_{\rm exp}\), a rational \(c_4>0\) independent of \(n\),
 and a total computable threshold \(L_4(n)\), with these properties on
 \((\Z/L\Z)^4\) using \eqref{eq:fidelity}.
@@ -39,50 +41,35 @@ entanglement.
 \end{enumerate}
 \end{theorem}
 
-This theorem concerns the whole-site realization \(\mathrm W\) only,
-with independent local noise and fresh, never-retrieved environments.
-Its interactions have fixed but very large range. The exponent
-\(\alpha_4\) is astronomically small; even the most favorable capacity
-estimate below gives \(\alpha_4<2\cdot10^{-4}\). The prefactor \(c_4\)
-of Table~\ref{f4:order-b} can be taken of order \((\log2)/64\), but
-\(\exp(c_4L^{\alpha_4})\) exceeds a fixed power of \(L\) only at
-astronomically large sizes.
-The windows decrease on the \(4^{-n}\) scale and lie below an
-astronomically small rate cap. No lifetime upper bound is proved for
-this medium. Rates outside the selected windows are unclassified.
+The windows decrease on the \(4^{-n}\) scale. The exponent \(\alpha_4<2\times10^{-4}\) is small. The crossover with a linear lower bound depends on the coefficients and size cutoffs (Section~\ref{intro:scope}).
 
-\subsection{The actual four-dimensional circuit}
+\subsection{The four-dimensional circuit}\label{f4:circuit}
 Write coordinates \((x,y,\sigma,z)\). The cap field \(\mathsf C\)
-is exactly the core, ordinary second proposal, base helpers, deep
+is exactly the core, ordinary second proposal, base sampling registers, deep
 queries and availability dictionary of Section~\ref{sec:exponential},
 with chart plane \((x,y)\), quorum plane \((\sigma,z)\), and the
 copied coordinates \(P_3,P_4\) deleted. In particular the static
-constraints are put in nearest-neighbor higher-block form before
-adding the timer. Its Moore rule retains the original profile, spreads
+constraints are put in nearest-neighbour higher-block form before
+adding the counter. Its Moore rule retains the original profile, spreads
 bottom from every input, and spreads death along original-active
-nearest-neighbor edges. Death leaves the cap boundary and endpoints
-unchanged. Permission is original-active and not-dead in the first coordinate.
-The ordinary proposal remains in the second coordinate. Only the two depth-4096
-profile queries \(Q_0,Q_-\) supply harmful guards. Bottom writes unknown/allowed,
-true vacuum unknown/unavailable, and a genuine origin has priority
-over a predecessor vacuum. Every shifted helper uses its own base.
+nearest-neighbour edges. Death leaves the cap boundary and endpoints
+unchanged. The first coordinate enables storage exactly when its retained profile is active and its death flag \(\mathsf d\) is unset. The second records the ordinary majority proposal. Only the two depth-4096 profile queries \(Q_0,Q_-\) can provide harmful guards. The availability dictionary distinguishes bottom from vacuum: the former writes unknown/allowed, the latter unknown/unavailable. A genuine row origin takes priority over predecessor vacuum. Every shifted sampling register uses its own base site.
 
-An independent semantic calendar \(\mathsf S\) runs along \(\sigma\),
+An independent clock field \(\mathsf S\) runs along \(\sigma\),
 with whole-symbol quorum protection in \((x,z)\), cloned in \(y\)
 in the reference. Its logical rule is the transducer of
 Lemma~\ref{f4:periodic}, total on malformed fields, folded into two
 roles by the coordinate map of Lemma~\ref{f4:dispatch-clean}. Endpoint
-flags compute virtual predecessor and successor by physical neighbors
-and onsite role switches, so the folded stencil has radius at most two,
-independently of the code and the calendar alphabet. Boundary/parity
+flags compute virtual predecessor and successor by physical neighbours
+and on-site role switches, so the folded stencil has radius at most two,
+independently of the code and the clock alphabet. Boundary/parity
 fields are retained by the logical rule. Its stored current request,
 finite boundary flags and private old copies supply the exclusive
 selectors of Appendix~\ref{app:f4-dispatch}.
-The cap reads neither calendar nor quantum data; the calendar reads
-neither cap, sampled helpers nor quantum data. Their noise is shared.
+The patch and clock evolve autonomously: neither reads the other or the quantum data, and the clock also ignores the sampling registers. They can share a physical noise event.
 
 There are two semantic quantum factors and at most 730 port factors
-per site, plus one mixed cut helper per persistent target and a fixed
+per site, plus one mixed cut ancilla per persistent target and a fixed
 finite amount of temporary work. Additional code and syndrome qubits
 occupy more virtual chain cells. Every quantum-derived record remains
 quantum-capable. The classical alphabet and its Boolean work become
@@ -91,15 +78,15 @@ fixed finite registers after the constants are selected.
 A round has the following fixed order. Dephase and make one-way private
 old metadata copies; compute and freeze finite exclusive selectors.
 Execute scatter, unconditional native tuples and gather, including
-padded idles. Then compute next cap and calendar by destination-local
+padded idles. Then compute next cap and clock by destination-local
 Boolean work on transported old inputs, recomputing provisional base
-gathers locally. Apply the first-coordinate permission cut at each physical site
-to every retained quantum-capable factor. Its private mixed helper
+gathers locally. Apply the conditional reset controlled by the first coordinate at each physical site
+to every retained quantum-capable factor. Its private mixed ancilla
 is reset/discarded after use and never returned. Temporary factors
 either cross the cut or terminate at their unconditional reset before
-reuse. After the cut only onsite fresh preparation, disposal and
+reuse. After the cut only on-site fresh preparation, disposal and
 identity/noise padding remain. Every factor belongs to autonomous
-dephased metadata or to this complete quantum inventory.
+dephased metadata or to this quantum inventory.
 
 Section~\ref{sec:compilation} and Appendix~\ref{app:f4-dispatch}
 compile this rule into the seven elementary gates. Long Boolean
@@ -107,7 +94,7 @@ computations are local to their destination; only fixed old transports
 precede them. Quantum spatial motion is confined to \(\sigma\) at
 fixed \((x,y,z)\), even for malformed metadata. Private internal ports
 make translated tuples disjoint also on small tori. The range of deep
-quorum queries and helper transport is large but fixed. The period,
+quorum queries and sampling-register transport is large but fixed. The period,
 range, site dimension and rule read no size, input index or rate.
 
 \subsection{Complete quantum geometry}\label{f4:geometry-section}
@@ -118,13 +105,14 @@ below, its regular hierarchy satisfies the complete-child hypotheses
 of Lemma~\ref{f4:recursion} and admits the fixed joint recovery of
 Lemma~\ref{d:reduction}.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Use the full port support of a faulty local choice, including work still in flight. Match these supports to the child cover of the folded chain and bound the separation needed for level reduction.
+
 \begin{proof}
 Fix the primitive port/native/cut catalogue first, padding inactive
-candidates by their intended idle reference. Use the unfinished-module
-station envelope for every choice-error seed. Lemmas~\ref{f4:dispatch}
+candidates by their intended idle reference. For each wrong gate choice, include the stations that can still be in use by an unfinished module. Lemmas~\ref{f4:dispatch}
 and~\ref{f4:dispatch-partial} put each dirty location in two fixed
-role neighborhoods of radius eight, with arbitrary joint coefficients.
-Let \(h_0\) cover these footprints and the one-child-step ownership
+role neighbourhoods of radius eight, with arbitrary joint coefficients.
+Let \(h_{\rm base}\) cover these footprints and the one-child-step ownership
 segment at the immediately following common cut. This segment is
 independent of the code; the full normalizer circuit belongs to its
 scheduled rectangle. Let \(\kappa_0\) bound station-to-location
@@ -133,18 +121,18 @@ parent boxes meeting a rectangle. These are maxima on that fixed
 local catalogue. More ancillas use more cells and repeated EC uses
 more times, without increasing participation at one cell-time.
 
-A level-\(\ell\) regular box has length \(P^\ell\), time height
-\(T^\ell\), and its \(P\)-by-\(T\) child cover plus \(h_0\)
+A level-\(\ell\) regular box has length \(P_{\rm cal}^\ell\), time height
+\(T_{\rm cal}^\ell\), and its \(P_{\rm cal}\)-by-\(T_{\rm cal}\) child cover plus \(h_{\rm base}\)
 child-index layers. Geometric series bound every complete descendant
-by \(h=2h_0+2\), enlarging once for rectangle covers. Choose
+by \mbox{\(h_{\rm halo}=2h_{\rm base}+2\)}, enlarging once for rectangle covers. Choose
 \[
  \rho_{\rm gap}\ge1,\qquad
- a_{\rm sep}>(4h+2\lceil\rho_{\rm gap}\rceil+5)^2,\qquad
+ a_{\rm sep}>(4h_{\rm halo}+2\lceil\rho_{\rm gap}\rceil+5)^2,\qquad
  b_{\rm FT}=\max(1,\kappa_0\kappa_1v_0(a_{\rm sep}-1)).
 \]
-Use \(e=8\), \(r_{\rm FT}=8b_{\rm FT}\), and the least code
+Use \(r_{\rm FT}=8b_{\rm FT}\), and the least code
 parameter with \(q_{\rm code}=2^{s_{\rm code}}-1
-\ge40960(b_{\rm FT}+1)\). Lemmas~\ref{d:code}--\ref{d:gadgets}
+\ge40\,960(b_{\rm FT}+1)\). Lemmas~\ref{d:code}--\ref{d:gadgets}
 apply to these exact native inputs. Precede each complete body by
 \(b_{\rm FT}+1\) time-disjoint full EC passes with private work,
 synchronized before any interblock body; idle blocks normalize too.
@@ -155,26 +143,26 @@ code support, and all subsequent passes and the body satisfy
 \[
  8(r_{\rm FT}+b_{\rm FT})=72b_{\rm FT}\le q_{\rm code}-8.
 \]
-The complete operator proof of Lemma~\ref{d:reduction} preserves all
+The operator proof of Lemma~\ref{d:reduction} preserves all
 good logicals jointly. Absorb outgoing maps only on the union of bad
 outgoing wires before the next body; retain all shared coefficients.
 This proves deterministic reduction at each level.
 
 A bad parent has at least \(a_{\rm sep}\) bad children. At most
-\((4h+2\lceil\rho_{\rm gap}\rceil+5)^2\) complete child halos are
-within \(\rho_{\rm gap}P^\ell\) of one full halo in both position
-and time; here \(T^\ell\ge P^\ell\). Hence a separated pair exists.
-There are finitely many pairs after \(P,T\) are fixed, and root count
-is \(O(P^{5\ell})\) since \(T=P^4\). Choose the fixed real table
-first and then a sufficiently large power of two \(P\) so its routed
+\((4h_{\rm halo}+2\lceil\rho_{\rm gap}\rceil+5)^2\) complete child halos are
+within \(\rho_{\rm gap}P_{\rm cal}^\ell\) of one full halo in both position
+and time; here \(T_{\rm cal}^\ell\ge P_{\rm cal}^\ell\). Hence a separated pair exists.
+There are finitely many pairs after \(P_{\rm cal},T_{\rm cal}\) are fixed, and root count
+is \(O(P_{\rm cal}^{5\ell})\) since \(T_{\rm cal}=P_{\rm cal}^4\). Choose the fixed real table
+first and then a sufficiently large power of two \(P_{\rm cal}\) so its routed
 work and interpreter fit, as in Lemma~\ref{f4:periodic}. Choose even
 \(s_{\rm top}\) larger than every complete spatial halo. On
-\(m=s_{\rm top}P^k\) all relevant supports are proper cycle arcs.
+\(m=s_{\rm top}P_{\rm cal}^k\) all relevant supports are proper cycle arcs.
 The exact periodic reference supplies the repeated encoded identity
 at every aligned time.
 
 Only the active folded cycle is the code layout. The extension
-\(a_r\) outside the interval is a source shadow. Other physical
+\(a_r\) outside the interval is a source image. Other physical
 factors are exterior systems. If a faulty tuple couples them to active
 data, first use closed-support localization, then expand in matrix
 bases on its marked active operands, retaining exterior coefficients.
@@ -182,77 +170,77 @@ Their number and source stars are unchanged. This is exactly the
 operator scope corrected by the common recovery.
 \end{proof}
 
-\subsection{The actual source law}\label{f4:actual-sources}
+\subsection{The source law}\label{f4:actual-sources}
 \begin{lemma}[Four-dimensional source interface]\label{f4:sources}
 The initialized nonhalting circuit satisfies all actual-source inputs
 of Appendix~\ref{app:f4-sources}, with constants independent of the
-window. Its raw exceptional probability through \(H\) is at most
-\(C(H+C)L^4e^{-\beta_{\rm raw}L}\), and its cap exceptional probability
-is at most \(C(H+C)L^4e^{-\beta_{\rm cap} L/(w_n+1)}\).
+window. Its raw exceptional probability through \(T_{\rm hor}\) is at most
+\(C_{\rm bd}(T_{\rm hor}+C_{\rm bd})L^4e^{-\beta_{\rm raw}L}\), and its cap exceptional probability
+is at most \(C_{\rm bd}(T_{\rm hor}+C_{\rm bd})L^4e^{-\beta_{\rm cap} L/(w_n+1)}\).
 \end{lemma}
+\par\noindent\emph{Proof idea.} Project the six-dimensional controller proof by deleting its copied coordinates. The clock and the controller then use their separate source estimates, with the dispatch contribution counted in the combined graph.
+
 \begin{proof}
 Deleting the copied \(P_3,P_4\) coordinates changes none of the cap's
-Moore, provider, base, deep-query or helper increments. The complete
+Moore, replica, base, deep-query or sampling-register increments. The complete
 ordinary and statistical arguments of Section~\ref{v:parameters}
 therefore apply with the same two quorum coordinates. At large enough
 \(L\), one cap square, its vacuum gap and every \(W\)-experiment
 have injective support hulls; no divisibility of \(L\) is required.
-At a fixed actual time the characteristic map is bijective, and distinct
+At a fixed time the characteristic map is bijective, and distinct
 integer bins have disjoint times. Thus distinct cap raw names use
-disjoint actual flag sets. Statistical requests use the three bin
+disjoint physical flag sets. Statistical requests use the three bin
 residues and private base ownership; overlay events use complete-bin
-support colors. The proof of \eqref{v:joint} gives
+support colours. The proof of \eqref{v:joint} gives
 \[
- \Pr(X_\lambda\text{ for all }\lambda\in F)\le\gamma_C^{|F|},\qquad
- \gamma_C=\sqrt{2C_h}+\eta_+(B)^{1/6}
-                      +\xi_{\rm bin}^{1/(2D_{\rm bin})}.
+ \Pr(X_\lambda\text{ for all }\lambda\in F)\le\gamma_{\rm src}^{|F|},\qquad
+ \gamma_{\rm src}=\sqrt{2C_h}+\eta_+(B)^{1/6}
+                      +\alpha_{\rm bin}^{1/(2D_{\rm bin})}.
 \]
-Here \(C_h\) is the helper scale, with the tails in
-\eqref{v:etas} evaluated at \(C=C_h\). Added calendar operations only
+Here \(C_h\) is the sampling-register scale, with the tails in \eqref{v:etas} evaluated at the chosen scale (see Table~\ref{tab:concordance}). Added clock operations only
 enlarge the internal overlay at that site and round. Their private
 roles do not alter base ownership or introduce cap inputs.
 
-For completeness the pre-helper-count witness calculation is as
+For completeness the witness calculation before the sampling-register count is as
 follows. On each charge arm every clean deep entry owns all
 \(D_{\rm q}=4096\) support occurrences before returning to an actual
-old word. If \(u\) is support count, \(v\) entry count and \(g\)
+old word. If \(e\) is the support count, \(m_{\rm ent}\) the entry count and \(g\)
 distinct lifted terminal groups, then
 \[
- 4096v\le u,\qquad129u-1440(g-1)-696v\le\Omega_{\rm pre}g.
+ 4096m_{\rm ent}\le e,\qquad129e-1440(g-1)-696m_{\rm ent}\le\Omega_{\rm pre}g.
 \]
 Shared suffixes are counted before projection; faulty evaluation ends
 at an overlay terminal. The inequality \(129-696/4096>128\) gives
-\(u\le(1440+\Omega_{\rm pre})g/128\). Helper rides keep their base
+\(e\le(1440+\Omega_{\rm pre})g/128\). Sampling-register rides keep their base
 characteristic and have bounded total bin increment. Keep their two
-endpoint bins and compress them into a typed corridor. Clean false
-censors trace one of two base query kinds. Receiver failures and all
-\(B\) lane faults are aggregated in the original overlay hub, so
-there is no helper-index decoration. Entries/corridors add at most two
+endpoint bins and compress them into a typed corridor. An incorrect censor without a hardware fault is an intrinsic or overlay exception at its source label, or traces back to one of the two base queries. Receiver failures and all
+\(B\) lane faults are aggregated in the original overlay source label, so
+there is no sampling-register index decoration. Entries/corridors add at most two
 links per support plus fixed source stars. Thus complete lifted
 witnesses have \(E\le c_Cg\), bounded degree and anchored exponential
-entropy, with the explicit catalogue bounds in Table~\ref{f4:order-a}.
+entropy, with the explicit catalogue bounds in Section~\ref{f4:order-a}.
 All five characteristic coordinates and finite roles remain in that
-graph. Initial availability is unavailable, and helpers start by their
+graph. Initial availability is unavailable, and sampling registers start by their
 own base: a recursion reaching time zero without a source is correct.
 Actual inputs move backward in physical time or in a bounded virtual
 forecast depth. Every retained source and endpoint bin is consequently
 in the finite causal range specified in Appendix~\ref{app:f4-sources}.
 
-For the calendar, whole-symbol prediction uses only its fixed logical
-\(\sigma\)-stencil and the provider boxes in \((x,z)\). Wrong clean
-outputs require wrong predictions in two boxes. The three poles in
+For the clock, whole-symbol prediction uses only its fixed logical
+\(\sigma\)-stencil and the replica boxes in \((x,z)\). Wrong clean
+outputs require wrong predictions in two boxes. The three potentials in
 Lemma~\ref{f4:raw} ignore the logical \(\sigma\) and copied \(y\)
 shifts, so their gains remain \(132,129,129\). One-way old transport
 makes the raw cause/use multiplicity depend only on this stencil,
 not the alphabet or lookup rows. Apply Lemma~\ref{f4:raw} in \(d=4\),
 including boundary, opcode, old/new and current-copy errors.
-Direct dispatcher hardware uses the same actual raw hub.
+Direct dispatcher hardware uses the same physical raw source label.
 
-Cap errors explain permission cuts; raw calendar errors explain wrong
+Cap errors explain wrong conditional resets; raw clock errors explain wrong
 choices and malformed endpoints. Attach the exact current-use stars
 of Lemma~\ref{f4:dispatch-partial} before selecting the central-strip
 cutoff. Lemmas~\ref{f4:strip}--\ref{f4:mixed} now apply with
-\(w=w_n\). They give one source shadow and the fourth-root joint law
+\(w=w_n\). They give one source image and the fourth-root joint law
 for all short certificates. Source vertices outside the active code
 remain in full witness entropy with their existing names. Only active
 quantum roots are glued to the hierarchy. The two exceptional bounds

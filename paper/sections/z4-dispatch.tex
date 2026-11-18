@@ -1,12 +1,12 @@
 \section{Exclusive folded dispatch}\label{app:f4-dispatch}
-As in Appendix~\ref{sec:folded}, the folded semantic chain has two
-qubits \(Q_{\sigma,0},Q_{\sigma,1}\) per physical site. Code coordinates, syndrome and Boolean quantum work use
+By Lemma~\ref{f4:roles} and the clean action below (Lemma~\ref{f4:dispatch-clean}), the folded chain has two
+qubits \(Q_{\sigma,0},Q_{\sigma,1}\) per physical site; here \(\sigma\) is the physical position of Lemma~\ref{f4:roles} and the second index is the role. The semantic qubits sit on virtual cells. Code coordinates, syndrome and Boolean quantum work use
 additional chain cells. A requested native layer is a matching, padded
 with one-qubit idles, of the real inventory \eqref{d:native}; its at
 most three distinct operands are within two virtual edges of its first
 operand. The line routing of Lemma~\ref{d:gadgets} supplies this form.
 
-\subsection{A fixed private-port circuit}
+\paragraph{A fixed private-port circuit.}
 This is the private-port circuit of Section~\ref{d:dispatch}, with
 templates for the two fold roles and exclusive port selection.
 For native type \(\tau\) of arity \(j\), enumerate templates
@@ -31,7 +31,7 @@ because their internal labels differ. Their physical diameter is at
 most four.
 
 At each semantic vertex \(v=(x,r)\), a total Boolean function of
-old dephased calendar requests and private neighbor copies chooses
+old dephased clock requests and private neighbour copies chooses
 NONE or exactly one eligible port at \(x\) with assigned role \(r\).
 Resolve malformed metadata by a fixed priority. The two roles have
 disjoint eligible lists. Reset ports, compute and freeze these one-hot
@@ -42,8 +42,8 @@ ends. Ineligible swaps are identity. One such reset, choice, scatter, native,
 gather and reset sequence is a module.
 
 The elementary implementation uses exactly the seven gates:
-Fredkin is chronological CNOT\((b;a)\), Toffoli\((c,a;b)\),
-CNOT\((b;a)\); SWAP is three CNOTs, and CZ is
+Fredkin is chronological \(\mathrm{CNOT}(b\to a)\),
+\(\mathrm{Toffoli}(c,a\to b)\), \(\mathrm{CNOT}(b\to a)\); SWAP is three CNOTs, and CZ is
 \(H_{\rm target}\), CNOT, \(H_{\rm target}\). Boolean work uses private
 reset, compute, copy and uncompute. Metadata is always a control of
 quantum operations and never a quantum-derived target. Serialization
@@ -65,11 +65,11 @@ and its reset output is gathered before disposal. Dephasing, when
 required on work, is handled in the same way, without inverting it.
 The coordinate is \(a=\sigma\) on role zero and
 \(a=m-1-\sigma\) on role one. Successor means physical right motion
-on role zero, an onsite switch at the right endpoint, left motion on
-role one, and an onsite switch at the left endpoint. Radius-two virtual
+on role zero, an on-site switch at the right endpoint, left motion on
+role one, and an on-site switch at the left endpoint. Radius-two virtual
 operands fit the catalogue. Fixed left/right/interior/outside flags,
 including both endpoint flags when needed, determine the one- and
-two-step neighbors locally. Virtual parity is \(\sigma\bmod2\) in
+two-step neighbours locally. Virtual parity is \(\sigma\bmod2\) in
 role zero and \(1-\sigma\bmod2\) in role one. Outside factors have
 the declared reset/idle reference. Degenerate intervals use a total
 reset fallback. Nothing in the rule reads the interval length.
@@ -89,9 +89,11 @@ union of intended locations, of cardinality at most
 on which the error is an arbitrary joint operation; its complement
 executes the intended channel. Each marked location is within physical
 distance eight of a seed, and its virtual support is in two fixed
-role neighborhoods of that seed. At fixed-history operator scope
+role neighbourhoods of that seed. At fixed-history operator scope
 all exterior coefficients are retained.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Compare the intended and used port pointers at each station. Mark both IDs for a wrong choice and retain every port at a dirty station, so the support includes all affected quantum work.
+
 \begin{proof}
 Give each vertex its intended pointer \(i(v)\) and actual pointer
 \(a(v)\), interpreting NONE as a private idle ID. Mark both IDs for
@@ -135,7 +137,7 @@ An incident tuple anchor is within two of its port, and its other
 operands within four of that station. Enlarging for the adjacent
 intended location gives radius eight. In each fixed fold role physical
 displacement is bounded, while the two roles can be distant virtually.
-This proves the two-neighborhood assertion.
+This proves the two-neighbourhood assertion.
 \end{proof}
 
 A whole-site replacement dirties one station, including all local
@@ -147,14 +149,13 @@ by Lemma~\ref{d:reduction}. Repeated metadata uses keep their original
 source names.
 
 \begin{lemma}[Unfinished modules]\label{f4:dispatch-partial}
-At an elementary time inside a module, retaining actual in-flight
+At an elementary time inside a module, retaining in-flight
 factors and appending its intended suffix gives the same localization
 with a station envelope of at most 732 locations per choice-error seed.
 \end{lemma}
 \begin{proof}
 Retain semantic qubits, ports, masks holding quantum data and all
-undeleted quantum work. Append the fixed intended scatter/native/
-gather suffix, with intended choices; do not consult received metadata.
+undeleted quantum work. Append the fixed intended scatter/native/gather suffix, with intended choices; do not consult received metadata.
 A station whose actual frozen choice differs is conservatively dirty,
 so all its incident IDs are marked. At the other stations actual prefix
 and intended suffix agree with the reference. The preceding pointer

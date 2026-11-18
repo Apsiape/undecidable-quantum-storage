@@ -1,49 +1,75 @@
-# Undecidable quantum storage with seven elementary gates
+# Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers
 
-Seth Douglas and Nidhal Mghirbi. Version 2.1.0, November 2026. DOI for all versions: [10.5281/zenodo.24254845](https://doi.org/10.5281/zenodo.24254845); version 2.1.0: [10.5281/zenodo.24289384](https://doi.org/10.5281/zenodo.24289384); version 2.0.0: [10.5281/zenodo.24269020](https://doi.org/10.5281/zenodo.24269020); version 1.0.0: [10.5281/zenodo.24254846](https://doi.org/10.5281/zenodo.24254846).
-
-**This is a preprint. It has not been peer reviewed. The authors have not independently verified the mathematical arguments; see "How it was checked" below.**
+Seth Douglas and Nidhal Mghirbi. Preprint, version 2.2.0, November 2026. [Archive DOI](https://doi.org/10.5281/zenodo.24254845)
 
 ## Abstract
 
-Can one decide from its noise rate whether a fixed local quantum medium is an excellent memory or no scalable memory at all? We construct two six-dimensional media, one for whole-site and one for independent single-qubit depolarization, for which this distinction is undecidable. Both use only X, H, CNOT, Toffoli, reset, dephasing and identity, with noise after every elementary layer. Computable disjoint rational windows select universal-machine inputs: above a computable size threshold, nonhalting preserves a reference-entangled qubit with fidelity at least 15/16 through exponentially many rounds, while halting destroys every encoding after a time uniform in size and rate. We also obtain stretched-exponential storage on the undecidable windows in four dimensions under whole-site noise, using a static cap and a folded concatenated code with a periodic classical calendar. Its fixed positive exponent is below 0.0002 and astronomically small; the bound beats a given polynomial only at astronomically large sizes. One total computable encoder serves all guaranteed times and rates in each window. For the six-dimensional media we also give a coarse lifetime upper bound and Π⁰₁-complete certification by exact finite tests; the three-dimensional construction retains its sharp linear scale. All interactions have fixed, very large range, and the windows lie below astronomically small rate caps. The Bell-sharing bound and conditional window certification are verified in Lean 4 with Mathlib. Every finite sample eventually forgets; what is undecidable is how useful storage time grows with size.
+A quantum memory is usually judged by its threshold: below some noise rate, larger memories store quantum information for longer, without limit. We construct fixed local noisy quantum circuits for which no algorithm can decide, from a rational noise rate, whether the best achievable storage time grows without limit with system size. For each of two noise models, whole-site and single-qubit depolarization after every layer, the circuit is translation-invariant and time-periodic on six-dimensional tori of side L. A computable list of disjoint intervals of noise rates is indexed by the inputs n of a universal Turing machine. If the machine runs forever on n, then at every rate in the n-th interval a rate-independent encoding keeps a qubit, entangled with a reference, at fidelity at least 15/16 for at least exponentially many rounds in L, for all L above a computable size. If it halts, every encoding loses this fidelity after a number of rounds that depends on neither L nor the rate. No algorithm can decide which case holds, and intervals of both kinds accumulate at zero, so the circuits have no noise threshold. The rate is never an input: local noise samples select the computation, its halting triggers local erasure of the quantum data, and a no-cloning bound controls every encoding. Related circuits show the same dichotomy with storage time at least stretched-exponential in L in four dimensions under whole-site noise, and of order L in three dimensions under both noise models. These are existence results: registers and interaction ranges are very large and the noise rates astronomically small.
 
-## What the paper proves
+## Results
 
-Statement letters refer to `paper/main.pdf`; the statements are quoted from the paper with its notation written out in plain text. U is a fixed universal machine.
+- **Theorem A (six dimensions).** For both noise models, the fidelity guarantee on nonhalting windows lasts through 2^⌊cₑL⌋ rounds above a computable size threshold. Proposition 9.9 gives a coarse exp(Oₙ(L⁴)) lifetime upper bound in rounds and Π⁰₁-complete certification of the specified exponential-horizon storage circuits.
+- **Theorem B (four dimensions).** Under whole-site depolarization, the guarantee lasts through ⌊exp(c₄L^α₄)⌋ elementary layers, including times between round boundaries. A full-register reset gives an exp(Oₙ(L⁴)) lifetime upper bound in elementary layers.
+- **Theorem C (three dimensions).** For both noise models, the optimal lifetime at fidelity 7/8 on nonhalting windows is at least ⌊cL⌋ and less than 201L + C₀ rounds above a computable size threshold. Theorem 8.3 gives exact, Π⁰₁-complete certification for the linear-horizon construction.
+- **Corollaries 1.1 and 1.2.** Both kinds of window accumulate at zero, ruling out a positive noise threshold. For each circuit, the labels with unbounded optimal lifetime at every rate in the window form a Π⁰₁-complete set. The corresponding decision problem on rational rates in the windows is undecidable.
+- **Appendix E.** A separate four-dimensional circuit under single-qubit depolarization has a reserved exponential-storage window and a tail family on which linear storage versus forgetting is undecidable.
 
-- **Theorem B (version 2.0.0).** "For each of whole-site and independent single-qubit depolarization after every elementary layer, a separately compiled, computably specified, translation-invariant, time-periodic finite-range circuit on Z^6 with the same seven gates has computable disjoint rational windows I_n. For one rational c_e > 0, independent of n and the same for both media: if U(n) does not halt, one encoder keeps entanglement fidelity at least 15/16 at every rate in I_n and every time t ≤ 2^⌊c_e L⌋, for all L above a computable threshold L_e(n); if U(n) halts, every encoding is destroyed after a time uniform in L and the window." The encoder and the time-dependent decoder are total computable and do not depend on the rate or the halting answer (detailed form: Theorem 9.1).
-- **Proposition 9.8 (version 2.0.0).** For both Z^6 media: on every window, the whole channel is close to entanglement-breaking by a time exp(O_n(L^4)), for every encoder and decoder (a coarse upper bound; below 2^(L^5) above a computable size cutoff); certification of the explicit exponential-horizon storage circuits is Π⁰₁-complete, with exact rational finite tests; and no total computable function of n bounds the size-independent forgetting time over halting inputs.
-- **Theorem D (new in version 2.1.0).** "For whole-site depolarization after every elementary layer, a computably specified, translation-invariant, time-periodic finite-range circuit on Z^4 with the same seven gates has computable disjoint rational windows I_n. For rationals c_4, α_4 > 0, independent of n: if U(n) does not halt, one encoder keeps entanglement fidelity at least 15/16 at every rate in I_n and every elementary-layer time t ≤ exp(c_4 L^α_4), for all L above a computable threshold L_4(n); if U(n) halts, every encoding is destroyed after a time uniform in L and the window." The exponent α_4 is below 2·10^-4 and astronomically small, and the bound beats a given polynomial only at astronomically large sizes; no lifetime upper bound is proved for this medium, and only whole-site noise is treated.
-- **Lean verification (new in version 2.1.0).** Lemma 6.6 (the Bell-sharing bound) and Theorem G.1 (a conditional abstract form of the window certification Theorem 8.2, whose storage and forgetting premises are explicit hypotheses) are proved in Lean 4 with Mathlib; see `lean/` and Appendix G. Theorems A, B and D, every physical premise of Theorem G.1 and all constructions are written proofs outside the Lean verification.
-- **Theorem A (unchanged from version 1.0.0).** "For each of whole-site and independent single-qubit depolarization after every layer, there is a separately constructed, computably specified, translation-invariant, time-periodic finite-range circuit on Z^3, with gate inventory {X, H, CNOT, Toffoli, R0, DZ, I} and computable disjoint rational windows I_n: nonhalting gives optimal storage time Θ(L); halting gives a time bound uniform in L and the window; certification of its explicit linear-time storage circuits is Π⁰₁-complete."
-- **Proposition C.1 (unchanged).** A four-dimensional medium, under single-qubit noise only, with a designed and decidable window of exponential storage beside the undecidable windows. Its dimension-four conclusion stands on its own; the open problem it pointed to, exponential storage on the undecidable windows, is answered by Theorem B.
+On halting windows the forgetting time is uniform in lattice size and rate for any chosen fidelity tolerance above 1/2. Lemma 6.6 and Theorem 8.2, the conditional abstract form of Theorem 8.3, are the two Lean results described in Appendix J.
 
-Scope, as the paper states it: the interactions have fixed finite range, not nearest-neighbour; the two noise models are handled by separate media; constants, local dimension and range are astronomical; encoding and final decoding are global computable maps, while the repeated correction inside the medium is local; nothing is classified outside the selected windows; every finite system eventually forgets, and the theorems concern how useful storage time grows with size. Open: exponential (not stretched-exponential) storage below dimension six, the single-qubit-noise version in four dimensions, beyond-linear storage in three dimensions, two dimensions, a lifetime upper bound for the four-dimensional medium, and a matching exp(O(L)) lifetime upper bound for the exponential media. Sections 1 and 10 of the paper give the full credits, including the fixed-rule memories of Dünnweber, Styliaris and Trivedi and of Balasubramanian, Davydova and Lake, the fault-tolerant gadgets of Aharonov and Ben-Or, and the undecidability results of Cubitt, Pérez-García and Wolf and of Bausch, Cubitt and Watson. Where Section 9 reuses methods already published in version 1.0.0 or in the authors' noise-diagram and forgetting papers, it cites them at the point of use.
+## Archive contents
 
-## Changes in 2.1.0
+- `paper/` contains the manuscript PDF, the LaTeX source, figures, references and the abstract.
+- `lean/` contains the Lean 4 library, the frozen statements in `Challenge.lean`, the proof imports and axiom checks in `Solution.lean`, and the verification evidence.
+- `SHA256SUMS` lists the SHA-256 digest of each distributed file except the checksum list itself. Verify it from the archive root with `sha256sum -c SHA256SUMS`.
 
-- New Theorem D and Section 10 with Appendices D-F: stretched-exponential storage on the undecidable windows in Z^4 under whole-site noise, with the same seven gates.
-- New Appendix G and the `lean/` folder: Lean 4 verification of Lemma 6.6 and of Theorem G.1, the printed conditional abstract form of Theorem 8.2.
-- The abstract, introduction, discussion and open problems are updated. Theorems A and B, Proposition 9.8 and Appendices A-C keep their mathematical statements.
+## Build the paper
 
-## Changes in 2.0.0
+From `paper/`, run the three pdfLaTeX passes described in Appendix H.
 
-- New Theorem B and Section 9 (six new section files): exponential storage on the undecidable windows in Z^6, for both noise models, with the same seven gates; and Proposition 9.8 (a coarse exp(O_n(L^4)) upper bound, Π⁰₁-complete certification, no computable forgetting-time bound). The open problem of version 1.0.0 is answered.
-- The abstract, introduction, figure, landscape table, discussion and open problems are updated; the account of how the work was done is one combination statement.
-- Sections 2-8 and Appendices A-C are unchanged from version 1.0.0, byte for byte.
+```sh
+pdflatex main.tex
+pdflatex main.tex
+pdflatex main.tex
+```
 
-## Contents and reproduction
+Appendix H gives the entry points for reconstructing the circuits, rate windows, encoders, decoders and exact fidelity queries. The tested engine is MiKTeX-pdfTeX 4.23 (MiKTeX 25.12).
 
-- `paper/main.pdf`: the manuscript (83 pages).
-- `paper/`: the LaTeX source (`main.tex`, `sections/`, `references.tex`), the plain-text abstract and a strict build driver. Run `python -B build.py` there with pdflatex installed. The build disables shell escape, runs pdflatex three times, and rejects warnings, unresolved references and box defects.
-- `lean/`: the Lean 4 package for Lemma 6.6 and Theorem G.1 (Lean v4.35.0, Mathlib 56a005855ea17e0b0958f73ec801ae140b0a1679); `lean/README.md` states the scope, the checks and the reproduction commands, and `lean/MANIFEST.md` lists every file with its SHA-256.
-- `SHA256SUMS`: SHA-256 hashes of every shipped file except this manifest. Check with `sha256sum -c SHA256SUMS` from the repository root.
+## Build and check the Lean library
 
-## How it was checked
+Use Lean 4.35.0 and Mathlib at commit `56a005855ea17e0b0958f73ec801ae140b0a1679`. From `lean/` in a POSIX shell, run the Appendix J commands. The cache download is optional.
 
-The paper's section "How this work was done" gives the account. The work used a combination of AI models (including Claude Opus 5.5, GPT-6.1 Sol and GPT-6 Astra), directed by the authors. Each new result was checked refutation-first by a model of a different developer from the one that found it, each check re-deriving the steps new at that stage; the checks also used small exact computations and simulations. The written version was reviewed the same way and had a final readback. The authors have not independently verified the mathematical arguments. Lemma 6.6 and Theorem G.1 are verified in Lean 4: their statements were read blind against the paper before any proof was written; the proofs use only the standard axioms propext, Classical.choice and Quot.sound, pass a Mathlib-only comparison of statement and solution, are replayed by two independent kernels (leanchecker and nanoda) with negative controls, and build from a fresh clone. Everything else consists of written proofs and model checks.
+```sh
+export LEAN_NUM_THREADS=1
+lake exe cache get
+lake build
+lake env lean -j1 -M5000 Solution.lean
+```
 
-## Citation and rights
+Each of the two declarations should report exactly `propext`, `Classical.choice` and `Quot.sound`. To compare their printed types, append the following lines to separate copies of `Challenge.lean` and `Solution.lean` in `lean/`.
 
-See `CITATION.cff` for citation metadata. Paper and documentation: CC BY 4.0. Code (`paper/build.py` and the Lean sources in `lean/`): MIT or Apache 2.0, at your option. See `RIGHTS.md`, the license files and `NOTICE`.
+```lean
+#check @QuantumScope.bell_sharing_bound
+#check @CertificationScope.abstract_window_certification
+```
+
+Run `lake env lean -j1 -M5000` with each copy’s filename and compare the printed types with `Challenge.lean` and the paper. [Lean documentation and comparator evidence](lean/README.md)
+
+## Changes in version 2.2.0
+
+- Corollary 1.2 identifies the labels of windows with unbounded optimal lifetime as a Π⁰₁-complete set and proves undecidability for rational rates in the windows.
+- Theorem A denotes the six-dimensional result, Theorem B the four-dimensional result, and Theorem C the three-dimensional result. Theorem 8.2 is the conditional certification theorem; Theorem 8.3 is its concrete linear-horizon application.
+- Lemma 5.2 spells out deterministic verified preparation of the Toffoli resource state, including its fresh verified blocks, cats and fault accounting.
+- Lifetime bounds specify rounds for Theorems A and C and elementary layers for Theorem B, including intermediate layers. Proposition 9.9 gives the six-dimensional fibre-reset upper bound; (10.2) gives the four-dimensional full-register reset bound.
+- The title is *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*.
+- Lemma A.3a bounds every intermediate syndrome in the full sweep round by a fixed neighbourhood of the initial syndrome and the round's insertion catalogue, for both CSS sectors and for each folded sheet.
+- Lemma 5.3a proves that clean requests form matchings at every level, assigns each child location to exactly one parent table, and derives uniform support and incidence bounds with no tokens crossing a parent-period boundary.
+- Proposition 3.6 closes the boundary field from the upper slab row, separates complete boundary and future physical source supports, and traces late liveness back through that strengthened field uniformly over initial words.
+- Lemma 3.7 gives the rare-proposal alternatives from an arbitrary starting time, with complete two-time seed supports and the joint bound for seed groups using the eight-class overlap divisor.
+- Proposition 7.1 specifies the scaffold projection from the compiled chart and proves that local chart completion preserves both shared scaffold edges.
+- Lemma B.2 requires N₀ = ⌊(L − 1)/R_phys⌋ ≥ 36 and gives the raw-cutoff exponent N₀/(72c₀), accounting for the physical flags represented by distinct raw names.
+
+## Citation and license
+
+Douglas, Seth, and Nidhal Mghirbi (2026). *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*. Version 2.2.0. [Archive DOI](https://doi.org/10.5281/zenodo.24254845) · [Citation metadata](CITATION.cff)
+
+Paper and documentation are licensed under CC BY 4.0. The Lean sources are available under the MIT License or Apache License 2.0, at your option. [Licensing details](RIGHTS.md)

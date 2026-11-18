@@ -1,5 +1,5 @@
-Undecidable quantum storage with seven elementary gates
+Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers
 Copyright 2026 Seth Douglas and Nidhal Mghirbi
 
-Text and documentation: CC BY 4.0. Build script and Lean sources: MIT or Apache 2.0, at your option.
+Text and documentation: CC BY 4.0. Lean sources: MIT or Apache 2.0, at your option.
 Cited third-party papers are not redistributed. Rights in cited work remain with their owners.

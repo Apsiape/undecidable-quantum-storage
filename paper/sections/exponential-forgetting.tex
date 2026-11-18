@@ -1,9 +1,11 @@
-\subsection{Halting, arbitrary initial profiles and the entire algebra}
-\begin{lemma}[All-start permission and ancestor tails]\label{v:ancestor}
+\subsection{Halting, arbitrary initial profiles and the entire algebra}\label{v:forgetting}
+The constants \(a_n,a'_n\) below are decay rates local to this
+subsection; window endpoints remain those of Section~\ref{v:parameters}.
+\begin{lemma}[Storage-enable and ancestor tails from all starts]\label{v:ancestor}
 On a halting window there are finite positive \(A_n,a_n,A'_n,a'_n\) and
 fixed integers \(b_{\rm c},b'_{\rm c}\), uniform across that window, such
 that the probability of any initial metadata word giving an unmarked
-permission-one first or ordinary reading at \((z,t)\) is at most
+first or ordinary reading with the storage-enable bit set at \((z,t)\) is at most
 \(A_n(1+t)^{b_{\rm c}}e^{-a_nt}\). For a specified physical initial site,
 the probability of a surviving \(s\)-round quantum dependency path is at
 most \(A'_n(1+s)^{b'_{\rm c}}e^{-a'_ns}\) in an injectively unwrapped
@@ -11,9 +13,11 @@ determining cone, simultaneously over all initial words. These are the
 capped-controller analogues of Propositions~\ref{c:late-live}
 and~\ref{c:path-tail}.
 \end{lemma}
+\par\noindent\emph{Proof idea.} In a halting chart, a valid large patch must expose a wrong test and a small patch expires. Bound the exceptional events that let storage remain enabled, then count surviving paths across the resets.
+
 \begin{proof}
 First obtain a static alternative. By
-\cite[Proposition~4.3 and Lemma~10.5]{DMNoise2026}, on halting every
+Proposition~\ref{v:static-import}, on halting every
 sufficiently large compatible chart patch contains a fully guarded wrong
 critical ride: a short depth-\((a-1)\) end flagged zero or a long
  depth-\(a\) end flagged one. Choose a finite guard margin containing
@@ -41,24 +45,24 @@ of arbitrary \(n\).
 Exclude the density events of Lemma~\ref{v:density} at polynomially
 many deterministic roots in a late cone. Its finite-age comparison
 then identifies repeated full-core readings at the same logical site.
-From an unmarked permission-one root choose clean successful providers.
+From an unmarked root with the storage-enable bit set choose clean successful replicas.
 All their Moore inputs are nonbottom. The explicit death rule gives
-permission ancestry along any specified original-active nearest-neighbour
+ancestry of the storage-enable bit along any specified original-active nearest-neighbour
 path, as well as the centre path. This supplies a single coherent
 immutable profile patch and all counter inputs after an \(n\)-dependent
 burn-in. A nearby violation would have seeded death; a bounded valid
 cap would have overflowed from its arbitrary phase by Lemma~\ref{v:cap}
-and spread death across the component. Both contradict permission.
+and spread death across the component. Either would have set the death flag and cleared the storage-enable bit, a contradiction.
 Centre monotonicity alone would not justify travelling to these
 obstructions; the active-neighbour terms in the death rule do.
 
 In the remaining case reach a fixed wrong motif endpoint and follow its
-centre permission history for \(\lfloor t/K_{\rm age}\rfloor\) samples,
+history of the centre's storage-enable bit for \(\lfloor t/K_{\rm age}\rfloor\) samples,
 with a fixed sufficiently large architecture constant \(K_{\rm age}\).
-The cone age dominates twice its provider diameter; its exceptional
+The cone age dominates twice its replica diameter; its exceptional
 probability is a polynomial times an exponential. At a true interior
-origin the helper state becomes low/allowed, flushing arbitrary initial
-helpers. Under correct nonbottom instructions, copying and shared
+origin the sampling-register state becomes low/allowed, flushing arbitrary initial
+sampling registers. Under correct nonbottom instructions, copying and shared
 refreshes preserve the ideal experiment. Historical bottom writes
 unknown/allowed: it raises enabling, decreases singleton-high and
 increases upper possibility. It therefore cannot conceal either wrong
@@ -84,11 +88,11 @@ They may overlap one another across the two families. As in the proof
 of Proposition~\ref{c:late-live}, H\"older with weights \(3/4,1/4\) gives
 \(p^{3f/4}\theta_{\rm pkt}^{m_{\rm pkt}/4}\).
 The full historical count \eqref{v:history-count} is unconditional;
-no provider path or initial chart is conditioned upon. Since
-\(p\le2\mu\), \(W\le C/\mu\), its raw factor obeys
+no replica path or initial chart is conditioned upon. Since
+\(p\le2\mu\), \(W\le C_h/\mu\), its raw factor obeys
 \[
- (2\mu)^{3f/4}(C/\mu)^{6f/16}
- =(2C)^{3f/8}(2\mu)^{3f/8}.
+ (2\mu)^{3f/4}(C_h/\mu)^{6f/16}
+ =(2C_h)^{3f/8}(2\mu)^{3f/8}.
 \]
 The historical and packet bases are below \(1/64\) by
 \eqref{v:cap-list} and the overlay targets. Summing
@@ -96,90 +100,54 @@ The historical and packet bases are below \(1/64\) by
 gives an exponential. Motif locations, critical types and phase/role
 residues have a fixed finite \(n\)-dependent candidate list, not a list
 of initial words. Adding its union and the flag-only cone exception
-proves the first assertion. An ordinary permitted proposal has 512
-permitted centre parents, so it has the same tail apart from a direct
+proves the first assertion. An ordinary proposal with the storage-enable bit set has 512 centre parents with that bit set, so it has the same tail apart from a direct
 current exception.
 
 For the ancestor assertion use centre ancestry at fixed
 \((u,P_3,P_4)\), rather than the south ancestry of
 Lemma~\ref{c:rare}. Define the minimal finite-start scalar fields
 \[
- \mathcal B_t=H_t\lor H_{t+1},\qquad
- \mathcal W_t=\mathcal B_t\lor\Theta_{512}(\mathcal W_{t-1}),
+ \mathcal R_t=H_t\lor H_{t+1},\qquad
+ \mathcal W_t=\mathcal R_t\lor\Theta_{512}(\mathcal W_{t-1}),
  \qquad\mathcal N_t=\Theta_{512}(\mathcal W_t).
 \]
-Here \(\Theta_{512}\) is the Boolean provider threshold. A permitted
-reading not in this minimal field has a permitted centre predecessor
-outside it, yielding a path back to the arbitrary initial row. On its
+Here \(\Theta_{512}\) is the Boolean replica threshold. A reading with the storage-enable bit set outside this minimal field has a centre predecessor with that bit set outside it, yielding a path back to the arbitrary initial row. On its
 late half the first assertion makes all these readings raw-marked,
 outside a polynomial union of exponentially small events. The all-path
-density bound excludes a long all-marked continuation. Thus actual late
-permission lies in the minimal field.
+density bound excludes a long all-marked continuation. Thus, at physically late times, a set storage-enable bit lies in the minimal field.
 
-A new \(\mathcal N\) birth has 256 distinct fresh provider positions
+A new \(\mathcal N\) birth has 256 distinct fresh replica positions
 or old support in two boxes. Use full deterministic doubled cubes of
 side 352 and their two physical time slices. Four spatial parities and
 two temporal parities give, exactly as in Lemma~\ref{c:rare}, the
 intersection bound \((N_{\rm seed}p^{256})^{g/8}\) for \(g\) specified
 groups. Reserve full supports, not just realized flags, at every slab
 restart. Attach their complete contours and \(k_{\rm dir}\) direct
-hardware names to the actual finite-template quantum path. Data edges
+hardware names to the physical finite-template quantum path. Data edges
 can connect unrelated controller copies, with no equality of their
 initial words assumed. Cauchy--Schwarz gives, as in
-\eqref{eq:c-mixed} with \(n_{\rm sel}=1\), the safe mixed weight
+\eqref{eq:c-mixed} with \(n_{\rm sel}=1\), the mixed weight
 \[
  (N_{\rm seed}p^{256})^{g/16}p^{k_{\rm dir}/2}.
 \]
 Connected descriptions number at most
 \(K_{\rm rare}^{g+k_{\rm dir}}\), and temporal coverage gives
 \(g+k_{\rm dir}\ge s/B_{\rm rare}\). These constants are finite maxima
-over the fixed provider, group and actual quantum-edge catalogue;
+over the fixed replica, group and quantum-edge catalogue;
 they ignore the halting time and chart values. The last two bases of
 \eqref{v:cap-list} close the geometric sum. Polynomial unions in the
-late actual determining cone preserve its exponential decay. A Q fault
+late determining cone preserve its exponential decay. A Q fault
 that bypasses a cut is included among direct names. This proves the
 initial-site assertion without a union over encodings or initial words.
 \end{proof}
 
-We now prove part (ii) of Theorem~\ref{v:detailed}, using structural
-property~\ref{v:structure}. The factorization
-proof of Lemma~\ref{f:factorization} is independent of dimension:
-condition on the initially dephased metadata and a complete autonomous
-innovation history. One physical initial-site mask retains every
-quantum-capable factor there that reaches any output. The conditional
-entire channel factors through the partial trace over its complement,
-including the final classical outputs and all retained hardware.
-Structural autonomy and the complete final cut supply exactly this
-hypothesis for the present circuit.
+\begin{proof}[Proof of Theorem~\ref{v:detailed}(ii)]
+Apply Remark~\ref{rem:forgetting-interface} in dimension six. Property~\ref{v:structure} gives initial metadata dephasing and autonomy. By the processor description, every quantum factor crosses the final conditional-reset block or is reset or discarded before reuse. Thus Lemma~\ref{f:factorization} holds on the full algebra. Lemma~\ref{v:ancestor} gives the initial-site tail in determining cones of radius \(O(s)\), uniformly over initial metadata and rates. Blocks contain \(O(s^6)\) sites and have a fixed dependency degree. For the finitely many small tori, final-layer full replacement has probability at least \((\inf I_n^{\mathsf r})^{L^6}\) in \(\mathrm{WS}\) and \((\inf I_n^{\mathsf r})^{N_{\rm Q}L^6}\) in Q. These are exactly the three inputs to the shared forgetting argument; its bound persists at every later time by decoder composition.
+\end{proof}
 
-For a fixed sufficiently large \(s\), partition a large torus into
-blocks of sides between \(s\) and \(2s\). Lemma~\ref{v:ancestor} and a
-union over \(O(s^6)\) sites make their initial-ancestor probabilities
-exponentially small. Their determining regions have radius \(O(s)\),
-so the dependency degree is fixed, with vector independence for disjoint
-regions conditional on the initial classical word. Lemma~\ref{f:domination}
-then dominates these masks by independent fair block masks. Use one
-fair mask and its complement and the two monotone couplings as in the
-proof of Proposition~\ref{f:extension}. The lower masks are disjoint;
-sample two complete conditional histories with their exact original
-marginals and route all factors at their initial sites to the two
-conditional maps. Broadcast the initially dephased word. This is a
-CPTP two-output extension on the full algebra, even for arbitrary
-initial intersite and reference entanglement.
+\subsection{Wrapped diagonal bands and the scope of their cost}\label{v:wrapped-section}
+This subsection is used in no proof. It gives a clean-rule mechanism that loses the logical pair and whose seeds cost \(\exp[-\Theta_n(L)]\). The remark after the proof explains why this gives no matching lifetime upper bound under continuing noise.
 
-Lemmas~\ref{f:iteration}--\ref{f:bell} give \(2^j\) outputs at time
-\(js\), with optimal fidelity at most \(1/2+2^{-j-1}\). Choose \(j\)
-for \(\eta\); the large-torus size condition remains the one for the
-fixed \(s\), not an exponentially long injective cone. For the finitely
-many smaller tori, \(r_n=\inf I_n>0\) gives a complete final-layer
-replacement probability at least \(r_n^{L^6}\) in W and
-\(r_n^{N_{\mathrm Q}L^6}\) in Q. Repetition gives
-\(F^*\le1/4+(3/4)(1-r)^t\). Maximize the required time over these
-finitely many sizes and \(js\). Later channels are absorbed into the
-decoder, as in the proof of Theorem~\ref{f:forgetting}, proving the
-uniform bound at every later time and completing Theorem~\ref{v:detailed}.
-
-\subsection{Wrapped diagonal bands and the scope of their cost}
 \begin{lemma}[Clean wrapped-domain mechanism]\label{v:wrapped}
 Finite nonwrapping transverse defect islands erode under the clean
 comparison rule. Diagonal bottom bands in \(P_1+P_2\) of width at least
@@ -190,6 +158,8 @@ selected logical pair. The minimum canonical-source order of a
 dangerous wrapping certificate is \(\Theta(L)\); prescribed band seeds
 have weight \(\exp[-\Theta_n(L)]\) at a fixed positive window rate.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Trace defect predecessors using the three physical potentials. Small islands erode under this rule, whereas the two boundaries of a wrapped diagonal band drive it across the plane.
+
 \begin{proof}
 Relative to a clean reference, a defect without a fresh source needs
 at least 257 defective predictions and hence two boxes. Each of the
@@ -212,28 +182,27 @@ The exact bottom condition is
 with its width unchanged. For \(w\ge200\) it becomes
 \([-175,w-160)\), of width \(w+15\): the left threshold jumps from
 240 to 272, while at the right edge one unshifted full box and one
-shifted provider suffice. Periodic copies only add bottom votes, so
+shifted replica suffice. Periodic copies only add bottom votes, so
 these wide intervals grow to fill the circle. At \(u=u_0\)
 the centre input and all-parent bottom spreading give the same
 lower-bound evolution. A whole bottom plane is preserved by the clean
-rule and makes the complete cut erase a logical Z membrane.
+rule and makes the complete cut erase a logical \(Z\) membrane.
 
 At the captured code snapshots, the Pauli-frame induction in
 Lemma~\ref{q:universal} puts data in a Pauli frame on the original
 codeword, with logical-independent syndrome/work records, including
-histories that later fail homology. Erasing the logical-Z support
+histories that later fail homology. Erasing the logical-\(Z\) support
 removes its off-diagonal logical information; subsequent input-independent
 refresh cannot recreate it. This is a loss mechanism for the chosen
-initialized pair, rather than entanglement breaking of the entire
-medium.
+initialized pair, rather than entanglement breaking of the round channel.
 
 A width-200 band at \(u_0\) and fixed \(P_3,P_4\) occupies \(200L\)
 sites. Prescribing their bottom refresh outputs uses \(O(L)\) physical
 names and has the stated exponential seed weight, with fixed positive
 code probabilities. In an otherwise-clean history it initiates the
 mechanism. Conversely the short full-coordinate extraction in
-Lemma~\ref{v:bridge} requires \(\Omega(L)\) distinct actual canonical
-hubs for a dangerous wrapping/homology certificate. This proves the
+Lemma~\ref{v:bridge} requires \(\Omega(L)\) distinct physical canonical
+source labels for a dangerous wrapping/homology certificate. This proves the
 source-order assertion and its paid exponential source cost.
 \end{proof}
 

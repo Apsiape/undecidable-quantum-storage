@@ -1,51 +1,55 @@
-\section{Periodic calendars and raw sources on a torus}\label{app:f4-calendar}
+\section{Periodic clocks and raw sources on a torus}\label{app:f4-calendar}
 The following extension of Section~\ref{d:calendar-section} supplies a
-reference at every time, including times longer than any one calendar
-period. Write \(P=2^{r_{\rm exp}}\), \(T=P^4\).
+reference at every time, including times longer than any one clock
+period. Write \(P_{\rm cal}=2^{r_{\rm exp}}\), \(T_{\rm cal}=P_{\rm cal}^4\).
 
-\begin{lemma}[Whole-state periodic calendar]\label{f4:periodic}
+Lemma~\ref{f4:raw} bounds raw clock faults on the torus, and Lemma~\ref{f4:roles} describes the two roles of the fold.
+
+\begin{lemma}[Whole-state periodic clock]\label{f4:periodic}
 For each fixed even \(s_{\rm top}\) and \(k\ge1\), a total finite
-initialization on the cycle of length \(m=s_{\rm top}P^k\) implements the
+initialization on the cycle of length \(m=s_{\rm top}P_{\rm cal}^k\) implements the
 repeated \(k\)-fold encoded identity, with aligned quantum periods
-\(T^k\). Its complete classical state has temporal period dividing
-\(T^{k+1}\). The virtual tower before the fixed fold decoration has initial spatial period dividing \(P^k\).
+\(T_{\rm cal}^k\). Its complete classical state has temporal period dividing
+\(T_{\rm cal}^{k+1}\). The virtual tower before the fixed fold decoration has initial spatial period dividing \(P_{\rm cal}^k\).
 \end{lemma}
+\par\noindent\emph{Proof idea.} Extend the interpreter so each simulation period returns its scratch records and port state to prescribed values. Build and verify this return using the fixed local phases.
+
 \begin{proof}
 Use the local interpreter of Section~\ref{d:calendar-section}, with
 one additional requirement on its final phase: after committing the
 next information and completing quantum-port use, return every
 auxiliary field to its canonical age-zero value. The fields of one
-virtual calendar cell are specified in Table~\ref{f4:fields}. The
+virtual clock cell are specified in Table~\ref{f4:fields}. The
 word ``blank'' denotes the fixed zero encoding of the corresponding
 finite register; a head has the one declared start marker at address
 zero and the no-head marker elsewhere. These conventions apply also
 to deadline/default branches. The address and program are read-only.
-A simulation-mode cell advances age modulo \(T\); an idle-mode cell
-advances the same clock and blanks its irrelevant work.
+A simulation-mode cell advances age modulo \(T_{\rm cal}\); an idle-mode cell
+advances its age in the same way and blanks its irrelevant work.
 
 \begin{table}[!htp]
-\caption{Complete calendar state at age zero. Distributed fields have
-one indicated bit or symbol per cell of a \(P\)-block.}\label{f4:fields}
+\caption{Complete clock state at age zero. Distributed fields have
+one indicated bit or symbol per cell of a \(P_{\rm cal}\)-block.}\label{f4:fields}
 \small\centering
-\begin{tabular}{@{}p{.29\textwidth}p{.65\textwidth}@{}}
+\begin{tabular}{@{}p{.29\textwidth}>{\raggedright\arraybackslash}p{.65\textwidth}@{}}
 \toprule Field & Canonical value or retained information\\\midrule
-Address & Its fixed residue modulo \(P\); zero in every top idle cell.\\
-Age & Zero modulo \(T\).\\
-Mode & Prescribed simulation or top idle mode.\\
-Old information & The encoded virtual state string; blank padding.\\
-Next information & Blank, after its contents have been committed.\\
-Left, centre, right copy tapes & All blank.\\
+Address & Its fixed residue modulo \(P_{\rm cal}\); zero in every top idle cell.\\\addlinespace[3pt]
+Age & Zero modulo \(T_{\rm cal}\).\\\addlinespace[3pt]
+Mode & Prescribed simulation or top idle mode.\\\addlinespace[3pt]
+Old information & The encoded virtual state string; blank padding.\\\addlinespace[3pt]
+Next information & Blank, after its contents have been committed.\\\addlinespace[3pt]
+Left, centre, right copy tapes & All blank.\\\addlinespace[3pt]
 Program & One bit of the fixed description of the total local algorithm;
-blank padding; blank in every top idle cell.\\
-TM tape & Blank auxiliary tape; read-only input/program roles retained
-in their own fields.\\
-TM head and state & Start state at address zero, no head elsewhere.\\
-Broadcast gate field & Idle/default port labels.\\
-Phase and handshake scratch & Blank; phase is determined by age.\\
+blank padding; blank in every top idle cell.\\\addlinespace[3pt]
+Turing-machine tape & Blank auxiliary tape; read-only input/program roles retained
+in their own fields.\\\addlinespace[3pt]
+Machine head and state & Start state at address zero, no head elsewhere.\\\addlinespace[3pt]
+Broadcast gate field & Idle/default port labels.\\\addlinespace[3pt]
+Phase and handshake scratch & Blank; phase is determined by age.\\\addlinespace[3pt]
 Current native request & The scheduled age-zero instruction, here idle;
-computed from age, address and broadcast fields.\\
+computed from age, address and broadcast fields.\\\addlinespace[3pt]
 Fold boundary and parity & Prescribed left/right/interior/outside flags
-and virtual parity, retained by the logical rule.\\
+and virtual parity, retained by the logical rule.\\\addlinespace[3pt]
 Private old-word and selector copies & Blank at module boundaries;
 reset before each use and after disposal.\\\bottomrule
 \end{tabular}
@@ -54,13 +58,13 @@ reset before each use and after disposal.\\\bottomrule
 The boundary/parity fields are fixed labels of the fold, and the
 private copies are compiler work. Neither belongs to the simulated
 virtual word; because both are constant or blank at every round boundary,
-the identity below extends to the full physical calendar. Inside a clean period, copy the three old strings, interpret one local
+the identity below extends to the full physical clock. Inside a clean period, copy the three old strings, interpret one local
 transition, broadcast its old instruction, execute its encoded table,
-commit, and clean. Communication is \(O(P)\), computation is polynomial
-in \(\log(P,T)\), and the fixed routed table takes at most \(C_QP^2\)
+commit, and clean. Communication is \(O(P_{\rm cal})\), computation is polynomial
+in \(\log P_{\rm cal}\), and the fixed routed table takes at most \(C_QP_{\rm cal}^2\)
 steps. Canonicalization has the same local tape traversal bounds.
 Thus a sufficiently large fixed power of two makes all phases fit in
-\(T=P^4\). Define the revised total algorithm before writing its finite
+\(T_{\rm cal}=P_{\rm cal}^4\). Define the revised total algorithm before writing its finite
 description into the program field, as in Section~\ref{d:calendar-section}.
 
 Let \(E_S(y)\) encode a cyclic word \(y\) in age-zero simulation
@@ -68,121 +72,154 @@ blocks with precisely these canonical fields, and let \(\mathcal C_S\)
 be the clean logical transducer. Literal interpretation and the resets
 give an identity on the \emph{entire} word,
 \[
- \mathcal C_S^T E_S(y)=E_S(\mathcal C_S y).
+ \mathcal C_S^{T_{\rm cal}} E_S(y)=E_S(\mathcal C_S y).
 \]
-At the cyclic seam the same local neighbor communication applies as at
+At the cyclic seam the same local neighbour communication applies as at
 any block seam. Induction gives
-\(\mathcal C_S^{T^k}E_S^k(y)=E_S^k(\mathcal C_Sy)\).
-The uniform idle top word has clock period \(T\), spatial period one,
+\(\mathcal C_S^{T_{\rm cal}^k}E_S^k(y)=E_S^k(\mathcal C_Sy)\).
+The uniform idle top word has clock period \(T_{\rm cal}\), spatial period one,
 and identity instruction at every time. Its encoded word therefore
-returns after \(T^{k+1}\), with initial spatial period dividing \(P^k\).
+returns after \(T_{\rm cal}^{k+1}\), with initial spatial period dividing \(P_{\rm cal}^k\).
 The exact port identity of Section~\ref{d:calendar-section} gives the
-repeated encoded quantum identity in aligned periods \(T^k\).
+repeated encoded quantum identity in aligned periods \(T_{\rm cal}^k\).
 The deterministic local evolution between returns defines all times.
 \end{proof}
 
 \begin{lemma}[Raw finite-torus cutoff]\label{f4:raw}
 Consider a fixed collection of whole-symbol quorum covers using the
-three \(16\)-by-\(16\) provider boxes of \eqref{eq:c-boxes}, with a
+three \(16\)-by-\(16\) replica boxes of \eqref{eq:c-boxes}, with a
 fixed finite logical stencil in the other coordinates. Before the
 initial source slab the error reference is empty. Suppose one fresh
-wrong site-time name has at most \(K_0\) raw causes, and one actual
+wrong site-round name has at most \(K_0\) raw causes, and one physical
 Bernoulli \(p\) site-time flag causes at most \(c_0\) such names.
 Let \(R_{\rm phys}\) bound spatial infinity-steps of the complete
 contour and source-star catalogue. Put
-\(N_0=\lfloor(L-1)/R_{\rm phys}\rfloor\ge24\).
-For a horizon \(H\), an exceptional event has probability at most
+\(N_0=\lfloor(L-1)/R_{\rm phys}\rfloor\ge36\).
+For a horizon \(T_{\rm hor}\), an exceptional event has probability at most
 \[
- C_{\rm raw}(H+C_{\rm raw})L^d
+ C_{\rm raw}(T_{\rm hor}+C_{\rm raw})L^d
  K_{\rm raw}^{N_0+1}p^{N_0/(72c_0)}.
 \]
 Outside it every wrong use has a connected certificate with \(g\)
-distinct actual raw names, at most \(C_{\rm w}g\) edges and at most
+distinct physical raw names, at most \(C_{\rm w}g\) edges and at most
 \(K_{\rm w}^g\) anchored descriptions. All probabilities are under
 the original law.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Apply the contour construction in a lift of the finite torus. Short graph pieces have distinct physical marks, which yields the raw cutoff after a union over their starts.
+
 \begin{proof}
-Write good as one minus the error indicator. Away from fresh sources,
-the good cover is the OR over pairs of boxes of the AND of all required
-logical inputs in that pair. This is an acyclic typed dependence graph.
-The contour theorem and zero-sum identity of
-\cite[Theorem~22 and Lemma~41]{SST2026} apply to each realized source
-set, including its periodically correlated spatial lift.
+Lift the flags, the rule and its reference periodically from
+\((\Z/L\Z)^d\) to \(\Z^d\). A replica at transverse displacement
+\(d_0\) reads its logical inputs at \(u+d_0\), one round earlier;
+the reference is cloned along the replica coordinates. Fix a realized
+flag field and let \(y\) indicate that a lifted site-time carries its
+reference whole symbol.
+
+Define the typed dependence graph \((\Lambda,\mathcal H)\) of
+\cite[Definition~20]{SST2026} on the lifted site-times from the round
+before the initial source slab through \(T_{\rm hor}+O(1)\). Let \(\Lambda_1\)
+be that first round, where \(y=1\). The three edge types are the three
+pairs of replica boxes. At a site-time of \(\Lambda_\bullet\), type
+\(s\) points to every logical input of every replica in pair \(s\).
+Put in \(\Lambda_0\) the fresh wrong site-times, where \(y=0\) and
+all the inputs in at least one pair have \(y=1\). All remaining
+site-times are in \(\Lambda_\bullet\). Two correct boxes give \(512\)
+correct votes, so every fresh wrong name has a raw cause in its update.
+
+The associated monotone automaton \(\varphi\) is the OR over pairs of
+the AND of their inputs \mbox{\cite[(2.14)]{SST2026}}. By the definition of \(\Lambda_0\),
+\(y\ge\varphi(y)\) off \(\Lambda_0\), and on \(\Lambda_0\) the
+automaton is fixed at zero. Finite time depth gives a unique trajectory
+\(x\), hence the maximal trajectory of \cite[Lemma~13]{SST2026}. Induction from \(\Lambda_1\) gives \(x\le y\). At any wrong
+lifted site-time \(i\) we therefore have \(x(i)=0\).
+By \cite[Theorem~22]{SST2026} a Toom contour rooted at \(i\) is
+present in this graph. Its sinks lie in \(\Lambda_0\). An edge
+leaving the root or an internal vertex of charge \(s\) has type \(s\);
+an edge leaving another source may have any allowed type
+\cite[Definition~21]{SST2026}. The contour embeds in the finite explanation graph of \cite[Proposition~31 and Theorem~33]{SST2026}. The embedding is injective on sinks and on internal vertices of each charge by \cite[Definition~17]{SST2026}. Contour sources and sinks occur in equal numbers, so the contour is finite.
+This construction is deterministic for each lifted field and does not
+require independence between periodic copies.
+
+Apply the zero-sum identity \cite[Lemma~41]{SST2026} in this spatial lift.
 In the transverse coordinates \(u=(u_1,u_2)\) put
-\(\chi=u+58t(1,1)\), with poles
+\(\chi=u+58t(1,1)\), with potentials
 \(3(\chi_1+\chi_2),-3\chi_1,-3\chi_2\).
-For the first pole use the two shifted boxes, and for the other two
+For the first potential use the two shifted boxes, and for the other two
 use the unshifted box and the box shifted in the other direction.
 Their gains are at least \(132,129,129\); the worst arbitrary backward
-gain is \(-351\). Logical offsets do not enter these poles.
+gain is \(-351\). Logical offsets do not enter these potentials.
 Every dependence edge goes one round backward in time. Time telescoping
-gives the same edge count \(j\) for each charge. The root is a source
-\cite[Definition~16]{SST2026}; for \(n\) sinks there are \(n-1\)
-nonroot-source edges of each charge. Pole cancellation yields
+\cite[(5.13) in the proof of Lemma~38]{SST2026} gives the same edge
+count \(j\) for each charge. The root is a contour source
+\cite[Definitions~15--16]{SST2026}. Contour sources and sinks are equal in
+number, so there are \(n_{\rm sink}-1\) nonroot sources for \(n_{\rm sink}\) sinks, each
+emitting one edge of each charge \cite[(5.23) in the proof of Lemma~40]{SST2026}. Pole cancellation yields
 \[
- 0\ge3[129(j-n+1)-351(n-1)],\qquad
- E=3j\le(480/43)(n-1)<12(n-1)
+ 0\ge3[129(j-n_{\rm sink}+1)-351(n_{\rm sink}-1)],\qquad
+ E=3j\le(480/43)(n_{\rm sink}-1)<12(n_{\rm sink}-1)
 \]
-for \(n>1\); a single fresh root has zero edges.
+for \(n_{\rm sink}>1\); a single fresh root has zero edges.
 
 For \(E\ge N_0\), root an abstract spanning tree at the contour root,
-a source of weight zero. Give all \(n\) sinks weight one; their images
-are distinct by \cite[Definition~17(i)]{SST2026}. With at most
-\(E<12(n-1)\) edges, its redundancy is below twelve. The separator
-\cite[Definition~2.11 and Theorem~2.14]{Gacs2021} with
-\(k_0=\lfloor N_0/12\rfloor<n-1\) gives a subtree with at most
+a source of weight zero. Give all \(n_{\rm sink}\) sinks weight one; their lifted
+space-time positions are distinct by \mbox{\cite[Definition~17(i)]{SST2026}}. With at most
+\(E<12(n_{\rm sink}-1)\) edges, its redundancy is below twelve. The separator
+\mbox{\cite[Definition~2.4, Lemma~2.5 and Theorem~2 (Tree Separator)]{Gacs2021}} with
+\(k_0=\lfloor N_0/12\rfloor<n_{\rm sink}-1\) gives a subtree with at most
 \(12k_0\le N_0\) edges and more than \(k_0/3\ge N_0/72\) marked
 original sinks. The separator's root convention assigns any removed
 root mark to the other piece, so the selected marks remain original
-sinks. Its spatial coordinate diameter is at most
+sinks. Here \(N_0\ge36\) gives \(k_0\ge3\), so every refinement
+inside Theorem~2 occurs at weight greater than three, as required by
+its Lemma~2.5. Its spatial coordinate diameter is at most
 \(R_{\rm phys}N_0\le L-1\). Two lifts of the same physical site-time
 name would differ by an \(L\)-deck displacement in space; hence the
 selected sink names are distinct physically. They require more than
-\(N_0/(72c_0)\) distinct actual raw flags.
+\(N_0/(72c_0)\) distinct physical raw flags.
 
-Truncate above \(H\) before extraction. The empty past forces every
-vertex into the initial-to-\(H+O(1)\) time slab. There are at most
-\(C_{\rm raw}(H+C_{\rm raw})L^d\) possible projected roots. Ordered
+Truncate above \(T_{\rm hor}\) before extraction. The empty past forces every
+vertex into the time slab from the initial round through \(T_{\rm hor}+O(1)\). There are at most
+\(C_{\rm raw}(T_{\rm hor}+C_{\rm raw})L^d\) possible projected roots. Ordered
 tree shapes, bounded edge increments, binary sink markings and at most
 \(K_0\) causes per mark have at most \(K_{\rm raw}^{N_0+1}\)
 descriptions. Apply the raw law only to admissible descriptions with
-distinct actual images; all other codes merely overcount cardinality.
+distinct physical images; all other codes merely overcount cardinality.
 This proves the exceptional bound without assigning independent flags
 to periodic copies.
 
 Off that event a full explanation has fewer than \(N_0\) edges and
-injective sinks by the same diameter bound. If \(g\) actual causes
-occur, \(n\le c_0g\), so the complete contour and its fixed attachment
+injective sinks by the same diameter bound. If \(g\) physical causes
+occur, \(n_{\rm sink}\le c_0g\), so the contour and its fixed attachment
 stars have \(O(g)\) edges. Bounded degree gives exponential anchored
 entropy by traversing a spanning tree twice, recording finite edge
 and role choices. All occurrences of a cause attach to its one raw
-hub. Enlarging constants covers old/new time offsets and isolated roots.
+source label. Enlarging constants covers old/new time offsets and isolated roots.
 For sufficiently small fixed \(p\), the exceptional bound is at most
-\(C(H+C)L^d e^{-\beta_{\rm raw}L}\).
+\(C_{\rm bd}(T_{\rm hor}+C_{\rm bd})L^d e^{-\beta_{\rm raw}L}\).
 \end{proof}
 
 The next lemma is the one-dimensional two-sheet case of the fold
 \eqref{q:fold-map}; Proposition~\ref{c:oriented-source} pays shared
 physical faults across sheets in the same way.
 
-\begin{lemma}[Two-role shadow]\label{f4:roles}
+\begin{lemma}[Two-role image]\label{f4:roles}
 Fold a cycle of length \(m=2\ell\) into \([0,\ell)\) on a physical
 circle of length \(L\ge4\ell\), using positions \(a_0(\sigma)=\sigma\)
 and \(a_1(\sigma)=m-1-\sigma\) on that interval. Each extends to a
-one-Lipschitz map into the virtual cycle. Duplicating each actual raw
-hub into two formal roles gives intersection weight at most
+one-Lipschitz map into the virtual cycle. Duplicating each physical raw
+source label into two formal roles gives intersection weight at most
 \((\sqrt p)^g\) for \(g\) distinct formal names.
 \end{lemma}
 \begin{proof}
 For \(\ell\ge2\) define \(f(\sigma)=\sigma\) on \([0,\ell-1]\),
 \(f(\sigma)=2\ell-2-\sigma\) on \([\ell,2\ell-2]\), and zero
 thereafter. Set \(a_0=f\), \(a_1=m-1-f\) modulo \(m\).
-Every physical nearest-neighbor edge, including the torus seam,
+Every physical nearest-neighbour edge, including the torus seam,
 changes \(f\) by at most one; the reflected role has the same property.
 For \(\ell=1\) use constant \(f=0\). The map
 \((\sigma,t)\mapsto(a_r(\sigma),t)\) consequently has bounded
 increments on every fixed-range raw graph. At most two formal names
 refer to one physical flag, so \(g\) names require at least
 \(\lceil g/2\rceil\) independent flags. This proves the law.
-All uses of one actual name in one role retain that name.
+All uses of one physical name in one role retain that name.
 \end{proof}

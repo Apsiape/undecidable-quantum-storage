@@ -1,6 +1,9 @@
 \section{Certification on computable windows}\label{a:certification}
 
-Fix either of the separately compiled whole-site (\(\mathrm W\)) and single-qubit (\(\mathrm Q\))
+This section proves the certification clause of Theorem~\ref{thm:detailed} (Theorem~\ref{a:complete}), shows that no total computable function bounds the halting-side forgetting time (Corollary~\ref{a:time}), and completes the proof of Theorem~\ref{thm:main}.
+
+
+Fix either of the separately compiled whole-site (\(\mathrm{WS}\)) and independent single-qubit (\(\mathrm Q\))
 realizations in Theorem~\ref{thm:detailed}. The storage reduction has an
 exact arithmetical formulation because its encoder and decoder are fixed finite circuits at each size and time.
 Write
@@ -8,8 +11,8 @@ Write
  f_{n,L,t}(\eps)=
  F(\cE_{n,L},\cD_{n,L,t};L,t,\eps)
 \]
-for their entanglement fidelity. The circuits in this definition depend on
-\((n,L,t)\), while their noise rate is an argument of the medium alone.
+for their entanglement fidelity. The encoder and decoder depend on \((n,L,t)\); the noise rate enters only
+through the round channel \(\Lambda_{L,\eps}\).
 
 \begin{proposition}[Exact finite fidelity]\label{a:rational}
 For fixed \(n,L,t\), the function \(f_{n,L,t}\) is a polynomial in \(\eps\)
@@ -17,6 +20,8 @@ with rational coefficients, computable by a total finite algorithm.
 In particular, its value at a rational rate can be compared exactly with
 \(7/8\).
 \end{proposition}
+\par\noindent\emph{Proof idea.} Construct the encoder and decoder by finite binary elimination. Expand the fixed noisy circuit in its elementary channels to compute each coefficient of the fidelity polynomial.
+
 \begin{proof}
 Choose the external CSS encoder by binary Gaussian elimination. If
 \(A\) and \(B\) are the binary spaces of \(X\)- and \(Z\)-stabilizers,
@@ -29,7 +34,7 @@ implement this encoder. Syndrome extraction, recursive stabilizer
 recovery, its total syndrome correction table and inverse encoding use the same real
 Clifford gates and computational-basis operations; \(Z=HXH\). The same fixed syndrome table is total outside the correctable span.
 At a requested time first append the declared intended future circuit
-on the actual in-flight quantum work, as in
+on the in-flight quantum work, as in
 Proposition~\ref{d:storage}. Failed finite chart searches use the
 fixed fallback. These rules give total finite circuits in every case.
 
@@ -41,11 +46,14 @@ partial trace and sums of unnormalized computational-measurement
 branches preserve rational entries. Thus these operations have rational
 superoperator matrices, including the external circuits. Each noise map
 is affine in \(\eps\), with rational coefficients in its replacement part: \(1/2^N\) for a whole
-site in \(\mathrm W\), and \(1/2\) for one wire in \(\mathrm Q\). A finite composition followed
+site in \(\mathrm{WS}\), and \(1/2\) for one wire in \(\mathrm Q\). A finite composition followed
 by evaluation of entanglement fidelity is therefore a rational-coefficient polynomial. Finite rational matrix
 arithmetic computes it and terminates. The algorithm's resource cost
 can be enormous.
 \end{proof}
+
+In the conditional theorem below, \(X\) is a polynomial indeterminate and \(A(n,L,t,k)\) is a Boolean test; the stabilizer space \(A\) in the preceding proof is local to that proof.
+\input{sections/conditional-certification}
 
 \begin{theorem}[Window certification]\label{a:complete}
 Let \(c>0\), \(L_0(n)\), and \(I_n\) be the rational coefficient,
@@ -62,37 +70,17 @@ is \(\Pi^0_1\)-complete. It is equivalent to the same statement with every
 real rate in \(I_n\), and holds exactly when \(U(n)\) never halts.
 \end{theorem}
 \begin{proof}
-Enumerate all triples consisting of an integer \(L\), an integer \(t\),
-and a rational \(q\). The restrictions in \eqref{a:predicate} are decidable:
-\(L_0(n)\) is total computable, \(c\) is rational, and the endpoints of
-\(I_n\) are total computable rationals. Accept triples outside the
-displayed domain. For each remaining triple, Proposition~\ref{a:rational}
-decides its fidelity inequality. A universal conjunction of these
-decidable tests is a \(\Pi^0_1\) predicate.
-
-If \(U(n)\) does not halt, the lower bound in Theorem~\ref{thm:detailed}
-gives \(f_{n,L,t}(q)\geq15/16\) throughout the domain. If it halts,
-choose the rational midpoint \(q\) of \(I_n\). Set \(\eta=1/16\) in the
-forgetting conclusion and let \(T=\lceil C_{n,1/16}\rceil\). Choose
-\(L\geq L_0(n)\) with \(\lfloor cL\rfloor\geq T\). At time \(T\), every
-encoding and decoder, including these explicit ones, has fidelity at
-most \(9/16<7/8\). This gives a failed finite test. Hence \(P(n)\) is
-exactly nonhalting for the fixed universal machine; the usual computable
-input compiler gives many-one \(\Pi^0_1\)-hardness.
-
-Finally, each \(f_{n,L,t}\) is continuous by
-Proposition~\ref{a:rational}. A strict violation at a real point of the
-open window persists on a neighborhood containing a rational point.
-This proves equivalence of the rational and real quantifiers.
+Apply Theorem~\ref{lean:conditional} with \(u=U\), the rational polynomials of Proposition~\ref{a:rational}, and the domain in \eqref{a:predicate}. The exact finite test is total by that proposition and the computable cutoff and endpoints. Theorem~\ref{thm:detailed}(i)--(ii), with \(\eta=1/16\), gives the two physical premises. Universality supplies the input compiler.
 \end{proof}
 
 A false certificate has a finite exact witness \((L,t,q)\). The theorem
 concerns the computably supplied windows. On rational rates, membership
 in their union and the unique window label are decidable. For the chosen
-realization, compute its positive rational refresh rate
+realization, first reject \(q\notin(0,1)\). Otherwise compute its positive
+rational refresh rate
 \[
- \mu_{\mathrm W}(q)=1-(1-q)^{P_{\rm pad}},\qquad
- \mu_{\mathrm Q}(q)=1-\left(\frac{1+(1-q)^{K_{\rm samp}}}{2}\right)^M.
+ \mu_{\mathrm{WS}}(q)=1-(1-q)^{P_{\rm pad}},\qquad
+ \mu_{\mathrm Q}(q)=1-\left[\frac{1+(1-q)^{K_{\rm samp}}}{2}\right]^M.
 \]
 Enumerate the decreasing nominal-window upper endpoints until they fall
 below that value. Only finitely many physical windows remain to test by exact rational
@@ -109,17 +97,17 @@ Suppose \(g(n)\) were such a bound. At the rational midpoint of \(I_n\),
 compute the explicit fidelity at time \(t=\max\{1,g(n)\}\) and a
 computably chosen size \(L\geq L_0(n)\) with \(t\leq\lfloor cL\rfloor\).
 Nonhalting gives fidelity at least \(15/16\); halting gives fidelity at
-most \(1/2+\eta<7/8\). Proposition~\ref{a:rational} would therefore
+most \mbox{\(1/2+\eta<7/8\)}. Proposition~\ref{a:rational} would therefore
 decide halting by an exact comparison with \(7/8\), a contradiction.
 \end{proof}
 
 
 \begin{proof}[Completion of Theorems~\ref{thm:main} and~\ref{thm:detailed}]
 The exact compilation and parameter choices of
-Section~\ref{sec:compilation} give the fixed three-dimensional medium
+Section~\ref{sec:compilation} give the fixed three-dimensional circuit
 and rational windows. Proposition~\ref{d:storage} proves storage at
 every requested time. Theorem~\ref{f:forgetting} gives the all-encoding
-halting bound, and Theorem~\ref{u:eb} gives the linear EB mixture.
+halting bound, and Theorem~\ref{u:eb} gives the linear entanglement-breaking mixture.
 Theorem~\ref{a:complete} proves the certification clause. Their fidelity
 gap gives precisely the optimal-lifetime alternatives in Theorem~\ref{thm:main}.
 \end{proof}

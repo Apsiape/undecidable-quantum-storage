@@ -1,0 +1,70 @@
+\begin{theorem}[Conditional window certification]
+\label{lean:conditional}
+Let $u:\mathbb N\rightharpoonup\mathbb N$ be partial recursive. Suppose there
+is a total computable compiler $\gamma$ from partial-recursive program codes
+to inputs such that $u(\gamma(e))\downarrow$ if and only if $e(0)\downarrow$.
+Let $c\in\mathbb Q$, $c>0$, let $L_0:\mathbb N\to\mathbb N$, and let
+$I_n=(a_n,b_n)$ be pairwise disjoint open rational windows with
+$0<a_n<b_n<1$. More precisely, for $n\ne m$, assume
+$b_n\le a_m$ or $b_m\le a_n$.
+Let $p_{n,L,t}\in\mathbb Q[X]$ for $n,L,t\in\mathbb N$.
+Let $r:\mathbb N\to\mathbb Q$ be a surjection, and assume a total
+computable Boolean test $A(n,L,t,k)$ satisfying exactly
+\[
+ A(n,L,t,k)=\mathrm{true}\quad\Longleftrightarrow\quad
+ \bigl(L_0(n)\le L\ \land\ t\le cL\ \land\ a_n<r(k)<b_n
+       \ \Longrightarrow\ p_{n,L,t}(r(k))\ge 7/8\bigr).
+\]
+Here all size and time variables are natural numbers; $t\le cL$ is
+rational comparison and hence equivalent to $t\le\lfloor cL\rfloor$.
+No separate computability assumptions on $L_0,a,b,p,r$ are needed:
+the displayed exact test is the computational hypothesis.
+Assume explicitly the following two physical premises of this paper:
+\begin{enumerate}
+\item (Nonhalting storage.) If $u(n)\uparrow$, then, for every $L,t\in\mathbb N$
+and $q\in\mathbb Q$, whenever $L\ge L_0(n)$, $t\le cL$, and $q\in I_n$,
+we have $p_{n,L,t}(q)\ge15/16$.
+\item (Halting forgetting.) If $u(n)\downarrow$, there is $T\in\mathbb N$
+such that for every $L,t\in\mathbb N$ and $q\in I_n\cap\mathbb Q$,
+$t\ge T$ implies $p_{n,L,t}(q)\le9/16$.
+\end{enumerate}
+Define $P_{\mathbb Q}(n)$ to mean
+\[
+ \forall L,t\in\mathbb N\ \forall q\in\mathbb Q,\quad
+ L\ge L_0(n),\ t\le cL,\ a_n<q<b_n
+ \ \Longrightarrow\ p_{n,L,t}(q)\ge7/8.
+\]
+Define $P_{\mathbb R}(n)$ by replacing $q\in\mathbb Q$ by $x\in\mathbb R$,
+coercing the endpoints and $7/8$ to $\mathbb R$, and evaluating the
+coefficientwise image of $p_{n,L,t}$ in $\mathbb R[X]$ at $x$; keep
+$t\le cL$ as the same rational comparison.
+Then all four conclusions hold:
+\[
+ \begin{gathered}
+ \forall n,\quad P_{\mathbb Q}(n)\ \Longleftrightarrow\ u(n)\uparrow;\\
+ P_{\mathbb Q}\text{ is }\Pi^0_1\text{-complete};\\
+ \forall n,\quad P_{\mathbb Q}(n)\ \Longleftrightarrow\ P_{\mathbb R}(n);\\
+ P_{\mathbb Q}\text{ is not a computable predicate}.
+ \end{gathered}
+\]
+For precision, $S\subseteq\mathbb N$ is $\Pi^0_1$ here when there exists
+a total computable Boolean function $R:\mathbb N\times\mathbb N\to\{0,1\}$
+with $S(n)\Longleftrightarrow\forall s\,R(n,s)=1$; completeness means that
+$P_{\mathbb Q}$ is $\Pi^0_1$ and every such $S$ many-one reduces to it
+by a total computable map $\mathbb N\to\mathbb N$.
+\end{theorem}
+\begin{proof}
+The physical inputs are explicit hypotheses. Enumerating the exact tests over $(L,t,k)$ puts
+$P_{\mathbb Q}$ in $\Pi^0_1$. Nonhalting storage gives every required
+inequality. If the input halts, take the rational midpoint of its window,
+the time $T$ from halting forgetting, and a size $L\ge L_0(n)$ with
+$T\le cL$; this violates the certificate since $9/16<7/8$. Thus the
+certified set is exactly the nonhalting set of $u$. The computable
+compiler, together with the usual partial-recursive search for a failed
+Boolean test, gives many-one $\Pi^0_1$-hardness and undecidability.
+Finally, continuity of a real polynomial and density of the rationals in
+every open real interval show that a strict real violation has a rational
+violation; coefficient coercion preserves rational evaluation. This proves
+the equivalence of rational and real certification.
+\end{proof}
+

@@ -1,60 +1,132 @@
-\section{The medium and the operational theorem}\label{s:model}
-\subsection{Local circuits and two noise models}
+\section{Model, fidelity and detailed three-dimensional theorem}\label{s:model}
+This section fixes the local circuit model, the two noise models and the fidelity and lifetime used throughout. It states Theorem~\ref{thm:detailed}, the detailed form of Theorem~\ref{thm:main}.
+
+Universality supplies a total computable compiler from program codes \(e\) to inputs \(n\) such that \(U(n)\) halts exactly when program \(e\) halts on input \(0\) (Section~\ref{a:certification}). Each construction has nonempty open windows \(I_n\) with rational endpoints. The total computable noiseless encoder depends on \((n,L)\), and the total computable noiseless decoder on \((n,L,t)\). On a halting window the forgetting bound holds for all encoders and decoders on the entire register, for every \(L\), every rate in \(I_n\), and every integer \(t\) at or above the cutoff \(C_{n,\eta}\) in the corresponding theorem. Time counts rounds in Theorems~\ref{thm:exponential} and~\ref{thm:main} and elementary layers in Theorem~\ref{thm:four-dimensional}.
+
+\subsection{Terminology}
+We call the registers of the rule before physical compilation \emph{semantic registers}. A site can hold several such registers and the extra wires used to implement them. Table~\ref{tab:terms} gives the recurring terms.
+
+\begin{table}[!tb]
+\caption{Terminology used in the construction and the proofs. The source vocabulary (bin, star, seed, witness, certificate, charge, image, catalogue and overlay) is explained in Section~\ref{c:named-sources}.}\label{tab:terms}
+\small\centering
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.23\linewidth}>{\raggedright\arraybackslash}p{.51\linewidth}>{\raggedright\arraybackslash}p{.19\linewidth}@{}}
+\toprule Term & Meaning & Defined in\\\midrule
+Selector and chart & Rate-selecting classical controller and its locally checked space-time diagram. In six and four dimensions the chart is a static patch. A live letter is a nonbottom symbol. & Sections~\ref{c:chart}, \ref{sec:exponential} and~\ref{sec:four-dimensional}\\\addlinespace[3pt]
+Cap, profile and death flag & Finite static computation patch with a diagonal overflow counter. Its per-site profile is \(\mathsf{pr}\). The flag \(\mathsf d\) records whether erasure has been triggered at or has propagated to a site. & Section~\ref{sec:exponential}\\\addlinespace[3pt]
+Replica and sampling lane & A replica is one transverse displacement supplying one vote. A sampling lane follows a row by copying a register that samples noise. One such copying interval is called a ride. & Sections~\ref{c:chart} and~\ref{v:parameters}\\\addlinespace[3pt]
+Censor & Local statistical test that can replace a computation symbol by \(\bot\). & Section~\ref{sec:exponential}\\\addlinespace[3pt]
+Storage-enable bit and cut & In six and four dimensions the storage-enable bit controls conditional reset. A cut removes incoming dependence through that reset. & Sections~\ref{sec:exponential}, \ref{sec:four-dimensional}\\\addlinespace[3pt]
+Conditional reset and mixed ancilla & Controlled swap with a fresh maximally mixed ancilla, then reset of that ancilla. In the clean circuit a triggered cut replaces each data qubit by \(I/2\). & Section~\ref{sec:compilation}\\\addlinespace[3pt]
+Hidden cover, realization and rate bound & A hidden cover adds letters to projected chart geometry so legality is local. A realization compiles the rule for one noise model. A rate bound is an upper bound on a fault or refresh probability. & Sections~\ref{c:chart} and~\ref{sec:compilation}\\\addlinespace[3pt]
+Dirty location & Circuit location touched by a fault or by a wrong controller output. & Section~\ref{d:dispatch}\\\addlinespace[3pt]
+Sheet and dispatch & A sheet is one affine branch of a folded code. Dispatch is the selection and execution of a local gate through its ports. & Section~\ref{d:dispatch}, Appendices~\ref{app:f4-dispatch} and~\ref{sec:folded}\\\addlinespace[3pt]
+Clock and exclusive dispatcher & The clock is a classical scheduling field. The dispatcher uses exclusive ports to implement the chosen gate. & Section~\ref{d:calendar-section}, Appendices~\ref{app:f4-calendar} and~\ref{app:f4-dispatch}\\
+\bottomrule
+\end{tabular}
+\end{table}
+Table~\ref{tab:geometry} lists the coordinate roles. In the six-dimensional construction \(u\) denotes the patch coordinates and \(P\) the four code coordinates. In the four-dimensional construction \(\mathsf C\) is the computation field and \(\mathsf S\) the clock field. The chain coordinate is \(\sigma\), the clock block length is \(P_{\rm cal}\), the simulation period is \(T_{\rm cal}\), and \(k\) is the concatenation depth. The window bound \(w_n\) is on bin height and \(\alpha_4\) is the storage exponent.
+
+\begin{table}[!tb]
+\caption{Coordinate roles. The second coordinate \(t-i\) of the three-dimensional computation is a space-time coordinate.}\label{tab:geometry}
+\centering\small
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{.32\linewidth}>{\raggedright\arraybackslash}p{.49\linewidth}@{}}
+\toprule Circuit & Computation & Quantum data\\\midrule
+6D (A) & Static patch in \((u_x,u_y)\) & Four-dimensional toric code in \((P_1,P_2,P_3,P_4)\)\\\addlinespace[3pt]
+4D (B) & Static patch in \((x,y)\) & Chain along \(\sigma\), folded into two internal roles\\\addlinespace[3pt]
+3D (C) & Space-time diagram in \((i,t-i)\) & Chain along \(\sigma\)\\\bottomrule
+\end{tabular}
+\end{table}
+
+The separate four-dimensional circuit of Appendix~\ref{sec:coexistence}
+uses the four-sheet geometry of Appendix~\ref{sec:folded} and a separate
+closed-code track. The recurring constants are explained in
+Appendix~\ref{app:code-estimates}.
+
+\subsection{Local circuits and two noise models}\label{s:local-circuits}
+Each construction has a fixed local register and a fixed repeating schedule. We begin with the three-dimensional register convention; the later theorems specify their other lattice dimensions.
 Let \(\mathbb T_L^3=(\Z/L\Z)^3\). One physical site carries
 \(\mathcal H_x=(\mathbb C^2)^{\otimes N}\), where \(N\) is one fixed
-finite integer. It includes every data, controller, sensor, transport,
+finite integer. It includes every data, controller, sensor, transport
 and work qubit. A gate layer is a translated product of gates on
 disjoint internal tensor factors. Several such gates can meet the same
 physical product site on different factors. Every gate has at most
-three input qubits and uses one of a fixed finite set of displacement
-templates. In particular, the displacement set is independent of
-\(n,L,\eps\).
+three input qubits and uses one of finitely many displacement templates, independent of \(n,L,\eps\).
 
-In realization \(\mathrm W\), following each gate layer, independently at each physical site, apply
+\begin{definition}[Whole-site depolarizing noise, WS]\label{def:noise-w}
+Following each gate layer, independently at each physical site, apply
 \begin{equation}\label{eq:site-noise}
  \mathcal D_{\eps,x}(\rho)
  =(1-\eps)\rho+\eps\,\frac{I_x}{2^N}\otimes\Tr_x\rho.
 \end{equation}
+\end{definition}
+\begin{definition}[Independent single-qubit depolarizing noise, Q]\label{def:noise-q}
 In realization \(\mathrm Q\), independently on every wire after every layer, apply
-\(\rho\mapsto(1-\eps)\rho+\eps I/2\). In both realizations the same
+the one-wire channel \(\rho\mapsto(1-\eps)\rho+\eps I/2\), tensored with the identity on all other wires.
+\end{definition}
+In both realizations the same
 physical rate follows preparation, dephasing, reset, and idle layers.
-\(\mathrm W\) and \(\mathrm Q\) are separately compiled fixed circuits; their dimensions,
+\(\mathrm{WS}\) and \(\mathrm Q\) are separately compiled fixed circuits; their dimensions,
 schedules and physical windows may differ. Gates in a layer are disjoint
 on qubits and may share physical sites. All spatial gates have fixed
 finite range, which need not be one lattice spacing. The gate list is
 \[
- \{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\},
+ \{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}.
 \]
-where \(R_0(\rho)=|0\rangle\langle0|\Tr\rho\) and \(D_Z\) is complete
+The unitary subset contains the computationally universal pair Toffoli and Hadamard \cite{Aharonov2003,Shi2003} (universality here is the real-amplitude simulation of complex computation with one extra qubit, in the sense of \cite[Definition~3 and Theorem~2]{Aharonov2003}). Here \(R_0(\rho)=|0\rangle\langle0|\Tr\rho\) and \(D_Z\) is complete
 computational-basis dephasing; a measurement is a \(D_Z\) whose outcome
-stays on a basis-valued wire. Repeating the fixed circuit defines
-a round channel \(\Lambda_{L,\eps}\). Round time and elementary-layer
-time differ by a single constant for this medium.
+stays on a basis-valued wire.
+\Needspace{7\baselineskip}
+\begin{definition}[Round channel]\label{def:round}
+Repeating the fixed circuit defines a round channel \(\Lambda_{L,\eps}\).
+One application is one round. If the period is \(J\) elementary layers,
+then at aligned times \mbox{\(t_{\rm layer}=Jt_{\rm round}\)}.
+For Theorem~\ref{thm:four-dimensional}, including Theorem~\ref{f4:detailed},
+bound~\eqref{f4:lifetime-upper}, Table~\ref{tab:results} and
+Corollary~\ref{cor:window-undecidable}, fidelity and lifetime are measured
+in elementary layers. In this convention use \(\Lambda^{(t)}_{L,\eps}\),
+the channel of the first \(t\) noisy layers starting at a round boundary,
+in Definitions~\ref{def:fidelity} and~\ref{def:lifetime}. Convert round
+quantities in the proof at aligned times using the period.
+Unless elementary layers are specified, \(t\) counts rounds.
+\end{definition}
 
 \subsection{Storage fidelity}
+CPTP means completely positive and trace preserving.
+\begin{definition}[Entanglement fidelity]\label{def:fidelity}
 Let \(\beta=|\beta\rangle\langle\beta|\), with
 \(|\beta\rangle=(|00\rangle+|11\rangle)/\sqrt2\). The reference qubit
 is never acted upon. For CPTP encoding and decoding maps \(\cE,\cD\), put
 \begin{equation}\label{eq:fidelity}
  F(\cE,\cD;L,t,\eps)=
- \langle\beta|[\operatorname{id}\otimes
+ \langle\beta|[\mathrm{id}\otimes
  (\cD\Lambda_{L,\eps}^t\cE)](\beta)|\beta\rangle,
  \qquad F^*_{L,\eps}(t)=\sup_{\cE,\cD}F(\cE,\cD;L,t,\eps).
 \end{equation}
 This is entanglement fidelity for the maximally mixed logical qubit.
+\end{definition}
 The supremum allows arbitrary encodings into the entire physical
 algebra, including work and controller registers, with no persistent
-outside quantum memory. Let
+outside quantum memory. \begin{definition}[Memory lifetime, or storage time]\label{def:lifetime}
+Let
 \[
  \tau_{L,\eps}=\sup\{t\in\N:F^*_{L,\eps}(t)\ge7/8\}.
 \]
-Optimal fidelity is nonincreasing: the intervening channel can always
-be included in a decoder at an earlier time. Our explicit decoder can
-depend on \(t\), as well as \(n,L\), and remains independent of the
-actual rate.
+\end{definition}
+Optimal fidelity is nonincreasing in \(t\). A later decoder composed with the intervening channel is a decoder at the earlier time. The passing layer times
+therefore form an initial segment, and the passing round times are
+precisely the aligned times in that segment. For a period of \(J\)
+layers, the optimized integer lifetimes satisfy
+\(\tau_{\rm round}=\lfloor\tau_{\rm layer}/J\rfloor\) when finite,
+and are both infinite otherwise. Our explicit decoder can depend
+on \(t\), as well as \(n,L\), and remains independent of the rate.
 
-\begin{theorem}\label{thm:detailed}
-For each of \(\mathrm W\) and \(\mathrm Q\) there are a computably specified,
+
+\begin{definition}[Storing and forgetting windows]\label{def:windows}
+A \emph{rate window} is a nonempty open interval with rational endpoints. For a specified encoder family, decoder family, horizon and size threshold, a \emph{storing window} is one on which the stated fidelity guarantee holds at every rate and every indicated size and time. A \emph{forgetting window} is one on which, for every \(\eta>0\), the optimal fidelity is at most \(1/2+\eta\) after a finite time uniform in size and rate. A \emph{scalable-memory rate} is one with \(\sup_L\tau_{L,\eps}=\infty\). A \emph{scalable-memory window} consists entirely of such rates. Nonhalting and halting windows are indexed by \(n\) with \(U(n)\uparrow\) and \(U(n)\downarrow\), respectively. The theorems give storing windows with fidelity \(15/16\); certification tests the weaker bound \(7/8\). The limiting benchmark \(1/2\) is the largest entanglement fidelity attainable by a measure-and-prepare qubit channel.
+\end{definition}
+
+\begin{theorem}[Detailed form of Theorem~\ref{thm:main}]\label{thm:detailed}
+For each of \(\mathrm{WS}\) and \(\mathrm Q\) there are a computably specified,
 translation-invariant, time-periodic circuit as above, a computable sequence
 of disjoint nonempty rational open intervals
 \(I_n\subset(0,1)\), a rational \(c>0\), and computable thresholds
@@ -76,9 +148,9 @@ and \(L_1\), all independent of \(n\), such that for every \(n\), every
  \Lambda_{L,\eps}^{s_L}=(1-r_L)\Phi^{\rm EB}_{L,\eps}+r_L\mathcal B_{L,\eps},
  \qquad r_L\le q_L\le AL^be^{-aL},
 \]
-where \(\Phi^{\rm EB}_{L,\eps}\) is entanglement breaking and
+where \(\Phi^{\rm EB}_{L,\eps}\) is entanglement breaking (EB) and
 \(\mathcal B_{L,\eps}\) is a channel. In particular
-\(\|\Lambda_{L,\eps}^{s_L}-\Phi^{\rm EB}_{L,\eps}\|_\diamond\le2q_L\) and
+\mbox{\(\|\Lambda_{L,\eps}^{s_L}-\Phi^{\rm EB}_{L,\eps}\|_\diamond\le2q_L\)} and
 \(F^*_{L,\eps}(t)\le1/2+q_L/2\) for every \(t\ge s_L\).
 \item The predicate requiring the explicit fidelity to be at least
 \(7/8\) for every integer \(L\ge L_0(n)\), integer
@@ -90,28 +162,26 @@ Every finite test is an exact rational comparison.
 
 If \(U(n)\) never halts, these bounds give
 \(\lfloor cL\rfloor\le\tau_{L,\eps}<201L+C_0\) for every \(\eps\in I_n\)
-and every \(L\ge\max(L_0(n),L_1)\) with \(q_L<3/4\); thus
-\(\tau_{L,\eps}=\Theta(L)\), uniformly across the window. The word
-``sharp'' refers to this scale. On halting windows the lifetime is
+and every \(L\ge L_C(n):=\max\{L_0(n),L_1,L_2\}\). Here \(L_2\) is a
+computable size beyond which \(AL^be^{-aL}<3/4\). One can search beyond
+\(b/a\), where this bound decreases, until a certified upper estimate
+is strictly below \(3/4\). Thus
+\(\tau_{L,\eps}=\Theta(L)\), uniformly across the window. On halting windows the lifetime is
 uniformly bounded in \(L\). These halting-side times are finite but not
 computable from \(n\): for each fixed rational \(0<\eta<3/8\), no total
 computable function of \(n\) can serve as \(C_{n,\eta}\) in part (ii)
 (Corollary~\ref{a:time}). Computable windows and their rational midpoints
-already suffice for the undecidability assertion. The theorem concerns
-cubic tori and the stated circuit model. The large fixed displacement
-catalogue gives finite-range interactions; nearest-neighbour geometry
-is not claimed. Nothing is classified outside the selected windows.
+already suffice for the undecidability assertion. The scope is as in Section~\ref{intro:scope}.
 
 For fixed \(L\) and \(\eps>0\), complete replacement of every physical
 factor at the last layer of a round has probability
-\(r_{L,\eps}=\eps^{L^3}\) in \(\mathrm W\) and
-\(r_{L,\eps}=\eps^{NL^3}\) in \(\mathrm Q\). If it has occurred, the output is
+\(p_{L,\eps}=\eps^{L^3}\) in \(\mathrm{WS}\) and
+\(p_{L,\eps}=\eps^{NL^3}\) in \(\mathrm Q\). If it has occurred, the output is
 independent of the input. Thus
 \begin{equation}\label{eq:finite-reset}
- F^*_{L,\eps}(t)\le\frac14+\frac34(1-r_{L,\eps})^t.
+ F^*_{L,\eps}(t)\le\frac14+\frac34(1-p_{L,\eps})^t.
 \end{equation}
 This also controls the finitely many small volumes omitted from
 asymptotic estimates.
 
-
-
+Sections~\ref{sec:controller}--\ref{a:certification} prove Theorem~\ref{thm:detailed}. Section~\ref{sec:controller} constructs the classical selector and Section~\ref{sec:compilation} compiles it and fixes the constants. Section~\ref{sec:quantum} proves (i), Section~\ref{sec:forgetting} proves (ii), Section~\ref{sec:ceiling} proves (iii), and Section~\ref{a:certification} proves (iv).

@@ -1,6 +1,6 @@
-\subsection{Physical-name density and finite-age coherence}
-The compiler of Sections~\ref{sec:compilation} and~\ref{s:probe} gives
-independent physical site/round names \(H=A\lor E\), with
+\subsection{Physical-name density and finite-age coherence}\label{v:density-section}
+The compiler of Section~\ref{sec:compilation}, including Section~\ref{s:probe}, gives
+independent physical site-round names \(H=A\lor E\), with
 \(\mu=\Pr(E)\le p=\Pr(H)\le2\mu\). A name may corrupt both its old
 copies and its new output. The following supplies the precise density
 estimate needed here, including that double appearance.
@@ -8,25 +8,27 @@ estimate needed here, including that double appearance.
 \begin{lemma}[All-path density]\label{v:density}
 Let \(\mathcal M_{\rm raw}\) be the least finitary two-box closure with ordinary
 parents \((u+j,P+s,t-1)\), \(j\in\{-1,0,1\}^2\), \(s\) in the three
-provider boxes. Seed \((z,t)\) when \(H(z,t)\) or \(H(z,t+1)\) occurs.
+replica boxes. Seed \((z,t)\) when \(H(z,t)\) or \(H(z,t+1)\) occurs.
 Let \(\mathcal D_\ell(z)\) mean that some ordinary backward
-\(\ell\)-edge path has a marked ordinary parent at at least
+\(\ell\)-edge path has a marked ordinary parent at no fewer than
 \(\ell/1404\) of its first \(\ell\) vertices. Put
 \[
- \Delta_{\rm raw}=13824,\quad B_{\rm raw}=2\Delta_{\rm raw}^2=382205952,
- \qquad p_{\rm dens}=B_{\rm raw}^{-67440}/64.
+ \Delta_{\rm raw}=13\,824,\quad B_{\rm raw}=2\Delta_{\rm raw}^2=382\,205\,952,
+ \qquad p_{\rm dens}=B_{\rm raw}^{-67\,440}/64.
 \]
 For \(p\le p_{\rm dens}\),
 \begin{equation}\label{v:density-bound}
  \Pr(\mathcal D_\ell(z))\le
- 4\sum_{f\ge\lceil\ell/16848\rceil}
- [2B_{\rm raw}^{16860}\sqrt p]^f\le\frac{16}{3}e^{-\ell}.
+ 4\sum_{f\ge\lceil\ell/16\,848\rceil}
+ [2B_{\rm raw}^{16\,860}\sqrt p]^f\le\frac{16}{3}e^{-\ell}.
 \end{equation}
 This holds simultaneously over all paths, including paths selected
 after all innovations and initial words are known, for finite-start
 marks without free initial seeds, and in injectively unwrapped torus
 cones. Replacement values and initial words are unrestricted.
 \end{lemma}
+\par\noindent\emph{Proof idea.} Attach a complete three-charge contour to each selected marked parent and restart below its terminal time. The resulting graph controls every path in one count, with a separate payment for the two appearances of a physical source.
+
 \begin{proof}
 Use physical potentials
 \[
@@ -66,12 +68,12 @@ parent time is at or above the earliest terminal time of that contour.
 Repeat, retaining the final contour whole even below the path endpoint.
 The selected formal terminal slabs are disjoint. A contour with \(f_i\)
 terminals covers at most \(12(f_i-1)+1\le12f_i\) positions, whence
-\(f=\sum f_i\ge\lceil\ell/16848\rceil\). The entire path, all spurs
+\(f=\sum f_i\ge\lceil\ell/16\,848\rceil\). The entire path, all spurs
 and all contours form a connected graph with at most
-\(\ell+12f\le16860f\) edges. Its undirected degree is at most
-\(2\cdot9\cdot768=13824\). Doubled-edge traversals and terminal subsets
+\(\ell+12f\le16\,860f\) edges. Its undirected degree is at most
+\(2\cdot9\cdot768=13\,824\). Doubled-edge traversals and terminal subsets
 have at most \(2B_{\rm raw}^m\) descriptions for \(m\) edges; summing
-\(m\le16860f\) costs at most \(4B_{\rm raw}^{16860f}\). This counts
+\(m\le16\,860f\) costs at most \(4B_{\rm raw}^{16\,860f}\). This counts
 the whole path, not only the attached contours.
 
 For \(f\) distinct formal terminals choose one of their two possible
@@ -81,21 +83,18 @@ at most two formal vertices, so each choice uses at least
 probability is at most \(2^fp^{\lceil f/2\rceil}\le2^fp^{f/2}\).
 Apply this once to the complete terminal union: adjacent formal slabs
 can share an old/new name. This proves the series in
-\eqref{v:density-bound}. At the stated cap its base is at most
-\(B_{\rm raw}^{-16860}/4\); since
-\(16860\log B_{\rm raw}/16848>1\), the series is at most
+\eqref{v:density-bound}. At the stated rate bound its base is at most
+\(B_{\rm raw}^{-16\,860}/4\); since
+\(16\,860\log B_{\rm raw}/16\,848>1\), the series is at most
 \(16e^{-\ell}/3\). Finite-start closure only deletes seeds; injective
 cones preserve their law.
 \end{proof}
 
 The contour argument is that of \cite[Lemmas~12.3 and~12.4]{DMFixed2026}.
-This recovers equation (L.1) of \cite[Section~10.2]{DMNoise2026}, stated
-there for single-vertex flags, for the compiled two-appearance names, and
-gives an explicit rate for the old/new density estimate in
-Lemma~\ref{c:coherence}. Its exact \(e^{-\ell}\) tail is stronger
+For each compiled source name, which has an old and a new appearance, this recovers equation (L.1) of \cite[Section~10.2]{DMNoise2026}. That equation was stated for single-vertex replacement marks. The bound also gives an explicit rate for the old/new density estimate of Lemma~\ref{c:coherence}. Its exact \(e^{-\ell}\) tail is stronger
 than the downstream polynomial unions require. At the weaker cap
-\(B_{\rm raw}^{-33720}/64\), the same count gives only
-\((16/3)\exp[-(\log4)\ell/16848]\); the windows of Section~\ref{v:parameters} lie below the stronger cap.
+\(B_{\rm raw}^{-33\,720}/64\), the same count gives only
+\((16/3)\exp[-(\log4)\ell/16\,848]\); the windows of Section~\ref{v:parameters} lie below the stronger cap.
 
 The pairing argument of Lemma~\ref{c:coherence} (compare
 \cite[Lemma~10.2]{DMNoise2026}) carries over to Moore inputs: two
@@ -103,12 +102,12 @@ unmarked nonbottom full-core readings at the same \((u,t)\) and
 transverse distance \(d\) agree outside their two \(\mathcal D_\ell\)
 events when \(t\ge\ell\ge\max(1,2d)\). Indeed at an unmarked root at
 most one box has marked inputs, leaving at least \(512-256\) clean
-successful providers. Away from marked-parent positions a signed unit
-shift gives \(3\cdot16\cdot15=720\) provider pairs. At most
+successful replicas. Away from marked-parent positions a signed unit
+shift gives \(3\cdot16\cdot15=720\) replica pairs. At most
 \(2(768-512)=512\) fail, leaving 208 distance-reducing pairs.
 Different outputs of the same deterministic Moore function force a
 common differing input index. Follow that index at both roots. At an
-exceptional step choose any clean successful providers; distance rises
+exceptional step choose any clean successful replicas; distance rises
 by at most 350. After the first step the readings are actual first
 coordinates, so even time-zero distance-zero conflict is impossible.
 With fewer than \(2\ell/1404\) exceptional paired steps the final

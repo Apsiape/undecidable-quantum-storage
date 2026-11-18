@@ -1,0 +1,16 @@
+\begin{tikzpicture}[x=1mm,y=1mm,font=\footnotesize,
+box/.style={draw=black!65,fill=black!6,rounded corners=.8mm,align=center,minimum height=10mm},
+arr/.style={-{Stealth[length=2mm]},line width=.55pt}]
+\node[box,text width=28mm] (rate) at (15,20) {Noise samples\\from sampling\\registers};
+\node[box,text width=32mm] (input) at (56,20) {Tests check the\\rate scale for $n$};
+\node[box,text width=38mm] (run) at (103,20) {Check the finite static\\chart for $U(n)$};
+\node[box,text width=33mm] (defect) at (48,0) {Failed rate test,\\local chart defect\\or counter expiry};
+\node[box,text width=25mm,draw=black!65,fill=black!6] (erase) at (48,-19) {Erase\\quantum data};
+\node[box,text width=42mm,draw=rxaccent,fill=rxaccent!12] (store) at (110,0) {Local correction protects\\the qubit through the\\guaranteed horizon};
+\draw[arr] (rate)--(input);
+\draw[arr] (input)--(run);
+\draw[arr] (run.south west)--(defect.north east);
+\draw[arr] (input.south)--(defect.north);
+\draw[arr,draw=rxaccent] (run.south)--(store.north);
+\draw[arr] (defect.south)--(erase.north);
+\end{tikzpicture}

@@ -1,0 +1,19 @@
+\begin{tikzpicture}[x=1mm,y=1mm,font=\footnotesize,
+  fibre/.style={draw=rxaccent,fill=rxaccent!9,rounded corners=.6mm,minimum width=15mm,minimum height=7mm},
+  edge/.style={black!55,line width=.5pt}]
+\filldraw[fill=black!5,draw=black!65] (-4,-4)--(51,-4)--(67,13)--(12,13)--cycle;
+\foreach \x in {7,24,41} {
+  \foreach \y in {8,0} {
+    \coordinate (base) at ({\x+.85*\y},\y);
+    \draw[edge] (base)--++(0,19);
+    \fill[black!65] (base) circle (1pt);
+    \node[fibre] at ($(base)+(0,22.5)$) {};
+  }
+}
+\node[anchor=east] at (-3,22.5) {Fibre};
+\draw[edge,-{Stealth[length=1.5mm]}] (-2.6,22.5)--(-0.7,22.5);
+\node[anchor=north] at (24,-5) {Two-dimensional chart patch};
+\node[anchor=north west,inner sep=1pt] at (47.8,8) {$u$};
+\node[anchor=west] at (61,30.5) {$\{u\}\times(\Z/L\Z)^4$};
+\draw[edge,-{Stealth[length=1.5mm]}] (60,30.5)--(56,30.5);
+\end{tikzpicture}
