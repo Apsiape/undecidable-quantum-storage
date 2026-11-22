@@ -3,7 +3,19 @@
   "solution_module": "Solution",
   "theorem_names": [
     "QuantumScope.bell_sharing_bound",
-    "CertificationScope.abstract_window_certification"
+    "CertificationScope.abstract_window_certification",
+    "QuantumScope.equalMarginalExtension_comp",
+    "QuantumScope.iteration_extension",
+    "QuantumScope.iterated_cloning_bound",
+    "QuantumScope.replacement_fidelity",
+    "QuantumScope.replacement_ceiling",
+    "QuantumScope.replacement_ceiling_pow",
+    "QuantumScope.replacement_lifetime",
+    "QuantumScope.replacement_lifetime_layer",
+    "QuantumScope.replacement_eventually",
+    "QuantumScope.uniform_forgetting",
+    "QuantumScope.good_event_fidelity",
+    "QuantumScope.good_event_fidelity_union"
   ],
   "permitted_axioms": [
     "propext",

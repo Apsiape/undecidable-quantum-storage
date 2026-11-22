@@ -41,3 +41,14 @@ Flagship1D.lemma_4_2_probability
 Flagship1D.leafOverlapDegree
 Flagship1D.exponentBookkeeping
 Flagship1D.nestedTestSumRaw
+Flagship1D.q1_l1_1
+Flagship1D.q1_l1_1_uniform
+Flagship1D.q1_l18_recursion
+Flagship1D.q1_l18_horizon
+Flagship1D.q1_l18_fidelity
+Flagship1D.q1_l18_k0
+Flagship1D.q1_l18_fidelity_at_times
+Flagship1D.q1_l12_ledger
+Flagship1D.q1_l12_step1
+Flagship1D.q1_l11_ledger
+Flagship1D.q1_l18_rank_exists

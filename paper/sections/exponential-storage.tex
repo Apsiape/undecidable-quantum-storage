@@ -1,9 +1,9 @@
 \subsection{A total static encoder and exponential storage}\label{v:positive}
 \begin{lemma}[Finite static initialization]\label{v:encoder}
 For every \((n,L)\) a total rate-independent algorithm specifies a cap
-state and a closed-code encoder. On a nonhalting input and above a total computable size threshold,
+state and a closed-code encoder. On a nonhalting input and above a total computable size cutoff,
 the cap state is locally valid, carries the canonical projected geometry
-and the correct cutoff flag at every active site. For such an input above that threshold, the core trajectory under \(F_{\rm cap}\) keeps the storage-enable bit at one at every active site through
+and the correct cutoff flag at every active site. For such an input above that size cutoff, the core trajectory under \(F_{\rm cap}\) keeps the storage-enable bit at one at every active site through
 \(2^{\lfloor L/4\rfloor}-1\) rounds.
 \end{lemma}
 \par\noindent\emph{Proof idea.} Search the finite square and its collar for a legal assignment with the canonical projection. Initialize the counter and the closed toric code from the chosen patch.
@@ -61,8 +61,13 @@ mean the characteristic coordinates and the integer bin, with the
 catalogue role, as in \eqref{v:hubs}.
 
 \begin{lemma}[Exponential bound for the sources]\label{v:bridge}
-There are fixed computable \(A_{\rm e},\kappa_{\rm e}>0\) such that,
-for \(T<2^{N_{\rm cap}}-1\) and above a total computable size threshold, as in the reference counter bound (Lemma~\ref{v:cap}),
+Fix \(\mathsf r\). There are computable \(A_{\rm e},\kappa_{\rm e}>0\),
+depending on \(\mathsf r\) but not on \(n\), and a total computable size
+cutoff in \(n\), such that for every \(n\) with \(U(n)\uparrow\), every
+\(\eps\in I_n^{\mathsf r}\), every \(L\) above the cutoff and every
+integer \(0\le T<2^{N_{\rm cap}}-1\), \(N_{\rm cap}=\lfloor L/4\rfloor\),
+the circuit started from the state and encoder of
+Lemma~\ref{v:encoder} satisfies
 \begin{equation}\label{v:exp-bound}
  \Pr(\text{a dangerous certificate by }T)
  \le A_{\rm e}(T+A_{\rm e})L^6 2^{-\kappa_{\rm e}L}.
@@ -191,16 +196,16 @@ initial sampling registers use partial-window experiments. There are no prehisto
 seeds. Connectors stay between endpoint bins. This causal assertion is
 separate from the edge/source bound; the virtual image time does not
 replace actual bin time. Hence there are at most
-\(A_0(T+A_0)L^6\) starts. Padded short walks and source subsets cost
+\(A_{\rm st}(T+A_{\rm st})L^6\) starts. Padded short walks and source subsets cost
 \((\Delta_{\rm all}+1)^{q_{\rm short}}\cdot2^{q_{\rm short}+1}\).
 Apply the joint law only to admissible distinct-name annotations. Their
 probability sum is at most
 \[
- 2A_0(T+A_0)L^6
+ 2A_{\rm st}(T+A_{\rm st})L^6
  [2(\Delta_{\rm all}+1)\gamma_{\rm src}^{1/(3C_{\rm all})}]^{q_{\rm short}}.
 \]
 By the earlier \(\gamma_*\) choice the bracket is at most \(1/4\),
-which gives \eqref{v:exp-bound} with \(A_{\rm e}=8A_0\) and
+which gives \eqref{v:exp-bound} with \(A_{\rm e}=8A_{\rm st}\) and
 \(\kappa_{\rm e}=2f_{\rm geom}\).
 
 Finally Lemmas~\ref{q:homology}--\ref{q:span} apply to the universal
@@ -214,7 +219,7 @@ with reference coefficients.
 \begin{proof}[Proof of Theorem~\ref{v:detailed}(i)]
 
 Choose rational
-\(0<c_{\mathrm e}<\min(1/10,\kappa_{\rm e}/4)\), taking the smaller
+\(0<c_{\mathrm e}<\min(1/10,\kappa_{\rm e}^{\mathrm{WS}}/4,\kappa_{\rm e}^{\mathrm Q}/4)\), taking the smaller
 choice for the two compiled circuits. With \(T=2^{\lfloor c_{\mathrm e}L\rfloor}\),
 an effective enlargement of \(L_{\mathrm e}^{\mathsf r}(n)\) makes
 \eqref{v:exp-bound} at most \(1/16\), and absorbs all code, support and

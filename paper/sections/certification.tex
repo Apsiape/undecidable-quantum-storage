@@ -70,7 +70,8 @@ is \(\Pi^0_1\)-complete. It is equivalent to the same statement with every
 real rate in \(I_n\), and holds exactly when \(U(n)\) never halts.
 \end{theorem}
 \begin{proof}
-Apply Theorem~\ref{lean:conditional} with \(u=U\), the rational polynomials of Proposition~\ref{a:rational}, and the domain in \eqref{a:predicate}. The exact finite test is total by that proposition and the computable cutoff and endpoints. Theorem~\ref{thm:detailed}(i)--(ii), with \(\eta=1/16\), gives the two physical premises. Universality supplies the input compiler.
+Apply Theorem~\ref{lean:conditional} with \(u=U\), \(p_{n,L,t}=f_{n,L,t}\) for \(L\ge1\) and \(p_{n,0,t}=0\), and the domain in \eqref{a:predicate}; here \(L_0(n)\ge1\). The exact finite test is total by Proposition~\ref{a:rational}, the
+explicit definition at \(L=0\), and computability of the cutoff and endpoints. Theorem~\ref{thm:detailed}(i)--(ii), with \(\eta=1/16\), gives the two physical premises. Universality supplies the input compiler.
 \end{proof}
 
 A false certificate has a finite exact witness \((L,t,q)\). The theorem

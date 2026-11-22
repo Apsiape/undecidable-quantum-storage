@@ -2,6 +2,6 @@
   "task": "CacheGet",
   "command": "lake exe cache get",
   "exit": 0,
-  "wall_seconds": 15,
+  "wall_seconds": 7,
   "result": "No files to download; Already decompressed 9031 file(s)"
 }

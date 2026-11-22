@@ -19,7 +19,7 @@ computable pairwise disjoint nonempty rational open intervals \(I_n\)
 whose closures lie in \((0,\eps_*)\) for a fixed rational
 \(\eps_*>0\), a fixed clock block length \(P_{\rm cal}=2^{r_{\rm exp}}\), \(r_{\rm exp}\ge2\),
 \(\alpha_4=1/r_{\rm exp}\), a rational \(c_4>0\) independent of \(n\),
-and a total computable threshold \(L_4(n)\), with these properties on
+and a total computable size cutoff \(L_4(n)\), with these properties on
 \((\Z/L\Z)^4\) using \eqref{eq:fidelity}.
 \begin{enumerate}
 \item Total computable maps \(\cE_{n,L},\cD_{n,L,t}\), independent
@@ -172,9 +172,16 @@ operator scope corrected by the common recovery.
 
 \subsection{The source law}\label{f4:actual-sources}
 \begin{lemma}[Four-dimensional source interface]\label{f4:sources}
-The initialized nonhalting circuit satisfies all actual-source inputs
-of Appendix~\ref{app:f4-sources}, with constants independent of the
-window. Its raw exceptional probability through \(T_{\rm hor}\) is at most
+For each \(n\) with \(U(n)\uparrow\), take the computable size cutoff
+of Lemma~\ref{f4:encoder}, enlarged for the support hulls and the
+size hypotheses of Lemmas~\ref{f4:raw}, \ref{f4:strip} and~\ref{f4:cap-exception}.
+For every \(L\) above that cutoff and every \(\eps\in I_n\), the
+circuit initialized by Lemma~\ref{f4:encoder} satisfies the
+actual-source inputs of Appendix~\ref{app:f4-sources} through each
+integer horizon \(0\le T_{\rm hor}<2^{\lfloor L/4\rfloor}-1\), with
+constants independent of the window. There is a fixed computable
+\(C_{\rm bd}\ge\max(C_{\rm raw},C_{\rm cap})\) such that its raw
+exceptional probability through \(T_{\rm hor}\) is at most
 \(C_{\rm bd}(T_{\rm hor}+C_{\rm bd})L^4e^{-\beta_{\rm raw}L}\), and its cap exceptional probability
 is at most \(C_{\rm bd}(T_{\rm hor}+C_{\rm bd})L^4e^{-\beta_{\rm cap} L/(w_n+1)}\).
 \end{lemma}
@@ -201,7 +208,7 @@ Here \(C_h\) is the sampling-register scale, with the tails in \eqref{v:etas} ev
 enlarge the internal overlay at that site and round. Their private
 roles do not alter base ownership or introduce cap inputs.
 
-For completeness the witness calculation before the sampling-register count is as
+The witness calculation before the sampling-register count is as
 follows. On each charge arm every clean deep entry owns all
 \(D_{\rm q}=4096\) support occurrences before returning to an actual
 old word. If \(e\) is the support count, \(m_{\rm ent}\) the entry count and \(g\)

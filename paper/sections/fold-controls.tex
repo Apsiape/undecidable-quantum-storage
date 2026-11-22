@@ -8,19 +8,20 @@ The physical coordinates are \(r=(r_1,r_2,r_3,r_4)\in\Z^4\).
 For sheet \(\varsigma=(\varsigma_2,\varsigma_4)\in\{0,1\}^2\), let
 \(s_j=(-1)^{\varsigma_j}\). The reference coordinates are
 \[
- q_1=r_1,\qquad q_3=r_3,\qquad q_2=s_2r_2+c_2,\qquad q_4=s_4r_4+c_4.
+ q_1=r_1,\qquad q_3=r_3,\qquad q_2=s_2r_2+o_{2,\varsigma},\qquad q_4=s_4r_4+o_{4,\varsigma}.
 \]
 Set
 \begin{equation}\label{eq:c-orientations}
  i_\varsigma=q_4-q_2,\qquad P_{1,\varsigma}=q_1,\qquad
  P_{2,\varsigma}=q_2,\qquad Q_\varsigma=q_3-q_1.
 \end{equation}
-The constants \(c_2,c_4\) name encoder references only. The update
+The constants \(o_{2,\varsigma},o_{4,\varsigma}\), which depend on \(\varsigma\)
+and \(L\) (Appendix~\ref{sec:folded}), name encoder references only. The update
 stencils use the four fixed signed linear parts. The inverse is integer:
 \[
- r_1=P_{1,\varsigma},\quad r_2=s_2(P_{2,\varsigma}-c_2),\quad
+ r_1=P_{1,\varsigma},\quad r_2=s_2(P_{2,\varsigma}-o_{2,\varsigma}),\quad
  r_3=Q_\varsigma+P_{1,\varsigma},\quad
- r_4=s_4(i_\varsigma+P_{2,\varsigma}-c_4).
+ r_4=s_4(i_\varsigma+P_{2,\varsigma}-o_{4,\varsigma}).
 \]
 Thus each map is a torus automorphism at every
 \(L\). Each selector reads only its own chart and ignores the profile,

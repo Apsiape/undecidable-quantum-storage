@@ -29,7 +29,7 @@ includes the allowed insertions and erroneous uses throughout the full
 round, as in Lemma~\ref{q:round-shadow}.
 
 \begin{lemma}[Sweep predecessors]\label{q:sweep}
-For one positive sweep, every vertex of the new syndrome has, separately
+Let \(x_1,\ldots,x_4\) be the coordinate functions of the lifted code lattice, and call \(f(u)-f(v)\) the gain in \(f\) of a predecessor \(u\) of \(v\). For one positive sweep, every vertex of the new syndrome has, separately
 for each of the four functions \(x_j\), an old syndrome predecessor with
 nonnegative gain in that function. It also has an old predecessor with
 strictly positive gain in \(-\sum_jx_j\). The reflected sweep has the
@@ -63,10 +63,13 @@ same proof.
 \end{proof}
 
 \begin{lemma}[Grouped derivations]\label{q:frontier}
-Suppose a finite acyclic backward derivation has \(k\) balanced
-potentials. For each potential every positive support has a selected
-parent with gain at least \(d_0>0\), and every selected edge loses at
-most \(K_0\). Allow source-free zero-gain corridors, followed by a
+Suppose a finite acyclic backward derivation carries \(k\) balanced
+potentials, that is, potentials whose sum vanishes identically; the gain
+of an edge in a potential \(F\) is \(F(\text{parent})-F(\text{vertex})\),
+and an arm is a path followed for one potential from a source occurrence
+to a terminal. For each potential every positive support has a selected
+parent with gain at least \(d_{\rm gain}>0\), and every selected edge loses at
+most \(K_{\rm loss}\). Allow source-free zero-gain corridors, followed by a
 positive support, and bounded entry and terminal links, at most one
 of each per arm. Group terminal appearances by source label. For group
 \(i\), let \(\Omega_i\) bound the total potential oscillation and let
@@ -75,12 +78,12 @@ connected witness with \(g\) distinct true source labels. If \(E\) counts
 positive edges with arm multiplicity and \(K_{\rm ent}\) bounds the entry
 loss on one arm, then
 \[
- d_0 E\le k(d_0+K_0)(g-1)+kK_{\rm ent}g+
+ d_{\rm gain} E\le k(d_{\rm gain}+K_{\rm loss})(g-1)+kK_{\rm ent}g+
  \sum_{i=1}^g(\Omega_i+kK_{{\rm term},i}).
 \]
 With uniform terminal loss and oscillation bounds, the projected witness
 has at most \(C_{\rm w}g\) edges, where \(C_{\rm w}\) is computable from
-\(k,d_0,K_0,K_{\rm ent}\), the fixed typed stencils and these bounds.
+\(k,d_{\rm gain},K_{\rm loss},K_{\rm ent}\), the fixed typed stencils and these bounds.
 \end{lemma}
 \par\noindent\emph{Proof idea.} Keep one arm endpoint of each charge in every overlap component of the frontier. A split requires new arms, and balancing their potential increments bounds the total length by the terminal losses and oscillations.
 
@@ -136,7 +139,7 @@ edges, giving the asserted witness.
 We first record the deterministic topological criterion. Use the shortest period of the intended closed code torus.
 
 \begin{lemma}[Local filling invariant]\label{q:homology}
-Let \(\ell_{\min}\) be the shortest period of the code torus and set \(r=\ell_{\min}/20\).
+There is a fixed size \(\ell_0\) with the following property. Let \(\ell_{\min}\ge\ell_0\) be the shortest period of the code torus and set \(r=\ell_{\min}/20\).
 Starting from a code state, if every syndrome component in both CSS
 sectors has coordinate diameter less than \(r\) at every serialized
 elementary plaquette Pauli update, a fixed final filling decoder
@@ -162,9 +165,6 @@ the final Pauli acts by stabilizers in both sectors, including on
 reference-entangled states.
 \end{proof}
 
-\begingroup
-\renewcommand{\thetheorem}{\thesection.3a}
-\renewcommand{\theHtheorem}{\thesection.3a}
 \begin{lemma}[Round shadowing]\label{q:round-shadow}
 Track both sector chains at common full-round boundaries, just before
 the bit-sector extraction. Fix a round \(t\) and a sector, and let
@@ -188,8 +188,6 @@ of \(\partial e_t\cup\Lambda_t\). For the folded circuit the same
 holds in each sheet's virtual chart, with the \(K_*\) sheet patches
 of each location.
 \end{lemma}
-\addtocounter{theorem}{-1}
-\endgroup
 \begin{proof}
 At this sector's extraction write \(\sigma_0=\partial e_t+\rho\),
 where \(\rho\) includes erroneous records and data Paulis from the
@@ -235,7 +233,10 @@ exceptional event in Lemma~\ref{v:bridge}. Its proof supplies the corresponding
 derivations, admissible certificates and probability bound.
 
 \begin{lemma}[Universal certificate implication]\label{q:universal}
-For a fixed exogenous classical history, every Pauli assignment at
+For a fixed exogenous classical history on a code torus above
+a fixed computable size (so that Lemma~\ref{q:homology} applies and any
+\(K_*\) patches linked at distances \(2(r_{\rm d}+R_*)\) fit in a
+contractible box much narrower than \(\ell_{\min}\)), every Pauli assignment at
 the allowed catalogue locations that changes corrected homology in
 either CSS sector yields an admissible dangerous certificate.
 Consequently, on \(\mathcal G\), the same intended-complex filling
@@ -383,7 +384,7 @@ For a local lifted virtual chart set \(d=(58,58,58,57)\) and
 They sum to zero. Table~\ref{q:links} lists backward increments
 \(F(\text{parent})-F(\text{root})\). It includes links created by
 classical gathering and predictor recentring. Write
-\(\delta_i\in\{-1,0\}\) and \(T_{\rm hist}=1024\). Here \(u_j\) is the \(j\)-th component of the selected replica displacement in the selector or profile box.
+\(\delta_i\in\{-1,0\}\) for the \(i\)-part of the selected selector parent's displacement \((u_1,u_2,u_1,u_2+\delta_i)\) (Appendix~\ref{sec:folded}), and put \(T_{\rm hist}=1024\). Here \(u_j\) is the \(j\)-th component of the selected replica displacement in the selector or profile box.
 
 \begin{table}[!htbp]
 \centering\small
@@ -544,7 +545,7 @@ failure at most \(1/16\) above a computable threshold.
 \subsection{Origin of recurring constants}\label{q:constants-origin}
 \begin{itemize}
 \item \(768=3\cdot16^2\) counts the voting replicas in the three boxes of \eqref{eq:c-boxes}. The threshold is \(512\). In the raw six-dimensional graph the nine Moore offsets give degree \(2\cdot9\cdot768=13\,824\), and the doubled walk count uses \(2\cdot13\,824^2=382\,205\,952\) (Lemma~\ref{v:density}).
-\item The drift \(58\) in each protected coordinate balances the gains on the voting boxes. For each negative potential a replica outside its far box has \(s_j\le15\), giving \(3(58-15)=129\). A far-box replica has \(s_1+s_2\ge160\), giving \(3(160-2\cdot58)=132\) for the sum potential. The largest single-coordinate offset is \(175\), giving the worst loss \(3(175-58)=351\). An old and a new appearance differ by one step of this drift, giving total potential oscillation \(348+174+174=696\). The ordinary unshifted density proof instead uses gain \(130\) and loss \(350\) (Lemmas~\ref{c:coherence} and~\ref{v:density}, and Section~\ref{v:parameters}).
+\item The drift \(58\) in each protected coordinate balances the gains on the voting boxes. For each negative potential a replica outside its far box has \(u_j\le15\), giving \(3(58-15)=129\). A far-box replica has \(u_1+u_2\ge160\), giving \(3(160-2\cdot58)=132\) for the sum potential. The largest single-coordinate offset is \(175\), giving the worst loss \(3(175-58)=351\). An old and a new appearance differ by one step of this drift, giving total potential oscillation \(348+174+174=696\). The ordinary unshifted density proof instead uses gain \(130\) and loss \(350\) (Lemmas~\ref{c:coherence} and~\ref{v:density}, and Section~\ref{v:parameters}).
 \item In the six-dimensional construction a complete query uses \(4096\) virtual levels. Distributing its entry loss of at most \(696\) over those levels leaves \(129-696/4096>128\) gain per edge (Section~\ref{v:parameters}).
 \item A fork costs at most \(480\) per charge relative to a good edge. With three charges this gives \(1440\) per fork. In the density count, \(1440/130<12\) and \(1404\cdot12=16\,848\), with \(1/\delta=1404\); counting spurs and contours adds \(12\), giving \(16\,860\) (Lemma~\ref{v:density}).
 \item The code uses \(400\) reflected sweeps. The drift costs \(4\cdot58\) on the sum potential, leaving \(400-4\cdot58=168\) in the six-dimensional proof (Lemmas~\ref{q:sweep} and~\ref{v:bridge}).

@@ -1,5 +1,5 @@
-494d901083c7336a3ce7e38ad6625820b4f71b6e8b63597eff80bc48d959b237  Challenge.ndjson
-ba2b51c77fcb286e2b62547f98d85aa3f6d272226be22016375ec7ea65201e38  Solution.ndjson
-Challenge.ndjson bytes 146224512
-Solution.ndjson bytes 166548933
+e06848bcb454892a4c9e99c785641b6d81e29bd3e5c685d256fe0e5544c30d16  Challenge.ndjson
+61f3ec9774ae424b52da628a7dd4b3d8a9d0bdfe47eefce9675b1304355c7000  Solution.ndjson
+Challenge.ndjson bytes 146458117
+Solution.ndjson bytes 171873512
 Exported by scripts/export.sh (lean4export format 3.1.0); the comparator's own sandboxed exports are temporary files.

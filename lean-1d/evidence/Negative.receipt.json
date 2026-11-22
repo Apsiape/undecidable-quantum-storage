@@ -4,7 +4,7 @@
   "controls": {
     "comparator without Classical.choice permitted": {
       "exit": 1,
-      "wall_seconds": 51
+      "wall_seconds": 49
     },
     "comparator against a retargeted challenge (MutantB)": {
       "exit": 1,
@@ -16,7 +16,7 @@
     },
     "secondary check, retargeted theorem (MutantB)": {
       "exit": 1,
-      "wall_seconds": 42
+      "wall_seconds": 43
     },
     "nanoda on the Challenge export (contains sorryAx)": {
       "exit": 1,

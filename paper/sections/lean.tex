@@ -1,17 +1,42 @@
 \section{Lean formalization}\label{app:lean}
-The Lean 4 library formalizes the two results in Table~\ref{tab:lean}; a second development, described at the end of this appendix, formalizes Lemma~\ref{q1:l1}.
-Theorems~\ref{thm:exponential}, \ref{thm:four-dimensional}, \ref{thm:main} and~\ref{q1:main}, the constructions, the noise analysis and the compilation are not formalized.
+The Lean 4 library formalizes Lemmas~\ref{f:iteration} and~\ref{f:bell},
+conditional forms of the full-replacement bound \eqref{eq:finite-reset}
+and the associated lifetime estimates, a conditional abstract form of
+Theorem~\ref{f:forgetting}, the overlap step in the proof of
+Lemma~\ref{q1:l18}, and the conditional certification of
+Theorem~\ref{lean:conditional}. Table~\ref{tab:lean} gives the declarations.
+The one-dimensional development formalizes Lemmas~\ref{q1:l1} and
+\ref{q1:l1.1}, the arithmetic of Lemma~\ref{q1:l18} with its fidelity
+inputs supplied as hypotheses, and selected exponent calculations
+from Lemmas~\ref{q1:l11} and~\ref{q1:l12}.
+Theorems~\ref{thm:exponential}, \ref{thm:four-dimensional}, \ref{thm:main} and~\ref{q1:main}, Proposition~\ref{f:extension}, the constructions, the noise analysis and the compilation are not formalized. Theorem~\ref{f:forgetting} is checked from the extension onward: its Lean form assumes the two-output extension of Proposition~\ref{f:extension} and the full-replacement decomposition on the small tori as explicit hypotheses.
 Theorem~\ref{lean:conditional} gives the conditional certification statement and proof.
 
 \begin{table}[!htbp]
-\caption{The two Lean statements.}\label{tab:lean}
+\caption{The Lean statements.}\label{tab:lean}
 \small\centering
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.37\textwidth}>{\raggedright\arraybackslash}p{0.59\textwidth}@{}}
 \toprule
 Paper statement & Lean declaration\\
 \midrule
+Lemma~\ref{f:iteration}, for every positive \(j\)
+& \texttt{QuantumScope.iteration\_extension}\\\addlinespace[3pt]
+Lemmas~\ref{f:iteration} and~\ref{f:bell}, the bound \(1/2+2^{-j-1}\)
+& \texttt{QuantumScope.iterated\_cloning\_bound}\\\addlinespace[3pt]
 Lemma~\ref{f:bell}, for every \(k>0\), CPTP encoder and common decoder
 & \texttt{QuantumScope.bell\_sharing\_bound}\\\addlinespace[3pt]
+Theorem~\ref{f:forgetting}, the conditional abstract form
+& \texttt{QuantumScope.uniform\_forgetting}\\\addlinespace[3pt]
+Conditional form of \eqref{eq:finite-reset}, for round or layer channels
+with the stated replacement decomposition and weight at least \(p\)
+& \texttt{QuantumScope.replacement\_ceiling\_pow},
+  \texttt{QuantumScope.replacement\_ceiling}\\\addlinespace[3pt]
+Conditional layer estimate under the same hypothesis with \(p>0\),
+implying \(\tau\le\log(6/5)/p<1/p\) and hence
+\eqref{f4:lifetime-upper} and the bound in Section~\ref{q1:effective}
+& \texttt{QuantumScope.replacement\_lifetime\_layer}\\\addlinespace[3pt]
+The overlap step in the proof of Lemma~\ref{q1:l18}
+& \texttt{QuantumScope.good\_event\_fidelity\_union}\\\addlinespace[3pt]
 Theorem~\ref{lean:conditional}, the conditional abstract form
 of Theorem~\ref{a:complete}
 & \texttt{CertificationScope.abstract\_window\_certification}\\
@@ -25,10 +50,10 @@ finite ancillary dimension. Trace preservation holds for every matrix.
 Every partial-trace marginal of the extension equals the given channel
 on all inputs. Entanglement fidelity uses the normalized Bell projector
 onto \((|00\rangle+|11\rangle)/\sqrt2\) and leaves the reference qubit
-untouched. The conditional certification theorem assumes the physical storage and forgetting results as explicit hypotheses.
+untouched. The conditional certification theorem assumes the physical storage and forgetting results as explicit hypotheses. The conditional forgetting theorem likewise assumes the extension and the replacement decomposition; a full replacement is a convex decomposition \(\rho\mapsto q\Tr(\rho)\sigma+(1-q)\Phi(\rho)\) of the layer channel with \(\Phi\) CPTP.
 
 \paragraph{Library and build.}
-In the archive, the \texttt{lean/} subdirectory contains \texttt{lean-toolchain}, \texttt{lake-manifest.json} and the \texttt{QuantumStorage} library. \texttt{Challenge.lean} specifies the two theorems, and \texttt{Solution.lean} imports the proved declarations.
+In the archive, the \texttt{lean/} subdirectory contains \texttt{lean-toolchain}, \texttt{lake-manifest.json} and the \texttt{QuantumStorage} library. \texttt{Challenge.lean} specifies the fourteen theorems, and \texttt{Solution.lean} imports the proved declarations.
 The toolchain is Lean \texttt{4.35.0}. The Mathlib commit is
 \begin{verbatim}
 56a005855ea17e0b0958f73ec801ae140b0a1679
@@ -42,12 +67,36 @@ lake exe cache get
 lake build
 lake env lean -j1 -M5000 Solution.lean
 \end{verbatim}
-Each of the two axiom sets printed by the last command consists exactly of \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. The expected output, wrapped to fit, is
+Each of the fourteen axiom sets printed by the last command consists exactly of \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. The expected output, wrapped to fit, is
 {\small
 \begin{verbatim}
 'CertificationScope.abstract_window_certification' depends on axioms:
   [propext, Classical.choice, Quot.sound]
 'QuantumScope.bell_sharing_bound' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.equalMarginalExtension_comp' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.iteration_extension' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.iterated_cloning_bound' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.replacement_fidelity' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.replacement_ceiling' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.replacement_ceiling_pow' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.replacement_lifetime' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.replacement_lifetime_layer' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.replacement_eventually' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.uniform_forgetting' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.good_event_fidelity' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+'QuantumScope.good_event_fidelity_union' depends on axioms:
   [propext, Classical.choice, Quot.sound]
 \end{verbatim}
 }
@@ -61,12 +110,24 @@ in the \texttt{lean/} directory.
 \begin{verbatim}
 #check @QuantumScope.bell_sharing_bound
 #check @CertificationScope.abstract_window_certification
+#check @QuantumScope.equalMarginalExtension_comp
+#check @QuantumScope.iteration_extension
+#check @QuantumScope.iterated_cloning_bound
+#check @QuantumScope.replacement_fidelity
+#check @QuantumScope.replacement_ceiling
+#check @QuantumScope.replacement_ceiling_pow
+#check @QuantumScope.replacement_lifetime
+#check @QuantumScope.replacement_lifetime_layer
+#check @QuantumScope.replacement_eventually
+#check @QuantumScope.uniform_forgetting
+#check @QuantumScope.good_event_fidelity
+#check @QuantumScope.good_event_fidelity_union
 \end{verbatim}
 Run each copy separately with \texttt{lake env lean -j1 -M5000},
-followed by the copy's filename. Compare the two printed declaration
+followed by the copy's filename. Compare the fourteen printed declaration
 types with the statements in \texttt{Challenge.lean} and the paper.
-The challenge file has two intentional \texttt{sorry} bodies to expose
-the statements. The proof and axiom checks use \texttt{Solution.lean}. The archive's \texttt{lean/README.md} also documents a mechanical comparison of the two proved statements, with every definition they use, against the frozen statement file \texttt{Challenge.lean}, using the comparator tool (\href{https://github.com/leanprover/comparator}{\texttt{github.com/leanprover/comparator}}), and retains its output.
+The challenge file has fourteen intentional \texttt{sorry} bodies to expose
+the statements. The proof and axiom checks use \texttt{Solution.lean}. The archive's \texttt{lean/README.md} describes a mechanical comparison of the proved statements, with every definition they use, against \texttt{Challenge.lean}.
 
 \paragraph{The one-dimensional sparsity estimate.}
 A second development, in the archive's \texttt{lean-1d/} subdirectory,
@@ -77,25 +138,34 @@ properties, the disjoint-child witness construction of
 \cite[Lemma~\ref*{cl:lem:sparse-witness}]{DMNoise1D2026} with its finite
 tree counts, and the independent-flag probability bounds of that lemma.
 For independent elementary keys with possibly unequal rates at most
-\(e\), finite stencils of at most \(s_R\) keys and chosen integer radius
-bounds, it proves the bound \(z_{R,j}(e)\) of Lemma~\ref{q1:l1} with the
-displayed constants, and \(C_R e^{c_R}\le 1/2\) for
-\(0\le e\le e_{R0}\). Choosing integer radius bounds when the final
+\(\eps\), finite stencils of at most \(s_R\) keys and chosen integer radius
+bounds, it proves the bound \(z_{R,j}(\eps)\) of Lemma~\ref{q1:l1} with the
+displayed constants, and \(C_R \eps^{c_R}\le 1/2\) for
+\(0\le \eps\le \eps_{R0}\). It also proves Lemma~\ref{q1:l1.1} with integer primitive-stencil
+radius bounds: its explicit cutoff \(\eps_R(d,\delta)\) is positive,
+is computable as a rational from \(\lceil d\rceil\) and \(\delta\),
+and makes the clock moment summable with sum at most \(\delta\).
+It proves the recursion and horizon arithmetic of Lemma~\ref{q1:l18}.
+Its fidelity calculation assumes the failure probabilities, the union
+bound and the overlap inequality of that proof. The overlap inequality
+is established in the companion \texttt{lean/} library. The
+one-dimensional development also verifies selected identities and
+inequalities in the exponent calculations of Lemmas~\ref{q1:l11}
+and~\ref{q1:l12}, as listed in \texttt{lean-1d/README.md}.
+Choosing integer radius bounds when the final
 circuit is enumerated, which flooring the physical coordinates permits
 without changing the constants, and identifying the physical noise with
 the product-key model are application steps, not formalized results.
 The development also verifies the support-independence and
 bounded-overlap estimates underlying
 \cite[Lemma~\ref*{cl:lem:joint}]{DMNoise1D2026}, the raw-flag
-nested-test sum in its first conclusion, and 22 arithmetic parameter
-inequalities of \cite{DMNoise1D2026}. It does not formalize
-Lemmas~\ref{q1:l1.1} and~\ref{q1:l1.2}, the other lemmas of
+nested-test sum in its first conclusion, and arithmetic parameter
+inequalities of \cite{DMNoise1D2026} listed in \texttt{lean-1d/README.md}. It does not formalize
+Lemma~\ref{q1:l1.2}, the probability estimates of Lemmas~\ref{q1:l12}
+and~\ref{q1:l18}, the other lemmas of
 Sections~\ref{q1:model}--\ref{q1:effective}, Theorem~\ref{q1:main}, the
-automaton or the physical compilation. Its 43 theorems use only
-\texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. The
-comparator tool accepts all 43 against the frozen statement file
-\texttt{Challenge.lean}, and two independent kernel checkers, the Lean
-kernel checker and nanoda, accept the exported proofs. The toolchain and
+automaton or the physical compilation. Its theorems use only the axioms
+\texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}. The toolchain and
 Mathlib commit are those above; build and check instructions and a
 statement-by-statement comparison with the printed text are in
 \texttt{lean-1d/README.md}.

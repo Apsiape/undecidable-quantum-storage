@@ -161,7 +161,7 @@ where \(n_{\rm sel}=1\) for Theorem~\ref{thm:detailed} and
 occur with each type and each spatial lift. A specified certificate
 therefore costs at most \(p^{F/(n_{\rm sel} Q_{\rm wrap})}\).
 
-For completeness, in a graph of degree \(\Delta\) a rooted connected
+In a graph of degree \(\Delta\) a rooted connected
 \(j\)-edge graph has a doubled-edge traversal of length at most \(2j\).
 Choosing that traversal, its terminal subset and finitely many roles
 costs at most an exponential in \(j\). Summing \(j\le AF\) is still
@@ -242,9 +242,9 @@ schedule all information-moving quantum work precedes that block.
 Its discarded work is not retrieved later.
 
 \begin{theorem}[Linear upper bound for the fixed circuit]\label{u:eb}
-There are computable constants \(A,a>0\), \(b\in\N\), \(C_0\ge2\)
-and \(L_1\), all independent of \(n\), such that for every \(n\), every
-\(\eps\in I_n\) and every \(L\ge L_1\),
+There are computable constants \(A,a>0\), \(b\in\N\), an integer \(C_0\ge2\)
+and \(L_{\rm EB}\ge C_0/2\), all independent of \(n\), such that for every \(n\), every
+\(\eps\in I_n\) and every \(L\ge L_{\rm EB}\),
 \begin{equation}\label{eq:u-eb}
  \Lambda_L^{201L+C_0}=(1-r_L)\Phi^{\rm EB}_L+r_L\mathcal B_L,
  \qquad r_L\le q_L\le A L^b e^{-aL},
@@ -256,6 +256,10 @@ encoder and decoder and every \(t\ge201L+C_0\),
 \begin{equation}\label{eq:u-fidelity}
  F_L(t)\le\frac12+\frac{q_L}{2}.
 \end{equation}
+The same conclusion, with constants computed for that circuit and the
+bound \(q_L\) on the exceptional event taken with \(n_{\rm sel}=4\),
+holds for the folded part of the circuit of
+Appendix~\ref{sec:coexistence} on every window \(I_j\), \(j\ge1\).
 \end{theorem}
 \par\noindent\emph{Proof idea.} Exclude large wrapped certificates throughout a late time slab. The remaining local erasure cuts remove dependence on the initial quantum state, which gives the lifetime bound.
 
@@ -268,7 +272,10 @@ selector types and times gives the conservative bound
                   4^{-\lceil\delta(2L+1)/68\rceil}.
 \]
 On \(\mathcal G_{\rm den}\), Proposition~\ref{u:mortality} puts every
-permitted live crossing after \(200L\) in \(M^0\). A surviving
+permitted live crossing after \(200L\) in \(M^0\). Since
+\(L\ge L_{\rm EB}\ge C_0/2\), every time up to \(201L+C_0\) lies within
+the horizon \(C_{\rm hor}L=203L\) of Lemma~\ref{u:wrapped} and
+Proposition~\ref{u:mortality}. A surviving
 initial quantum ancestor at \(201L+C_0\) would therefore give an
 all-marked data path of at least \(L\) rounds. The path bound \eqref{eq:u-root-path}, unioned over final output positions and types, gives
 \[

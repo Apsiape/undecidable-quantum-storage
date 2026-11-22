@@ -48,21 +48,21 @@
 \widowpenalty=10000
 \displaywidowpenalty=10000
 \hyphenation{Lemma Lemmas Theorem Theorems Proposition Propositions Definition Definitions}
-\hypersetup{pdftitle={Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers},pdfauthor={Seth Douglas and Nidhal Mghirbi},pdfsubject={Quantum storage and undecidability}}
+\hypersetup{pdftitle={Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers},pdfauthor={Seth Douglas and Nidhal Mghirbi},pdfsubject={Quantum storage and undecidability},pdfkeywords={quantum memory, fault tolerance, undecidability, noise threshold, cellular automata}}
 \title{Undecidable quantum storage:\\[.3em]\small no algorithm can tell from the noise rate whether a fixed circuit remembers}
 \author{\begin{tabular}{@{}c@{\qquad}c@{}}Seth Douglas & Nidhal Mghirbi\\[-1pt]\small\href{https://orcid.org/0009-0007-4708-3252}{0009-0007-4708-3252} & \small\href{https://orcid.org/0009-0005-6534-1118}{0009-0005-6534-1118}\end{tabular}\\[3pt]\normalsize\href{https://finite.works}{finite.works}}
-\date{Version 3.0.0, November 2026}
+\date{Version 3.1.0, November 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-A quantum memory is usually judged by its threshold: below some noise rate, larger memories store quantum information for longer, without limit. We construct fixed local noisy quantum circuits for which no algorithm can decide, from the noise rate, whether this happens, already in one dimension. Each circuit is translation-invariant, time-periodic and finite-range, with depolarizing noise after every layer, including on all classical control. A computable list of disjoint intervals of noise rates is indexed by the inputs $n$ of a universal Turing machine. If the machine runs forever on $n$, then at every rate in the $n$-th interval rate-independent encoding and decoding maps keep a qubit, entangled with a reference, at fidelity at least $15/16$ for a time growing without limit with system size. If it halts, every encoding loses this fidelity after a time independent of size and rate. The labels of scalable intervals form a $\Pi^0_1$-complete set, and intervals of both kinds accumulate at zero, so the circuits have no noise threshold. Storage lower bounds are linear in $L$ on rings of $L$ sites under single-qubit noise, exponential in side length in six dimensions under single-qubit or whole-site noise, stretched-exponential in four under whole-site noise, and linear in three under either model. The rate is never an input: local noise samples select a computation whose halting triggers erasure, and a no-cloning bound controls every encoding. Without rate selection, the one-dimensional construction is a translation-invariant, time-periodic quantum memory with every wire, including all control, noisy; initialized with a classical hierarchy, it stores a qubit for at least $cL$ layers, with fixed $c>0$, at every small enough rate, a case raised as open by D\"unnweber, Styliaris and Trivedi. These are existence results: registers and ranges are very large, rates astronomically small.
+Below a threshold noise rate, error correction lets larger quantum memories store a qubit for longer, without limit. Can the noise rate alone tell us whether a given noisy circuit does this? We construct fixed local circuits for which no algorithm can, already in one dimension under single-qubit noise. Each circuit is translation-invariant and time-periodic, with depolarizing noise on every wire after every layer, including all classical control. A computable list of disjoint rate intervals is indexed by the inputs $n$ of a universal Turing machine; local noise statistics select the input that the circuit simulates, and halting triggers erasure. If the machine runs forever on $n$, a qubit is stored throughout the $n$-th interval at entanglement fidelity at least $15/16$ for a time that grows without bound with size: linearly on rings, exponentially in six dimensions. The encoding and decoding maps are noiseless and global; they depend on $n$, the system size and, for decoding, the time, but not on the rate. If it halts, the fidelity of every encoding falls below $1/2+\eta$, for any fixed $\eta>0$, after a time independent of size and rate. The labels of the intervals with unbounded storage form a $\Pi^0_1$-complete set, and intervals of both kinds accumulate at zero, so these circuits have no noise threshold. Without rate selection, the ring construction is a translation-invariant, time-periodic memory: from an initialized classical hierarchy it stores a qubit for a time linear in the ring length at every sufficiently small rate, addressing the memory part of a one-dimensional question raised by D\"unnweber, Styliaris and Trivedi. These are existence results: registers and interaction ranges are very large and the rates astronomically small.
 \end{abstract}
 \begin{center}\small Claude Opus 5.5, GPT-6.1 Sol, GPT-6.2 Sol and GPT-6.2 Astra assisted with this work; the authors take responsibility for every claim. Archive and Lean sources: \href{https://doi.org/10.5281/zenodo.24254845}{doi:10.5281/zenodo.24254845}.\end{center}
 \makeatletter
 \newcommand{\papercontents}{%
   \section*{\contentsname}%
   \begin{multicols}{2}%
-  \footnotesize
+  \footnotesize\renewcommand\@tocrmarg{2.55em plus 1fil}\hyphenpenalty=10000\exhyphenpenalty=10000
   \@starttoc{toc}%
   \end{multicols}%
 }
@@ -88,6 +88,7 @@ A quantum memory is usually judged by its threshold: below some noise rate, larg
 \input{sections/1d-forgetting}
 \input{sections/1d-effective}
 \input{sections/discussion}
+\input{sections/how-done}
 \appendix
 \input{sections/code-estimates}
 \input{sections/z4-calendar}

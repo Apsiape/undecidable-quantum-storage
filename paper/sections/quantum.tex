@@ -396,9 +396,9 @@ conversion into dirty semantic locations, \(\kappa_1\) bound child-box
 participation, and \(v_0\) bound parent boxes meeting a rectangle.
 These are incidence bounds per cell and time; extra ancillas use more
 cells and extra correction passes use more time. With complete halo
-\(h\) (the \(h_{\rm halo}\) of Section~\ref{d:threshold-section}) and a fixed image gap \(\rho\), choose
+\(h_{\rm halo}\) (Section~\ref{d:threshold-section}) and a fixed image gap \(\rho\), choose
 \begin{gather}
- a_{\rm sep}>(4h+2\lceil\rho\rceil+5)^2,
+ a_{\rm sep}>(4h_{\rm halo}+2\lceil\rho\rceil+5)^2,
  \qquad b_{\rm FT}=\max\{1,\kappa_0\kappa_1v_0(a_{\rm sep}-1)\},\label{d:budgets}\\*
  r_{\rm FT}=8b_{\rm FT},\quad
  s=\min\{s\ge1:2^s-1\ge40\,960(b_{\rm FT}+1)\}.\label{d:capacity}
@@ -416,6 +416,8 @@ these normalizing phases before interblock bodies. Every idle block
 normalizes too.
 
 \begin{lemma}[Level reduction]\label{d:reduction}
+Let the code member satisfy \(q_s\ge72b_{\rm FT}+8\), as \eqref{d:capacity} does,
+and let every \(B_g\) be preceded by \(b_{\rm FT}+1\) normalizing passes as above.
 If a parent rectangle contains at most \(b_{\rm FT}\) bad child
 circuit locations, its output is correctable by one fixed recursive
 recovery. Good logical subsystems are preserved jointly, including
@@ -472,7 +474,7 @@ The finite directed circuit permits this reduction successively at
 every level. Full scheduled normalizers remain covered at their own
 scale; their circuit is never truncated to one fine time step.
 
-For completeness, the decoder is fixed bottom-up. At a parent there
+The decoder is fixed bottom-up. At a parent there
 are at most \(r_{\rm FT}\) arbitrary child-block operators; all other
 children are recursively correctable. Lower recovery turns the former
 into arbitrary operators on at most \(r_{\rm FT}\) parent coordinates,
@@ -481,9 +483,6 @@ union span. Induction corrects all recursively allowed supports and
 their coherent combinations. The same decoder serves every history.
 \end{proof}
 
-\begingroup
-\renewcommand{\thetheorem}{\thesection.3a}
-\renewcommand{\theHtheorem}{\thesection.3a}
 \begin{lemma}[Clean schedule and ownership]\label{d:ownership}
 In the clean reference under an idle top, at every level \(\ell\)
 and every level-\(\ell\) step the requests form a matching of native
@@ -498,8 +497,6 @@ the halo of its descendants. Each level-\(\ell\) cell-time belongs
 to exactly one level-\(\ell\) location, and no token is in flight
 across a level-\((\ell+1)\) period boundary.
 \end{lemma}
-\addtocounter{theorem}{-1}
-\endgroup
 \begin{proof}
 Use downward induction from the idle top. At level \(k\) all cells
 are idle, a matching of unary tuples. Suppose the level-\((\ell+1)\)
@@ -603,10 +600,12 @@ current quantum instruction, before committing its next symbol.
 A later correct retained symbol does not undo a wrong current use.
 
 \begin{lemma}[Combined source certificates]\label{d:sources}
-Every primitive dirty quantum location has a connected full witness
-with \(g\) distinct canonical source labels and at most \(C_{\rm w}g\)
-edges. Its anchored description count is at most \(K_{\rm w}^g\).
-Under the one joint physical law, any requested \(g\) labels have
+There are constants \(C_{\rm w},K_{\rm w}\), independent of \(n\), \(W\),
+\(L\) and the hierarchy level, such that every primitive dirty quantum
+location has a connected full witness with \(g\) distinct canonical source
+labels and at most \(C_{\rm w}g\) edges, and its anchored description
+count is at most \(K_{\rm w}^g\). For \(\mu\in\mathcal J_n\), under the
+joint physical law of Proposition~\ref{c:source-law}, any requested \(g\) labels have
 intersection probability at most \(\gamma_{\rm eff}^g\), where
 \[
  \gamma_{\rm eff}=\max\{\sqrt{\gamma_{\rm src}},\sqrt p\}.
@@ -689,10 +688,13 @@ parent is bad. Separation in time can be still larger, because
 many candidate pairs per parent, independently of \(\ell\).
 
 \begin{lemma}[Source-certificate recursion]\label{d:recursion}
-At a sufficiently small computably selected source bound there are
-constants \(\bar A\ge1\) and \(D=1/(2\bar A)\) such that
+If \(\gamma_{\rm eff}\) of Lemma~\ref{d:sources} is at most a computable
+bound, chosen after the entropy constants (Section~\ref{s:parameters},
+items 2--5), there are constants \(\bar A\ge1\) and \(D=1/(2\bar A)\)
+such that, for every level-\(\ell\) box whose complete cone injects into
+the torus,
 \[
- \Pr(N_\ell)\le z_\ell\le D\,2^{-2^\ell}
+ \Pr(N_\ell)\le z_\ell\le D\,2^{-2^\ell},
 \]
 uniformly in the hierarchy level and selected nonhalting window.
 \end{lemma}
@@ -759,7 +761,7 @@ Let \(k\) be the least integer \(k\ge1\) with
 The hierarchy dimensions \(P_{\rm cal}^k,T_{\rm cal}^k\) are fixed
 powers of \(\log(L+2)\), hence \(o(L)\).
 Choose \(0<c\le1/[1000(V_*+1)]\) after the final catalogue and full
-source speed \(V_*\) are known. A total computable size threshold
+source speed \(V_*\) are known. A total computable size cutoff
 makes the complete extended quantum and source cones inject into
 one torus chart, with all seams outside. Fixed label-dependent
 initialization and bin margins enter \(L_0(n)\).

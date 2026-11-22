@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Exports the closure of the 43 target theorems (plus the kernel's primitive constants, as the
+# Exports the closure of the 54 target theorems (plus the kernel's primitive constants, as the
 # comparator does) from a built module, using the exporter bundled with the Lean toolchain.
 # usage: scripts/export.sh <Module> <outfile>
 set -euo pipefail

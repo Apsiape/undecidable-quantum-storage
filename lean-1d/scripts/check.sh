@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Builds the library and runs every check from this directory:
-#   Mathlib cache, build, official comparator (sandboxed; checks all 43 theorems against
+#   Mathlib cache, build, official comparator (sandboxed; checks all 54 theorems against
 #   Challenge.lean, the permitted axioms, and the nanoda and Lean kernels), axiom audit,
 #   fresh exports, leanchecker and nanoda replays, and the secondary export comparison.
 # Each step must succeed; "ALL CHECKS PASS" is printed only if every step passed.
@@ -30,9 +30,12 @@ run "lake build" "$OUT/build.log" lake build
 run "lake comparator" "$OUT/comparator.log" lake comparator --config comparator.json
 grep -q "Your solution is okay!" "$OUT/comparator.log" || fail "comparator verdict line missing"
 run "axiom audit" "$OUT/axiom-audit.log" lake env lean -j1 Flagship1D/Audit.lean
-n_targets=$(grep -c . scripts/targets.txt)
+n_print=$(grep -c "^#print axioms" Flagship1D/Audit.lean)
 n_audit=$(grep -c "depends on axioms" "$OUT/axiom-audit.log")
-[ "$n_audit" -eq "$n_targets" ] || fail "axiom audit printed $n_audit of $n_targets lines"
+[ "$n_audit" -eq "$n_print" ] || fail "axiom audit printed $n_audit of $n_print lines"
+while read -r t; do
+  grep -qF "'$t' depends on axioms" "$OUT/axiom-audit.log" || fail "axiom audit has no line for $t"
+done < scripts/targets.txt
 if grep "depends on axioms" "$OUT/axiom-audit.log" \
     | sed -e 's/.*\[//' -e 's/\]//' | tr ',' '\n' | sed 's/ //g' \
     | grep -v -x -e propext -e Classical.choice -e Quot.sound | grep -q .; then

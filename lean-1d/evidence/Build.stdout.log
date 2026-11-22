@@ -1,63 +1,77 @@
-⚠ [3122/3129] Built Flagship1D.Defs (15s)
-warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.Independence.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.Independence.InfinitePi` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.ProductMeasure` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.ProbabilityMassFunction.Constructions` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-warning: Flagship1D/Defs.lean: imports `Mathlib.Analysis.SpecialFunctions.Pow.Real` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-⚠ [3123/3129] Built Flagship1D.Challenge (2.5s)
+⚠ [3124/3132] Built Flagship1D.Challenge (16s)
 warning: Flagship1D/Challenge.lean: imports `Mathlib.Probability.Independence.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: Flagship1D/Challenge.lean: imports `Mathlib.Probability.Independence.InfinitePi` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: Flagship1D/Challenge.lean: imports `Mathlib.Probability.ProductMeasure` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: Flagship1D/Challenge.lean: imports `Mathlib.Probability.ProbabilityMassFunction.Constructions` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: Flagship1D/Challenge.lean: imports `Mathlib.Analysis.SpecialFunctions.Pow.Real` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-warning: Flagship1D/Challenge.lean:569:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:570:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:571:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:572:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:573:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:574:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:575:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:576:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:577:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:578:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:579:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:580:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:581:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:582:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:583:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:584:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:585:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:586:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:587:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:588:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:589:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:590:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:591:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:592:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:593:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:594:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:595:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:596:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:597:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:598:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:599:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:600:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:601:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:602:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:603:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:604:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:605:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:606:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:607:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:608:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:609:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:610:8: declaration uses `sorry`
-warning: Flagship1D/Challenge.lean:611:8: declaration uses `sorry`
-✔ [3124/3129] Built Flagship1D.Stage1 (17s)
-✔ [3125/3129] Built Flagship1D.Stage2 (10s)
-✔ [3126/3129] Built Flagship1D.Stage3 (4.8s)
-✔ [3127/3129] Built Flagship1D.Solution (1.3s)
-ℹ [3128/3129] Built Flagship1D.Audit (1.5s)
+warning: Flagship1D/Challenge.lean:845:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:846:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:847:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:848:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:849:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:850:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:851:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:852:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:853:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:854:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:855:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:856:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:857:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:858:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:859:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:860:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:861:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:862:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:863:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:864:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:865:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:866:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:867:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:868:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:869:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:870:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:871:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:872:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:873:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:874:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:875:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:876:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:877:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:878:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:879:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:880:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:881:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:882:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:883:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:884:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:885:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:886:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:887:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:888:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:889:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:890:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:891:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:892:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:893:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:894:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:895:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:896:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:897:8: declaration uses `sorry`
+warning: Flagship1D/Challenge.lean:898:8: declaration uses `sorry`
+⚠ [3125/3132] Built Flagship1D.Defs (2.0s)
+warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.Independence.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.Independence.InfinitePi` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.ProductMeasure` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Defs.lean: imports `Mathlib.Probability.ProbabilityMassFunction.Constructions` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Defs.lean: imports `Mathlib.Analysis.SpecialFunctions.Pow.Real` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [3126/3132] Built Flagship1D.Stage4 (7.4s)
+warning: Flagship1D/Stage4.lean: imports `Mathlib.Analysis.SpecificLimits.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Flagship1D/Stage4.lean: imports `Mathlib.NumberTheory.Padics.PadicVal.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [3127/3132] Built Flagship1D.Stage1 (16s)
+✔ [3128/3132] Built Flagship1D.Stage2 (10s)
+✔ [3129/3132] Built Flagship1D.Stage3 (4.6s)
+✔ [3130/3132] Built Flagship1D.Solution (1.3s)
+ℹ [3131/3132] Built Flagship1D.Audit (1.6s)
 info: Flagship1D/Audit.lean:52:0: 'Flagship1D.sparseInheritedBySubsets' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: Flagship1D/Audit.lean:53:0: 'Flagship1D.sparseImpliesNextSparse' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: Flagship1D/Audit.lean:54:0: 'Flagship1D.fullBoxNotSparse' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -101,4 +115,42 @@ info: Flagship1D/Audit.lean:91:0: 'Flagship1D.lemma_4_2_probability' depends on 
 info: Flagship1D/Audit.lean:92:0: 'Flagship1D.leafOverlapDegree' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: Flagship1D/Audit.lean:93:0: 'Flagship1D.exponentBookkeeping' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: Flagship1D/Audit.lean:94:0: 'Flagship1D.nestedTestSumRaw' depends on axioms: [propext, Classical.choice, Quot.sound]
-Build completed successfully (3129 jobs).
+info: Flagship1D/Audit.lean:110:0: 'Flagship1D.q1_l1_1' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:111:0: 'Flagship1D.q1_l1_1_uniform' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:112:0: 'Flagship1D.q1_l18_recursion' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:113:0: 'Flagship1D.q1_l18_horizon' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:114:0: 'Flagship1D.q1_l18_fidelity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:115:0: 'Flagship1D.q1_l18_k0' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:116:0: 'Flagship1D.q1_l18_fidelity_at_times' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:117:0: 'Flagship1D.q1_l18_at_times_satisfiable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:118:0: 'Flagship1D.q1_l12_ledger' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:119:0: 'Flagship1D.q1_l12_step1' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:120:0: 'Flagship1D.q1_l11_ledger' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:121:0: 'Flagship1D.q1_l18_rank_exists' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:122:0: 'Flagship1D.q1_l1_1_satisfiable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:123:0: 'Flagship1D.q1_l18_satisfiable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:124:0: 'Flagship1D.summable_tsum_le_of_halving' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:125:0: 'Flagship1D.Q1.BR_pos' depends on axioms: [propext]
+info: Flagship1D/Audit.lean:126:0: 'Flagship1D.Q1.AR_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:127:0: 'Flagship1D.Q1.NR_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:128:0: 'Flagship1D.Q1.DR_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:129:0: 'Flagship1D.Q1.JR_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:130:0: 'Flagship1D.Q1.tR_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:131:0: 'Flagship1D.Q1.SR_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:132:0: 'Flagship1D.Q1.KR_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:133:0: 'Flagship1D.Q1.qR_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:134:0: 'Flagship1D.Q1.qR_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:135:0: 'Flagship1D.Q1.eR0Q_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:136:0: 'Flagship1D.Q1.eRcut_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:137:0: 'Flagship1D.Q1.eR0Q_cast' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:138:0: 'Flagship1D.Q1.eRcut_le_eR0' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:139:0: 'Flagship1D.Q1.rate_le_qR' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:140:0: 'Flagship1D.Q1.sqrt_pow_two_pow_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:141:0: 'Flagship1D.Q1.radius_factor_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:142:0: 'Flagship1D.Q1.tR_cast' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:143:0: 'Flagship1D.Q1.BR_pow_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:144:0: 'Flagship1D.Q1.tR_halving' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:145:0: 'Flagship1D.Q1.tR_summable_tsum_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Flagship1D/Audit.lean:149:0: (4, 537225 / 64)
+info: Flagship1D/Audit.lean:150:0: true
+Build completed successfully (3132 jobs).

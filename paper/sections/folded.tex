@@ -150,16 +150,18 @@ and on-site circuit depth are selected. The following proof uses
 the joint typed-label law with base \(\gamma_{\rm fold}=\gamma_{\rm src}^{1/4}\).
 \begin{lemma}[Spatial diameter tail]\label{q:spatial}
 For sufficiently small constants chosen as in the controller
-construction, the probability that the joint tracked field has a
+construction, the probability that the set of joint-field roots (the
+vertices that carry a grouped witness of Lemma~\ref{q:frontier}, the
+tracked roots of the proof of Lemma~\ref{q:universal}) has a
 prescribed-root spatial path spanning distance \(R\), at one time or
-in two adjacent times, is at most \(A_0e^{-a_0R}\). The constants
-are computable and uniform over the nonhalting windows, within the
+in two adjacent times, is at most \(A_{\rm sp}e^{-a_{\rm sp}R}\). The constants
+are computable and uniform over the labels \(j\) with \(V(j+1)\uparrow\), within the
 finite legal chart on which the source law applies.
 \end{lemma}
 \par\noindent\emph{Proof idea.} Cover the path by balls containing complete witnesses and retain a disjoint family. Connecting their enlarged balls gives a spanning certificate whose length is paid for by distinct marked sources.
 
 \begin{proof}
-For every occupied vertex on a finite path choose the connected
+For every joint-field root on a finite path choose the connected
 witness of Lemma~\ref{q:frontier}. Its transverse characteristic
 projection, including all its terminal labels, lies in a ball centred
 at the root with radius at most \(C_1g\). Select these balls greedily
@@ -210,16 +212,19 @@ For the explicit maps write
 \]
 
 \begin{proposition}[Linear storage]\label{q:linear}
-For the independent single-qubit realization there are a computable
-rational \(c>0\), computable positive \(A_1,a_1\), an integer
-\(b_1\), and a total computable threshold \(L_0(n)\) such that,
-for each nonhalting \(n\) and all \(L\ge L_0(n)\), the explicit
+For the independent single-qubit realization of the folded circuit of
+Appendices~\ref{sec:fold-controls} and~\ref{sec:folded}, built with a
+machine wrapper \(V\) whose label \(j\) simulates \(V(j+1)\) and with
+the windows \(I_j\) of the proof of Proposition~\ref{p:coexistence},
+there are a computable rational \(c>0\), computable positive \(A_{\rm lin},a_{\rm lin}\),
+an integer \(b_{\rm lin}\) and a total computable threshold \(L_0(j)\) such that,
+for each label \(j\) with \(V(j+1)\uparrow\) and all \(L\ge L_0(j)\), the explicit
 rate-independent encoding and intended-fold recovery have fidelity
 \[
- F_{n,L,t}(\eps)\ge1-A_1L^{b_1}e^{-a_1L}
- \ge15/16\qquad(0\le t\le\lfloor cL\rfloor,\ \eps\in I_n).
+ F_{j,L,t}(\eps)\ge1-A_{\rm lin}L^{b_{\rm lin}}e^{-a_{\rm lin}L}
+ \ge15/16\qquad(0\le t\le\lfloor cL\rfloor,\ \eps\in I_j).
 \]
-The constants \(c,A_1,a_1,b_1\) are independent of \(n\).
+The constants \(c,A_{\rm lin},a_{\rm lin},b_{\rm lin}\) are independent of \(j\).
 The same initial encoder works for all these times and rates.
 \end{proposition}
 \par\noindent\emph{Proof idea.} Choose the horizon so every relevant cone fits into a small lifted chart. Pay for repeated physical faults across the sheets, and recover using a single decoder whenever there is no dangerous certificate.
@@ -235,9 +240,9 @@ For example a sufficiently reduced rational of order
 \(L_0\), since \(m\ge L/128\) for all large \(L\).
 
 Each sheet's active logical \(i_\varsigma\)-interval has width at most
-\(2m\). Lemma~\ref{c:initialization} places its chart seam a distance
-at least \(L/4\) away and covers the whole required initial history,
-future and collar cone by a finite cover search. Each selector
+\(2m\). Above the size cutoff its chart seam is placed a distance
+at least \(L/4\) away, and Lemma~\ref{c:initialization} covers the whole
+required initial history, future and collar cone by a finite cover search. Each selector
 may use its own phase and hidden lift. Across the fold, only the live selector output enables storage. The low/high initializer supplies positive-time
 source supports, even when \(W\) exceeds \(cL\).
 
@@ -255,7 +260,7 @@ The animal count \eqref{q:animal}, with
 certificate by an exponential in its virtual span. Polynomial
 unions over physical roots, \(O(L)\) times, and fixed hardware roles
 give
-\(\Pr(\mathcal G^c)\le A_1L^{b_1}e^{-a_1L}\).
+\(\Pr(\mathcal G^c)\le A_{\rm lin}L^{b_{\rm lin}}e^{-a_{\rm lin}L}\).
 By Lemma~\ref{q:universal}, on \(\mathcal G\) one intended-fold
 recovery corrects every permitted Pauli history. Conditional on the
 exogenous classical history, actual wrong programmed unitaries have

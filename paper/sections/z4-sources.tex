@@ -22,7 +22,8 @@ Every retained bin is between zero and
 The circuit satisfies these hypotheses (Section~\ref{f4:actual-sources}).
 
 \begin{lemma}[Central-strip image]\label{f4:strip}
-For a sufficiently large fixed increment bound \(R\), put
+Let \(R\ge\max(R_\omega,R_j)\) be a fixed bound on the \(\omega\)- and
+bin-increments of the witness catalogue (Section~\ref{f4:order-a}, row 10), and put
 \(q_{\rm cut}=\lfloor L/[32R(w+1)]\rfloor\), decreasing it by one
 fixed factor if necessary to include root-use spurs. At all sufficiently
 large \(L/(w+1)\), one source image agrees with every quantum root
@@ -73,8 +74,13 @@ cap explanation through \(T_{\rm hor}\) has at least \(q_{\rm cut}\) edges
 has probability at most
 \[
  C_{\rm cap}(T_{\rm hor}+C_{\rm cap})L^4
-           \exp[-\beta_{\rm cap} L/(w+1)].
+           \exp[-\beta_{\rm cap} L/(w+1)]
 \]
+for every integer \(T_{\rm hor}\ge0\) and all \(L/(w+1)\) above the
+fixed threshold of Lemma~\ref{f4:strip}, enlarged so that
+\(q_{\rm cut}\ge1\). Here \(C_{\rm root}\) is the root-count constant
+in the proof below, and \(C_{\rm cap}\ge C_{\rm root}\) absorbs the
+fixed cutoff reductions and floors.
 Outside this event every needed cap use has a complete short certificate
 with distinct physical names and the image of Lemma~\ref{f4:strip}.
 \end{lemma}
@@ -94,14 +100,14 @@ one physical source label have the same integer bin and differ by an \(L\)-deck
 vector in a spatial characteristic. They cannot both occur in this
 piece. Its marks are distinct physical names before their law is applied.
 
-The causal bin bound supplies at most \(C_{\rm bd}(T_{\rm hor}+C_{\rm bd})L^4\) starting vertices.
+The causal bin bound supplies at most \(C_{\rm root}(T_{\rm hor}+C_{\rm root})L^4\) starting vertices.
 Finite degree, roles and mark subsets give at most
 \(K_{\rm cap}^{q_{\rm cut}+1}\) descriptions per start. For each
 admissible description apply the source law to its distinct
 marks; other codes only overcount. Hence the exceptional probability
 is at most
 \[
- C_{\rm bd}(T_{\rm hor}+C_{\rm bd})L^4 K_{\rm cap}^{q_{\rm cut}+1}
+ C_{\rm root}(T_{\rm hor}+C_{\rm root})L^4 K_{\rm cap}^{q_{\rm cut}+1}
              \gamma_{\rm src}^{\lfloor q_{\rm cut}/(3c_C)\rfloor}.
 \]
 Choose the source bound after \(c_C,K_{\rm cap},R\) to make its
@@ -157,11 +163,19 @@ Suppose the scheduled circuit has complete regular boxes of length
 separated by \(\rho_{\rm gap}P_{\rm cal}^\ell\) whenever a parent is bad.
 Root counts are polynomial in \(P_{\rm cal}^\ell\). Choose \(s_{\rm top}\)
 larger than the complete halo and \(s_{\rm top}P_{\rm cal}^k\le L/2\).
-At a sufficiently small fixed source bound, short-certified bad-box
-events under the original physical law satisfy
+Let \(z_\ell\) bound the per-box sum of weights of the fully embedded,
+recursively pruned certificates at level \(\ell\), as constructed in
+the proof below. Let \(B_{\rm tail},d_0,a_{\rm tail}\) be the constants
+of the long-witness term in that proof. At a source bound small enough
+that \(z_0\le1/(4\bar A)\) and
+\(a_{\rm tail}\ge\max(0,\log(4\bar AB_{\rm tail}))
++d_0\log P_{\rm cal}/P_{\rm cal}+2\log2\),
+for every level-\(\ell\) box \(b\), \(0\le\ell\le k\), the event
+\(N^{\rm sh}_\ell(b)\) that \(b\) is bad in the geometric predicate built
+from short-certified base roots satisfies
 \[
- \Pr(N_\ell^{\rm sh})\le z_\ell\le D\,2^{-2^\ell},\qquad
- D=1/(2\bar A),\quad \bar A=\max(1,A_{\rm rec}),\quad0\le\ell\le k.
+ \Pr(N^{\rm sh}_\ell(b))\le D\,2^{-2^\ell},\qquad
+ D=1/(2\bar A),\quad \bar A=\max(1,A_{\rm rec}).
 \]
 The exceptional events of Lemmas~\ref{f4:raw} and
 \ref{f4:cap-exception} are paid separately.

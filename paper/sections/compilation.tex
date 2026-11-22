@@ -189,6 +189,7 @@ rather than controller-induced erasures, carry this bound.
 \subsection{Independent single-qubit realization Q}\label{s:probe}
 
 \begin{lemma}[Refresh law in Q]\label{d:qubit-refresh}
+Let \(M\), \(K_{\rm samp}\), \(N_{\rm np}\), \(J\), the internal-fault family \(A\) and \(\nu=\Pr(A)\) be as constructed in the proof below.
 The aggregate refresh event \(E\) is independent of the semantic input and reference, with probability
 \[
  \mu(\eps)=1-\left[\frac{1+(1-\eps)^{K_{\rm samp}}}{2}\right]^M.
@@ -350,6 +351,6 @@ They are nonempty, disjoint and tend to zero. The offset calculation
 following Proposition~\ref{c:selector-import} identifies their exact
 machine input.
 \item \emph{Size and time.} Choose the rational storage coefficient \(c\) after
-the final speed and source footprint, and the total threshold \(L_0(n)\)
+the final speed and source footprint, and the total size cutoff \(L_0(n)\)
 after all finite label margins, as in Proposition~\ref{d:storage}.
 \end{enumerate}

@@ -52,9 +52,11 @@ classical word. Each elementary layer, including all idle and
 reset-following factors, receives the prescribed noise.
 
 \begin{lemma}[Clean folded action]\label{f4:dispatch-clean}
-The circuit implements an intended matching exactly on arbitrary
-quantum data and a reference. A virtual cycle of length \(m=2\ell\),
-\(\ell\ge3\), folds at fixed physical range into \([0,\ell)\).
+In a module with no physical fault and with the intended exclusive
+choices, the circuit implements the intended matching exactly on
+arbitrary quantum data and a reference. A virtual cycle of length
+\(m=2\ell\), \(\ell\ge3\), folds at fixed physical range into
+\([0,\ell)\) of a physical circle of length \(L\ge4\ell\).
 \end{lemma}
 \begin{proof}
 In a clean matching, a tuple receives either all its intended semantic
@@ -79,7 +81,11 @@ reset fallback. Nothing in the rule reads the interval length.
 Fix an intended matching. Let \(B_{\rm ch}\) be the clean-station
 vertices whose actual exclusive tuple differs from their intended
 tuple, \(D_{\rm st}\) the dirty physical stations, and \(E_{\rm tu}\)
-the dirty native tuple boxes. A station fault may act jointly on its
+the dirty native tuple boxes. A station or native tuple box is dirty if
+a physical fault (a noise flag or a primitive decomposition error) acts
+on it during the module, and clean otherwise; the seeds are the vertices
+of \(B_{\rm ch}\), the stations of \(D_{\rm st}\) and the boxes of
+\(E_{\rm tu}\). A station fault may act jointly on its
 two semantic qubits, all its ports and routing controls. Dirty boxes
 may share operator or environment coefficients. There is a closed
 union of intended locations, of cardinality at most
@@ -151,7 +157,7 @@ source names.
 \begin{lemma}[Unfinished modules]\label{f4:dispatch-partial}
 At an elementary time inside a module, retaining in-flight
 factors and appending its intended suffix gives the same localization
-with a station envelope of at most 732 locations per choice-error seed.
+with a station envelope of at most 732 locations per vertex of \(B_{\rm ch}\).
 \end{lemma}
 \begin{proof}
 Retain semantic qubits, ports, masks holding quantum data and all

@@ -1,46 +1,65 @@
 # Lean file manifest
 
-Lean library for *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*, version 3.0.0. The proofs cover Lemma 6.6 and Theorem 8.2 (Appendix J).
+Lean library for *Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers*, version 3.1.0. The proofs cover Lemmas 6.5 and 6.6, a conditional abstract form of Theorem 6.7, Theorem 8.2, the full-replacement bound (2.3) with its lifetime bounds, and the overlap step in the proof of Lemma 16.1 (Appendix J).
 
 Paths are relative to this directory. The archive root's SHA256SUMS includes the digest of this manifest.
 
 | File | SHA-256 |
 |---|---|
-| `Challenge.lean` | `f7b0853f1c4db8366c4f3ff5b5f7a4e8c883b343d5eacedfe95ff1fc8ef54cb8` |
-| `comparator.json` | `f94f44f52b5e7b1ba92410939bb9837cd1943ffb9fa55abb4459638f871d8362` |
+| `Challenge.lean` | `473573b46cf2b869c9ff51ecfb0da916e6b5d4353116c46e8155ef23520b1fd6` |
+| `comparator.json` | `6628971ae190c1c2cc4a22e797871909d8584604cc01a12d28e50238a42be6eb` |
 | `docs/PRINTED-STATEMENT.tex` | `1303c6221ac7060767f5eda0763e473a6700a251909838dbe25d70967428ea70` |
-| `evidence/AuditBoth.lean` | `3f74bbc6b8d882d3e3bf775e3cbc13b23640fd10a2104bdeec8f2934572c7363` |
-| `evidence/AuditBoth.log` | `ab34509fc9170252a4301c378c911cd1c60529b4dac77880a0052c3c31ca5a9a` |
-| `evidence/BuildFresh.receipt.json` | `5b7d4ea3a4151dce74109e83c39e9bd736067e6bb36e234ff8a3693313a2f583` |
+| `evidence/AuditBoth.lean` | `791667935a8cde577c3fc137d9396fee912010206088244445f7f83e1200e30c` |
+| `evidence/AuditBoth.log` | `0c8b2141ad2e3658522d679ce5db34e636378ed15881aa3183199476680e367b` |
+| `evidence/BuildFresh.receipt.json` | `8d8804c33cfa99bb0022c4d4265a5e2be36338965fb82f49845de5b06f35a8eb` |
 | `evidence/BuildFresh.stderr.log` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
-| `evidence/BuildFresh.stdout.log` | `01f031ad1e1cd8c4495d3a1e7ac6f3d133796ffc28fba6d5ba065d87df948d9c` |
-| `evidence/C01-export.receipt.json` | `aece0ab058fbb5f6b39d305c40d0df8a7b1c608c4cb8f52418d78ae1a67eca11` |
+| `evidence/BuildFresh.stdout.log` | `bd691e3294d630c4cbac8faac4bebf730c52e87e6dda6a7515a0948198e9d86a` |
+| `evidence/C01-export.receipt.json` | `ee5875c18045a6f674659126110a93e2e3d00957af052c38b95cf26c86d1383a` |
 | `evidence/C01-leanchecker.log` | `b4a5a2119e1d34b46527d63317f417c74261b65eeb93f14026389da2519c2ead` |
-| `evidence/C01-leanchecker.receipt.json` | `1143fc1f57392dfe059eda613174fd307923c818d99a0a9b9e436d65c3079b24` |
+| `evidence/C01-leanchecker.receipt.json` | `66d833ad6820eba269ec6110bd47cf417798cb8a504636c5778d79d6ee5b05f2` |
 | `evidence/C01-nanoda.log` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
-| `evidence/C01-nanoda.receipt.json` | `6c99096040465ca9fc0eca7b80850eefbc42bf9459facff66ef23735a1fc1650` |
+| `evidence/C01-nanoda.receipt.json` | `4e5f91792024d7ff6967774c4c5fd0d59d2cb0439ff2aae19e24058e274f980e` |
 | `evidence/C01-negative.log` | `515bbe599561c36418e74bc41ae404d788e760890692db2906c0427822fcfa9a` |
 | `evidence/C01-negative.receipt.json` | `c4fa35b5a2ba5c28a25b6d9535aedcc7b0c8c4a5ddfb8b75b2db1bb4be54a761` |
-| `evidence/C02-export.receipt.json` | `5d67ebb6164886555c7cba1d8c8ec0260c5c583c662ab4c9dd629011e5f8b20d` |
+| `evidence/C02-export.receipt.json` | `3069ae851f78c0410adbf6b5d02ac6f865870a141a0fd3cd809979a5f2b35f3c` |
 | `evidence/C02-leanchecker.log` | `b4a5a2119e1d34b46527d63317f417c74261b65eeb93f14026389da2519c2ead` |
-| `evidence/C02-leanchecker.receipt.json` | `a54bb0ee19545e1d6d93e19de31f32dbeaa2a3bca20c8740c582e8ebb96854d5` |
+| `evidence/C02-leanchecker.receipt.json` | `a322d60b3bdf72c6b73b9109977fd2dff07a1e2ace3970f77c5a696628bfdc18` |
 | `evidence/C02-nanoda.log` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 | `evidence/C02-nanoda.receipt.json` | `0c901648472b3ed223a39c182673c12e63039783bd8313f644ba7f43eada88fb` |
 | `evidence/C02-negative.log` | `515bbe599561c36418e74bc41ae404d788e760890692db2906c0427822fcfa9a` |
 | `evidence/C02-negative.receipt.json` | `070148b795da6bf293107258665831523a32c2bbfd83735eb7dea3f0ff842fc5` |
-| `evidence/CacheFresh.receipt.json` | `6eb9cd36db1e7df07e22daa6d327f796a4d5cf34eac17171fa4f1a48f21b7aab` |
-| `evidence/CacheFresh.stdout.log` | `c1edf89f3c3eaa870a1793f4166363e6686aa47d1769e67e236f7f31e14a5ae1` |
-| `evidence/ComparatorBoth.receipt.json` | `c3026c1dce6ca9caf4721fcf272b27f46b1786374bb01317383aa67dcb55e691` |
+| `evidence/C03-export.receipt.json` | `c2b5aa75d70305fc35c63ee17f34bd903a6a5f0e445e36e98c1a97efcafc3b6a` |
+| `evidence/C03-leanchecker.log` | `b4a5a2119e1d34b46527d63317f417c74261b65eeb93f14026389da2519c2ead` |
+| `evidence/C03-leanchecker.receipt.json` | `1c4afd86a5a83ff17c1eb3290171b5a6bcf0f4a47326ae46ae286f5389fd9216` |
+| `evidence/C03-nanoda.log` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `evidence/C03-nanoda.receipt.json` | `9da745460029b7050b845d877d326756777799970881beaad83a89bd30f1c406` |
+| `evidence/C03-negative.log` | `515bbe599561c36418e74bc41ae404d788e760890692db2906c0427822fcfa9a` |
+| `evidence/C03-negative.receipt.json` | `a0cf2bf708a5867481bc920a3eaeedd816fea92fbb4929c686946c07af7e10f7` |
+| `evidence/C03-roots.txt` | `e5c45a1a0455e3cb135dead5d5b96761012b2dd2c263054f3770e57490f8b51b` |
+| `evidence/CacheFresh.receipt.json` | `f648666db434c560920dcf8e230c58f4b38d71cd565b4c7799d5bb7d21cf830e` |
+| `evidence/CacheFresh.stdout.log` | `40b2f6f7fb9fc70179dcfbadc21059d0baaf5b6929acdd91699ac1fd4ede6525` |
+| `evidence/ComparatorBoth.receipt.json` | `88f619daf7395b460c6b2b1ad1211662145fc6f9556b53aa1d4c8dc5c0233250` |
 | `evidence/ComparatorBoth.stderr.log` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
-| `evidence/ComparatorBoth.stdout.log` | `54a24225571955d7b2ac77496d6a5db380d1c390eb7afe7f8fbf24de01057b1a` |
-| `evidence/EXPORT-DIGESTS.txt` | `b43b43954844aa631d7b405f3d0599f8d164e7187ff3f26c6ec6a51497d91197` |
+| `evidence/ComparatorBoth.stdout.log` | `92052f9015ac5d715b1cdf3d1d6888c74fe7f7aa835b2b10025863261cc6a080` |
+| `evidence/EXPORT-DIGESTS.txt` | `e2017656de632aa986938901e1080f905e7c43224809a65af2d346e355e266ae` |
 | `evidence/FRESH-CLONE-VERIFICATION.txt` | `6e97250d12d656f1362f8c0bf16c87ab1bbb53e183210bc1444a6dc8f76a05f6` |
-| `evidence/LintBoth.log` | `978dbf1d7bbe1cbe7933481f489122bc897135932b5e8200617e5b994797fdf7` |
+| `evidence/LintBoth.log` | `ccdd329a4b530ce9c10363c84b47518a956d2f8f573330a6f7a74d92cf4a1728` |
 | `evidence/nanoda-c01-negative.json` | `ee0f71b92b656cac867176284cc64066dd92326e8a6bbe029b5578cf2cd5bde6` |
 | `evidence/nanoda-c01.json` | `35877333fe7d2534bf2992dff2aac2fb21cac86e5894d18c71d240616570fe04` |
 | `evidence/nanoda-c02-negative.json` | `47114d2fedb526af30964f9d220d8efa7a2620263b727ec9ddbfbf873ab663ba` |
 | `evidence/nanoda-c02.json` | `0f5b7be92c5cc201bbec2105aab50b2dd8712e93d97128af15b2410949fa120c` |
-| `evidence/source-audit-both.log` | `f68e0c25341717099709ae0c9c975004e923a052933c1a5eebc5fa4ef9f79df3` |
+| `evidence/nanoda-c03-negative.json` | `264da4858bd1f86eae133e19371bcab3828138c5d6fec0ada689dfbb32d686c9` |
+| `evidence/nanoda-c03.json` | `7221ac7d924c1f28b6ef7b79a40ff4ebf905ce4aaefec8874eaac648265434cb` |
+| `evidence/Negative-comparator-axioms.json` | `9cca2007b897a4ca052a0f672f601fce9f3e399ce22ad3921b6a45a081b8ab44` |
+| `evidence/Negative-comparator-axioms.receipt.json` | `092c22036f1a56f7c1999857e30101d737b903f8d0acf8456df228635ff46670` |
+| `evidence/Negative-comparator-axioms.stderr.log` | `e2f0ce4cf166a0539b439b5519a89ead666069d65e740dff37e8e78be9796d81` |
+| `evidence/Negative-comparator-axioms.stdout.log` | `ea70ba8123f63f51ba412caf80fa6e8ee36bfb399f36ed6bf723d52b7c699f99` |
+| `evidence/Negative-comparator-statement.json` | `202a55011bc10ea6be56b9ae0f4187f370fd0316f5c58f00c3ef0c7bd0358f91` |
+| `evidence/Negative-comparator-statement.receipt.json` | `6d8474bbf792d58f1fad6858377a746ea480e1df8f76a96ad170ee025f05f994` |
+| `evidence/Negative-comparator-statement.stderr.log` | `07a73cba37959a256a04c6e82c3290a3e964f477ce58d78eb71dc856a88f169c` |
+| `evidence/Negative-comparator-statement.stdout.log` | `2e985b3cadf8f564085e2f9b9439c270683c118d6aa9af7ec4c397bd5fa04086` |
+| `evidence/Negative-mutants.txt` | `1b5a9abbae4fedcbb0654d5e36edfba00c188e364c8d46a6ae8df7f8d9129477` |
+| `evidence/source-audit-both.log` | `402ec418029272d11215cd9d0fc56ebb204a04e7cb00af6975b7cd0cf5d5e3c2` |
 | `lake-manifest.json` | `4eb9fdf894520c76fc76e0df89009a53de92edfd5b341c4359ea8e893b539a0e` |
 | `lakefile.lean` | `7e65060e8097d7976a2fdd0b3aabd832440ce73882dc57931da9d51ebe2a7685` |
 | `lean-toolchain` | `ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c` |
@@ -56,7 +75,14 @@ Paths are relative to this directory. The archive root's SHA256SUMS includes the
 | `QuantumStorage/CertificationComputability.lean` | `8252294f21698f4b4825498a8983256aa7562c1174345f058c20caee096f708a` |
 | `QuantumStorage/CertificationElementary.lean` | `661302398fcafeab7815cf6614dad751a537f95c20bbc655eb85872fe4cbc48e` |
 | `QuantumStorage/Definitions.lean` | `1c44256244bc0db681915c7f7bdac8537495444048ce513938d271c27872241f` |
-| `QuantumStorage.lean` | `8dde87c3898e3caf15de0d781dc04df5761836c79356fdb9206059a876ea31c7` |
-| `README.md` | `7b1f94a17a1eac63458eb21f712848fc473164e1333e399b8a2786972ba6271a` |
-| `SCOPE.md` | `9d1bd6064442f9d1aaa095bfe1013dc18153df8dd746ad48fc2ca8343672671a` |
-| `Solution.lean` | `be4771d53c1254d7c5bc454b3fa36a4512ec0426ac09199962c3b641400174d0` |
+| `QuantumStorage/Depolarizing.lean` | `67f736c536832a9747c3a814ed7a1a6464787d329998b0e8d72164ad2c91b1bf` |
+| `QuantumStorage/GoodEvent.lean` | `c42256320ad2ddaee8ad2f01feacfba1cb3b0561c7f98644a52120d040401638` |
+| `QuantumStorage/Iteration.lean` | `d4fa06eee953d89956339fedc2a1145a163b61300277ba61dfe77c8af91877dd` |
+| `QuantumStorage/Replacement.lean` | `e271aeb8d06995f755ed5d070a2af235c19f2633e0979bcce3002e5e02f6cc11` |
+| `QuantumStorage/UniformForgetting.lean` | `43168458ce66980225560860a2970b13aae7773b1dc8dc61ebfc34a4e3e016b6` |
+| `QuantumStorage/WitnessDepolarizing.lean` | `14fa842dc4c7d4a391406ced92571eba61b7fca4b3c7d89ba29867da5400801e` |
+| `QuantumStorage/Witnesses.lean` | `80e8ebeea226313fe88fb3f325c70d9c2963b3c759e845e5ee7d8e323e904e5e` |
+| `QuantumStorage.lean` | `7dbca4fb4f88bf5c43c9312e13e4648ecadbba30671ba78a732bba6dd6e2d8c6` |
+| `README.md` | `b2db0d895bba33db322569d8686259b44af1d6847e6eb9d2eb286ca03ecf448d` |
+| `SCOPE.md` | `438dd6ef02e5929ecb5f2a0923d0fc6cbef8b92e2ee1551d14ed8c8955201968` |
+| `Solution.lean` | `3f8d877847c867de67a37dbcda10e45c9b33a086daa706d2371f6f98f4caa865` |

@@ -1,6 +1,6 @@
 {
   "use_stdin": false,
-  "export_file_path": "<output>2c/Solution.ndjson",
+  "export_file_path": "<output>/Solution.ndjson",
   "num_threads": 1,
   "nat_extension": true,
   "string_extension": true,

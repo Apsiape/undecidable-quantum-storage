@@ -2,8 +2,8 @@
   "title": "Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers",
   "upload_type": "publication",
   "publication_type": "preprint",
-  "version": "3.0.0",
-  "publication_date": "2026-11-18",
+  "version": "3.1.0",
+  "publication_date": "2026-11-21",
   "creators": [
     {
       "name": "Douglas, Seth",
@@ -14,7 +14,7 @@
       "orcid": "0009-0005-6534-1118"
     }
   ],
-  "description": "A quantum memory is usually judged by its threshold: below some noise rate, larger memories store quantum information for longer, without limit. We construct fixed local noisy quantum circuits for which no algorithm can decide, from the noise rate, whether this happens, already in one dimension. Each circuit is translation-invariant, time-periodic and finite-range, with depolarizing noise after every layer, including on all classical control. A computable list of disjoint intervals of noise rates is indexed by the inputs n of a universal Turing machine. If the machine runs forever on n, then at every rate in the n-th interval rate-independent encoding and decoding maps keep a qubit, entangled with a reference, at fidelity at least 15/16 for a time growing without limit with system size. If it halts, every encoding loses this fidelity after a time independent of size and rate. The labels of scalable intervals form a Π⁰₁-complete set, and intervals of both kinds accumulate at zero, so the circuits have no noise threshold. Storage lower bounds are linear in L on rings of L sites under single-qubit noise, exponential in side length in six dimensions under single-qubit or whole-site noise, stretched-exponential in four under whole-site noise, and linear in three under either model. The rate is never an input: local noise samples select a computation whose halting triggers erasure, and a no-cloning bound controls every encoding. Without rate selection, the one-dimensional construction is a translation-invariant, time-periodic quantum memory with every wire, including all control, noisy; initialized with a classical hierarchy, it stores a qubit for at least cL layers, with fixed c > 0, at every small enough rate, a case raised as open by Dünnweber, Styliaris and Trivedi. These are existence results: registers and ranges are very large, rates astronomically small.",
+  "description": "Below a threshold noise rate, error correction lets larger quantum memories store a qubit for longer, without limit. Can the noise rate alone tell us whether a given noisy circuit does this? We construct fixed local circuits for which no algorithm can, already in one dimension under single-qubit noise. Each circuit is translation-invariant and time-periodic, with depolarizing noise on every wire after every layer, including all classical control. A computable list of disjoint rate intervals is indexed by the inputs n of a universal Turing machine; local noise statistics select the input that the circuit simulates, and halting triggers erasure. If the machine runs forever on n, a qubit is stored throughout the n-th interval at entanglement fidelity at least 15/16 for a time that grows without bound with size: linearly on rings, exponentially in six dimensions. The encoding and decoding maps are noiseless and global; they depend on n, the system size and, for decoding, the time, but not on the rate. If it halts, the fidelity of every encoding falls below 1/2+η, for any fixed η>0, after a time independent of size and rate. The labels of the intervals with unbounded storage form a Π⁰₁-complete set, and intervals of both kinds accumulate at zero, so these circuits have no noise threshold. Without rate selection, the ring construction is a translation-invariant, time-periodic memory: from an initialized classical hierarchy it stores a qubit for a time linear in the ring length at every sufficiently small rate, addressing the memory part of a one-dimensional question raised by Dünnweber, Styliaris and Trivedi. These are existence results: registers and interaction ranges are very large and the rates astronomically small.",
   "keywords": [
     "quantum memory",
     "local decoding",
@@ -28,5 +28,5 @@
   "access_right": "open",
   "license": "cc-by-4.0",
   "language": "eng",
-  "notes": "Preprint. Version 3.0.0 matches the arXiv text. Text: CC BY 4.0. Script: MIT or Apache 2.0.\nPrevious version: 2.2.0 (10.5281/zenodo.24350319)."
+  "notes": "Preprint. Version 3.1.0 matches the arXiv text. Text: CC BY 4.0. Script: MIT or Apache 2.0.\nPrevious version: 3.0.0 (10.5281/zenodo.24354983)."
 }

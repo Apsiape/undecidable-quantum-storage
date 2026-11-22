@@ -17,16 +17,23 @@ rational windows \(I_0,I_1,\ldots\), such that:
 intended-code decoders achieve entanglement fidelity at least \(15/16\)
 for every integer \(0\le t\le2^{\lfloor c_{\exp}L\rfloor}\), for all
 \(L\) above a computable threshold and one fixed rational \(c_{\exp}>0\).
-\item On \(I_{n+1}\), nonhalting of \(U(n)\) gives the linear storage
-conclusion of Proposition~\ref{q:linear}; halting gives the
-all-encoding fidelity bound of Theorem~\ref{f:forgetting}
-for the entire circuit, uniformly in size and rate within the window.
-\item On every tail window \(I_j\), \(j\ge1\), the entire channel has
-the EB mixture and error bound of Theorem~\ref{u:eb} at \(201L+C_0\),
-with constants independent of \(j\). The labels \(j\) for which
+\item On \(I_{n+1}\), if \(U(n)\uparrow\), Proposition~\ref{q:linear}
+holds for label \(n+1\) of this circuit with its threshold
+\(L_0(n+1)\); if \(U(n)\downarrow\), the all-encoding fidelity bound of
+Theorem~\ref{f:forgetting} holds for the entire circuit, uniformly in
+size and rate within the window.
+\item There are computable constants \(A,a>0\), \(b\in\N\), an
+integer \(C_0\ge2\), and \(L_{\rm EB}\ge C_0/2\) for this circuit,
+all independent of \(j\). For every \(j\ge1\), every \(\eps\in I_j\)
+and every integer \(L\ge L_{\rm EB}\), the entire channel has a
+decomposition of the form \eqref{eq:u-eb} at round \(201L+C_0\).
+The labels \(j\) for which
 the optimal lifetime at fidelity \(7/8\) is unbounded in \(L\) at
 every rate in \(I_j\) (Corollary~\ref{cor:window-undecidable}),
-and the labels passing the explicit linear-storage certification, both equal
+and the labels \(j\) for which the folded encoder and decoder of
+Proposition~\ref{q:linear} have fidelity at least \(7/8\) at every
+rational rate in \(I_j\), every integer \(L\ge L_0(j)\) and every
+integer \(0\le t\le\lfloor cL\rfloor\), both equal
 \(\{0\}\cup\{n+1:U(n)\uparrow\}\), a \(\Pi^0_1\)-complete set.
 \end{enumerate}
 Time counts rounds (Definition~\ref{def:round}). The first window is

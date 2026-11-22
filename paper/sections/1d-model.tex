@@ -1,5 +1,24 @@
 \section{One-dimensional construction and its classical inputs}\label{q1:model}
-We use exactly the elementary gate and noise model of Section~\ref{s:local-circuits}. A macro round is a fixed finite schedule of \(D_{\rm layer}\) elementary layers; the noise after every layer is
+Sections~\ref{q1:model}--\ref{q1:effective} prove Theorem~\ref{q1:main} and Corollary~\ref{q1:memory}. This section fixes the noise convention, the two classical lanes and the inputs taken from \cite{DMNoise1D2026}. Section~\ref{q1:clock} bounds the failures of the structural lane R1, which supplies addresses and ages. Section~\ref{q1:compiler} uses them to run a concatenated quantum code and proves level reduction. Section~\ref{q1:selector} builds the rate-selecting lane R2 from exact noise-driven replacements and bounds the joint error field. Section~\ref{q1:parameters} fixes every constant in a noncircular order. Section~\ref{q1:storage} proves storage on nonhalting windows, Section~\ref{q1:forgetting} proves whole-register forgetting on halting windows, and Section~\ref{q1:effective} assembles the proofs. Table~\ref{tab:terms-ring} lists the terms used in these sections.
+
+\begin{table}[!tb]
+\caption{Terminology of the construction on rings.}\label{tab:terms-ring}
+\small\centering
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.23\linewidth}>{\raggedright\arraybackslash}p{.51\linewidth}>{\raggedright\arraybackslash}p{.19\linewidth}@{}}
+\toprule Term & Meaning & Defined in\\\midrule
+R1, R2 and macro round & On rings, the structural lane R1 is an initialized hierarchical clock that supplies addresses and ages, and the selector lane R2 simulates the computation selected by the noise rate. One macro round is one native tick of each lane and one quantum tick. & Section~\ref{q1:model}\\\addlinespace[3pt]
+Native symbol, tick and bin & A site state and a time step of the simulated classical automaton of \cite{DMNoise1D2026}; a bin is a band of its replacement rate. & Sections~\ref{q1:model} and~\ref{q1:selector}\\\addlinespace[3pt]
+Home, rank and date & A home is the block of child sites that simulates one parent site; the rank is the level in the hierarchy; a date is a time step at a given rank. & Sections~\ref{q1:clock} and~\ref{q1:compiler}\\\addlinespace[3pt]
+Packet and ballot & The encoded parent state carried in the retained letters of a home; the verification vote by which a home accepts it. & Section~\ref{q1:compiler}; \cite[Sections~\ref*{cl:sec:packets}--\ref*{cl:sec:verifier}]{DMNoise1D2026}\\\addlinespace[3pt]
+Literal & The fixed machine text that a classical lane runs, stored read-only in the rule. & Sections~\ref{q1:model} and~\ref{q1:selector}\\\addlinespace[3pt]
+Factory and innovation & A factory is a redundant circuit that turns depolarization into a rare or fair random bit; an innovation is the resulting native random replacement. & Section~\ref{q1:selector}\\\addlinespace[3pt]
+Helper and paint & Helper fields of R2 hold its noise-driven walls, channels and receivers; the encoder prepares their stationary marginal approximately. Paint is the enlargement around a failed helper center that is added to the error set. & Sections~\ref{q1:selector} and~\ref{q1:storage}\\\addlinespace[3pt]
+Mark and strobe & A mark is an event of independent noise keys inside a ball that covers a fault or a failed test. The strobe is the step of each round at which the R2 symbol is read and erasure is decided. & Section~\ref{q1:storage}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We use the elementary gate and noise model of Section~\ref{s:local-circuits}. A macro round is a fixed finite schedule of \(D_{\rm layer}\) elementary layers; the noise after every layer is
 \[
  \bigotimes_{\text{all wires }q}\bigl((1-\eps)\operatorname{Id}_q+
  \eps\operatorname{Tr}_q(\,\cdot\,)I_q/2\bigr).
@@ -8,7 +27,7 @@ Every idle and reset layer is included. Registers have finitely many named facto
 
 There are two autonomous classical lanes: a structural lane R1 initialized from a certified never-halting computation, and a rate-selecting lane R2. One round updates their whole native symbols, reads the old structural coordinates and retained word to execute one quantum instruction, performs the fixed port exchange, and uses the R2 strobe symbol to trigger terminal local erasure. Every nonretained quantum-capable factor is disposed of unconditionally after this erasure block. The autonomous banks remain dephased one-way controls; quantum gadget tapes and exchange ports are quantum-capable retained slots subject to erasure. Section~\ref{q1:forgetting} enumerates every factor.
 
-We use version~2.0.0 of the classical construction \cite{DMNoise1D2026}.
+We use the classical construction \cite{DMNoise1D2026} in the version and numbering listed in Appendix~\ref{app:imports-1d}.
 Its Definition~\ref*{cl:def:sparse} fixes the sparsity convention.
 Lemma~\ref*{cl:lem:sparse-witness} supplies the deterministic mesh
 implication only; Lemma~\ref{q1:l1} replaces its iid probability bound.

@@ -7,16 +7,15 @@ closed toric code. The classical rule is protected in two of the latter
 coordinates and copied in the other two.
 
 \begin{theorem}[Detailed form of Theorem~\ref{thm:exponential}]\label{v:detailed}
-For each \(\mathsf r\in\{\mathrm{WS},\mathrm Q\}\) there is a separately
+There is a rational \(c_{\mathrm e}>0\) such that for each \(\mathsf r\in\{\mathrm{WS},\mathrm Q\}\) there is a separately
 compiled, computably specified, translation-invariant, finite-range,
 time-periodic circuit on \(\Z^6\), with \(N_{\mathsf r}\) qubits per
 site and elementary inventory
 \(\{X,H,\mathrm{CNOT},\mathrm{Toffoli},R_0,D_Z,I\}\), of arity at most
 three. Noise in realization \(\mathsf r\) acts after every elementary
 layer on every factor, including idle, reset, controller, counter, sampling register, probe, port, work and mixed ancilla factors. There are computable pairwise disjoint
-nonempty rational open intervals \(I_n^{\mathsf r}\), a rational
-\(c_{\mathrm e}>0\) independent of \(n\) and the same for both circuits,
-and total computable thresholds
+nonempty rational open intervals \(I_n^{\mathsf r}\)
+and total computable size cutoffs
 \(L_{\mathrm e}^{\mathsf r}(n)\), with these properties on
 \((\Z/L\Z)^6\), using fidelity \eqref{eq:fidelity}.
 \begin{enumerate}
@@ -50,7 +49,7 @@ Section~\ref{v:classical-rule} gives the imported static chart, the square and i
 
 \subsection{Static squares and a counter with arbitrary initial phase}\label{v:classical-rule}
 \begin{proposition}[Static classical interface]\label{v:static-import}
-For the static chart of \cite{DMNoise2026}, version~1.4.0, applied with the wrapped machine \(V\) of Section~\ref{sec:controller}, the canonical projected geometry at cutoff \(a=n+n_0+1\), its finite owners and routing tags are computable on signed integer coordinates. If \(U(n)\uparrow\), it has a legal static chart extension with that projection and cutoff, with no halt letter. If \(U(n)\downarrow\), every sufficiently large compatible chart patch contains a fully guarded wrong critical ride: a short depth-\((a-1)\) end flagged zero or a long depth-\(a\) end flagged one.
+For the static chart of \cite{DMNoise2026}, version~1.4.0, applied with the wrapped machine \(V\) of Section~\ref{sec:controller}, the canonical projected geometry at cutoff \(a=n+n_0+1\), its finite owners and routing tags are computable on signed integer coordinates. If \(U(n)\uparrow\), it has a legal static chart extension with that projection and cutoff, with no halt letter. If \(U(n)\downarrow\), there is a finite size \(s_n\), found by a finite search that terminates because \(U(n)\) halts, such that every chart patch of side at least \(s_n\) that is locally legal at cutoff \(a\), in any substitution phase, contains a fully guarded wrong critical ride: a short depth-\((a-1)\) end flagged zero or a long depth-\(a\) end flagged one.
 \end{proposition}
 \par\noindent\emph{Proof idea.} Compute ownership and routing in the fixed substitution phase. These facts let the board-filling proof apply there and supply the legal extension needed by the encoder.
 
@@ -115,15 +114,18 @@ Let \(V_{\mathsf{pr}}\) mark every active participant in a forbidden
 local pattern. It is a fixed finite local Boolean function.
 
 \begin{lemma}[Square geometry and counter]\label{v:cap}
-Every valid active component is a finite square or a product of two
-infinite integer intervals. A finite square of side \(N_{\rm cap}\)
+On \(\Z^2\) (the \(u\)-plane, or the lift of a torus profile), every active
+nearest-neighbour component without a \(V_{\mathsf{pr}}\) mark is a finite
+square or a product of two infinite integer intervals. A finite square of
+side \(N_{\rm cap}\) (any positive integer here; the reference square of
+Section~\ref{v:parameters} has \(N_{\rm cap}=\lfloor L/4\rfloor\))
 has exactly \(N_{\rm cap}\) diagonal \(\mathsf D\) sites and locally
 recognizable endpoints. On this diagonal set
 \[
  b'_j=b_j\mathbin\oplus y_j,\qquad y'_0=1,\qquad
  y'_j=b_{j-1}y_{j-1}\quad(1\le j<N_{\rm cap}).
 \]
-Overflow is \(o=b_{N_{\rm cap}-1}y_{N_{\rm cap}-1}\). It occurs within
+Under \(F_{\rm cap}\) with a constant valid profile, overflow is \(o=b_{N_{\rm cap}-1}y_{N_{\rm cap}-1}\). It occurs within
 \(1+2^{N_{\rm cap}+1}\) rounds from every state. With all bits zero and
 only \(y_0=1\), no overflow occurs before \(2^{N_{\rm cap}}-1\).
 \end{lemma}

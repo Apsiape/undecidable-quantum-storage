@@ -564,6 +564,282 @@ def NestedTestSumRaw : Prop :=
             ({z | ω z = true} ∩ box (a j) (b j) (mx * P ^ (j + 1)) (my * T ^ (j + 1)))} <
         ENNReal.ofReal (1 / 4)
 
+/-! ## 7. Lemma 12.2 and the arithmetic of Lemma 16.1 (quantum storage paper): definitions and statements
+
+Sprint-2 extension of the released development. The explicit rational constants of Lemma 12.2
+(`q1:l1.1`, "effective radius-moment cutoff") and the statements of Lemma 12.2 and of the
+recursion, horizon and fidelity-constant arithmetic of Lemma 16.1 (`q1:l18`). The constants of
+Lemma 12.1 (`Q1.DR`, `Q1.NR`, `Q1.AR`, `Q1.JR`, `Q1.CR`, `Q1.eR0`, `Q1.zR`) are the released
+ones of section 6, unchanged; everything above this section is the released file verbatim. Statements follow the corrected text: integer radii `r_x, r_t`
+(so that `J_R` is an integer), the cutoff computed from the integer ceiling of `d`, `u_i ≥ 0`
+in Lemma 16.1, and the failure accounting of its fidelity conclusion as hypotheses.
+-/
+
+namespace Q1
+
+/-- `B_R = max(P_R, T_R)`. -/
+def BR (P T : ℕ) : ℕ := max P T
+
+/-- `j_*`: the least natural `j ≥ 1` with `2^{j-1} ≥ d' ⌈log₂ B_R⌉ + 1`
+(`Nat.clog 2 x` is the least `n` with `x ≤ 2^n`, the integer ceiling of `log₂ x`). -/
+def jStar (P T d' : ℕ) : ℕ := Nat.clog 2 (d' * Nat.clog 2 (BR P T) + 1) + 1
+
+/-- `t_j = B_R^{d' j} 2^{-(2^{j-1}-1)}`. -/
+def tR (P T d' j : ℕ) : ℚ := (BR P T : ℚ) ^ (d' * j) / 2 ^ (2 ^ (j - 1) - 1)
+
+/-- `S̄ = Σ_{j=1}^{j_*-1} t_j + 2 t_{j_*}`. -/
+def SR (P T d' : ℕ) : ℚ :=
+  (∑ j ∈ Finset.Ico 1 (jStar P T d'), tR P T d' j) + 2 * tR P T d' (jStar P T d')
+
+/-- `K_R = N_clk (C_clk + 1)^{d'} S̄`. -/
+def KR (P T Nclk Cclk d' : ℕ) : ℚ := (Nclk : ℚ) * ((Cclk : ℚ) + 1) ^ d' * SR P T d'
+
+/-- `q_R = min(1/4, (δ/K_R)^2)`. -/
+def qR (P T Nclk Cclk d' : ℕ) (δ : ℚ) : ℚ := min (1 / 4) ((δ / KR P T Nclk Cclk d') ^ 2)
+
+/-- `e_R0 = A_R^{-1}(2N_R D_R)^{-J_R}` as a rational number (its real cast is `Q1.eR0`). -/
+def eR0Q (P T w s rx rt : ℕ) : ℚ :=
+  (AR w s : ℚ)⁻¹ * ((2 * NR P T * DR P T : ℕ) : ℚ) ^ (-(JR w rx rt : ℤ))
+
+/-- The cutoff of Lemma 12.2, `e_R(d, δ) = min(e_R0, A_R^{-1}[q_R/(N_R D_R)]^{J_R})`, computed
+from the integer `d'` (the ceiling of `d`) and the rational `δ`. -/
+def eRcut (P T w s rx rt Nclk Cclk d' : ℕ) (δ : ℚ) : ℚ :=
+  min (eR0Q P T w s rx rt)
+    ((AR w s : ℚ)⁻¹ * (qR P T Nclk Cclk d' δ / ((NR P T : ℚ) * (DR P T : ℚ))) ^ (JR w rx rt))
+
+end Q1
+
+/-- **Lemma 12.2** (quantum storage paper, `q1:l1.1`, "effective radius-moment cutoff"):
+"Suppose ... their entire key supports lie in radius r_{R,j} ≤ C_clk B_R^j, B_R = max(P_R,T_R),
+where N_clk, C_clk are positive integers fixed after compilation. For every finite real d ≥ 0
+and every rational δ > 0 there is an explicit computable rational e_R(d,δ) > 0 such that
+Σ_{j≥1} N_clk (1+r_{R,j})^d √(z_{R,j}(e)) ≤ δ for every 0 ≤ e ≤ e_R(d,δ)."
+The cutoff is the proof's `e_R(d,δ)`, computed from `d' = ⌈d⌉` (correction G3-03); it is a
+value of the computable function `Q1.eRcut : ... → ℚ`. Positive integers `P_R, T_R, w_R`
+and integer radii `r_x, r_t` (correction A11), `s_R ≥ 1` (Lemma 12.1; a natural number, the key
+count, as in the released `Q1_L1`). The sum over `j ≥ 1` is written over `j + 1`, `j : ℕ`. Also
+`e_R(d,δ) ≤ e_R0`, so Lemma 12.1's threshold applies. "Explicit computable rational" is carried
+by the definition, not by this `Prop`: `Q1.eRcut` is an executable (not `noncomputable`) function
+into `ℚ` of the integers `P_R, T_R, w_R, s_R, r_x, r_t, N_clk, C_clk, d'` and the rational `δ`, and
+the statement uses `d` only through `d' = ⌈d⌉₊` (`Audit.lean` evaluates it). -/
+def Q1_L1_1 : Prop :=
+  ∀ (P T w s rx rt Nclk Cclk : ℕ), 1 ≤ P → 1 ≤ T → 1 ≤ w → 1 ≤ s → 1 ≤ Nclk → 1 ≤ Cclk →
+  ∀ r : ℕ → ℝ, (∀ j, 1 ≤ j → 0 ≤ r j ∧ r j ≤ (Cclk : ℝ) * (Q1.BR P T : ℝ) ^ j) →
+  ∀ (d : ℝ) (δ : ℚ), 0 ≤ d → 0 < δ →
+    0 < Q1.eRcut P T w s rx rt Nclk Cclk ⌈d⌉₊ δ ∧
+    (Q1.eRcut P T w s rx rt Nclk Cclk ⌈d⌉₊ δ : ℝ) ≤ Q1.eR0 P T w s rx rt ∧
+    ∀ e : ℝ, 0 ≤ e → e ≤ (Q1.eRcut P T w s rx rt Nclk Cclk ⌈d⌉₊ δ : ℝ) →
+      Summable (fun j : ℕ => (Nclk : ℝ) * (1 + r (j + 1)) ^ d *
+        Real.sqrt (Q1.zR P T w s rx rt (j + 1) e)) ∧
+      ∑' j : ℕ, (Nclk : ℝ) * (1 + r (j + 1)) ^ d *
+        Real.sqrt (Q1.zR P T w s rx rt (j + 1) e) ≤ δ
+
+/-- **Lemma 12.2, uniform form** (helper): the cutoff computed from a natural `d'` serves every
+real exponent `0 ≤ d ≤ d'` ("Replace d by its integer ceiling d'"). -/
+def Q1_L1_1_Uniform : Prop :=
+  ∀ (P T w s rx rt Nclk Cclk : ℕ), 1 ≤ P → 1 ≤ T → 1 ≤ w → 1 ≤ s → 1 ≤ Nclk → 1 ≤ Cclk →
+  ∀ r : ℕ → ℝ, (∀ j, 1 ≤ j → 0 ≤ r j ∧ r j ≤ (Cclk : ℝ) * (Q1.BR P T : ℝ) ^ j) →
+  ∀ (d' : ℕ) (δ : ℚ), 0 < δ →
+    0 < Q1.eRcut P T w s rx rt Nclk Cclk d' δ ∧
+    (Q1.eRcut P T w s rx rt Nclk Cclk d' δ : ℝ) ≤ Q1.eR0 P T w s rx rt ∧
+    ∀ (d : ℝ), 0 ≤ d → d ≤ d' →
+    ∀ e : ℝ, 0 ≤ e → e ≤ (Q1.eRcut P T w s rx rt Nclk Cclk d' δ : ℝ) →
+      Summable (fun j : ℕ => (Nclk : ℝ) * (1 + r (j + 1)) ^ d *
+        Real.sqrt (Q1.zR P T w s rx rt (j + 1) e)) ∧
+      ∑' j : ℕ, (Nclk : ℝ) * (1 + r (j + 1)) ^ d *
+        Real.sqrt (Q1.zR P T w s rx rt (j + 1) e) ≤ δ
+
+/-- **Lemma 16.1** (`q1:l18`), the recursion, with correction A18 (`u_i ≥ 0`): "Let
+A_pair ≥ 1, C_rec ≥ 1 and δ = δ_mark be the constants, and u_i ≥ 0 the bounds on bad-test
+probabilities, in the already established geometric recursion u_0 ≤ C_rec δ,
+u_{i+1} ≤ A_pair u_i^2 + C_rec δ q^i, q = P_q T_q / P_q^{d_moment-2} ≤ 1/4. If
+0 < b_* ≤ 1/(4A_pair) and C_rec δ ≤ b_*/4, then u_i ≤ b_* 2^{-i} for all i ≥ 0."
+Here `q` is any real in `[0, 1/4]` (the printed `q` is such a number). -/
+def Q1_L18_Recursion : Prop :=
+  ∀ (A C δ q b : ℝ), 1 ≤ A → 1 ≤ C → 0 ≤ q → q ≤ 1 / 4 → 0 < b → b ≤ 1 / (4 * A) →
+    C * δ ≤ b / 4 →
+  ∀ u : ℕ → ℝ, (∀ i, 0 ≤ u i) → u 0 ≤ C * δ → (∀ i, u (i + 1) ≤ A * u i ^ 2 + C * δ * q ^ i) →
+    ∀ i, u i ≤ b / 2 ^ i
+
+/-- **Lemma 16.1** (`q1:l18`), the horizon: "If k is largest with 4 C_cone(T_q^k + P_q^k + 1)
+≤ L, H = T_q^k, and 2 ≤ P_q ≤ T_q, then L < 12 C_cone T_q H, c_1 = 1/(12 C_cone T_q) implies
+c_1 L < H ≤ D_layer H", `D_layer` "a positive integer"; and the proof's "Consequently every
+stated elementary read time [0 ≤ t ≤ ⌊c_1 L⌋] lies within the decoder's completion horizon"
+[0, D_layer H]. "Largest" is `IsGreatest`. The second conjunct is the proof's "A computable
+sufficient size cutoff is 4 C_cone(T_q^{k_0}+P_q^{k_0}+1) ... This makes k ≥ k_0 for all larger
+L". -/
+def Q1_L18_Horizon : Prop :=
+  ∀ (Ccone P T L k : ℕ), 2 ≤ P → P ≤ T →
+    IsGreatest {k' : ℕ | 4 * Ccone * (T ^ k' + P ^ k' + 1) ≤ L} k →
+    L < 12 * Ccone * T * T ^ k ∧
+    (∀ k0 : ℕ, 4 * Ccone * (T ^ k0 + P ^ k0 + 1) ≤ L → k0 ≤ k) ∧
+    ∀ Dlayer : ℕ, 1 ≤ Dlayer →
+      1 / (12 * (Ccone : ℝ) * (T : ℝ)) * (L : ℝ) < ((T ^ k : ℕ) : ℝ) ∧
+      T ^ k ≤ Dlayer * T ^ k ∧
+      ∀ t : ℕ, t ≤ ⌊1 / (12 * (Ccone : ℝ) * (T : ℝ)) * (L : ℝ)⌋₊ → t ≤ Dlayer * T ^ k
+
+/-- **Lemma 16.1** (`q1:l18`), the fidelity constant, conditional arithmetic form. With the
+recursion of `Q1_L18_Recursion` and "Choose k_0 ≥ 1 with C_top b_* 2^{-k_0} ≤ 1/32", the
+hypotheses are: (i) the failure accounting of correction A19, "the decoder fails only on the
+helper-coupling failure of Lemma 17.3(b) [`q1:l15`], of probability less than 1/128, or when one
+of the at most C_top top tests is bad, each with probability at most u_k"; (ii) the union bound
+for the probability `pTop` that some top test is bad; (iii) the proof's overlap step "its
+unconditional overlap is at least one minus these two probabilities" (proved in operator form as
+`QuantumScope.good_event_fidelity_union` in the sprint-1 extension of the companion `lean/` library,
+not imported here). (ii) and (iii)
+are steps the paper proves; here they are hypotheses. Conclusions: the section bound
+F ≥ 1 - 1/128 - C_top b_* 2^{-k} (1d-storage, "Thus F ≥ ..."), with the helper loss kept as
+`pHelp` so that `pHelp = 0` gives Corollary 1.3's 1 - 1/32, and "for k ≥ k_0 ... fidelity at
+least 1 - 1/128 - 1/32 = 123/128 ≥ 15/16 = 120/128" (strict, as used in Theorem D's proof), and
+Corollary 1.3's "1 - 1/32 > 15/16". The
+probabilistic and quantum content (nonhalting, rate window, encoder, coupling) is not formalized.
+The time range "0 ≤ t ≤ ⌊c_1 L⌋" is in `Q1_L18_FidelityAtTimes`. -/
+def Q1_L18_Fidelity : Prop :=
+  ∀ (A C δ q b : ℝ), 1 ≤ A → 1 ≤ C → 0 ≤ q → q ≤ 1 / 4 → 0 < b → b ≤ 1 / (4 * A) →
+    C * δ ≤ b / 4 →
+  ∀ u : ℕ → ℝ, (∀ i, 0 ≤ u i) → u 0 ≤ C * δ → (∀ i, u (i + 1) ≤ A * u i ^ 2 + C * δ * q ^ i) →
+  ∀ (Ctop k0 k m : ℕ), 1 ≤ k0 → (Ctop : ℝ) * b / 2 ^ k0 ≤ 1 / 32 → k0 ≤ k → m ≤ Ctop →
+  ∀ (F pHelp pTop : ℝ) (p : Fin m → ℝ), pHelp < 1 / 128 → (∀ i, p i ≤ u k) →
+    pTop ≤ ∑ i, p i → 1 - pHelp - pTop ≤ F →
+    1 - pHelp - (Ctop : ℝ) * b / 2 ^ k ≤ F ∧ 1 - pHelp - 1 / 32 ≤ F ∧
+    123 / 128 ≤ F ∧ (1 - 1 / 128 - 1 / 32 : ℝ) = 123 / 128 ∧ (15 / 16 : ℝ) = 120 / 128 ∧
+      (120 / 128 : ℝ) < 123 / 128 ∧ (15 / 16 : ℝ) < 1 - 1 / 32
+
+/-- **Lemma 16.1** (`q1:l18`), the choice of `k_0` (helper): "Choose k_0 ≥ 1 with
+C_top b_* 2^{-k_0} ≤ 1/32" ("a fixed effective k_0"). Such a `k_0` exists for every `C_top` and
+`b_*`, and for `b_* ≤ 1/4` (implied by `b_* ≤ 1/(4A_pair)`, `A_pair ≥ 1`) the explicit
+`k_0 = ⌈log₂ C_top⌉ + 3` (`Nat.clog 2 C_top + 3`) works. -/
+def Q1_L18_K0 : Prop :=
+  (∀ (Ctop : ℕ) (b : ℝ), ∃ k0 : ℕ, 1 ≤ k0 ∧ (Ctop : ℝ) * b / 2 ^ k0 ≤ 1 / 32) ∧
+  (∀ (Ctop : ℕ) (b : ℝ), b ≤ 1 / 4 →
+    1 ≤ Nat.clog 2 Ctop + 3 ∧ (Ctop : ℝ) * b / 2 ^ (Nat.clog 2 Ctop + 3) ≤ 1 / 32)
+
+/-- **Lemma 16.1** (`q1:l18`), existence of the largest rank (helper): the proof's "A computable
+sufficient size cutoff is 4 C_cone(T_q^{k_0}+P_q^{k_0}+1) ... This makes k ≥ k_0 for all larger L"
+presupposes that the largest `k` with `4 C_cone(T_q^k+P_q^k+1) ≤ L` exists; it does once the
+cutoff is reached (`C_cone ≥ 1`, `2 ≤ P_q ≤ T_q`). -/
+def Q1_L18_RankExists : Prop :=
+  ∀ (Ccone P T L k0 : ℕ), 1 ≤ Ccone → 2 ≤ P → P ≤ T → 4 * Ccone * (T ^ k0 + P ^ k0 + 1) ≤ L →
+    ∃ k, IsGreatest {k' : ℕ | 4 * Ccone * (T ^ k' + P ^ k' + 1) ≤ L} k ∧ k0 ≤ k
+
+/-- **Lemma 16.1** (`q1:l18`), the fidelity conclusion with its time range, conditional
+arithmetic form: "For k ≥ k_0, the nominal-rate completion decoder has fidelity at least
+1 - 1/128 - 1/32 = 123/128 ... at every integer elementary time 0 ≤ t ≤ ⌊c_1 L⌋", where k is the
+largest rank of the horizon clause and c_1 = 1/(12 C_cone T_q). `F t` is the decoder's fidelity at
+elementary time `t`; the hypotheses (i)-(iii) of `Q1_L18_Fidelity` are assumed at every time
+`t ≤ D_layer H` of the decoder's completion horizon (1d-storage: "For t from 0 to D_layer H the
+decoder appends ..."). The second conclusion is the form Corollary 1.3 uses ("the proof of
+Lemma 16.1, with no initialization loss ... fidelity at least 1 - 1/32", `pHelp t = 0`). -/
+def Q1_L18_FidelityAtTimes : Prop :=
+  ∀ (A C δ q b : ℝ), 1 ≤ A → 1 ≤ C → 0 ≤ q → q ≤ 1 / 4 → 0 < b → b ≤ 1 / (4 * A) →
+    C * δ ≤ b / 4 →
+  ∀ u : ℕ → ℝ, (∀ i, 0 ≤ u i) → u 0 ≤ C * δ → (∀ i, u (i + 1) ≤ A * u i ^ 2 + C * δ * q ^ i) →
+  ∀ (Ccone P T L k Dlayer Ctop k0 m : ℕ), 2 ≤ P → P ≤ T →
+    IsGreatest {k' : ℕ | 4 * Ccone * (T ^ k' + P ^ k' + 1) ≤ L} k → 1 ≤ Dlayer →
+    1 ≤ k0 → (Ctop : ℝ) * b / 2 ^ k0 ≤ 1 / 32 → k0 ≤ k → m ≤ Ctop →
+  ∀ (F pHelp pTop : ℕ → ℝ) (p : ℕ → Fin m → ℝ),
+    (∀ t : ℕ, t ≤ Dlayer * T ^ k → pHelp t < 1 / 128 ∧ (∀ i, p t i ≤ u k) ∧
+      pTop t ≤ ∑ i, p t i ∧ 1 - pHelp t - pTop t ≤ F t) →
+    ∀ t : ℕ, t ≤ ⌊1 / (12 * (Ccone : ℝ) * (T : ℝ)) * (L : ℝ)⌋₊ →
+      123 / 128 ≤ F t ∧ 1 - pHelp t - 1 / 32 ≤ F t
+
+
+
+/-! ## 8. The exponent ledger of Lemmas 14.1 and 14.2 (quantum storage paper)
+
+The integer exponents displayed in Lemma 14.2 (`q1:l12`, "One admissible choice of exponents"), as
+functions of `R = R_geom` and `d = d_mom` (any naturals; the paper takes `R_geom` the least `R ≥ 1`
+with `b_c^R ≥ B_c` and `d_mom = max(4, ⌈d⌉)`), with `Δ_ad = 10000`. A selection is formalized: the
+integer and rational identities and inequalities listed in the docstrings of `Q1_L12_Ledger`,
+`Q1_L12_Step1` and `Q1_L11_Ledger`. Not formalized: the admission-rank bounds of Steps 3 and 5
+(`B_c^{j_s} ≤ p^{-ρ_s}`, `B_c^{j_l} ≤ p^{-ρ_l}`, `j_l - j_s ≥ (b_refresh - 11) log_{b_c}(1/p) - 1`),
+the rational-power conditions of Step 7, the range bounds (14.7)-(14.9), and every probability
+estimate these numbers feed; all of them involve logarithms or the threshold on `p`.
+-/
+
+namespace Sel
+
+/-- `Δ_ad = 10000`. -/
+def Δad : ℕ := 10000
+/-- `ρ_s = 18 R_geom + 2`. -/
+def ρs (R : ℕ) : ℕ := 18 * R + 2
+/-- `D_s = 2 d_mom ρ_s + 20`. -/
+def Ds (R d : ℕ) : ℕ := 2 * d * ρs R + 20
+/-- `M_s = max(2ρ_s + 2(Δ_ad+1)D_s + 20, 2(d_mom+1)ρ_s + 20)`. -/
+def Ms (R d : ℕ) : ℕ := max (2 * ρs R + 2 * (Δad + 1) * Ds R d + 20) (2 * (d + 1) * ρs R + 20)
+/-- `b_refresh = max(21, M_s + 20)`. -/
+def bRefresh (R d : ℕ) : ℕ := max 21 (Ms R d + 20)
+/-- `v_rep = M_s + 20`. -/
+def vRep (R d : ℕ) : ℕ := Ms R d + 20
+/-- `s_read = 4M_s + 85`. -/
+def sRead (R d : ℕ) : ℕ := 4 * Ms R d + 85
+/-- `ρ_l = (b_refresh + 7) R_geom + 2`. -/
+def ρl (R d : ℕ) : ℕ := (bRefresh R d + 7) * R + 2
+/-- `D_l = 2 d_mom ρ_l + 20`. -/
+def Dl (R d : ℕ) : ℕ := 2 * d * ρl R d + 20
+/-- `M_l = max(2ρ_l + 2(Δ_ad+1)D_l + 20, 2(d_mom+1)ρ_l + 20)`. -/
+def Ml (R d : ℕ) : ℕ := max (2 * ρl R d + 2 * (Δad + 1) * Dl R d + 20) (2 * (d + 1) * ρl R d + 20)
+/-- `m_ch = 20(M_l + 20) + 1`. -/
+def mCh (R d : ℕ) : ℕ := 20 * (Ml R d + 20) + 1
+/-- `C_pref = 2(b_refresh + 6) + 5`. -/
+def CPref (R d : ℕ) : ℕ := 2 * (bRefresh R d + 6) + 5
+/-- `h_red = C_pref + M_l + 5`. -/
+def hRed (R d : ℕ) : ℕ := CPref R d + Ml R d + 5
+
+end Sel
+
+/-- **Lemma 14.2** (`q1:l12`), integer ledger of its proof, for every `R_geom` and `d_mom`:
+Step 1, "C_N C_h p^{-C_pref}(c_ε p)^{h_red+1} = C' p^{M_l+6}" (exponent `h_red + 1 - C_pref =
+M_l + 6`) and "The deliberately larger integer C_pref above exceeds 2(b_refresh+6)+4"; Step 5,
+"Here b_refresh > 20"; Step 4, "The explicit bound on M_s makes M_s - 2ρ_s ≥ 2(Δ_ad+1)D_s + 20",
+and Step 5's same bound for `M_l, ρ_l, D_l`; Step 7, (14.8) "Both exponents [M_s/2 - d_mom ρ_s,
+M_l/2 - d_mom ρ_l] are positive by the stated M choices" (with the margin `≥ ρ + 10`), and "D_s >
+d_mom ρ_s" with the same for `l`. Also Step 3, "degree < 20^2; Δ_ad = 10000 is a common safe
+integer bound", and Step 7, "2^i ≥ i+1" (used in (14.7)) and "2^{j-1} ≥ j" (used in (14.9)). -/
+def Q1_L12_Ledger : Prop :=
+  (∀ R d : ℕ,
+    (Sel.hRed R d : ℤ) + 1 - Sel.CPref R d = Sel.Ml R d + 6 ∧
+    2 * (Sel.bRefresh R d + 6) + 4 < Sel.CPref R d ∧
+    20 < Sel.bRefresh R d ∧
+    (Sel.Ms R d : ℤ) - 2 * Sel.ρs R ≥ 2 * (Sel.Δad + 1) * Sel.Ds R d + 20 ∧
+    (Sel.Ml R d : ℤ) - 2 * Sel.ρl R d ≥ 2 * (Sel.Δad + 1) * Sel.Dl R d + 20 ∧
+    (Sel.Ms R d : ℚ) / 2 - d * Sel.ρs R ≥ Sel.ρs R + 10 ∧
+    (0 : ℚ) < (Sel.Ms R d : ℚ) / 2 - d * Sel.ρs R ∧
+    (Sel.Ml R d : ℚ) / 2 - d * Sel.ρl R d ≥ Sel.ρl R d + 10 ∧
+    (0 : ℚ) < (Sel.Ml R d : ℚ) / 2 - d * Sel.ρl R d ∧
+    d * Sel.ρs R < Sel.Ds R d ∧ d * Sel.ρl R d < Sel.Dl R d) ∧
+  20 ^ 2 < Sel.Δad ∧ (∀ i : ℕ, i + 1 ≤ 2 ^ i) ∧ (∀ j : ℕ, 1 ≤ j → j ≤ 2 ^ (j - 1))
+
+/-- **Lemma 14.2** (`q1:l12`), Step 1 exponent arithmetic, for real `p > 0` and `C_N > 0`:
+`p^{-C_pref} p^{h_red+1} = p^{M_l+6}`, and "ζ_m ≤ p^{M_l+C_pref+2}/(16 C_N)" gives the band bound
+"2 C_N p^{-C_pref} ζ_m ≤ p^{M_l+2}/8"; and "For p sufficiently small this [C' p^{M_l+6}] is below
+p^{M_l+2}/8", explicitly once `p^4 ≤ 1/(8C')`. -/
+def Q1_L12_Step1 : Prop :=
+  ∀ (R d : ℕ) (p CN ζ : ℝ), 0 < p → 0 < CN →
+    p ^ (-(Sel.CPref R d : ℤ)) * p ^ (Sel.hRed R d + 1) = p ^ (Sel.Ml R d + 6) ∧
+    (ζ ≤ p ^ (Sel.Ml R d + Sel.CPref R d + 2) / (16 * CN) →
+      2 * CN * p ^ (-(Sel.CPref R d : ℤ)) * ζ ≤ p ^ (Sel.Ml R d + 2) / 8) ∧
+    (∀ C' : ℝ, 0 < C' → p ^ 4 ≤ 1 / (8 * C') → C' * p ^ (Sel.Ml R d + 6) ≤ p ^ (Sel.Ml R d + 2) / 8)
+
+/-- **Lemma 14.1** (`q1:l11`), arithmetic of its proof: "the reader error exponent ... is
+(s_read+1)/4 = M_s + 21.5. The refresh exponent after the p^{-8} suffix count is
+b_refresh - 7 ≥ M_s + 13, and the replica exponent after that count is v_rep - 8 = M_s + 12 ...
+The long majority-reference exponent is (m_ch+1)/20 = M_l + 20.1"; "For A_m = 8^{m+n_bin}, every
+remaining ratio of the form (m+2)/A_m decreases with m; its next ratio is (m+3)/(8(m+2)) < 1";
+"Then m(n) ≥ 2J_pad+1" and "ν_2(2^n(2J_pad+1)) = n" (`padicValNat 2`); and the printed parities
+"s_read = 4M_s+85 (odd)", "m_ch = 20(M_l+20)+1 (odd)", with the "2v_rep-1 replicas per channel"
+odd as well (tie-free majorities). -/
+def Q1_L11_Ledger : Prop :=
+  (∀ R d : ℕ,
+    ((Sel.sRead R d : ℚ) + 1) / 4 = Sel.Ms R d + 43 / 2 ∧
+    (Sel.bRefresh R d : ℤ) - 7 ≥ Sel.Ms R d + 13 ∧
+    (Sel.vRep R d : ℤ) - 8 = Sel.Ms R d + 12 ∧
+    ((Sel.mCh R d : ℚ) + 1) / 20 = Sel.Ml R d + 201 / 10) ∧
+  (∀ m nbin : ℕ, ((m : ℚ) + 3) / (8 * ((m : ℚ) + 2)) < 1 ∧
+    ((m : ℚ) + 3) / 8 ^ (m + 1 + nbin) < ((m : ℚ) + 2) / 8 ^ (m + nbin)) ∧
+  (∀ n J : ℕ, 2 * J + 1 ≤ 2 ^ n * (2 * J + 1) ∧ padicValNat 2 (2 ^ n * (2 * J + 1)) = n) ∧
+  (∀ R d : ℕ, Odd (Sel.sRead R d) ∧ Odd (Sel.mCh R d) ∧ Odd (2 * Sel.vRep R d - 1))
+
 /-! ## Challenge theorems (comparator format) -/
 
 theorem sparseInheritedBySubsets : SparseInheritedBySubsets := sorry
@@ -609,5 +885,16 @@ theorem lemma_4_2_probability : Lemma_4_2_Probability := sorry
 theorem leafOverlapDegree : LeafOverlapDegree := sorry
 theorem exponentBookkeeping : ExponentBookkeeping := sorry
 theorem nestedTestSumRaw : NestedTestSumRaw := sorry
+theorem q1_l1_1 : Q1_L1_1 := sorry
+theorem q1_l1_1_uniform : Q1_L1_1_Uniform := sorry
+theorem q1_l18_recursion : Q1_L18_Recursion := sorry
+theorem q1_l18_horizon : Q1_L18_Horizon := sorry
+theorem q1_l18_fidelity : Q1_L18_Fidelity := sorry
+theorem q1_l18_k0 : Q1_L18_K0 := sorry
+theorem q1_l18_fidelity_at_times : Q1_L18_FidelityAtTimes := sorry
+theorem q1_l12_ledger : Q1_L12_Ledger := sorry
+theorem q1_l12_step1 : Q1_L12_Step1 := sorry
+theorem q1_l11_ledger : Q1_L11_Ledger := sorry
+theorem q1_l18_rank_exists : Q1_L18_RankExists := sorry
 
 end Flagship1D

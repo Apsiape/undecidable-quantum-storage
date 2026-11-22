@@ -2,14 +2,14 @@
   "task": "Comparator",
   "command": "lake comparator --config comparator.json",
   "exit": 0,
-  "wall_seconds": 49,
+  "wall_seconds": 51,
   "stderr": "merged into Comparator.stdout.log",
   "verdict": "Your solution is okay!",
   "kernels": [
     "nanoda",
     "Lean default"
   ],
-  "theorems": 43,
+  "theorems": 54,
   "permitted_axioms": [
     "propext",
     "Quot.sound",

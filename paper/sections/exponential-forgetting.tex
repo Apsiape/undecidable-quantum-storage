@@ -3,13 +3,16 @@ The constants \(a_n,a'_n\) below are decay rates local to this
 subsection; window endpoints remain those of Section~\ref{v:parameters}.
 \begin{lemma}[Storage-enable and ancestor tails from all starts]\label{v:ancestor}
 On a halting window there are finite positive \(A_n,a_n,A'_n,a'_n\) and
-fixed integers \(b_{\rm c},b'_{\rm c}\), uniform across that window, such
-that the probability of any initial metadata word giving an unmarked
+fixed integers \(b_{\rm c},b'_{\rm c}\), uniform across that window and
+independent of \(L\), such that the following hold on every torus. For
+every \((z,t)\) whose depth-\(t\) determining cone unwraps injectively,
+the probability that some initial metadata word gives an unmarked
 first or ordinary reading with the storage-enable bit set at \((z,t)\) is at most
-\(A_n(1+t)^{b_{\rm c}}e^{-a_nt}\). For a specified physical initial site,
-the probability of a surviving \(s\)-round quantum dependency path is at
-most \(A'_n(1+s)^{b'_{\rm c}}e^{-a'_ns}\) in an injectively unwrapped
-determining cone, simultaneously over all initial words. These are the
+\(A_n(1+t)^{b_{\rm c}}e^{-a_nt}\). For a specified physical initial site
+whose depth-\(s\) determining cone, of radius \(O(s)\), unwraps
+injectively, the probability of a surviving \(s\)-round quantum dependency
+path is at most \(A'_n(1+s)^{b'_{\rm c}}e^{-a'_ns}\), simultaneously over
+all initial words. These are the
 capped-controller analogues of Propositions~\ref{c:late-live}
 and~\ref{c:path-tail}.
 \end{lemma}
@@ -154,9 +157,16 @@ comparison rule. Diagonal bottom bands in \(P_1+P_2\) of width at least
 200, and the diagonal half-torus for \(L\ge400\), spread to the whole \((P_1,P_2)\)-plane. On the otherwise-clean
 initialized-code trajectory, a whole bottom \((P_1,P_2)\)-plane at
 \(u=u_0\) and fixed \(P_3,P_4\) permanently loses the
-selected logical pair. The minimum canonical-source order of a
-dangerous wrapping certificate is \(\Theta(L)\); prescribed band seeds
-have weight \(\exp[-\Theta_n(L)]\) at a fixed positive window rate.
+selected logical pair.
+A dangerous wrapping certificate has at least \(b_{\rm span}L/C_{\rm all}\)
+distinct lifted source labels. For the sizes of Lemma~\ref{v:bridge},
+the short alias-free piece extracted in its proof has at least
+\(q_{\rm short}/(3C_{\rm all})\) distinct physical source labels.
+A width-200 band is seeded by at most \(C'L\) physical names for a fixed
+\(C'\).
+At a fixed rate \(\eps\) in a window, prescribed band seeds have
+weight between \(e^{-C_{n,\eps}L}\) and \(e^{-c_{n,\eps}L}\), with
+\(0<c_{n,\eps}\le C_{n,\eps}\) independent of \(L\).
 \end{lemma}
 \par\noindent\emph{Proof idea.} Trace defect predecessors using the three physical potentials. Small islands erode under this rule, whereas the two boundaries of a wrapped diagonal band drive it across the plane.
 
@@ -164,17 +174,17 @@ have weight \(\exp[-\Theta_n(L)]\) at a fixed positive window rate.
 Relative to a clean reference, a defect without a fresh source needs
 at least 257 defective predictions and hence two boxes. Each of the
 three physical potentials of Lemma~\ref{v:density} follows a defective
-predecessor gaining at least 130. For a finite initial island \(A_0\),
+predecessor gaining at least 130. For a finite initial island \(\mathcal I_0\),
 \[
- 390t\le\max_{A_0}3(P_1+P_2)+\max_{A_0}(-3P_1)+\max_{A_0}(-3P_2).
+ 390t\le\max_{\mathcal I_0}3(P_1+P_2)+\max_{\mathcal I_0}(-3P_1)+\max_{\mathcal I_0}(-3P_2).
 \]
 The right side is translation invariant and proportional to transverse
 diameter. This proves finite-island extinction, even allowing growth
 in \(u\), without a torus-eroder assertion.
 
 For a diagonal band put \(s=P_1+P_2\bmod L\),
-\(a_r=\#\{(i,j)\in[0,15]^2:i+j=r\}\), and
-\(c_A(s)=\sum_{r=0}^{30}a_r\one_A(s+r)\).
+\(\mathrm{tr}_r=\#\{(i,j)\in[0,15]^2:i+j=r\}\), and
+\(c_A(s)=\sum_{r=0}^{30}\mathrm{tr}_r\one_A(s+r)\).
 The exact bottom condition is
 \(c_A(s)+2c_A(s+160)\ge257\). The triangular sums through 14 and
 15 are 120 and 136. On the line an interval \([0,w)\),

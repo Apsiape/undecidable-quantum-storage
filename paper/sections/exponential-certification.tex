@@ -59,16 +59,19 @@ decoder choices as in the proof below and write
  F(\cE^{\mathsf r}_{n,L},\cD^{\mathsf r}_{n,L,t};L,t,\eps).
 \]
 Each \(f^{\mathsf r}_{n,L,t}\) is a rational-coefficient polynomial,
-computable by a total finite algorithm. The predicate
+computable by a total finite algorithm. Define the predicate
 \begin{equation}\label{v:predicate}
 \begin{split}
  P_{\mathsf r}(n):\quad& f^{\mathsf r}_{n,L,t}(q)\ge7/8
  \quad\text{for every integer }L\ge L_{\mathrm e}^{\mathsf r}(n),\\
- &0\le t\le H_{\mathrm e}(L),\qquad q\in I_n^{\mathsf r}\cap\mathbb Q
+ &\text{integer }0\le t\le H_{\mathrm e}(L),\qquad
+  q\in I_n^{\mathsf r}\cap\mathbb Q.
 \end{split}
 \end{equation}
-is \(\Pi^0_1\)-complete, holds exactly when \(U(n)\uparrow\), and is
-equivalent to the same predicate over all real rates in the window.
+Here \(q\) is a rational rate, unrelated to the probability \(q_t\)
+of part (i). This predicate is \(\Pi^0_1\)-complete, holds exactly
+when \(U(n)\uparrow\), and is equivalent to the same predicate over
+all real rates in the window.
 Every finite test is decidable by exact rational arithmetic, and every
 false certificate has a finite exact witness \((L,t,q)\).
 \item For each fixed rational \(0<\eta<3/8\), there is no total

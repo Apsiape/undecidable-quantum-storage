@@ -1,10 +1,7 @@
 2a6191ef829ea46f5b6d161090df50648e0d3eb3b68f3e8e8096cca72eb324b8  evidence/C01.ndjson
-c1aa8a7073cbd9344341b9b75c78490d2de9aed3f3a1c68a179ce22c17d036dc  evidence/C01.ndjson.gz
 236936030 evidence/C01.ndjson
- 36157128 evidence/C01.ndjson.gz
-273093158 total
 e140dbbcf8f659fd45ed6c7584c5d106a5f86580126ba18e96514ba1e44a9540  evidence/C02.ndjson
-6a26c2dabfe0b6b53e3524dac1aa95040b473f5737b30c113d3008ed671ab7d9  evidence/C02.ndjson.gz
 64258343 evidence/C02.ndjson
- 9980846 evidence/C02.ndjson.gz
-74239189 total
+52b0a6b4e177b4093f7cb0bc25b8c7d7a2cf4e70ac664f4d8ccda408b152a0d3  evidence/C03.ndjson
+249647045 evidence/C03.ndjson
+Exported from Solution by the toolchain's leanexport (lean4export format 3.1.0), roots as in the C0N-export receipts (C03: the 69 roots in C03-roots.txt); the exports were deleted after the kernel replays.

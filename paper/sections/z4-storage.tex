@@ -1,7 +1,7 @@
 \subsection{Windows, initialization and the storage horizon}\label{f4:positive}
 \begin{lemma}[Physical windows and a total encoder]\label{f4:encoder}
 There are windows \(I_n\) and a total computable encoder \(\cE_{n,L}\)
-as in Theorem~\ref{f4:detailed}. Above a computable size threshold, on
+as in Theorem~\ref{f4:detailed}. Above a computable size cutoff, on
 nonhalting inputs the initialized reference has the periodic folded
 clock and the storage-enable bit set throughout the active patch for
 \(2^{\lfloor L/4\rfloor}-1\) rounds, in the positive-branch reference
@@ -74,11 +74,11 @@ Apply Lemma~\ref{f4:recursion} with the geometry and sources
 of Lemmas~\ref{f4:geometry} and~\ref{f4:sources}. Put
 \(T_{{\rm hor},k}=2^{\lfloor2^k/16\rfloor}\). Count every top box and rectangle
 cover through \(T_{{\rm hor},k}+T_{\rm cal}^k+C_{\rm bd}\), including completion halos. For fixed
-computable constants and an integer \(d\), failure probability is at
+computable constants and an integer \(d'\), failure probability is at
 most
 \begin{equation}\label{f4:failure}
 \begin{split}
- C_{\rm bd}(T_{{\rm hor},k}+T_{\rm cal}^k+C_{\rm bd})L^d2^{-2^k}
+ C_{\rm bd}(T_{{\rm hor},k}+T_{\rm cal}^k+C_{\rm bd})L^{d'}2^{-2^k}
  &+C_{\rm bd}(T_{{\rm hor},k}+T_{\rm cal}^k+C_{\rm bd})L^4e^{-\beta_{\rm cap} L/(w_n+1)}\\
  &+C_{\rm bd}(T_{{\rm hor},k}+T_{\rm cal}^k+C_{\rm bd})L^4e^{-\beta_{\rm raw}L}.
 \end{split}
@@ -107,7 +107,7 @@ for floors and the fixed elementary depth per round. Every requested
 elementary time through \(e^{c_4L^{\alpha_4}}\) is covered.
 
 Let \(\mathcal G_{\rm stor}\) mean absence of both source exceptions and every geometric
-\(N_k\) in that extended collection. It is exogenous, independent of
+\(N^{\rm sh}_k\) in that extended collection. It is exogenous, independent of
 logical amplitudes. On \(\mathcal G_{\rm stor}\), joint level reduction gives the identity
 at aligned boundaries. At an arbitrary elementary readout retain all
 in-flight semantic data, syndrome, ports, masks holding quantum

@@ -1,11 +1,12 @@
 \subsection{Halting-side fidelity for all registers}\label{f4:forgetting}
 \begin{lemma}[Ancestry for the folded schedule]\label{f4:ancestor}
-On a halting window, a specified physical initial site has retained
-quantum ancestry at depth \(s\) with probability at most
-\(A'_n(1+s)^{b'_{\rm c}}e^{-a'_ns}\) in an injectively unwrapped
-determining cone. Here \(A'_n,a'_n>0\) and the fixed integer
-\(b'_{\rm c}\) are uniform in the window
-and simultaneously over every initial metadata word. All quantum
+On a halting window there are \(A'_n,a'_n>0\) and a fixed integer
+\(b'_{\rm c}\), uniform in the window and independent of \(L\), such
+that on every torus a specified physical initial site whose
+depth-\(s\) determining cone, of radius \(O(s)\), unwraps injectively
+has retained quantum ancestry at depth \(s\) rounds with probability at
+most \(A'_n(1+s)^{b'_{\rm c}}e^{-a'_ns}\), simultaneously over every
+initial metadata word. All quantum
 factors at that site are included in the same event.
 \end{lemma}
 \par\noindent\emph{Proof idea.} Apply the same halting obstruction to the static patch and count surviving paths using the actual folded dispatch edges. The final reset on each site's retained factors removes their dependence when storage is disabled.
@@ -107,4 +108,4 @@ counted in elementary layers. Thus the lifetime at fidelity \(7/8\) obeys
  \quad\text{elementary layers}.
 \end{equation}
 
-For each fixed rational \(0<\eta<3/8\), these halting times have no total computable bound in the input \(n\). The argument of Corollary~\ref{a:time} applies with the computable threshold \(L_4(n)\) and the unbounded horizon \(\exp(c_4L^{\alpha_4})\): the finite circuits are computable, so approximating fidelity with absolute error less than half the gap between \(1/2+\eta\) and \(15/16\) and comparing with their midpoint would decide halting. No certification statement for this construction is added here.
+For each fixed rational \(0<\eta<3/8\), these halting times have no total computable bound in the input \(n\). The argument of Corollary~\ref{a:time} applies with the computable size cutoff \(L_4(n)\) and the unbounded horizon \(\exp(c_4L^{\alpha_4})\): the finite circuits are computable, so approximating fidelity with absolute error less than half the gap between \(1/2+\eta\) and \(15/16\) and comparing with their midpoint would decide halting. No certification statement for this construction is added here.

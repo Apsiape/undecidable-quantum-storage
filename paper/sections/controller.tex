@@ -43,12 +43,14 @@ The rate selects a cutoff depth by separating short rows from long rows. Along s
 \begin{proposition}[Classical chart interface]\label{c:selector-import}
 There is an effective finite chart alphabet and a fixed finite sampling-register rule
 with the following properties. For a universal machine \(U\), choose
-\(a=n+n_0+1\) and the nominal window
+\(a=n+n_0+1\), with \(n_0\) the fixed offset of
+Section~\ref{s:parameters}, item~4, and the nominal window for the
+aggregate refresh rate \(\mu\)
 \begin{equation}\label{eq:c-window}
  \mathcal J_n=\left(\frac{2C_h}{\ell_a},\frac{21C_h}{10\ell_a}\right).
 \end{equation}
-Throughout this window, \(\ell_{a-1}<W\), \(2W\le\ell_a\), and
-\(W\le4^a-1\). If \(U(n)\) does not halt, the chart has a canonical
+For every \(\mu\in\mathcal J_n\), \(W=\lfloor C_h/\mu\rfloor\)
+satisfies \(\ell_{a-1}<W\), \(2W\le\ell_a\), and \(W\le4^a-1\). If \(U(n)\) does not halt, the chart has a canonical
 projected geometry with cutoff \(a\) with a legal finite-state cover and legal
 finite computation boards. If \(U(n)\) halts, every full chart has a wrong
 critical gate of one of two types: a short depth-\((a-1)\) gate with flag
@@ -108,9 +110,15 @@ choice is required by the encoder.
 
 \begin{lemma}[Finite controller initialization]\label{c:initialization}
 From \((n,L)\) and a declared finite time horizon one can compute an initial
-controller word, without the noise rate or a halting answer. On a
-nonhalting input it agrees with a correct-cutoff reference on the entire
-required initial, history, sampling-register and future cone. Its sampling-register initialization
+controller word, without the noise rate or a halting answer.
+Suppose that the space-time cone of the stored data through that horizon,
+with every initial history slot and all fixed lane and collar offsets,
+injects into one chart of the side-\(L\) torus whose seams lie outside it.
+For the extended storage horizon used in the proof of
+Proposition~\ref{d:storage}, this condition is guaranteed by its size
+cutoff \(L_0(n)\). Then on a nonhalting input the word agrees with a
+correct-cutoff reference on that entire cone.
+Its sampling-register initialization
 satisfies the same short upper and recent-long lower experiment bounds as
 the classical interface.
 \end{lemma}
@@ -159,13 +167,14 @@ A \emph{bin} is an integer block of rounds. A \emph{star} joins appearances of o
 \begin{proposition}[Joint source law]\label{c:source-law}
 There are fixed finite support lists and computable overlap divisors
 \(D_{\rm bin},D_{\rm hist}\), independent of \(W,n\), such that the
-following holds. Let \(O_\lambda\) mean an internal fault in the complete
+following holds for every \(n\) and every aggregate refresh rate
+\(\mu\in\mathcal J_n\). Let \(O_\lambda\) mean an internal fault in the complete
 hardware support of an experiment in label \(\lambda\), and suppose
-\(\Pr(O_\lambda)\le\alpha_{\rm bin}\). For any \(g\) distinct source labels,
+\(\Pr(O_\lambda)\le\alpha_{\rm bin}\) for every label \(\lambda\). For any \(g\) distinct source labels,
 \begin{equation}\label{eq:c-gamma}
 \begin{gathered}
  \Pr(\textup{all labels have a raw or intrinsic exception})\le\gamma_{\rm src}^g,\\
- \gamma_{\rm src}\le\sqrt{2C_h}+\eta_B^{1/6}+\alpha_{\rm bin}^{1/(2D_{\rm bin})},
+ \gamma_{\rm src}=\sqrt{2C_h}+\eta_B^{1/6}+\alpha_{\rm bin}^{1/(2D_{\rm bin})},
 \end{gathered}
 \end{equation}
 where
@@ -280,11 +289,14 @@ Let \(\mathrm{MP}({\bf z},t)\) mean that an ordinary parent of \(({\bf z},t)\)
 belongs to \(M^0\), and let \(D_s({\bf z},t)\) be the event that a backward
 ordinary path of length \(s\) has at least \(\delta s\) such positions,
 where \(\delta=1/1404\). Outside the corresponding two \(D_s\) events,
-two unmarked live readings at the same logical position and time,
-replica distance \(d\), and age at least \(s\ge\max(1,2d)\) agree. A clean
+two unmarked live readings at the same logical position and round \(t\),
+at replica distance \(d\), with \(t\ge s\ge\max(1,2d)\), agree. A clean
 child check and this equality certify local west/south compatibility.
-At a sufficiently small computable source rate,
-\(\Pr(D_s({\bf z},t))\le A\exp(-as)\) in an unwrapped finite cone.
+There are a computable source-rate cap and constants \(A,a>0\),
+independent of \(s\), \(({\bf z},t)\), \(L\) and \(n\), such that below
+the cap \(\Pr(D_s({\bf z},t))\le A\exp(-as)\) for every \(s\ge1\)
+whenever the depth-\(s\) backward cone of \(({\bf z},t)\) unwraps
+injectively. The age of a reading is its round index \(t\).
 \end{lemma}
 \par\noindent\emph{Proof idea.} Pair clean predecessor readings to compare the two proposals. A discrepancy needs many marked predecessors, whose complete contours can be counted by disjoint source slabs.
 
@@ -325,9 +337,15 @@ at most \(K_\delta^F\) such rooted annotated graphs. Summing their
 probabilities \(p^F\) proves the estimate at a small enough fixed rate.
 \end{proof}
 
+The constants \(A_n,a_n\) in Proposition~\ref{c:late-live} are decay
+constants local to this section; the window endpoints \(a_n,b_n\) of
+Section~\ref{s:parameters} are different.
+
 \begin{proposition}[Late unmarked liveness]\label{c:late-live}
 If \(U(n)\) halts, there are finite \(A_n,a_n>0\), uniform for
-\(\mu\in \mathcal J_n\), such that
+\(\mu\in \mathcal J_n\) and independent of \(L\), \({\bf z}\) and \(t\),
+such that whenever the depth-\(t\) determining cone of \(({\bf z},t)\)
+unwraps injectively on the physical torus,
 \begin{equation}\label{eq:c-late}
  \Pr(\textup{some initial word gives an unmarked live reading at }({\bf z},t))
  \le A_n(1+t)^b e^{-a_nt}.
@@ -345,7 +363,8 @@ exception has a polynomial-times-exponential bound. On the complement,
 a live unmarked target determines a coherent same-history reference
 patch. The halting motif supplies a wrong critical gate \(\Gamma\) at
 time \(b_\Gamma\), with
-\(t-b_\Gamma\ge c_0t\,-\,O_n(1)\). Candidate gate positions, types, finite
+\(t-b_\Gamma\ge c_0t\,-\,O_n(1)\) for a fixed \(c_0>0\) given by the
+halting motif. Candidate gate positions, types, finite
 phase residues and footprints range over a deterministic polynomial
 list. The reference labels of a selected history are not included in
 that list.
@@ -446,16 +465,18 @@ initial words.
 
 \begin{lemma}[Rare live proposals]\label{c:rare}
 Fix \((i,Q)\) and \(t_0\ge0\). With \(\Theta_h\) denoting the
-replica threshold and \(B_s=H_s\lor H_{s+1}\) at \((i,P,Q)\), put
+replica threshold (for a transverse field \(V\), \(\Theta_h(V)(P)=1\)
+when \(V(P+\delta)=1\) for at least \(h\) of the \(3K\) offsets
+\(\delta\in S_0\cup S_1\cup S_2\)) and \(B^{\rm fr}_s=H_s\lor H_{s+1}\) at \((i,P,Q)\), put
 \[
  \mathcal W_{t_0-1}\equiv0,\qquad
- \mathcal W_s=B_s\lor\Theta_h(\mathcal W_{s-1}),\qquad
+ \mathcal W_s=B^{\rm fr}_s\lor\Theta_h(\mathcal W_{s-1}),\qquad
  N_s=\Theta_h(\mathcal W_s)\quad(s\ge t_0).
 \]
 For every initial word and every \(t>t_0\), if the ordinary proposal
-at \((i,P,Q,t)\) is live, then (a) a direct destination \(H\)
-exception occurs, or (b) \(N_{t-1}(P)=1\), or (c) there is a
-backward path of live readings without \(B\) from \((i,P,Q,t)\)
+at \((i,P,Q,t)\) is live, then (a) a direct destination exception
+occurs: \(H\) at \((i,P,Q)\) at one of the times \(t-1\), \(t\), \(t+1\), or (b) \(N_{t-1}(P)=1\), or (c) there is a
+backward path of live readings without \(B^{\rm fr}\) from \((i,P,Q,t)\)
 to time \(t_0\), through south inputs of successful replicas.
 Every new \(N\)-birth either has old support in two boxes or uses
 at least 256 distinct fresh replica positions. Tile the transverse
@@ -478,8 +499,8 @@ have joint probability at most
 \begin{proof}
 A live completion needs both inputs, so selecting south keeps
 \(i,Q\) fixed. If (a) and (c) fail, every backward chain of live
-readings through successful replicas ends at a vertex with \(B\)
-at time at least \(t_0\). A non-\(B\) live reading equals its live
+readings through successful replicas ends at a vertex with \(B^{\rm fr}\)
+at time at least \(t_0\). A non-\(B^{\rm fr}\) live reading equals its live
 ordinary proposal and has \(h\) successful replicas with live south
 inputs. Induction up these finite chains puts every chain vertex
 in \(\mathcal W\) and the root in \(N_{t-1}\), proving (b).
@@ -506,7 +527,9 @@ events unioned in Propositions~\ref{c:path-tail} and~\ref{f:ancestor}.
 For each fixed finite catalogue of quantum dependency templates, the
 rate bound can be chosen so that, on a halting window, the probability of
 an \(s\)-step permitted data path through a specified physical initial
-site is at most \(A'_n(1+s)^{b'}e^{-a'_ns}\). For the folded appendix, a path may switch among its four sheets
+site is at most \(A'_n(1+s)^{b'}e^{-a'_ns}\), where \(A'_n,a'_n>0\)
+depend only on \(n\) (uniformly over \(\eps\in I_n\), the size \(L\), the
+site and \(s\)) and \(b'\) only on the catalogue. For the folded appendix, a path may switch among its four sheets
 arbitrarily. It must cross at each step either its assigned live
 selector or a named local fault at the conditional-reset block. The bound is
 simultaneous over all initial combined classical words and holds in

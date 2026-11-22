@@ -1,6 +1,6 @@
-challenge declarations: 29795
-solution declarations: 30791
-targets: 43; non-target Challenge declarations compared: 29751
+challenge declarations: 29884
+solution declarations: 31446
+targets: 54; non-target Challenge declarations compared: 29829
 axioms in Challenge closure: ['Classical.choice', 'Quot.sound', 'propext', 'sorryAx']
 axioms in Solution closure: ['Classical.choice', 'Quot.sound', 'propext']
 SECONDARY CHECK FAIL

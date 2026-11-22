@@ -86,20 +86,26 @@ The deterministic local evolution between returns defines all times.
 \end{proof}
 
 \begin{lemma}[Raw finite-torus cutoff]\label{f4:raw}
-Consider a fixed collection of whole-symbol quorum covers using the
+Consider \((\Z/L\Z)^d\) and a fixed collection of whole-symbol quorum covers using the
 three \(16\)-by-\(16\) replica boxes of \eqref{eq:c-boxes}, with a
 fixed finite logical stencil in the other coordinates. Before the
 initial source slab the error reference is empty. Suppose one fresh
-wrong site-round name has at most \(K_0\) raw causes, and one physical
-Bernoulli \(p\) site-time flag causes at most \(c_0\) such names.
+wrong site-round name has at most \(K_0\) raw causes, and the physical
+site-time flags are independent, each of probability at most \(p\), and
+one flag causes at most \(c_0\) such names.
 Let \(R_{\rm phys}\) bound spatial infinity-steps of the complete
 contour and source-star catalogue. Put
 \(N_0=\lfloor(L-1)/R_{\rm phys}\rfloor\ge36\).
-For a horizon \(T_{\rm hor}\), an exceptional event has probability at most
+For a horizon \(T_{\rm hor}\), the event that some wrong use at a lifted
+site-time up to \(T_{\rm hor}\) has a contour with at least \(N_0\) edges
+has probability at most
 \[
  C_{\rm raw}(T_{\rm hor}+C_{\rm raw})L^d
- K_{\rm raw}^{N_0+1}p^{N_0/(72c_0)}.
+ K_{\rm raw}^{N_0+1}p^{N_0/(72c_0)},
 \]
+where \(C_{\rm raw}\) is a fixed root-count constant; for \(p\) below a
+fixed bound this is at most
+\(C_{\rm bd}(T_{\rm hor}+C_{\rm bd})L^de^{-\beta_{\rm raw}L}\).
 Outside it every wrong use has a connected certificate with \(g\)
 distinct physical raw names, at most \(C_{\rm w}g\) edges and at most
 \(K_{\rm w}^g\) anchored descriptions. All probabilities are under
@@ -110,7 +116,7 @@ the original law.
 \begin{proof}
 Lift the flags, the rule and its reference periodically from
 \((\Z/L\Z)^d\) to \(\Z^d\). A replica at transverse displacement
-\(d_0\) reads its logical inputs at \(u+d_0\), one round earlier;
+\(s_{\rm rep}\) reads its logical inputs at \(u+s_{\rm rep}\), one round earlier;
 the reference is cloned along the replica coordinates. Fix a realized
 flag field and let \(y\) indicate that a lifted site-time carries its
 reference whole symbol.
@@ -206,8 +212,8 @@ physical faults across sheets in the same way.
 Fold a cycle of length \(m=2\ell\) into \([0,\ell)\) on a physical
 circle of length \(L\ge4\ell\), using positions \(a_0(\sigma)=\sigma\)
 and \(a_1(\sigma)=m-1-\sigma\) on that interval. Each extends to a
-one-Lipschitz map into the virtual cycle. Duplicating each physical raw
-source label into two formal roles gives intersection weight at most
+one-Lipschitz map into the virtual cycle. If distinct physical raw source labels have joint law \(p^{|F|}\),
+duplicating each into two formal roles gives intersection weight at most
 \((\sqrt p)^g\) for \(g\) distinct formal names.
 \end{lemma}
 \begin{proof}

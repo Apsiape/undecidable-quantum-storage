@@ -13,8 +13,8 @@ for Theorem~\ref{thm:detailed}, and \(d_{\rm lat}=4\), \(n_{\rm sel}=4\)
 for the folded part of the coexistence circuit (Appendices~\ref{sec:coexistence}--\ref{sec:folded}). The latter history includes all selectors and the
 profile together. Syndrome measurements and their outcomes stay
 inside the quantum CPTP circuit. Conditional on \((a,\omega)\),
-the controller trajectory is fixed, and the data evolution is a
-CPTP map \(T_{a,\omega}\). All auxiliary hardware is reset before
+the controller trajectory is fixed, and the data evolution over \(s\)
+rounds is a CPTP map \(T_{a,\omega}\). All auxiliary hardware is reset before
 reading and discarded or reset after the final conditional-reset block.
 
 Draw a conservative dependence graph for this conditional circuit.
@@ -28,7 +28,7 @@ physical sites supporting any retained quantum factor that has a path to any ret
 rounds.
 
 \begin{lemma}[Initial-support factorization]\label{f:factorization}
-For every \((a,\omega)\), there is a CPTP map \(G_{a,\omega}\) such
+For every \(s\ge1\) and every \((a,\omega)\), there is a CPTP map \(G_{a,\omega}\) such
 that
 \begin{equation}\label{f:factor}
  T_{a,\omega}
@@ -189,9 +189,9 @@ claimed finite monotone coupling.
 \subsection{Two outputs with the same full-channel marginal}
 
 \begin{proposition}[Two-output extension]\label{f:extension}
-For a halting input \(n\), there are finite integers \(s_n,A_n'\),
+For a halting input \(n\), there are finite integers \(s_n,A^{\rm tor}_n\),
 uniform throughout \(I_n\), such that on every torus
-\(L>A_n's_n\) the complete channel \(\Lambda_L^{s_n}\) has a CPTP
+\(L>A^{\rm tor}_ns_n\) the complete channel \(\Lambda_L^{s_n}\) has a CPTP
 extension to two copies of its whole output algebra with both
 marginals equal to \(\Lambda_L^{s_n}\).
 \end{proposition}
@@ -255,6 +255,8 @@ The extension is a mathematical information bound. Its construction
 may use global conditional sampling; the physical processor itself
 is unchanged.
 
+For an integer \(k\ge1\), a \(k\)-output extension with equal marginals of a channel \(T\) is a CPTP map from the input algebra of \(T\) into \(k\) copies of its output algebra whose partial trace over all copies but any one equals \(T\).
+
 \begin{lemma}[Iteration on the entire algebra]\label{f:iteration}
 If a channel \(T\) has a two-output extension with equal marginals,
 then \(T^j\) has a \(2^j\)-output extension with equal marginals
@@ -273,13 +275,13 @@ maps.
 For \(T=\Lambda_L^{s_n}\), this gives \(2^j\) outputs at physical
 time \(js_n\). Once the extension exists on a fixed torus, its
 iteration uses the full finite algebra; the size requirement remains
-\(L>A_n's_n\).
+\(L>A^{\rm tor}_ns_n\).
 
 \subsection{The cloning bound and a size-independent time}
 
 \begingroup\exhyphenpenalty=10000
 \begin{lemma}[Cloning bound for equal-marginal extensions]\label{f:bell}
-Suppose a channel has a \(k\)-output extension with equal marginals.
+Let \(k\ge1\) and suppose a channel has a \(k\)-output extension with equal marginals.
 For every qubit encoder and common qubit decoder, its entanglement
 fidelity is at most
 \[
@@ -324,7 +326,7 @@ through \(\Lambda_L^t\) has entanglement fidelity at most
 It suffices to consider \(0<\eta<1/2\). Choose \(j\) with
 \(2^{-j-1}\le\eta\). Proposition~\ref{f:extension} and
 Lemmas~\ref{f:iteration}--\ref{f:bell} give the bound at time
-\(js_n\) on every \(L>A_n's_n\), uniformly in the rate window.
+\(js_n\) on every \(L>A^{\rm tor}_ns_n\), uniformly in the rate window.
 
 There are finitely many remaining tori. Let \(N_n\) bound their
 physical site counts and let \(N\) be the fixed number
@@ -342,9 +344,9 @@ the reference marginal is maximally mixed, and the output is
 independent of it. The complementary histories have entanglement fidelity at
 most one. Independence of the flags across rounds gives
 \[
- F_L(t)\le\frac14+\frac34(1-p_n)^t.
+ F^*_{L,\eps}(t)\le\frac14+\frac34(1-p_n)^t.
 \]
-Choose \(t_n\) where this is at most \(1/2+\eta\), and let
+Choose \(t_n\) such that this is at most \(1/2+\eta\) for all \(t\ge t_n\), and let
 \(C_{n,\eta}=\max\{js_n,t_n\}\).
 
 An upper bound valid for every decoder persists under later
@@ -354,5 +356,5 @@ holds at every time in the statement.
 \end{proof}
 
 \begin{remark}[Dimension-independent forgetting argument]\label{rem:forgetting-interface}
-The proofs of Proposition~\ref{f:extension} and Theorem~\ref{f:forgetting} apply in any fixed lattice dimension. Their inputs are Lemma~\ref{f:factorization}, a uniform initial-site ancestor tail of the form \eqref{f:ancestor-tail} in injective determining cones of radius \(O(s)\), and a positive full-replacement probability bounded below uniformly over the window for each of the finitely many small tori. Dimension enters only the polynomial number of sites in a block. The dependency degree stays fixed; the same fair-mask coupling, iteration and cloning bound then give a forgetting time uniform in size and rate.
+The proofs of Proposition~\ref{f:extension} and Theorem~\ref{f:forgetting} apply in any fixed lattice dimension. Their inputs are Lemma~\ref{f:factorization}; a uniform initial-site ancestor tail of the form \eqref{f:ancestor-tail} whose events are determined by innovations in injective determining cones of radius \(O(s)\), the innovations being independent across disjoint space-time regions and independent of the measured word; and a positive full-replacement probability bounded below uniformly over the window for each of the finitely many small tori. Dimension enters only the polynomial number of sites in a block. The dependency degree stays fixed; the same fair-mask coupling, iteration and cloning bound then give a forgetting time uniform in size and rate.
 \end{remark}

@@ -6,19 +6,22 @@ copies and its new output. The following supplies the precise density
 estimate needed here, including that double appearance.
 
 \begin{lemma}[All-path density]\label{v:density}
-Let \(\mathcal M_{\rm raw}\) be the least finitary two-box closure with ordinary
-parents \((u+j,P+s,t-1)\), \(j\in\{-1,0,1\}^2\), \(s\) in the three
-replica boxes. Seed \((z,t)\) when \(H(z,t)\) or \(H(z,t+1)\) occurs.
-Let \(\mathcal D_\ell(z)\) mean that some ordinary backward
-\(\ell\)-edge path has a marked ordinary parent at no fewer than
-\(\ell/1404\) of its first \(\ell\) vertices. Put
+Let the names \(H(z,t)\) be independent with \(\Pr(H(z,t))\le p\).
+Let \(\mathcal M_{\rm raw}\) be the least finite-start field that contains
+every seed and marks a vertex whose marked ordinary parents
+\((u+j,P+s,t-1)\), \(j\in\{-1,0,1\}^2\), \(s\) in the three replica boxes
+\eqref{eq:c-boxes} acting on \((P_1,P_2)\), lie in two distinct boxes.
+Seed \((z,t)\) when \(H(z,t)\) or \(H(z,t+1)\) occurs.
+For an integer \(\ell\ge1\) let \(\mathcal D_\ell(z,t)\) mean that some
+ordinary backward \(\ell\)-edge path from \((z,t)\) has a marked ordinary
+parent at no fewer than \(\ell/1404\) of its first \(\ell\) vertices. Put
 \[
  \Delta_{\rm raw}=13\,824,\quad B_{\rm raw}=2\Delta_{\rm raw}^2=382\,205\,952,
  \qquad p_{\rm dens}=B_{\rm raw}^{-67\,440}/64.
 \]
 For \(p\le p_{\rm dens}\),
 \begin{equation}\label{v:density-bound}
- \Pr(\mathcal D_\ell(z))\le
+ \Pr(\mathcal D_\ell(z,t))\le
  4\sum_{f\ge\lceil\ell/16\,848\rceil}
  [2B_{\rm raw}^{16\,860}\sqrt p]^f\le\frac{16}{3}e^{-\ell}.
 \end{equation}

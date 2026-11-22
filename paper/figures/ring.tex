@@ -1,0 +1,13 @@
+\begin{tikzpicture}[x=1mm,y=1mm,font=\footnotesize,
+ lane/.style={draw=black!75,fill=black!8,line width=.4pt,rounded corners=1pt,minimum width=64mm,minimum height=9mm,align=center},
+ qlane/.style={draw=rxaccent,fill=rxaccent!20,line width=.65pt,rounded corners=1pt,minimum width=64mm,minimum height=9mm,align=center},
+ gate/.style={draw=black!75,fill=white,line width=.5pt,minimum width=22mm,minimum height=9mm,align=center},
+ arr/.style={-{Stealth[length=2mm]},black!75,line width=.5pt}]
+\node[lane] (r1) at (0,28) {R1: structural clock lane\\initialized hierarchy; addresses and ages};
+\node[qlane] (q) at (0,14) {Quantum slots\\concatenated code; ports to the neighbouring sites};
+\node[lane] (r2) at (0,0) {R2: selector lane\\noise factories; simulates the selected input};
+\node[gate] (e) at (58,7) {Reset unless\\R2 symbol live};
+\draw[arr] (r1.south) -- node[right,align=left]{gate schedule} (q.north);
+\draw[arr] (r2.east) -| node[pos=.3,below]{read} (e.south);
+\draw[arr] (e.north) |- node[pos=.75,above]{erase} (q.east);
+\end{tikzpicture}

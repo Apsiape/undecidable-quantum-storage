@@ -1,0 +1,82 @@
+Resolving dependencies
+Building Challenge
+⚠ [2747/2748] Replayed Challenge
+warning: Challenge.lean: imports `Mathlib.Analysis.Matrix.PosDef` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Challenge.lean: imports `Mathlib.LinearAlgebra.Matrix.Trace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Challenge.lean: imports `Mathlib.Computability.Halting` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Challenge.lean: imports `Mathlib.Computability.Reduce` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Challenge.lean: imports `Mathlib.Analysis.Polynomial.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Challenge.lean: imports `Mathlib.Analysis.SpecialFunctions.Log.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: Challenge.lean:50:8: declaration uses `sorry`
+warning: Challenge.lean:61:8: declaration uses `sorry`
+warning: Challenge.lean:69:8: declaration uses `sorry`
+warning: Challenge.lean:76:8: declaration uses `sorry`
+warning: Challenge.lean:85:8: declaration uses `sorry`
+warning: Challenge.lean:95:8: declaration uses `sorry`
+warning: Challenge.lean:108:8: declaration uses `sorry`
+warning: Challenge.lean:116:8: declaration uses `sorry`
+warning: Challenge.lean:123:8: declaration uses `sorry`
+warning: Challenge.lean:137:8: declaration uses `sorry`
+warning: Challenge.lean:144:8: declaration uses `sorry`
+warning: Challenge.lean:164:8: declaration uses `sorry`
+warning: Challenge.lean:174:8: declaration uses `sorry`
+warning: Challenge.lean:249:8: declaration uses `sorry`
+Build completed successfully (2748 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, QuantumScope.bell_sharing_bound, CertificationScope.abstract_window_certification, QuantumScope.equalMarginalExtension_comp, QuantumScope.iteration_extension, QuantumScope.iterated_cloning_bound, QuantumScope.replacement_fidelity, QuantumScope.replacement_ceiling, QuantumScope.replacement_ceiling_pow, QuantumScope.replacement_lifetime, QuantumScope.replacement_lifetime_layer, QuantumScope.replacement_eventually, QuantumScope.uniform_forgetting, QuantumScope.good_event_fidelity, QuantumScope.good_event_fidelity_union, propext, Quot.sound, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from Challenge
+Building Solution
+⚠ [2747/2841] Replayed QuantumStorage.Definitions
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.Analysis.Matrix.PosDef` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.LinearAlgebra.Matrix.Trace` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.Computability.Halting` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.Computability.Reduce` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/Definitions.lean: imports `Mathlib.Analysis.Polynomial.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2752/2841] Replayed QuantumStorage.CertificationElementary
+warning: QuantumStorage/CertificationElementary.lean: imports `Mathlib.Topology.Algebra.Polynomial` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+ℹ [2754/2841] Replayed QuantumStorage.Certification
+info: QuantumStorage/Certification.lean:24:0: 'CertificationScope.abstract_window_certification' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [2756/2841] Replayed QuantumStorage.BellMarginal
+warning: QuantumStorage/BellMarginal.lean: imports `Mathlib.Logic.Equiv.Prod` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2757/2841] Replayed QuantumStorage.BellTensor
+warning: QuantumStorage/BellTensor.lean:92:38: This simp argument is unused:
+  Matrix.sum_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [partialTraceRight]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+⚠ [2758/2841] Replayed QuantumStorage.BellDecoder
+warning: QuantumStorage/BellDecoder.lean: imports `Mathlib.Data.Fin.Tuple.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2828/2841] Replayed QuantumStorage.BellOperator
+warning: QuantumStorage/BellOperator.lean: imports `Mathlib.LinearAlgebra.Matrix.Gershgorin` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: QuantumStorage/BellOperator.lean: imports `Mathlib.Analysis.Matrix.Order` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2831/2841] Replayed QuantumStorage.BellSharing
+warning: QuantumStorage/BellSharing.lean:11:32: Variable name `hT` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hT
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [2832/2841] Replayed QuantumStorage.Iteration
+warning: QuantumStorage/Iteration.lean: imports `Mathlib.Logic.Equiv.Fin.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2833/2841] Replayed QuantumStorage.Replacement
+warning: QuantumStorage/Replacement.lean: imports `Mathlib.Analysis.SpecialFunctions.Log.Basic` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [2836/2841] Replayed QuantumStorage.Witnesses
+warning: QuantumStorage/Witnesses.lean: imports `Mathlib.Analysis.Matrix.Order` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+ℹ [2840/2841] Replayed Solution
+info: Solution.lean:4:0: 'CertificationScope.abstract_window_certification' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:5:0: 'QuantumScope.bell_sharing_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:6:0: 'QuantumScope.equalMarginalExtension_comp' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:7:0: 'QuantumScope.iteration_extension' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:8:0: 'QuantumScope.iterated_cloning_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:9:0: 'QuantumScope.replacement_fidelity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:10:0: 'QuantumScope.replacement_ceiling' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:11:0: 'QuantumScope.replacement_ceiling_pow' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:12:0: 'QuantumScope.replacement_lifetime' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:13:0: 'QuantumScope.replacement_lifetime_layer' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:14:0: 'QuantumScope.replacement_eventually' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:15:0: 'QuantumScope.uniform_forgetting' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:16:0: 'QuantumScope.good_event_fidelity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Solution.lean:17:0: 'QuantumScope.good_event_fidelity_union' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (2841 jobs).
+Exporting #[Quot, Quot.mk, Quot.lift, Quot.ind, QuantumScope.bell_sharing_bound, CertificationScope.abstract_window_certification, QuantumScope.equalMarginalExtension_comp, QuantumScope.iteration_extension, QuantumScope.iterated_cloning_bound, QuantumScope.replacement_fidelity, QuantumScope.replacement_ceiling, QuantumScope.replacement_ceiling_pow, QuantumScope.replacement_lifetime, QuantumScope.replacement_lifetime_layer, QuantumScope.replacement_eventually, QuantumScope.uniform_forgetting, QuantumScope.good_event_fidelity, QuantumScope.good_event_fidelity_union, propext, Quot.sound, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce, Nat, String, String.mk, Char, optParam, autoParam, semiOutParam, outParam] from Solution
+{"task":"Negative-comparator-axioms","exit":1,"wall_seconds":26}

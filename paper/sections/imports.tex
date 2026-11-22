@@ -1,34 +1,34 @@
 \section{Imported mathematical results}\label{app:imports}
-Table~\ref{tab:imports} specifies the three Douglas--Mghirbi preprint inputs of the higher-dimensional constructions and their versions; Section~\ref{app:imports-1d} lists the fourth, used on rings. These preprints do not use any result proved here. Each archive contains the corresponding paper's PDF. The other imported results are listed below with their source editions.
+Table~\ref{tab:imports} specifies the Douglas--Mghirbi preprint inputs of the higher-dimensional constructions and their versions: version~1.4.0 of the classical noise diagram \cite{DMNoise2026}, \cite{DMPhase2026} and \cite{DMFixed2026}. Section~\ref{app:imports-1d} lists the inputs used on rings, from version~2.0.0 of the same noise-diagram preprint \cite{DMNoise1D2026}. These preprints do not use any result proved here. Each archive contains the corresponding paper's PDF. The other imported results are listed below with their source editions.
 
 \begin{table}[!htbp]
 \caption{Source statements and proofs used in the construction.}\label{tab:imports}
 \centering\small
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{.29\linewidth}>{\raggedright\arraybackslash}p{.39\linewidth}>{\raggedright\arraybackslash}p{.24\linewidth}@{}}
 \toprule Construction or input & Source statements and proofs & Interface and use here\\\midrule
-Rate-selected causal computation & \cite[Proposition~4.3; Lemmas~4.1--4.2, 6.1--6.3, 10.4, 11.2--11.3, 11.6 and Section~11.4]{DMNoise2026}, version~1.4.0 (including the construction in the proof of Lemma~11.2) & Proposition~\ref{c:selector-import}; Section~\ref{sec:controller}\\\addlinespace[3pt]
+Rate-selected causal computation & \cite[Proposition~4.3; Lemmas~4.1--4.2, 6.1--6.3, 10.4, 11.2--11.4, 11.6, Section~11.4 and item~3 of the halting proof in Section~11.7]{DMNoise2026}, version~1.4.0 (including the construction in the proof of Lemma~11.2) & Proposition~\ref{c:selector-import}; Section~\ref{sec:controller}\\\addlinespace[3pt]
 Finite scaffold encoding and parent rules & \cite[Definitions~3.1, 3.2 and~3.8, Lemma~3.9, and Lemmas~A.1--A.3]{DMPhase2026}, version~1.2.0 & Sections~\ref{sec:controller} and~\ref{sec:ceiling}, Proposition~\ref{u:scaffold-import}\\\addlinespace[3pt]
-Static computation and cutoff & \cite[Lemmas~3.2--3.3, 4.1--4.2, 10.5 and~11.2, Proposition~4.3]{DMNoise2026}, version~1.4.0; the proofs of Lemmas~3.2 and~11.2 and Proposition~4.3 are adapted to the fixed phase & Proposition~\ref{v:static-import} and Lemmas~\ref{v:encoder}, \ref{v:ancestor} and~\ref{f4:encoder}\\\addlinespace[3pt]
+Static computation and cutoff & \cite[Lemmas~3.2--3.3, 4.1--4.2, 5.1, 10.3, 10.5 and~11.2, Proposition~4.3]{DMNoise2026}, version~1.4.0; the proofs of Lemmas~3.2 and~11.2 and Proposition~4.3 are adapted to the fixed phase & Proposition~\ref{v:static-import} and Lemmas~\ref{v:encoder}, \ref{v:ancestor} and~\ref{f4:encoder}\\\addlinespace[3pt]
 Replica-majority construction and contour method & \cite[Theorem~2.1; Lemmas~12.3--12.4]{DMFixed2026}, version~3.0.0 & Proposition~\ref{c:selector-import}; Lemma~\ref{v:density} gives the two-appearance proof here\\\bottomrule
 \end{tabular}
 \end{table}
 
 The finite chart cover in Section~\ref{c:chart} uses the northeast-deterministic presentation of the limit set of a \(2\times2\) substitution from \cite[Theorem~3]{LGO2012} (Theorem~4 gives the four-way presentation), with the theorem locator in \href{https://hal.science/hal-00661887v1}{HAL:hal-00661887v1}.
 
-Lemma~\ref{f4:raw} applies the contour existence theorem of \cite[Theorem~22]{SST2026} to the three paired-box types. The source's Definitions~15\nobreakdash--17 and~20\nobreakdash--21 specify the graphs and their embeddings, and Lemma~13 identifies the unique trajectory as the maximal one. The proof uses the finite explanation graph from Proposition~31 and Theorem~33, the zero-sum identity of Lemma~41 and the edge counts from the proofs of Lemmas~38 and~40. The locators use the journal numbering and also apply to \href{https://arxiv.org/abs/2202.10999v3}{arXiv:2202.10999v3}. For the marked spanning tree it uses \mbox{\cite[Definition~2.4, Lemma~2.5 and Theorem~2 (Tree Separator)]{Gacs2021}}, \href{https://arxiv.org/abs/2105.05968v1}{arXiv:2105.05968v1}, to extract a bounded-size subtree with many original sink marks.
+Lemma~\ref{f4:raw} applies the contour existence theorem of \cite[Theorem~22]{SST2026} to the three paired-box types. The source's Definitions~15\nobreakdash--17 and~20\nobreakdash--21 specify the graphs and their embeddings, (2.14) defines the associated monotone automaton, and Lemma~13 identifies the unique trajectory as the maximal one. The proof uses the finite explanation graph from Proposition~31 and Theorem~33, the zero-sum identity of Lemma~41 and the edge counts from the proofs of Lemmas~38 and~40. The locators use the journal numbering and also apply to \href{https://arxiv.org/abs/2202.10999v3}{arXiv:2202.10999v3}. For the marked spanning tree it uses \mbox{\cite[Definition~2.4, Lemma~2.5 and Theorem~2 (Tree Separator)]{Gacs2021}}, \href{https://arxiv.org/abs/2105.05968v1}{arXiv:2105.05968v1}, to extract a bounded-size subtree with many original sink marks.
 
 \subsection{One-dimensional classical inputs}\label{app:imports-1d}
 The one-dimensional construction uses version~2.0.0 of
 \cite{DMNoise1D2026}, with the numbering of that version.
-Definition~\ref*{cl:def:sparse} gives sparsity, including the convention
-that restricted error sets are zero outside the restriction.
+Definition~\ref*{cl:def:sparse} and the paragraph preceding it give sparsity and
+the convention that restricted error sets are empty outside the restriction.
 Lemma~\ref*{cl:lem:sparse-witness} supplies only the deterministic mesh
 implication; Lemmas~\ref{q1:l1} and~\ref{q1:l12} prove the dependent-key
 estimates here. R1 uses the one-point variant of the serialization in
 Section~\ref*{cl:sec:packets} specified and proved in
 Lemma~\ref{q1:l9}: scalar bits occupy the low word bits of separate
 live letters instead of scalar-bit tags, with all other word bits zero;
-typed low/high word halves and fixed endpoint padding are retained.
+typed low and high word halves and fixed endpoint padding are retained.
 The encoders, parsers and represented evaluators use that same layout.
 Lemma~\ref{q1:l9} checks every classical use of it, including
 Proposition~\ref*{cl:prop:organization},
@@ -43,7 +43,7 @@ Lemma~\ref*{cl:lem:clock-witness} supplies the initialized nested-test
 cover for R2. The proof of Lemma~\ref*{cl:lem:past} also supplies R2's
 stationary-helper negative-time comparison.
 Lemmas~\ref*{cl:lem:stripes} and~\ref*{cl:lem:receiver-mixing} supply
-tunable all-start short/long noise-only tests and whole-helper
+tunable all-start short and long noise-only tests and whole-helper
 coalescence at sufficiently small fixed rate.
 Lemma~\ref*{cl:lem:joint} supplies the two-scale decomposition geometry
 and short-before-long order, while Lemma~\ref{q1:l12} re-proves the

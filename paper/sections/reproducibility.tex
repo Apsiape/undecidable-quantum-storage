@@ -3,11 +3,6 @@
 Archive and Lean sources:
 \href{https://doi.org/10.5281/zenodo.24254845}{doi:10.5281/zenodo.24254845}.
 
-To produce \texttt{main.pdf}, run \texttt{pdflatex main.tex} three
-times from the arXiv source root containing \texttt{main.tex},
-\texttt{references.tex}, \texttt{sections/} and \texttt{figures/}.
-The tested engine was MiKTeX-pdfTeX 4.23 (MiKTeX 25.12).
-
 Fix the universal machine and compiler of Sections~\ref{intro:question} and~\ref{s:model}
 and the classical imports in Appendix~\ref{app:imports}. For Theorem~\ref{thm:main},
 start with the controller of Section~\ref{sec:controller}, use the
@@ -17,17 +12,20 @@ Theorem~\ref{thm:exponential}, use the affine layout and static chart of
 Section~\ref{sec:exponential}, then the parameter order of
 Section~\ref{v:parameters}. For Theorem~\ref{thm:four-dimensional}, use the folded geometry of
 Section~\ref{f4:geometry-section} and the parameter order of
-Section~\ref{f4:constants}. The recipe determines the circuits once
+Section~\ref{f4:constants}. For Theorem~\ref{q1:main} and Corollary~\ref{q1:memory}, use the two classical lanes of
+Section~\ref{q1:model}, the quantum schedule of Section~\ref{q1:compiler}, the selector of
+Section~\ref{q1:selector} and the order of constants of Lemma~\ref{q1:l16}. The recipe determines the circuits once
 the choices allowed by the stated construction bounds are fixed.
 Every realization satisfying those bounds obeys the corresponding theorem, with its own constants and windows.
 
 From a circuit choice and label \(n\), compute the physical rate window
 by the rational inner-endpoint prescriptions of
-Sections~\ref{s:parameters} and~\ref{v:parameters} or Lemma~\ref{f4:encoder},
-as appropriate. From \((n,L)\), the finite initialization searches of
+Sections~\ref{s:parameters} and~\ref{v:parameters}, Lemma~\ref{f4:encoder}
+or Section~\ref{q1:parameters}, as appropriate. From \((n,L)\), the finite initialization searches of
 Lemmas~\ref{c:initialization}, \ref{v:encoder} and~\ref{f4:encoder}
 give the encoder, using the exact code procedures in Lemma~\ref{d:code}
-for the concatenated code. For the coexistence circuit, start with
+for the concatenated code; on rings, Section~\ref{q1:storage} and
+Lemma~\ref{q1:l15} give the encoder. For the coexistence circuit, start with
 the wrapped machine, folded track and closed-code track in the proof
 of Proposition~\ref{p:coexistence}. That proof specifies the rational
 inner physical windows, the closed-code initialization on \(I_0\)
@@ -35,14 +33,17 @@ and the folded encoder used for the tail and for linear certification.
 
 For a readout at \((n,L,t)\), Proposition~\ref{d:storage} and the
 proof of Theorem~\ref{f4:detailed}(i) prescribe noiseless completion
-with the actual in-flight work followed by the fixed bottom-up recovery.
-Proposition~\ref{v:certification}(ii) fixes the intended-complex
-decoder, including lexicographic box, lift and filling choices and
+with the actual in-flight work followed by the fixed bottom-up recovery;
+on rings, Section~\ref{q1:storage} and Lemma~\ref{q1:l15} prescribe completion
+at a fixed nominal rate followed by the fixed recovery.
+Proposition~\ref{v:certification}(ii) fixes the decoder that uses the
+syndrome of the intended complex, including lexicographic box, lift and filling choices and
 a fixed failure correction. To query the prescribed fidelity at a
 rational rate \(q\), use the finite polynomial calculation of
-Proposition~\ref{a:rational} and the six-dimensional adaptation in
-Proposition~\ref{v:certification}(ii).
+Proposition~\ref{a:rational}, the six-dimensional adaptation in
+Proposition~\ref{v:certification}(ii) and, on rings, the calculation in
+Section~\ref{q1:effective}.
 
 These reconstructions are algorithms specified in the paper. The archive
-provides no programs other than the Lean library of
-Appendix~\ref{app:lean}, which checks the two results listed there.
+provides no programs other than the Lean developments of
+Appendix~\ref{app:lean}.

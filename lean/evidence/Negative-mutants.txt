@@ -1,0 +1,5 @@
+Deliberately altered challenge, Challenge.lean with one line changed, built as the temporary module
+QuantumStorage.MutantB for the comparator run Negative-comparator-statement:
+MutantB: entanglementFidelity E (R.comp X) D = 1 / 3   (was = 1 / 4, theorem replacement_fidelity)
+Negative-comparator-axioms runs the release configuration without Classical.choice among the permitted axioms.
+Expected: both comparator runs and the three nanoda runs without Classical.choice (C0N-negative) are rejected.

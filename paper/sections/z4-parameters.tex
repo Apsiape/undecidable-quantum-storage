@@ -64,10 +64,11 @@ Take \(R_{\rm phys}\ge1\) to bound contour/source steps;
 \emph{Precedes.} Raw probability bound,
 \(B,J\); independent of alphabet.
 
-\item \textbf{\boldmath\(K_{\rm raw},C_{\rm w},K_{\rm w}\).} Tree ceiling above;
+\item \textbf{\boldmath\(K_{\rm raw},C_{\rm raw},C_{\rm w},K_{\rm w}\).} Tree ceiling above;
 \(E<12c_0g\) plus enumerated attachment stars. Use its coefficient
 for \(C_{\rm w}\), raise the tree ceiling to \(C_{\rm w}+1\) for
-\(K_{\rm w}\).
+\(K_{\rm w}\). \(C_{\rm raw}\): the fixed root-count constant of
+Lemma~\ref{f4:raw}.
 \emph{Precedes.} Bound on \(p\).
 
 \item \textbf{\boldmath\(R_{\rm pre},\Delta_{\rm pre}\).} \(D_{\rm q}=4096\),
@@ -89,9 +90,10 @@ coordinate offsets.
 \item \textbf{\boldmath\(R,K_{\rm cap}\).} Here \(R\) is the full increment bound of Lemma~\ref{f4:strip}. Union of preceding
 catalogues with two formal roles and fixed gluing stars. Degree at most
 sum of their degrees plus star incidence; size at most sum of size
-bounds plus star lengths. In this row \(R_x\) bounds increments in
-the chain-coordinate component \(\chi\), and \(R_\omega\) bounds
-increments in \(\omega=x-t\) (Appendix~\ref{app:f4-sources}).
+bounds plus star lengths. In this row \(R_x\) bounds increments in the chain-coordinate component
+\(\chi\), \(R_\omega\) bounds increments in \(\omega=x-t\), and \(R_j\)
+bounds increments in the integer bin \(j\)
+(Appendix~\ref{app:f4-sources}). Take \(R\ge\max(R_\omega,R_j)\).
 The image step is at most \(R_x+59R_\omega\).
 Use the tree ceiling for \(K_{\rm cap}\).
 \emph{Precedes.} Cutoff formula, source targets.
@@ -141,6 +143,12 @@ palette.
 \mbox{\(D=1/(2\max(1,A_{\rm rec}))\)}. Require the exceptional bases in
 Lemmas~\ref{f4:raw} and~\ref{f4:cap-exception} strictly below one;
 take any positive rational lower bound on their exponential rates.
+\(C_{\rm bd}\): choose a fixed prefactor at least
+\(\max(C_{\rm raw},C_{\rm cap})\), enlarged for the conversion of the
+raw contour bound to exponential form and for the fixed prefactor in
+the top-box count of \eqref{f4:failure}. Impose the raw cutoff and the
+central-strip size condition through the computable size cutoff of
+Lemma~\ref{f4:sources}.
 \emph{Precedes.} \(C_h,B,\mu_*\).
 
 \item \textbf{\boldmath\(C_h\).} Choose rational \(0<C_h\le1/100\) so

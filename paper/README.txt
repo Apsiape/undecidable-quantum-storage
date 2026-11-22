@@ -7,5 +7,5 @@ reconstructing the circuits, rate windows, encoders, decoders and exact
 fidelity queries. The tested engine was MiKTeX-pdfTeX 4.23 (MiKTeX 25.12).
 
 The construction algorithms are finite prescriptions in the paper.
-The archive provides no programs other than the Lean library,
-which checks the two results listed in Appendix J.
+The archive provides no programs other than the two Lean developments,
+which check the results listed in Appendix J.
