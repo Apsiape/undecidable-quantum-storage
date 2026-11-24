@@ -1,6 +1,8 @@
 # Undecidable quantum storage: no algorithm can tell from the noise rate whether a fixed circuit remembers
 
-Seth Douglas and Nidhal Mghirbi. Preprint, version 3.1.0, November 2026. [Archive DOI](https://doi.org/10.5281/zenodo.24254845) (all versions)
+Seth Douglas and Nidhal Mghirbi. Preprint, version 3.1.0, November 2026. [Archive DOI](https://doi.org/10.5281/zenodo.24254845) (all versions); version 3.1.0: [10.5281/zenodo.24431439](https://doi.org/10.5281/zenodo.24431439)
+
+arXiv: [arXiv:2611.29134](https://arxiv.org/abs/2611.29134)
 
 ## Abstract
 

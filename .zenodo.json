@@ -28,5 +28,6 @@
   "access_right": "open",
   "license": "cc-by-4.0",
   "language": "eng",
-  "notes": "Preprint. Version 3.1.0 matches the arXiv text. Text: CC BY 4.0. Script: MIT or Apache 2.0.\nPrevious version: 3.0.0 (10.5281/zenodo.24354983)."
+  "notes": "Preprint. Version 3.1.0 matches the arXiv text. Text: CC BY 4.0. Script: MIT or Apache 2.0.\nPrevious version: 3.0.0 (10.5281/zenodo.24354983).",
+  "related_identifiers": [{"identifier": "arXiv:2611.29134", "relation": "isVariantFormOf", "scheme": "arxiv", "resource_type": "publication-preprint"}]
 }
